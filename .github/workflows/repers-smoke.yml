@@ -1,20 +1,16 @@
-name: RePERS Smoke
+name: RePERS Verify
 
 on:
   push:
   pull_request:
 
 jobs:
-  smoke:
+  verify:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Verify installed bundle
-        run: python .repers\scripts\repers.py bundle-status --json
-      - name: Verify package round-trip
-        run: python .repers\scripts\repers.py bundle-status --package --verify-roundtrip --json
-      - name: Run smoke tests
-        run: python tests\smoke_repers.py
+      - name: Run race-safe local gate
+        run: python .repers\scripts\repers.py verify-all --json

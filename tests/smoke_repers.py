@@ -179,6 +179,8 @@ def test_package_archive_manifest():
         assert f"{archive_root}/SECURITY.md" in names
         assert f"{archive_root}/SUPPORT.md" in names
         assert f"{archive_root}/.github/workflows/repers-smoke.yml" in names
+        workflow = zf.read(f"{archive_root}/.github/workflows/repers-smoke.yml").decode("utf-8")
+        assert "verify-all --json" in workflow
         assert f"{archive_root}/examples/basic-task/README.md" in names
         assert f"{archive_root}/tests/smoke_repers.py" in names
         assert not any(".repers/" in name for name in names)

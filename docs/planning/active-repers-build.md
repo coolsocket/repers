@@ -37,6 +37,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add autonomous continuation runner for ready local resume actions.
 - [x] Add compact repository state report for self-autonomous status handoff.
 - [x] Add race-safe sequential `verify-all` local gate.
+- [x] Route packaged CI workflow through `verify-all`.
 
 ## Acceptance
 
@@ -122,3 +123,7 @@ capability, package round-trip, receiver fixture, remote bootstrap fixture,
 smoke, and deep state gates in order with isolated temporary outputs. It
 reports `blocked_external` when local gates pass and the only remaining blocker
 is hosted publication setup.
+
+CI hardening phase complete: `.github/workflows/repers-smoke.yml` now runs the
+single race-safe `verify-all --json` gate. Packaged smoke tests assert that the
+workflow contains this command, so receiver governance and CI stay aligned.

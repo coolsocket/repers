@@ -1,7 +1,7 @@
 {
   "schema": "repers.remote_bootstrap.v1",
   "ok": true,
-  "generated_at": "2026-06-21T14:49:34.323729+00:00",
+  "generated_at": "2026-06-21T15:00:01.694890+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -13,29 +13,30 @@
   },
   "git": {
     "branch": "codex/repers-initial-package",
-    "head_sha": "b41a6ef8a5e917c62d44b6fe8212f68b5c6efd40",
+    "head_sha": "adde31535daceb4c5405419b548c531ef2a0fa6a",
     "has_head": true,
     "dirty": true,
-    "status_count": 18,
+    "status_count": 19,
     "status_entries": [
-      "M .repers/capabilities/registry.json",
-      " M .repers/docs/contracts.md",
+      "M .github/workflows/repers-smoke.yml",
       " M .repers/index/repers.db",
       " M .repers/manifest.json",
-      " M .repers/scripts/objective_audit.py",
-      " M .repers/scripts/package_repers.py",
-      " M .repers/scripts/repers.py",
-      " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
+      " M dist/repers-continuation.md",
+      " M dist/repers-objective-audit.json",
       " M dist/repers-publish-handoff.json",
       " M dist/repers-publish-handoff.md",
       " M dist/repers-release-evidence.json",
+      " M dist/repers-remote-bootstrap-fixture.json",
+      " M dist/repers-remote-bootstrap.json",
+      " M dist/repers-remote-bootstrap.md",
+      " M dist/repers-state.json",
+      " M dist/repers-state.md",
+      " M dist/repers-verify-all.json",
+      " M dist/repers-verify-all.md",
       " M docs/planning/active-repers-build.md",
-      " M tests/smoke_repers.py",
-      "?? .repers/scripts/verify_all.py",
-      "?? dist/repers-verify-all.json",
-      "?? dist/repers-verify-all.md"
+      " M tests/smoke_repers.py"
     ],
     "remote_count": 0,
     "remotes": []
@@ -77,7 +78,7 @@
     {
       "id": "publish_handoff",
       "title": "Regenerate publish handoff evidence",
-      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \"Add RePERS repository state report\" --json",
+      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \"Add RePERS sequential verify all gate\" --json",
       "status": "ready",
       "reason": "Handoff path: C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md"
     },
@@ -98,7 +99,7 @@
     {
       "id": "open_draft_pr",
       "title": "Open draft pull request",
-      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS repository state report\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS sequential verify all gate\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
       "status": "blocked",
       "reason": "Requires GitHub CLI authentication and a pushed branch."
     }

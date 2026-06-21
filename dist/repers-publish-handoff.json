@@ -3,7 +3,7 @@
   "ok": true,
   "release_evidence_ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-21T14:49:34.232645+00:00",
+  "generated_at": "2026-06-21T15:00:01.596568+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -20,7 +20,7 @@
   "pull_request": {
     "base_branch": "main",
     "head_branch": "codex/repers-initial-package",
-    "title": "Add RePERS repository state report",
+    "title": "Add RePERS sequential verify all gate",
     "github_cli": {
       "available": false,
       "path": null
@@ -29,29 +29,30 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "b41a6ef8a5e917c62d44b6fe8212f68b5c6efd40",
+    "head_sha": "adde31535daceb4c5405419b548c531ef2a0fa6a",
     "has_head": true,
     "dirty": true,
-    "status_count": 18,
+    "status_count": 19,
     "status_entries": [
-      "M .repers/capabilities/registry.json",
-      " M .repers/docs/contracts.md",
+      "M .github/workflows/repers-smoke.yml",
       " M .repers/index/repers.db",
       " M .repers/manifest.json",
-      " M .repers/scripts/objective_audit.py",
-      " M .repers/scripts/package_repers.py",
-      " M .repers/scripts/repers.py",
-      " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
+      " M dist/repers-continuation.md",
+      " M dist/repers-objective-audit.json",
       " M dist/repers-publish-handoff.json",
       " M dist/repers-publish-handoff.md",
       " M dist/repers-release-evidence.json",
+      " M dist/repers-remote-bootstrap-fixture.json",
+      " M dist/repers-remote-bootstrap.json",
+      " M dist/repers-remote-bootstrap.md",
+      " M dist/repers-state.json",
+      " M dist/repers-state.md",
+      " M dist/repers-verify-all.json",
+      " M dist/repers-verify-all.md",
       " M docs/planning/active-repers-build.md",
-      " M tests/smoke_repers.py",
-      "?? .repers/scripts/verify_all.py",
-      "?? dist/repers-verify-all.json",
-      "?? dist/repers-verify-all.md"
+      " M tests/smoke_repers.py"
     ],
     "remote_count": 0,
     "errors": []
@@ -60,7 +61,7 @@
     "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "85efae8e06b5b1bef985a810614e0fc2b9decf73975689da8a0e30f766280c91",
+    "archive_sha256": "cf7ac33afce63aa7a8bd7189f85097f65b01d8f0db0c5bcaa7a6f8187785476d",
     "manifest_file_count": 49,
     "readiness_warnings": [],
     "roundtrip_ok": true
@@ -83,7 +84,7 @@
     {
       "id": "open_draft_pr",
       "title": "Open draft pull request",
-      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS repository state report\" --body-file <handoff-md>",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS sequential verify all gate\" --body-file <handoff-md>",
       "status": "blocked",
       "reason": "Requires GitHub CLI authentication and pushed branch."
     }
