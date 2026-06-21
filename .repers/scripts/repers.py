@@ -500,6 +500,34 @@ def run_release_evidence_command(args):
         sys.exit(1)
 
 
+def run_publish_handoff_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from publish_handoff import create_publish_handoff
+
+    handoff, json_path, md_path = create_publish_handoff(
+        REPO_ROOT,
+        INSTALL_ROOT,
+        output_dir=args.output,
+        remote_name=args.remote_name,
+        remote_url=args.remote_url,
+        base_branch=args.base_branch,
+        pr_title=args.pr_title,
+        include_package=args.package,
+        verify_roundtrip=args.verify_roundtrip,
+    )
+    result = {
+        "publish_handoff": handoff,
+        "path": str(Path(json_path).resolve()),
+        "markdown_path": str(Path(md_path).resolve()),
+    }
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not handoff.get("ok"):
+        sys.exit(1)
+
+
 def run_receiver_fixture_command(args):
     sys.path.append(SCRIPT_DIR)
     from receiver_fixture import prove_receiver
@@ -957,6 +985,16 @@ def main():
     release_evidence_parser.add_argument("--verify-roundtrip", action="store_true", help="When --package is used, verify package round-trip install")
     release_evidence_parser.add_argument("--json", action="store_true")
 
+    publish_handoff_parser = subparsers.add_parser("publish-handoff", help="Write non-destructive push and PR handoff artifacts")
+    publish_handoff_parser.add_argument("--output", default="dist", help="Output directory for publish handoff artifacts")
+    publish_handoff_parser.add_argument("--remote-name", default="origin", help="Remote name to use in generated commands")
+    publish_handoff_parser.add_argument("--remote-url", help="Optional remote URL to include in the generated add-remote command")
+    publish_handoff_parser.add_argument("--base-branch", default="main", help="Base branch for generated draft PR command")
+    publish_handoff_parser.add_argument("--pr-title", help="Optional draft PR title; defaults to the latest commit subject")
+    publish_handoff_parser.add_argument("--package", action="store_true", help="Create package evidence before writing the handoff")
+    publish_handoff_parser.add_argument("--verify-roundtrip", action="store_true", help="When --package is used, verify package round-trip install")
+    publish_handoff_parser.add_argument("--json", action="store_true")
+
     receiver_fixture_parser = subparsers.add_parser("receiver-fixture", help="Install the package into a fresh Git repo and prove receiver commands")
     receiver_fixture_parser.add_argument("--output", default="dist", help="Output directory for the package archive")
     receiver_fixture_parser.add_argument("--verify-package-roundtrip", action="store_true", help="Also run package-level round-trip verification before receiver checks")
@@ -1041,6 +1079,8 @@ def main():
         run_release_command(args)
     elif args.command == "release-evidence":
         run_release_evidence_command(args)
+    elif args.command == "publish-handoff":
+        run_publish_handoff_command(args)
     elif args.command == "receiver-fixture":
         run_receiver_fixture_command(args)
     elif args.command == "install-hook":

@@ -246,6 +246,36 @@
       ]
     },
     {
+      "id": "publish-handoff",
+      "kind": "shipping-gate",
+      "name": "Publish Handoff Artifact",
+      "summary": "Writes non-destructive JSON and Markdown handoff artifacts with remote, push, and draft PR commands derived from release evidence.",
+      "tags": [
+        "publish",
+        "handoff",
+        "remote",
+        "push",
+        "pull-request",
+        "pr",
+        "release",
+        "evidence"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py publish-handoff --json",
+        "python .repers/scripts/repers.py publish-handoff --package --verify-roundtrip --remote-url <url> --json"
+      ],
+      "paths": [
+        "scripts/publish_handoff.py",
+        "scripts/release_evidence.py",
+        "docs/contracts.md",
+        "dist/repers-publish-handoff.json",
+        "dist/repers-publish-handoff.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py publish-handoff --package --verify-roundtrip --json"
+      ]
+    },
+    {
       "id": "receiver-fixture",
       "kind": "harness",
       "name": "Installed Receiver Acceptance Fixture",

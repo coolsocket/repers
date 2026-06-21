@@ -1,0 +1,96 @@
+{
+  "schema": "repers.publish_handoff.v1",
+  "ok": true,
+  "release_evidence_ok": true,
+  "publish_ready": false,
+  "generated_at": "2026-06-21T05:35:20.782630+00:00",
+  "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
+  "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
+  "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
+  "release_evidence_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-release-evidence.json",
+  "missing_for_publish": [
+    "commit or intentionally exclude working tree changes",
+    "configure a Git remote before opening a PR"
+  ],
+  "remote": {
+    "name": "origin",
+    "provided_url": null,
+    "records": []
+  },
+  "pull_request": {
+    "base_branch": "main",
+    "head_branch": "codex/repers-initial-package",
+    "title": "Build RePERS installable workflow bundle",
+    "github_cli": {
+      "available": false,
+      "path": null
+    }
+  },
+  "git": {
+    "is_git_repo": true,
+    "branch": "codex/repers-initial-package",
+    "head_sha": "82ae3e221979961fd21208974bd4054278463ef6",
+    "has_head": true,
+    "dirty": true,
+    "status_count": 15,
+    "status_entries": [
+      "M .repers/capabilities/registry.json",
+      " M .repers/docs/contracts.md",
+      " M .repers/index/repers.db",
+      " M .repers/manifest.json",
+      " M .repers/scripts/package_repers.py",
+      " M .repers/scripts/repers.py",
+      " M README.md",
+      " M dist/repers-0.1.0-readiness.json",
+      " M dist/repers-0.1.0.zip",
+      " M dist/repers-release-evidence.json",
+      " M docs/planning/active-repers-build.md",
+      " M tests/smoke_repers.py",
+      "?? .repers/scripts/publish_handoff.py",
+      "?? dist/repers-publish-handoff.json",
+      "?? dist/repers-publish-handoff.md"
+    ],
+    "remote_count": 0,
+    "errors": []
+  },
+  "package": {
+    "included": true,
+    "ok": true,
+    "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
+    "archive_sha256": "703bf5b332995e7b12ec78480f78ede430f4feee46572bf955af4db7333042c0",
+    "manifest_file_count": 44,
+    "readiness_warnings": [],
+    "roundtrip_ok": true
+  },
+  "actions": [
+    {
+      "id": "add_remote",
+      "title": "Configure Git remote",
+      "command": "git remote add origin <remote-url>",
+      "status": "blocked",
+      "reason": "No remote is configured; provide --remote-url or add one manually."
+    },
+    {
+      "id": "push_branch",
+      "title": "Push release branch",
+      "command": "git push -u origin codex/repers-initial-package",
+      "status": "blocked",
+      "reason": "Commit or intentionally exclude working tree changes first."
+    },
+    {
+      "id": "open_draft_pr",
+      "title": "Open draft pull request",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Build RePERS installable workflow bundle\" --body-file <handoff-md>",
+      "status": "blocked",
+      "reason": "Requires GitHub CLI authentication and pushed branch."
+    }
+  ],
+  "safety": {
+    "executes_publish_commands": false,
+    "mutates_git_remote": false,
+    "pushes_branch": false,
+    "opens_pull_request": false
+  },
+  "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.json",
+  "markdown_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md"
+}

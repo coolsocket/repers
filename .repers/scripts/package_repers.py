@@ -200,6 +200,7 @@ def build_readiness_manifest(archive_path, archive_sha256, file_records):
             "preflight": "python <target-repo>/.repers/scripts/repers.py preflight --query \"capability query\" --refresh --json",
             "fixture_prove": "python <target-repo>/.repers/scripts/repers.py fixture --action prove --json",
             "receiver_fixture": f"python {archive_root}/scripts/repers.py receiver-fixture --json",
+            "publish_handoff": "python <target-repo>/.repers/scripts/repers.py publish-handoff --json",
             "package_again": "python <target-repo>/.repers/scripts/repers.py package --output dist --json",
         },
         "acceptance": [

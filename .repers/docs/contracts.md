@@ -582,3 +582,41 @@ Required `release_evidence` fields:
 `ok=true` means the evidence was generated and local package/governance/registry
 checks passed. `publish_ready=true` additionally requires a Git HEAD, named
 branch, clean working tree, configured remote, and package readiness.
+
+## Publish Handoff
+
+`publish-handoff --json` writes `dist/repers-publish-handoff.json` and
+`dist/repers-publish-handoff.md`. It is intentionally non-destructive: it
+generates remote, push, and draft PR commands without executing them.
+
+Required top-level command fields:
+
+- `publish_handoff`
+- `path`
+- `markdown_path`
+
+Required `publish_handoff` fields:
+
+- `schema`: `repers.publish_handoff.v1`
+- `ok`
+- `release_evidence_ok`
+- `publish_ready`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `output_dir`
+- `release_evidence_path`
+- `missing_for_publish`
+- `remote`
+- `pull_request`
+- `git`
+- `package`
+- `actions`
+- `safety`
+
+`actions` is an ordered list of command records. Each record includes `id`,
+`title`, `command`, `status`, and `reason`. `safety` must record that the
+command does not mutate Git remotes, push branches, or open pull requests.
+`ok=true` means the handoff artifact was generated. Use
+`release_evidence_ok` and `publish_ready` to decide whether the repository is
+ready to execute the generated commands.

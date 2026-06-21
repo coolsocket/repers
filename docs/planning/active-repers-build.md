@@ -29,6 +29,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add richer reusable capability registry/local skills JSON surface.
 - [x] Add release-shape branch/commit/PR metadata when the repo state is ready.
 - [x] Add installed receiver acceptance fixture.
+- [x] Add non-destructive publish handoff artifacts for remote/push/PR steps.
 
 ## Acceptance
 
@@ -64,3 +65,10 @@ and `tests/smoke_repers.py`. The local initial commit exists on
 `codex/repers-initial-package`, and a temp-output publish probe now reports a
 clean tree with only one remaining blocker: configure a Git remote before push
 or draft PR creation.
+
+Publish handoff phase complete: `publish-handoff --package --verify-roundtrip
+--json` writes `dist/repers-publish-handoff.json` and
+`dist/repers-publish-handoff.md`, reuses release evidence, and records
+non-destructive commands for adding a remote, pushing the branch, and opening a
+draft PR. The command is now in the capability registry and package readiness
+receiver commands.

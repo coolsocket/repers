@@ -15,6 +15,7 @@ python .repers\scripts\repers.py capabilities --action search --query "capabilit
 python .repers\scripts\repers.py fixture --action prove --json
 python .repers\scripts\repers.py receiver-fixture --json
 python .repers\scripts\repers.py release-evidence --package --verify-roundtrip --json
+python .repers\scripts\repers.py publish-handoff --package --verify-roundtrip --json
 python .repers\scripts\repers.py package --output dist --json
 python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
 python .repers\scripts\repers.py install-hook --json
@@ -53,6 +54,12 @@ whole repository.
 registry, and Git branch/commit/remote state. During active development it can
 report `publish_ready=false` while still proving the package and local release
 checks are valid.
+
+`publish-handoff --package --verify-roundtrip --json` writes
+`dist/repers-publish-handoff.json` and `dist/repers-publish-handoff.md`. It
+turns release evidence into a non-destructive remote/push/draft-PR checklist so
+another agent or maintainer can finish publication without relying on chat
+history.
 
 `receiver-fixture --json` installs the packaged archive into a fresh Git
 repository and runs receiver-side checks: `verify-install`, `doctor`,

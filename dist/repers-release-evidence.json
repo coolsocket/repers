@@ -2,77 +2,40 @@
   "schema": "repers.release_evidence.v1",
   "ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-21T03:49:47.355857+00:00",
+  "generated_at": "2026-06-21T05:35:20.761657+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
   "missing_for_publish": [
-    "create an initial commit",
     "commit or intentionally exclude working tree changes",
     "configure a Git remote before opening a PR"
   ],
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": null,
-    "has_head": false,
+    "head_sha": "82ae3e221979961fd21208974bd4054278463ef6",
+    "has_head": true,
     "dirty": true,
-    "status_count": 49,
+    "status_count": 15,
     "status_entries": [
-      "A  .github/workflows/repers-smoke.yml",
-      "A  .gitignore",
-      "A  .repers/capabilities/registry.json",
-      "A  .repers/docs/architecture.md",
-      "A  .repers/docs/contracts.md",
-      "A  .repers/docs/installation.md",
-      "A  .repers/docs/integration.md",
-      "A  .repers/docs/open-source-structure-study.md",
-      "A  .repers/docs/packaging.md",
-      "A  .repers/docs/spec.md",
-      "A  .repers/docs/workflow.md",
-      "A  .repers/hooks/pre-commit",
-      "A  .repers/index/repers.db",
-      "A  .repers/manifest.json",
-      "A  .repers/scripts/backends.py",
-      "A  .repers/scripts/capability_registry.py",
-      "A  .repers/scripts/codegraph_support.py",
-      "A  .repers/scripts/dag_engine.py",
-      "A  .repers/scripts/doctor.py",
-      "A  .repers/scripts/install_repers.py",
-      "A  .repers/scripts/orchestration_fixture.py",
-      "A  .repers/scripts/package_repers.py",
-      "A  .repers/scripts/plan_runner.py",
-      "A  .repers/scripts/receiver_fixture.py",
-      "A  .repers/scripts/release_evidence.py",
-      "A  .repers/scripts/release_gate.py",
-      "A  .repers/scripts/repers.py",
-      "A  .repers/scripts/research_index.py",
-      "A  .repers/scripts/reviewer.py",
-      "A  .repers/scripts/shipping.py",
-      "A  .repers/templates/plan.md",
-      "A  .repers/templates/research.md",
-      "A  .repers/templates/review.md",
-      "A  .repers/templates/shipping.md",
-      "A  CHANGELOG.md",
-      "A  CONTRIBUTING.md",
-      "A  MAINTAINERS.md",
-      "A  README.md",
-      "A  ROADMAP.md",
-      "A  SECURITY.md",
-      "A  SUPPORT.md",
-      "AM dist/repers-0.1.0-readiness.json",
-      "AM dist/repers-0.1.0.zip",
-      "A  dist/repers-release-evidence.json",
-      "AM docs/planning/active-repers-build.md",
-      "A  examples/basic-task/README.md",
-      "A  tests/__pycache__/smoke_repers.cpython-311.pyc",
-      "A  tests/smoke_repers.py",
-      "?? .gitattributes"
+      "M .repers/capabilities/registry.json",
+      " M .repers/docs/contracts.md",
+      " M .repers/index/repers.db",
+      " M .repers/manifest.json",
+      " M .repers/scripts/package_repers.py",
+      " M .repers/scripts/repers.py",
+      " M README.md",
+      " M dist/repers-0.1.0-readiness.json",
+      " M dist/repers-0.1.0.zip",
+      " M dist/repers-release-evidence.json",
+      " M docs/planning/active-repers-build.md",
+      " M tests/smoke_repers.py",
+      "?? .repers/scripts/publish_handoff.py",
+      "?? dist/repers-publish-handoff.json",
+      "?? dist/repers-publish-handoff.md"
     ],
     "remote_count": 0,
-    "errors": [
-      "fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'"
-    ]
+    "errors": []
   },
   "governance": {
     "ok": true,
@@ -80,7 +43,7 @@
       {
         "path": "README.md",
         "exists": true,
-        "size_bytes": 4131
+        "size_bytes": 4518
       },
       {
         "path": "CONTRIBUTING.md",
@@ -125,7 +88,7 @@
       {
         "path": "docs/planning/active-repers-build.md",
         "exists": true,
-        "size_bytes": 2874
+        "size_bytes": 3403
       }
     ],
     "missing": []
@@ -135,7 +98,7 @@
       "schema": "repers.capability_registry_validation.v1",
       "ok": true,
       "registry_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers\\capabilities\\registry.json",
-      "entry_count": 10,
+      "entry_count": 11,
       "errors": []
     },
     "release_query": {
@@ -175,6 +138,37 @@
             "python .repers/scripts/repers.py release-evidence --package --verify-roundtrip --json"
           ],
           "score": 78
+        },
+        {
+          "id": "publish-handoff",
+          "kind": "shipping-gate",
+          "name": "Publish Handoff Artifact",
+          "summary": "Writes non-destructive JSON and Markdown handoff artifacts with remote, push, and draft PR commands derived from release evidence.",
+          "tags": [
+            "publish",
+            "handoff",
+            "remote",
+            "push",
+            "pull-request",
+            "pr",
+            "release",
+            "evidence"
+          ],
+          "commands": [
+            "python .repers/scripts/repers.py publish-handoff --json",
+            "python .repers/scripts/repers.py publish-handoff --package --verify-roundtrip --remote-url <url> --json"
+          ],
+          "paths": [
+            "scripts/publish_handoff.py",
+            "scripts/release_evidence.py",
+            "docs/contracts.md",
+            "dist/repers-publish-handoff.json",
+            "dist/repers-publish-handoff.md"
+          ],
+          "verification": [
+            "python .repers/scripts/repers.py publish-handoff --package --verify-roundtrip --json"
+          ],
+          "score": 50
         },
         {
           "id": "package-readiness",
@@ -260,36 +254,6 @@
             "python .repers/scripts/repers.py receiver-fixture --json"
           ],
           "score": 12
-        },
-        {
-          "id": "receiver-governance",
-          "kind": "docs",
-          "name": "Open Source Receiver Governance",
-          "summary": "Contributor, maintainer, support, security, roadmap, changelog, example, and CI surfaces expected in the package.",
-          "tags": [
-            "governance",
-            "open-source",
-            "docs",
-            "ci",
-            "examples"
-          ],
-          "commands": [
-            "python .repers/scripts/repers.py bundle-status --package --verify-roundtrip --json"
-          ],
-          "paths": [
-            "CONTRIBUTING.md",
-            "SECURITY.md",
-            "SUPPORT.md",
-            "ROADMAP.md",
-            "CHANGELOG.md",
-            "MAINTAINERS.md",
-            ".github/workflows/repers-smoke.yml",
-            "examples/basic-task/README.md"
-          ],
-          "verification": [
-            "python .repers/scripts/repers.py package --output dist --json"
-          ],
-          "score": 5
         }
       ]
     }
@@ -298,8 +262,8 @@
     "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "60ef622c8005847910caea53fa845fc49f4f1c82cf36ecb62662d3586f8f8c33",
-    "manifest_file_count": 43,
+    "archive_sha256": "703bf5b332995e7b12ec78480f78ede430f4feee46572bf955af4db7333042c0",
+    "manifest_file_count": 44,
     "readiness_warnings": [],
     "roundtrip_ok": true
   }

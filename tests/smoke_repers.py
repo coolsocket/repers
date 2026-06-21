@@ -131,6 +131,7 @@ def test_package_archive_manifest():
     assert "capabilities" in readiness["receiver_commands"]
     assert "fixture_prove" in readiness["receiver_commands"]
     assert "receiver_fixture" in readiness["receiver_commands"]
+    assert "publish_handoff" in readiness["receiver_commands"]
 
     archive_root = package["manifest"]["archive_root"]
     manifest_path = f"{archive_root}/repers-package-manifest.json"
@@ -152,6 +153,7 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/orchestration_fixture.py" in names
         assert f"{archive_root}/scripts/receiver_fixture.py" in names
         assert f"{archive_root}/scripts/release_evidence.py" in names
+        assert f"{archive_root}/scripts/publish_handoff.py" in names
         assert f"{archive_root}/capabilities/registry.json" in names
         assert f"{archive_root}/templates/plan.md" in names
         assert f"{archive_root}/hooks/pre-commit" in names
@@ -382,6 +384,51 @@ def test_release_evidence_publish_readiness_artifact():
     assert written["schema"] == "repers.release_evidence.v1"
 
 
+def test_publish_handoff_artifact_is_non_destructive():
+    output_dir = ROOT / ".repers-smoke-publish-handoff"
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    try:
+        stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "publish-handoff",
+                "--output",
+                str(output_dir),
+                "--remote-url",
+                "https://example.invalid/repo.git",
+                "--base-branch",
+                "main",
+                "--pr-title",
+                "RePERS smoke handoff",
+                "--json",
+            ]
+        )
+        result = json.loads(stdout)
+        handoff = result["publish_handoff"]
+        handoff_path = Path(result["path"])
+        markdown_path = Path(result["markdown_path"])
+        assert handoff_path.exists()
+        assert markdown_path.exists()
+        assert handoff["schema"] == "repers.publish_handoff.v1"
+        assert handoff["ok"] is True
+        assert handoff["remote"]["provided_url"] == "https://example.invalid/repo.git"
+        assert handoff["pull_request"]["base_branch"] == "main"
+        assert handoff["safety"]["executes_publish_commands"] is False
+        assert handoff["safety"]["mutates_git_remote"] is False
+        assert handoff["safety"]["pushes_branch"] is False
+        assert handoff["safety"]["opens_pull_request"] is False
+        action_ids = {action["id"] for action in handoff["actions"]}
+        assert {"push_branch", "open_draft_pr"} <= action_ids
+        written = json.loads(handoff_path.read_text(encoding="utf-8"))
+        assert written["schema"] == "repers.publish_handoff.v1"
+        assert "gh pr create --draft" in markdown_path.read_text(encoding="utf-8")
+    finally:
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+
+
 def test_receiver_fixture_proves_installed_package_commands():
     stdout = run([sys.executable, str(REPERS), "receiver-fixture", "--json"])
     fixture = json.loads(stdout)
@@ -409,6 +456,7 @@ def main():
     test_orchestration_fixture_proves_worker_command_dag()
     test_capability_registry_and_preflight_surface()
     test_release_evidence_publish_readiness_artifact()
+    test_publish_handoff_artifact_is_non_destructive()
     test_receiver_fixture_proves_installed_package_commands()
     print("installed repers smoke tests ok")
 

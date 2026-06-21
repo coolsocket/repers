@@ -1,16 +1,15 @@
 {
   "schema": "repers.install_manifest.v1",
   "version": "0.1.0",
-  "generated_at": "2026-06-21T03:24:54.342886+00:00",
+  "generated_at": "2026-06-21T05:33:38.789967+00:00",
   "source_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "target_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "source_git": {
-    "ok": false,
-    "commit": null,
-    "dirty": null,
-    "status_count": 0,
-    "error": "Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128."
+    "ok": true,
+    "commit": "82ae3e221979961fd21208974bd4054278463ef6",
+    "dirty": true,
+    "status_count": 8
   },
   "with_hook": true,
   "hook_policy": "warn",
@@ -19,8 +18,8 @@
   "files": [
     {
       "path": "capabilities/registry.json",
-      "size_bytes": 8754,
-      "sha256": "529d72d03da2f87b611479e3e2c84ff4684b2bb8af9bd6e3111572671a8774b7"
+      "size_bytes": 9749,
+      "sha256": "ec037b6703d58fa3fe0e24d067b900f6cf046c903581d82fc6ccd89fe11ae3ff"
     },
     {
       "path": "docs/architecture.md",
@@ -29,8 +28,8 @@
     },
     {
       "path": "docs/contracts.md",
-      "size_bytes": 14252,
-      "sha256": "bd038481d673946459f3480b1c4cd4c5209d184bd9b49e8d13eea4f5fbc984ac"
+      "size_bytes": 15288,
+      "sha256": "299b4a5d2566f66e6ee0874bbaa97826fd4757fab83b9b07ae7dfb10d3718d59"
     },
     {
       "path": "docs/installation.md",
@@ -104,13 +103,18 @@
     },
     {
       "path": "scripts/package_repers.py",
-      "size_bytes": 15477,
-      "sha256": "8440dea46623a0f3a3d71273ef0e2e36064d36119196bac8b8da6067e183c938"
+      "size_bytes": 15581,
+      "sha256": "ed2f2d466272ec806bc5e98a17e9c6c38ec98c6a3e69ae640e6358d8c6507e9c"
     },
     {
       "path": "scripts/plan_runner.py",
       "size_bytes": 33873,
       "sha256": "eb89b86a57655443e56bed430c126c08ac5383da7b43d3cc30381d2040b46b2e"
+    },
+    {
+      "path": "scripts/publish_handoff.py",
+      "size_bytes": 7521,
+      "sha256": "a3a42ba9d33fb88e2b9ee6aaa73d73953e297693a9b073bf5230a467aeab6111"
     },
     {
       "path": "scripts/receiver_fixture.py",
@@ -129,8 +133,8 @@
     },
     {
       "path": "scripts/repers.py",
-      "size_bytes": 45926,
-      "sha256": "fe1a5be6bb590b452363d36988badc1aed68b8f02010f32ef1e780639f63baab"
+      "size_bytes": 47909,
+      "sha256": "f7b0a0f60f09b7b0c2c9ea986fa2863c5b13594c5a40bbdf2359e8077d01090a"
     },
     {
       "path": "scripts/research_index.py",
@@ -168,5 +172,5 @@
       "sha256": "4da0aa1a9060b780868024773790fe3d3302d4cdc17b53b4c4d75da9df2cea81"
     }
   ],
-  "file_count": 30
+  "file_count": 31
 }
