@@ -640,6 +640,28 @@ def run_state_command(args):
         sys.exit(1)
 
 
+def run_verify_all_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from verify_all import build_verify_all
+
+    report, json_path, markdown_path = build_verify_all(
+        REPO_ROOT,
+        INSTALL_ROOT,
+        output_dir=args.output,
+    )
+    result = {
+        "verify_all": report,
+        "path": str(Path(json_path).resolve()),
+        "markdown_path": str(Path(markdown_path).resolve()),
+    }
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not report.get("ok"):
+        sys.exit(1)
+
+
 def run_receiver_fixture_command(args):
     sys.path.append(SCRIPT_DIR)
     from receiver_fixture import prove_receiver
@@ -1142,6 +1164,10 @@ def main():
     state_parser.add_argument("--deep", action="store_true", help="Run deep objective audit before writing state")
     state_parser.add_argument("--json", action="store_true")
 
+    verify_all_parser = subparsers.add_parser("verify-all", help="Run all local RePERS gates sequentially with isolated outputs")
+    verify_all_parser.add_argument("--output", default="dist", help="Output directory for verify-all artifacts")
+    verify_all_parser.add_argument("--json", action="store_true")
+
     receiver_fixture_parser = subparsers.add_parser("receiver-fixture", help="Install the package into a fresh Git repo and prove receiver commands")
     receiver_fixture_parser.add_argument("--output", default="dist", help="Output directory for the package archive")
     receiver_fixture_parser.add_argument("--verify-package-roundtrip", action="store_true", help="Also run package-level round-trip verification before receiver checks")
@@ -1238,6 +1264,8 @@ def main():
         run_continue_command(args)
     elif args.command == "state":
         run_state_command(args)
+    elif args.command == "verify-all":
+        run_verify_all_command(args)
     elif args.command == "receiver-fixture":
         run_receiver_fixture_command(args)
     elif args.command == "install-hook":

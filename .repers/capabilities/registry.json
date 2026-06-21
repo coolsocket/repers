@@ -399,6 +399,35 @@
       ]
     },
     {
+      "id": "verify-all",
+      "kind": "shipping-gate",
+      "name": "Sequential Local Verification",
+      "summary": "Runs RePERS local gates sequentially with isolated temp outputs and writes a compact verify-all evidence artifact.",
+      "tags": [
+        "verify",
+        "self-test",
+        "sequential",
+        "gates",
+        "package",
+        "smoke",
+        "state",
+        "race-safe"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py verify-all --json"
+      ],
+      "paths": [
+        "scripts/verify_all.py",
+        "scripts/repers.py",
+        "docs/contracts.md",
+        "dist/repers-verify-all.json",
+        "dist/repers-verify-all.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py verify-all --json"
+      ]
+    },
+    {
       "id": "receiver-fixture",
       "kind": "harness",
       "name": "Installed Receiver Acceptance Fixture",

@@ -36,6 +36,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add objective continuation actions for autonomous handoff/resume.
 - [x] Add autonomous continuation runner for ready local resume actions.
 - [x] Add compact repository state report for self-autonomous status handoff.
+- [x] Add race-safe sequential `verify-all` local gate.
 
 ## Acceptance
 
@@ -115,3 +116,9 @@ and `dist/repers-state.md`, composing objective status, Git publication state,
 package readiness, capability count, test evidence, and next continuation
 actions. Use `state --deep --json` when the report must refresh package,
 receiver, fixture, and smoke evidence before summarizing.
+
+Sequential verification phase complete: `verify-all --json` runs install,
+capability, package round-trip, receiver fixture, remote bootstrap fixture,
+smoke, and deep state gates in order with isolated temporary outputs. It
+reports `blocked_external` when local gates pass and the only remaining blocker
+is hosted publication setup.

@@ -1,7 +1,7 @@
 {
   "schema": "repers.install_manifest.v1",
   "version": "0.1.0",
-  "generated_at": "2026-06-21T14:37:09.583412+00:00",
+  "generated_at": "2026-06-21T14:48:16.596506+00:00",
   "source_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "target_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
@@ -18,8 +18,8 @@
   "files": [
     {
       "path": "capabilities/registry.json",
-      "size_bytes": 13838,
-      "sha256": "dc65b9299bd026c84ad6633f9b1fa159ffe1c59d51ac4dd3db54c5573244f732"
+      "size_bytes": 14641,
+      "sha256": "141dbea46af5d0d9d84557bcd8f38989fa79fd0ceefae24b8e2bdf05647d3657"
     },
     {
       "path": "docs/architecture.md",
@@ -28,8 +28,8 @@
     },
     {
       "path": "docs/contracts.md",
-      "size_bytes": 20392,
-      "sha256": "a1cd32147158c120352a8ac3edb0cc8ce96b271530dd77fd36c7a329d89ba56e"
+      "size_bytes": 21224,
+      "sha256": "d9477bb21abff679a01d310dafbbc40228b4098ca98f5ec8eac9ba85b80bc922"
     },
     {
       "path": "docs/installation.md",
@@ -103,8 +103,8 @@
     },
     {
       "path": "scripts/objective_audit.py",
-      "size_bytes": 23602,
-      "sha256": "9df44a746e9f4c3598e27c683a3e25e6d7e8104077e9ea38e8d027b7a09f7b00"
+      "size_bytes": 23624,
+      "sha256": "721e9fb55ea79c0dbe682691d9886901ed33b00ae7ce3a665dfbf41d0bd4f177"
     },
     {
       "path": "scripts/orchestration_fixture.py",
@@ -113,8 +113,8 @@
     },
     {
       "path": "scripts/package_repers.py",
-      "size_bytes": 16113,
-      "sha256": "7e93bd9cceeec8e3d6621164f66f2b72dbbdd1b548140fcdc51f6dca6872ed4e"
+      "size_bytes": 16207,
+      "sha256": "b0629f923415c92cfc0472735d4f7ce2ba2b257b4e3a6c0c7c04e1aee3a1c0ce"
     },
     {
       "path": "scripts/plan_runner.py",
@@ -148,8 +148,8 @@
     },
     {
       "path": "scripts/repers.py",
-      "size_bytes": 54992,
-      "sha256": "e7f55a0d63eed2ea124622d00ced8e790724a840394e9dc072ff7307cd23213c"
+      "size_bytes": 55916,
+      "sha256": "87a5aa3fc244923faafac0182c8b3cae23c69402d069add5d445cefc1ad30df1"
     },
     {
       "path": "scripts/research_index.py",
@@ -172,6 +172,11 @@
       "sha256": "1536f9adf83a855cf21b704737bac15118ab1950f8fc3c97a44ddd0bd25c1e73"
     },
     {
+      "path": "scripts/verify_all.py",
+      "size_bytes": 6936,
+      "sha256": "ee7b1ce9af6cfe6ce9726f0919306ca57437fe464650e672dd6c735728aa5081"
+    },
+    {
       "path": "templates/plan.md",
       "size_bytes": 702,
       "sha256": "5ae8e9350a005312aa8b7e7355ca63fb842caeef4d7cb189054ad5c765030c58"
@@ -192,5 +197,5 @@
       "sha256": "4da0aa1a9060b780868024773790fe3d3302d4cdc17b53b4c4d75da9df2cea81"
     }
   ],
-  "file_count": 35
+  "file_count": 36
 }

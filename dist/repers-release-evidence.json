@@ -2,7 +2,7 @@
   "schema": "repers.release_evidence.v1",
   "ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-21T14:37:51.157056+00:00",
+  "generated_at": "2026-06-21T14:49:34.229467+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -13,10 +13,10 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "fbe1b784ceb886ea917f6936b6f13bf893f5a3e2",
+    "head_sha": "b41a6ef8a5e917c62d44b6fe8212f68b5c6efd40",
     "has_head": true,
     "dirty": true,
-    "status_count": 23,
+    "status_count": 18,
     "status_entries": [
       "M .repers/capabilities/registry.json",
       " M .repers/docs/contracts.md",
@@ -28,19 +28,14 @@
       " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
-      " M dist/repers-continuation.md",
-      " M dist/repers-objective-audit.json",
       " M dist/repers-publish-handoff.json",
       " M dist/repers-publish-handoff.md",
       " M dist/repers-release-evidence.json",
-      " M dist/repers-remote-bootstrap-fixture.json",
-      " M dist/repers-remote-bootstrap.json",
-      " M dist/repers-remote-bootstrap.md",
       " M docs/planning/active-repers-build.md",
       " M tests/smoke_repers.py",
-      "?? .repers/scripts/state_report.py",
-      "?? dist/repers-state.json",
-      "?? dist/repers-state.md"
+      "?? .repers/scripts/verify_all.py",
+      "?? dist/repers-verify-all.json",
+      "?? dist/repers-verify-all.md"
     ],
     "remote_count": 0,
     "errors": []
@@ -51,7 +46,7 @@
       {
         "path": "README.md",
         "exists": true,
-        "size_bytes": 6448
+        "size_bytes": 6656
       },
       {
         "path": "CONTRIBUTING.md",
@@ -96,7 +91,7 @@
       {
         "path": "docs/planning/active-repers-build.md",
         "exists": true,
-        "size_bytes": 6013
+        "size_bytes": 6402
       }
     ],
     "missing": []
@@ -106,7 +101,7 @@
       "schema": "repers.capability_registry_validation.v1",
       "ok": true,
       "registry_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers\\capabilities\\registry.json",
-      "entry_count": 15,
+      "entry_count": 16,
       "errors": []
     },
     "release_query": {
@@ -273,8 +268,8 @@
     "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "1f071391b21cc55520be14d607783bc4bef23dc246430106a89b4493523db852",
-    "manifest_file_count": 48,
+    "archive_sha256": "85efae8e06b5b1bef985a810614e0fc2b9decf73975689da8a0e30f766280c91",
+    "manifest_file_count": 49,
     "readiness_warnings": [],
     "roundtrip_ok": true
   }

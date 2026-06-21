@@ -139,6 +139,7 @@ def test_package_archive_manifest():
     assert "objective_audit" in readiness["receiver_commands"]
     assert "continue" in readiness["receiver_commands"]
     assert "state" in readiness["receiver_commands"]
+    assert "verify_all" in readiness["receiver_commands"]
 
     archive_root = package["manifest"]["archive_root"]
     manifest_path = f"{archive_root}/repers-package-manifest.json"
@@ -165,6 +166,7 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/objective_audit.py" in names
         assert f"{archive_root}/scripts/continuation_runner.py" in names
         assert f"{archive_root}/scripts/state_report.py" in names
+        assert f"{archive_root}/scripts/verify_all.py" in names
         assert f"{archive_root}/capabilities/registry.json" in names
         assert f"{archive_root}/templates/plan.md" in names
         assert f"{archive_root}/hooks/pre-commit" in names
@@ -381,6 +383,22 @@ def test_capability_registry_and_preflight_surface():
     state_search = json.loads(state_stdout)
     assert state_search["ok"] is True
     assert state_search["entries"][0]["id"] == "state-report"
+
+    verify_stdout = run(
+        [
+            sys.executable,
+            str(REPERS),
+            "capabilities",
+            "--action",
+            "search",
+            "--query",
+            "verify all sequential self test gates",
+            "--json",
+        ]
+    )
+    verify_search = json.loads(verify_stdout)
+    assert verify_search["ok"] is True
+    assert verify_search["entries"][0]["id"] == "verify-all"
 
     preflight_stdout = run(
         [
@@ -685,6 +703,51 @@ def test_state_report_summarizes_current_repository():
             shutil.rmtree(output_dir)
 
 
+def test_verify_all_runs_sequential_local_gates():
+    if os.environ.get("REPERS_SKIP_VERIFY_ALL_SMOKE") == "1":
+        return
+    output_dir = ROOT / ".repers-smoke-verify-all"
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    try:
+        stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "verify-all",
+                "--output",
+                str(output_dir),
+                "--json",
+            ]
+        )
+        result = json.loads(stdout)
+        report = result["verify_all"]
+        report_path = Path(result["path"])
+        markdown_path = Path(result["markdown_path"])
+        assert report_path.exists()
+        assert markdown_path.exists()
+        assert report["schema"] == "repers.verify_all.v1"
+        assert report["ok"] is True
+        assert report["status"] in {"complete", "blocked_external"}
+        gate_names = {gate["name"] for gate in report["gates"]}
+        assert {
+            "verify_install",
+            "capabilities_validate",
+            "bundle_status_package_roundtrip",
+            "receiver_fixture",
+            "remote_bootstrap_fixture",
+            "smoke_tests",
+            "state_deep",
+        } <= gate_names
+        assert all(gate["ok"] for gate in report["gates"])
+        assert report["state"]["tests_passed"] is True
+        assert set(report["state"]["blocking_incomplete"]) <= {"publication_ready"}
+        assert "RePERS Verify All" in markdown_path.read_text(encoding="utf-8")
+    finally:
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+
+
 def test_receiver_fixture_proves_installed_package_commands():
     stdout = run([sys.executable, str(REPERS), "receiver-fixture", "--output", str(DIST), "--json"])
     fixture = json.loads(stdout)
@@ -719,6 +782,7 @@ def main():
     test_objective_audit_reports_requirements_and_blockers()
     test_continue_reports_resume_actions_without_applying_by_default()
     test_state_report_summarizes_current_repository()
+    test_verify_all_runs_sequential_local_gates()
     test_receiver_fixture_proves_installed_package_commands()
     print("installed repers smoke tests ok")
 

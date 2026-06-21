@@ -97,6 +97,10 @@ external steps.
 Git publish readiness, package state, capability count, test evidence, and the
 next continuation actions.
 
+`verify-all --json` is the race-safe local verification entrypoint. It runs
+install, capability, package, receiver, remote fixture, smoke, and deep state
+checks sequentially with isolated temporary outputs.
+
 `receiver-fixture --json` installs the packaged archive into a fresh Git
 repository and runs receiver-side checks: `verify-install`, `doctor`,
 `bundle-status`, `capabilities`, and `fixture`. Use it before handing the

@@ -803,3 +803,35 @@ Required `state` fields:
 first ready local action and first external publication action, if present.
 `artifacts` records the JSON and Markdown state paths plus the underlying audit,
 continuation, and release evidence files.
+
+## Verify All
+
+`verify-all --json` writes `dist/repers-verify-all.json` and
+`dist/repers-verify-all.md`. It runs local gates sequentially and gives each
+artifact-writing gate its own temporary output directory. This is the preferred
+single command for agents that need race-safe local proof before publication.
+
+Required top-level command fields:
+
+- `verify_all`
+- `path`
+- `markdown_path`
+
+Required `verify_all` fields:
+
+- `schema`: `repers.verify_all.v1`
+- `ok`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `output_dir`
+- `temp_root`
+- `status`
+- `gates`
+- `state`
+- `next`
+- `errors`
+
+`ok=true` means every local gate passed and any remaining objective blocker is
+external-only, currently `publication_ready`. `status=blocked_external` is a
+successful local verification state when no hosted Git remote is configured.

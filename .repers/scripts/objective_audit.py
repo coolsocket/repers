@@ -409,6 +409,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "remote-bootstrap",
         "continuation-runner",
         "state-report",
+        "verify-all",
     }
 
     command_map = {item["name"]: item for item in commands}

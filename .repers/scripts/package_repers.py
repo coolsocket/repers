@@ -206,6 +206,7 @@ def build_readiness_manifest(archive_path, archive_sha256, file_records):
             "objective_audit": "python <target-repo>/.repers/scripts/repers.py objective-audit --json",
             "continue": "python <target-repo>/.repers/scripts/repers.py continue --json",
             "state": "python <target-repo>/.repers/scripts/repers.py state --json",
+            "verify_all": "python <target-repo>/.repers/scripts/repers.py verify-all --json",
             "package_again": "python <target-repo>/.repers/scripts/repers.py package --output dist --json",
         },
         "acceptance": [
