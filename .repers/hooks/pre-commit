@@ -1,0 +1,16 @@
+#!/bin/sh
+# RePERS pre-commit hook template.
+# The installer writes the concrete Python path for each target repository.
+
+if [ "$REPERS_SKIP_HOOK" = "1" ]; then
+  echo "RePERS hook skipped because REPERS_SKIP_HOOK=1"
+  exit 0
+fi
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+export REPERS_WORKSPACE_ROOT="$REPO_ROOT"
+if [ "$REPERS_AUDIT_STRICT_WARNINGS" = "1" ]; then
+  python -B "$REPO_ROOT/.repers/scripts/repers.py" audit --strict-warnings
+else
+  python -B "$REPO_ROOT/.repers/scripts/repers.py" audit
+fi

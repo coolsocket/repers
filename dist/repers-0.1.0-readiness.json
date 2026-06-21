@@ -1,0 +1,51 @@
+{
+  "schema": "repers.package_readiness.v1",
+  "version": "0.1.0",
+  "generated_at": "2026-06-21T03:59:26.075212+00:00",
+  "source_shape": "installed_bundle",
+  "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
+  "archive_sha256": "f24ae4ead9d934e4084a0162d0be71fd012e06fc0dcf987a7ff3e16ade206548",
+  "archive_sha256_scope": "final_sidecar",
+  "archive_root": "repers-0.1.0",
+  "package_manifest": "repers-0.1.0/repers-package-manifest.json",
+  "package_readiness": "repers-0.1.0/repers-package-readiness.json",
+  "surface": {
+    "has_top_level_readme": true,
+    "has_changelog": true,
+    "has_contributing": true,
+    "has_maintainers": true,
+    "has_roadmap": true,
+    "has_security": true,
+    "has_support": true,
+    "has_ci": true,
+    "has_capability_registry": true,
+    "has_docs": true,
+    "has_examples": true,
+    "has_hooks": true,
+    "has_scripts": true,
+    "has_templates": true,
+    "has_tests": true,
+    "has_install_script": true,
+    "has_cli": true
+  },
+  "receiver_commands": {
+    "extract": "Expand-Archive repers-0.1.0.zip -DestinationPath .",
+    "install": "python repers-0.1.0/scripts/install_repers.py --target <target-repo>",
+    "verify": "python <target-repo>/.repers/scripts/repers.py verify-install --json",
+    "doctor": "python <target-repo>/.repers/scripts/repers.py doctor --json",
+    "capabilities": "python <target-repo>/.repers/scripts/repers.py capabilities --action search --query \"capability query\" --json",
+    "preflight": "python <target-repo>/.repers/scripts/repers.py preflight --query \"capability query\" --refresh --json",
+    "fixture_prove": "python <target-repo>/.repers/scripts/repers.py fixture --action prove --json",
+    "receiver_fixture": "python repers-0.1.0/scripts/repers.py receiver-fixture --json",
+    "package_again": "python <target-repo>/.repers/scripts/repers.py package --output dist --json"
+  },
+  "acceptance": [
+    "archive exists and SHA-256 matches the command output or sidecar readiness file",
+    "repers-package-manifest.json is present under archive_root",
+    "scripts/install_repers.py is present",
+    "scripts/repers.py is present",
+    "verify-install returns ok=true after installing into a target repository"
+  ],
+  "warnings": [],
+  "ok": true
+}

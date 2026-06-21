@@ -1,0 +1,172 @@
+{
+  "schema": "repers.install_manifest.v1",
+  "version": "0.1.0",
+  "generated_at": "2026-06-21T03:24:54.342886+00:00",
+  "source_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
+  "target_root": "C:\\Users\\Administrator\\Documents\\RePERS",
+  "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
+  "source_git": {
+    "ok": false,
+    "commit": null,
+    "dirty": null,
+    "status_count": 0,
+    "error": "Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128."
+  },
+  "with_hook": true,
+  "hook_policy": "warn",
+  "hook_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.git\\hooks\\pre-commit",
+  "gitignore_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.gitignore",
+  "files": [
+    {
+      "path": "capabilities/registry.json",
+      "size_bytes": 8754,
+      "sha256": "529d72d03da2f87b611479e3e2c84ff4684b2bb8af9bd6e3111572671a8774b7"
+    },
+    {
+      "path": "docs/architecture.md",
+      "size_bytes": 8071,
+      "sha256": "aea30b78fa631c144279316c71986a1124850ee6691a873ff1709e6bb0131532"
+    },
+    {
+      "path": "docs/contracts.md",
+      "size_bytes": 14252,
+      "sha256": "bd038481d673946459f3480b1c4cd4c5209d184bd9b49e8d13eea4f5fbc984ac"
+    },
+    {
+      "path": "docs/installation.md",
+      "size_bytes": 3508,
+      "sha256": "aa254649eca2fd4c476b6a2b81866f7b1130310c5d74c86c2188d019cb8e6093"
+    },
+    {
+      "path": "docs/integration.md",
+      "size_bytes": 3597,
+      "sha256": "d6413e115cc98e4203ff6ea6066e532e1fe9ab6488031fcf60233e9c113a2d68"
+    },
+    {
+      "path": "docs/open-source-structure-study.md",
+      "size_bytes": 3902,
+      "sha256": "ca33babd6d44490d7a03b263f69db7d388e3cabc18471c0ab620288e14c614af"
+    },
+    {
+      "path": "docs/packaging.md",
+      "size_bytes": 3751,
+      "sha256": "1b717dd10e9a37ca5af2a4878cd8fc6cea9e29781037725713f1ccaadea04a3d"
+    },
+    {
+      "path": "docs/spec.md",
+      "size_bytes": 4514,
+      "sha256": "e69f26e907b605ae9fd8d1b0763db7e43dd61c6cf9da6751888aa59eff413b47"
+    },
+    {
+      "path": "docs/workflow.md",
+      "size_bytes": 5376,
+      "sha256": "464d6eda38e7bba3c14f988f0f19264fbdd14f6be40c4791d72bc756ed049a4f"
+    },
+    {
+      "path": "hooks/pre-commit",
+      "size_bytes": 508,
+      "sha256": "73b98bb9217e09f818f17a3f8f7f5578656b7d626cf287c1f1e0515863365e11"
+    },
+    {
+      "path": "scripts/backends.py",
+      "size_bytes": 1949,
+      "sha256": "2b78a0a761ff4a0d3f5166fe6be21f19b11785dee4f0ea43f2485654ac0f86fe"
+    },
+    {
+      "path": "scripts/capability_registry.py",
+      "size_bytes": 5474,
+      "sha256": "e273d65a0b2b3a1260003339119004fe5c8570b044f45ce95f7083153273b51b"
+    },
+    {
+      "path": "scripts/codegraph_support.py",
+      "size_bytes": 6369,
+      "sha256": "e075515c07d86cda2f7966950af4d3b19767d1f071dc0fbafbd74bf17970cab9"
+    },
+    {
+      "path": "scripts/dag_engine.py",
+      "size_bytes": 9386,
+      "sha256": "056299e356baab472ff6f8531d15ebd54b497b1fc5f4b92a44e1c37e27c86580"
+    },
+    {
+      "path": "scripts/doctor.py",
+      "size_bytes": 6641,
+      "sha256": "20c79ccb7de47fd35abda3a47a7813786781adb36f5701e5d448325a4d273a2a"
+    },
+    {
+      "path": "scripts/install_repers.py",
+      "size_bytes": 12880,
+      "sha256": "47223e9de9db68f937cc2407429f4dda696ed2d20a796067f053f786bc48916e"
+    },
+    {
+      "path": "scripts/orchestration_fixture.py",
+      "size_bytes": 11589,
+      "sha256": "9bf156053b1a04d4b44f2ca7face7a449a92aace3dd0e6184a18b05f51a39285"
+    },
+    {
+      "path": "scripts/package_repers.py",
+      "size_bytes": 15477,
+      "sha256": "8440dea46623a0f3a3d71273ef0e2e36064d36119196bac8b8da6067e183c938"
+    },
+    {
+      "path": "scripts/plan_runner.py",
+      "size_bytes": 33873,
+      "sha256": "eb89b86a57655443e56bed430c126c08ac5383da7b43d3cc30381d2040b46b2e"
+    },
+    {
+      "path": "scripts/receiver_fixture.py",
+      "size_bytes": 5844,
+      "sha256": "4d1389146fa931dddf57834a21a3e7cc41c5be79f0086f1d40a927618f457ed9"
+    },
+    {
+      "path": "scripts/release_evidence.py",
+      "size_bytes": 6176,
+      "sha256": "1d559ae727f1399254722d700725eeca47fce2f021db3b5125d13f781649eb97"
+    },
+    {
+      "path": "scripts/release_gate.py",
+      "size_bytes": 3858,
+      "sha256": "16e28f50088d738b16efba12f8e7a7dd2f6c1d79252f25e1e2b07cde7cc6d602"
+    },
+    {
+      "path": "scripts/repers.py",
+      "size_bytes": 45926,
+      "sha256": "fe1a5be6bb590b452363d36988badc1aed68b8f02010f32ef1e780639f63baab"
+    },
+    {
+      "path": "scripts/research_index.py",
+      "size_bytes": 8976,
+      "sha256": "2c77a71696454f568a020240e7eef2c8da0a2f7b842bf68c3fa1699aaa220ebb"
+    },
+    {
+      "path": "scripts/reviewer.py",
+      "size_bytes": 3118,
+      "sha256": "30a73a3a565ce07fc4eb5436370f2512afc0beb3c9f2d7d7d73174b3a5b5ae5d"
+    },
+    {
+      "path": "scripts/shipping.py",
+      "size_bytes": 8524,
+      "sha256": "dedf5489be59955f872571d551181be06ddc4bbd6fee4dd63310c3700f972f3c"
+    },
+    {
+      "path": "templates/plan.md",
+      "size_bytes": 702,
+      "sha256": "5ae8e9350a005312aa8b7e7355ca63fb842caeef4d7cb189054ad5c765030c58"
+    },
+    {
+      "path": "templates/research.md",
+      "size_bytes": 551,
+      "sha256": "b61ec861ca8cf9d2b30109076d62794d7548a60720c83b82c5a4c69686e523a0"
+    },
+    {
+      "path": "templates/review.md",
+      "size_bytes": 770,
+      "sha256": "4a0320324f8889720e397f79b42c253e00622be6c421844b01ccc8468d10faf2"
+    },
+    {
+      "path": "templates/shipping.md",
+      "size_bytes": 643,
+      "sha256": "4da0aa1a9060b780868024773790fe3d3302d4cdc17b53b4c4d75da9df2cea81"
+    }
+  ],
+  "file_count": 30
+}

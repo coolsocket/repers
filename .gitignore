@@ -1,0 +1,8 @@
+# RePERS
+.repers/**/__pycache__/
+.repers/**/*.pyc
+repers_tasks/**/__pycache__/
+repers_tasks/**/*.pyc
+tests/**/__pycache__/
+tests/**/*.pyc
+docs/goal/**/.goal-machine/

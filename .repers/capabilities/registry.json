@@ -1,0 +1,277 @@
+{
+  "schema": "repers.capability_registry.v1",
+  "version": "0.1.0",
+  "entries": [
+    {
+      "id": "preflight",
+      "kind": "workflow",
+      "name": "Preflight Capability Discovery",
+      "summary": "Search local files, structured capabilities, global skills, and optional CodeGraph evidence before adding reusable work.",
+      "tags": [
+        "preflight",
+        "capability-discovery",
+        "reuse",
+        "codegraph",
+        "ranking"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py preflight --query \"<query>\" --refresh --json",
+        "python .repers/scripts/repers.py preflight --query \"<query>\" --codegraph --json"
+      ],
+      "paths": [
+        "scripts/repers.py",
+        "scripts/research_index.py",
+        "scripts/codegraph_support.py",
+        "docs/contracts.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py preflight --query \"capability registry\" --refresh --json"
+      ]
+    },
+    {
+      "id": "capability-registry",
+      "kind": "registry",
+      "name": "Local Capability Registry",
+      "summary": "Canonical JSON inventory of reusable RePERS workflows, scripts, hooks, templates, and package gates.",
+      "tags": [
+        "capabilities",
+        "registry",
+        "json",
+        "local-skills",
+        "preflight"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py capabilities --action list --json",
+        "python .repers/scripts/repers.py capabilities --action search --query \"<query>\" --json",
+        "python .repers/scripts/repers.py capabilities --action validate --json"
+      ],
+      "paths": [
+        "capabilities/registry.json",
+        "scripts/capability_registry.py",
+        "scripts/research_index.py",
+        "docs/contracts.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py capabilities --action validate --json"
+      ]
+    },
+    {
+      "id": "orchestration-fixture",
+      "kind": "harness",
+      "name": "Deterministic Orchestration Fixture",
+      "summary": "Proves conflict-safe worker dispatch, worker-command execution, local join verification, and review contracts.",
+      "tags": [
+        "fixture",
+        "dag",
+        "worker-command",
+        "parallel",
+        "review",
+        "harness"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py fixture --action prove --json"
+      ],
+      "paths": [
+        "scripts/orchestration_fixture.py",
+        "scripts/plan_runner.py",
+        "scripts/reviewer.py",
+        "tests/smoke_repers.py"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py fixture --action prove --json"
+      ]
+    },
+    {
+      "id": "package-readiness",
+      "kind": "shipping-gate",
+      "name": "Package Readiness and Round Trip",
+      "summary": "Builds a reusable RePERS archive with manifest, readiness sidecar, governance files, and round-trip install verification.",
+      "tags": [
+        "package",
+        "readiness",
+        "roundtrip",
+        "install",
+        "archive",
+        "shipping"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py package --output dist --verify-roundtrip --json",
+        "python .repers/scripts/repers.py bundle-status --package --verify-roundtrip --json"
+      ],
+      "paths": [
+        "scripts/package_repers.py",
+        "scripts/install_repers.py",
+        "docs/packaging.md",
+        "README.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py bundle-status --package --verify-roundtrip --json"
+      ]
+    },
+    {
+      "id": "install-hook",
+      "kind": "hook",
+      "name": "RePERS Pre-Commit Hook",
+      "summary": "Installs a warn or strict pre-commit hook that runs RePERS audit before commits.",
+      "tags": [
+        "hook",
+        "pre-commit",
+        "audit",
+        "install"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py install-hook --hook-policy warn --json",
+        "python .repers/scripts/repers.py install-hook --hook-policy strict --json"
+      ],
+      "paths": [
+        "hooks/pre-commit",
+        "scripts/install_repers.py",
+        "scripts/repers.py"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py audit"
+      ]
+    },
+    {
+      "id": "task-dag",
+      "kind": "workflow",
+      "name": "Task DAG Planning and Execution",
+      "summary": "Parses plan.md into plan.json, lists ready DAG steps, dispatches parallel worker prompts, and updates step status.",
+      "tags": [
+        "dag",
+        "plan",
+        "dispatch",
+        "worker",
+        "parallel",
+        "execution"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py plan --task <task> --json",
+        "python .repers/scripts/repers.py run --task <task> --action dry-run --json",
+        "python .repers/scripts/repers.py dispatch --task <task> --json"
+      ],
+      "paths": [
+        "scripts/dag_engine.py",
+        "scripts/plan_runner.py",
+        "templates/plan.md",
+        "docs/workflow.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py fixture --action prove --json"
+      ]
+    },
+    {
+      "id": "review-release",
+      "kind": "shipping-gate",
+      "name": "Review, Shipping, and Release Gates",
+      "summary": "Validates step result contracts, writes shipping evidence, and runs release gates over review, doctor, shipping, and audit.",
+      "tags": [
+        "review",
+        "shipping",
+        "release",
+        "audit",
+        "evidence"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py review --task <task> --json",
+        "python .repers/scripts/repers.py shipping --task <task> --json",
+        "python .repers/scripts/repers.py release --task <task> --json"
+      ],
+      "paths": [
+        "scripts/reviewer.py",
+        "scripts/shipping.py",
+        "scripts/release_gate.py",
+        "docs/contracts.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py fixture --action prove --json"
+      ]
+    },
+    {
+      "id": "receiver-governance",
+      "kind": "docs",
+      "name": "Open Source Receiver Governance",
+      "summary": "Contributor, maintainer, support, security, roadmap, changelog, example, and CI surfaces expected in the package.",
+      "tags": [
+        "governance",
+        "open-source",
+        "docs",
+        "ci",
+        "examples"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py bundle-status --package --verify-roundtrip --json"
+      ],
+      "paths": [
+        "CONTRIBUTING.md",
+        "SECURITY.md",
+        "SUPPORT.md",
+        "ROADMAP.md",
+        "CHANGELOG.md",
+        "MAINTAINERS.md",
+        ".github/workflows/repers-smoke.yml",
+        "examples/basic-task/README.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py package --output dist --json"
+      ]
+    },
+    {
+      "id": "release-evidence",
+      "kind": "shipping-gate",
+      "name": "Release Evidence and Publish Readiness",
+      "summary": "Generates a machine-readable publish-readiness artifact with package, governance, capability registry, and git branch/commit/remote state.",
+      "tags": [
+        "release",
+        "publish",
+        "evidence",
+        "provenance",
+        "branch",
+        "commit",
+        "pr",
+        "package"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py release-evidence --json",
+        "python .repers/scripts/repers.py release-evidence --package --verify-roundtrip --json"
+      ],
+      "paths": [
+        "scripts/release_evidence.py",
+        "scripts/package_repers.py",
+        "docs/contracts.md",
+        "dist/repers-release-evidence.json"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py release-evidence --package --verify-roundtrip --json"
+      ]
+    },
+    {
+      "id": "receiver-fixture",
+      "kind": "harness",
+      "name": "Installed Receiver Acceptance Fixture",
+      "summary": "Installs the packaged RePERS archive into a fresh Git repository and proves receiver commands: verify-install, doctor, bundle-status, capabilities, and fixture.",
+      "tags": [
+        "receiver",
+        "install",
+        "package",
+        "acceptance",
+        "doctor",
+        "bundle-status",
+        "capabilities",
+        "fixture"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py receiver-fixture --json"
+      ],
+      "paths": [
+        "scripts/receiver_fixture.py",
+        "scripts/install_repers.py",
+        "scripts/package_repers.py",
+        "tests/smoke_repers.py"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py receiver-fixture --json"
+      ]
+    }
+  ]
+}
