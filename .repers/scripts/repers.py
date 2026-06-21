@@ -616,6 +616,30 @@ def run_continue_command(args):
         sys.exit(1)
 
 
+def run_state_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from state_report import build_state_report
+
+    state, json_path, markdown_path = build_state_report(
+        REPO_ROOT,
+        INSTALL_ROOT,
+        output_dir=args.output,
+        objective=args.objective,
+        deep=args.deep,
+    )
+    result = {
+        "state": state,
+        "path": str(Path(json_path).resolve()),
+        "markdown_path": str(Path(markdown_path).resolve()),
+    }
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not state.get("ok"):
+        sys.exit(1)
+
+
 def run_receiver_fixture_command(args):
     sys.path.append(SCRIPT_DIR)
     from receiver_fixture import prove_receiver
@@ -1112,6 +1136,12 @@ def main():
     continue_parser.add_argument("--action-id", action="append", help="Limit execution/reporting to one local continuation action id; repeatable")
     continue_parser.add_argument("--json", action="store_true")
 
+    state_parser = subparsers.add_parser("state", help="Write compact RePERS repository state artifacts")
+    state_parser.add_argument("--output", default="dist", help="Output directory for state, objective audit, and continuation artifacts")
+    state_parser.add_argument("--objective", help="Objective text to audit; defaults to the current RePERS build objective")
+    state_parser.add_argument("--deep", action="store_true", help="Run deep objective audit before writing state")
+    state_parser.add_argument("--json", action="store_true")
+
     receiver_fixture_parser = subparsers.add_parser("receiver-fixture", help="Install the package into a fresh Git repo and prove receiver commands")
     receiver_fixture_parser.add_argument("--output", default="dist", help="Output directory for the package archive")
     receiver_fixture_parser.add_argument("--verify-package-roundtrip", action="store_true", help="Also run package-level round-trip verification before receiver checks")
@@ -1206,6 +1236,8 @@ def main():
         run_objective_audit_command(args)
     elif args.command == "continue":
         run_continue_command(args)
+    elif args.command == "state":
+        run_state_command(args)
     elif args.command == "receiver-fixture":
         run_receiver_fixture_command(args)
     elif args.command == "install-hook":

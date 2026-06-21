@@ -408,6 +408,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "publish-handoff",
         "remote-bootstrap",
         "continuation-runner",
+        "state-report",
     }
 
     command_map = {item["name"]: item for item in commands}

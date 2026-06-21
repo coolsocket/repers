@@ -92,6 +92,11 @@ surface. It defaults to a dry-run report and only runs ready local actions when
 `--apply` is passed; remote setup, push, and draft PR creation remain explicit
 external steps.
 
+`state --json` is the compact repository dashboard. It writes
+`dist/repers-state.json` and `dist/repers-state.md`, combining objective status,
+Git publish readiness, package state, capability count, test evidence, and the
+next continuation actions.
+
 `receiver-fixture --json` installs the packaged archive into a fresh Git
 repository and runs receiver-side checks: `verify-install`, `doctor`,
 `bundle-status`, `capabilities`, and `fixture`. Use it before handing the

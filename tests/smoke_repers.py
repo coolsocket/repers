@@ -138,6 +138,7 @@ def test_package_archive_manifest():
     assert "remote_bootstrap_fixture" in readiness["receiver_commands"]
     assert "objective_audit" in readiness["receiver_commands"]
     assert "continue" in readiness["receiver_commands"]
+    assert "state" in readiness["receiver_commands"]
 
     archive_root = package["manifest"]["archive_root"]
     manifest_path = f"{archive_root}/repers-package-manifest.json"
@@ -163,6 +164,7 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/remote_bootstrap.py" in names
         assert f"{archive_root}/scripts/objective_audit.py" in names
         assert f"{archive_root}/scripts/continuation_runner.py" in names
+        assert f"{archive_root}/scripts/state_report.py" in names
         assert f"{archive_root}/capabilities/registry.json" in names
         assert f"{archive_root}/templates/plan.md" in names
         assert f"{archive_root}/hooks/pre-commit" in names
@@ -363,6 +365,22 @@ def test_capability_registry_and_preflight_surface():
     continuation_search = json.loads(continuation_stdout)
     assert continuation_search["ok"] is True
     assert continuation_search["entries"][0]["id"] == "continuation-runner"
+
+    state_stdout = run(
+        [
+            sys.executable,
+            str(REPERS),
+            "capabilities",
+            "--action",
+            "search",
+            "--query",
+            "repository state status dashboard publish package",
+            "--json",
+        ]
+    )
+    state_search = json.loads(state_stdout)
+    assert state_search["ok"] is True
+    assert state_search["entries"][0]["id"] == "state-report"
 
     preflight_stdout = run(
         [
@@ -630,6 +648,43 @@ def test_continue_reports_resume_actions_without_applying_by_default():
             shutil.rmtree(output_dir)
 
 
+def test_state_report_summarizes_current_repository():
+    output_dir = ROOT / ".repers-smoke-state"
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    try:
+        stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "state",
+                "--output",
+                str(output_dir),
+                "--json",
+            ]
+        )
+        result = json.loads(stdout)
+        state = result["state"]
+        state_path = Path(result["path"])
+        markdown_path = Path(result["markdown_path"])
+        assert state_path.exists()
+        assert markdown_path.exists()
+        assert state["schema"] == "repers.state_report.v1"
+        assert state["ok"] is True
+        assert state["status"] in {"complete", "blocked_external", "local_work_available", "incomplete"}
+        assert isinstance(state["objective"]["complete"], bool)
+        assert isinstance(state["objective"]["blocking_incomplete"], list)
+        assert "remote_count" in state["git"]
+        assert "ok" in state["package"]
+        assert isinstance(state["capabilities"]["missing"], list)
+        assert "local_action_id" in state["next"]
+        assert state["artifacts"]["state_json"] == str(state_path.resolve())
+        assert "RePERS State" in markdown_path.read_text(encoding="utf-8")
+    finally:
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+
+
 def test_receiver_fixture_proves_installed_package_commands():
     stdout = run([sys.executable, str(REPERS), "receiver-fixture", "--output", str(DIST), "--json"])
     fixture = json.loads(stdout)
@@ -663,6 +718,7 @@ def main():
     test_remote_bootstrap_fixture_proves_apply_path()
     test_objective_audit_reports_requirements_and_blockers()
     test_continue_reports_resume_actions_without_applying_by_default()
+    test_state_report_summarizes_current_repository()
     test_receiver_fixture_proves_installed_package_commands()
     print("installed repers smoke tests ok")
 

@@ -1,0 +1,66 @@
+{
+  "schema": "repers.state_report.v1",
+  "ok": true,
+  "generated_at": "2026-06-21T14:38:04.000948+00:00",
+  "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
+  "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
+  "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
+  "audit_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-objective-audit.json",
+  "deep": true,
+  "status": "local_work_available",
+  "objective": {
+    "complete": false,
+    "blocking_incomplete": [
+      "publication_ready"
+    ],
+    "requirements_total": 9,
+    "requirements_passed": 8
+  },
+  "git": {
+    "branch": "codex/repers-initial-package",
+    "head_sha": "fbe1b784ceb886ea917f6936b6f13bf893f5a3e2",
+    "dirty": true,
+    "status_count": 23,
+    "remote_count": 0
+  },
+  "package": {
+    "ok": true,
+    "roundtrip_ok": true,
+    "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
+    "readiness_warnings": []
+  },
+  "capabilities": {
+    "entry_count": 15,
+    "missing": []
+  },
+  "tests": {
+    "passed": true,
+    "smoke_ok": true,
+    "bundle_status_ok": true
+  },
+  "continuation": {
+    "status": "local_work_available",
+    "local_action_ids": [
+      "commit_or_clean_worktree",
+      "verify_after_publication_setup"
+    ],
+    "external_action_ids": [
+      "configure_hosted_remote",
+      "push_branch",
+      "open_draft_pr"
+    ]
+  },
+  "next": {
+    "local_action_id": "commit_or_clean_worktree",
+    "local_command": "git status --short",
+    "external_action_id": "configure_hosted_remote",
+    "external_command": "python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json"
+  },
+  "artifacts": {
+    "state_json": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-state.json",
+    "state_markdown": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-state.md",
+    "objective_audit": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-objective-audit.json",
+    "continuation_markdown": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-continuation.md",
+    "release_evidence": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-release-evidence.json"
+  }
+}

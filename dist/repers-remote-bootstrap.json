@@ -1,7 +1,7 @@
 {
   "schema": "repers.remote_bootstrap.v1",
   "ok": true,
-  "generated_at": "2026-06-21T14:27:53.570888+00:00",
+  "generated_at": "2026-06-21T14:37:51.258140+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -13,10 +13,10 @@
   },
   "git": {
     "branch": "codex/repers-initial-package",
-    "head_sha": "3a76ec7408fb278339ec37fac00eec6351795db3",
+    "head_sha": "fbe1b784ceb886ea917f6936b6f13bf893f5a3e2",
     "has_head": true,
     "dirty": true,
-    "status_count": 21,
+    "status_count": 23,
     "status_entries": [
       "M .repers/capabilities/registry.json",
       " M .repers/docs/contracts.md",
@@ -38,7 +38,9 @@
       " M dist/repers-remote-bootstrap.md",
       " M docs/planning/active-repers-build.md",
       " M tests/smoke_repers.py",
-      "?? .repers/scripts/continuation_runner.py"
+      "?? .repers/scripts/state_report.py",
+      "?? dist/repers-state.json",
+      "?? dist/repers-state.md"
     ],
     "remote_count": 0,
     "remotes": []
@@ -80,7 +82,7 @@
     {
       "id": "publish_handoff",
       "title": "Regenerate publish handoff evidence",
-      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \"Add RePERS objective continuation artifact\" --json",
+      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \"Add RePERS autonomous continuation runner\" --json",
       "status": "ready",
       "reason": "Handoff path: C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md"
     },
@@ -101,7 +103,7 @@
     {
       "id": "open_draft_pr",
       "title": "Open draft pull request",
-      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS objective continuation artifact\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS autonomous continuation runner\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
       "status": "blocked",
       "reason": "Requires GitHub CLI authentication and a pushed branch."
     }

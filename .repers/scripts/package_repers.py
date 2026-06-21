@@ -205,6 +205,7 @@ def build_readiness_manifest(archive_path, archive_sha256, file_records):
             "remote_bootstrap_fixture": "python <target-repo>/.repers/scripts/repers.py remote-bootstrap-fixture --json",
             "objective_audit": "python <target-repo>/.repers/scripts/repers.py objective-audit --json",
             "continue": "python <target-repo>/.repers/scripts/repers.py continue --json",
+            "state": "python <target-repo>/.repers/scripts/repers.py state --json",
             "package_again": "python <target-repo>/.repers/scripts/repers.py package --output dist --json",
         },
         "acceptance": [

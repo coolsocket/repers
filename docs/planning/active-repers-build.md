@@ -35,6 +35,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add local bare-remote fixture proving `remote-bootstrap --apply` and push.
 - [x] Add objective continuation actions for autonomous handoff/resume.
 - [x] Add autonomous continuation runner for ready local resume actions.
+- [x] Add compact repository state report for self-autonomous status handoff.
 
 ## Acceptance
 
@@ -108,3 +109,9 @@ audit evidence, reports local/external resume actions, and stays dry-run by
 default. `continue --apply --action-id prove_local_remote_apply --json` was
 validated against the safe local remote-bootstrap fixture action, while hosted
 remote setup, push, and draft PR creation remain explicit external steps.
+
+State report phase complete: `state --json` writes `dist/repers-state.json`
+and `dist/repers-state.md`, composing objective status, Git publication state,
+package readiness, capability count, test evidence, and next continuation
+actions. Use `state --deep --json` when the report must refresh package,
+receiver, fixture, and smoke evidence before summarizing.

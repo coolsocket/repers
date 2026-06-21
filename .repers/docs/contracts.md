@@ -764,3 +764,42 @@ Required top-level fields:
 the action id, title, command result, return code, stdout/stderr tails, and
 parsed JSON when available. `ok=false` means at least one executed local action
 failed.
+
+## State Report
+
+`state --json` writes `dist/repers-state.json` and `dist/repers-state.md`. It
+regenerates objective audit evidence and composes the current repository state
+from objective, release, package, Git, test, capability, and continuation
+records. Use `--deep` when the state report must include fresh package,
+receiver, fixture, and smoke evidence.
+
+Required top-level command fields:
+
+- `state`
+- `path`
+- `markdown_path`
+
+Required `state` fields:
+
+- `schema`: `repers.state_report.v1`
+- `ok`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `output_dir`
+- `audit_path`
+- `deep`
+- `status`
+- `objective`
+- `git`
+- `package`
+- `capabilities`
+- `tests`
+- `continuation`
+- `next`
+- `artifacts`
+
+`status` mirrors objective completion or continuation status. `next` gives the
+first ready local action and first external publication action, if present.
+`artifacts` records the JSON and Markdown state paths plus the underlying audit,
+continuation, and release evidence files.

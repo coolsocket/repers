@@ -2,7 +2,7 @@
   "schema": "repers.release_evidence.v1",
   "ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-21T14:27:53.460718+00:00",
+  "generated_at": "2026-06-21T14:37:51.157056+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -13,10 +13,10 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "3a76ec7408fb278339ec37fac00eec6351795db3",
+    "head_sha": "fbe1b784ceb886ea917f6936b6f13bf893f5a3e2",
     "has_head": true,
     "dirty": true,
-    "status_count": 21,
+    "status_count": 23,
     "status_entries": [
       "M .repers/capabilities/registry.json",
       " M .repers/docs/contracts.md",
@@ -38,7 +38,9 @@
       " M dist/repers-remote-bootstrap.md",
       " M docs/planning/active-repers-build.md",
       " M tests/smoke_repers.py",
-      "?? .repers/scripts/continuation_runner.py"
+      "?? .repers/scripts/state_report.py",
+      "?? dist/repers-state.json",
+      "?? dist/repers-state.md"
     ],
     "remote_count": 0,
     "errors": []
@@ -49,7 +51,7 @@
       {
         "path": "README.md",
         "exists": true,
-        "size_bytes": 6198
+        "size_bytes": 6448
       },
       {
         "path": "CONTRIBUTING.md",
@@ -94,7 +96,7 @@
       {
         "path": "docs/planning/active-repers-build.md",
         "exists": true,
-        "size_bytes": 5574
+        "size_bytes": 6013
       }
     ],
     "missing": []
@@ -104,7 +106,7 @@
       "schema": "repers.capability_registry_validation.v1",
       "ok": true,
       "registry_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers\\capabilities\\registry.json",
-      "entry_count": 14,
+      "entry_count": 15,
       "errors": []
     },
     "release_query": {
@@ -233,37 +235,36 @@
           "score": 30
         },
         {
-          "id": "remote-bootstrap",
+          "id": "state-report",
           "kind": "shipping-gate",
-          "name": "Remote Bootstrap Artifact",
-          "summary": "Writes provider-neutral remote setup evidence and can optionally apply git remote add before regenerating publish handoff artifacts.",
+          "name": "Repository State Report",
+          "summary": "Composes objective audit, release evidence, package readiness, Git state, and continuation actions into compact JSON and Markdown state artifacts.",
           "tags": [
-            "remote",
-            "bootstrap",
+            "state",
+            "status",
+            "dashboard",
+            "objective",
             "publish",
-            "handoff",
-            "git",
-            "setup",
-            "pr"
+            "package",
+            "continuation"
           ],
           "commands": [
-            "python .repers/scripts/repers.py remote-bootstrap --remote-url <url> --json",
-            "python .repers/scripts/repers.py remote-bootstrap --remote-url <url> --apply --json",
-            "python .repers/scripts/repers.py remote-bootstrap-fixture --json"
+            "python .repers/scripts/repers.py state --json",
+            "python .repers/scripts/repers.py state --deep --json"
           ],
           "paths": [
-            "scripts/remote_bootstrap.py",
-            "scripts/publish_handoff.py",
+            "scripts/state_report.py",
+            "scripts/objective_audit.py",
+            "scripts/release_evidence.py",
+            "scripts/repers.py",
             "docs/contracts.md",
-            "dist/repers-remote-bootstrap.json",
-            "dist/repers-remote-bootstrap.md",
-            "dist/repers-remote-bootstrap-fixture.json"
+            "dist/repers-state.json",
+            "dist/repers-state.md"
           ],
           "verification": [
-            "python .repers/scripts/repers.py remote-bootstrap --remote-url https://example.invalid/repers.git --json",
-            "python .repers/scripts/repers.py remote-bootstrap-fixture --json"
+            "python .repers/scripts/repers.py state --json"
           ],
-          "score": 13
+          "score": 27
         }
       ]
     }
@@ -272,8 +273,8 @@
     "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "f2e3f90fb4c84e62e0d52110a62f20303012e7d16f59b9eb29eb24f1e49a38ec",
-    "manifest_file_count": 47,
+    "archive_sha256": "1f071391b21cc55520be14d607783bc4bef23dc246430106a89b4493523db852",
+    "manifest_file_count": 48,
     "readiness_warnings": [],
     "roundtrip_ok": true
   }

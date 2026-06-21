@@ -1,10 +1,10 @@
 {
   "schema": "repers.package_readiness.v1",
   "version": "0.1.0",
-  "generated_at": "2026-06-21T14:27:52.962494+00:00",
+  "generated_at": "2026-06-21T14:37:50.664784+00:00",
   "source_shape": "installed_bundle",
   "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-  "archive_sha256": "f2e3f90fb4c84e62e0d52110a62f20303012e7d16f59b9eb29eb24f1e49a38ec",
+  "archive_sha256": "1f071391b21cc55520be14d607783bc4bef23dc246430106a89b4493523db852",
   "archive_sha256_scope": "final_sidecar",
   "archive_root": "repers-0.1.0",
   "package_manifest": "repers-0.1.0/repers-package-manifest.json",
@@ -42,6 +42,7 @@
     "remote_bootstrap_fixture": "python <target-repo>/.repers/scripts/repers.py remote-bootstrap-fixture --json",
     "objective_audit": "python <target-repo>/.repers/scripts/repers.py objective-audit --json",
     "continue": "python <target-repo>/.repers/scripts/repers.py continue --json",
+    "state": "python <target-repo>/.repers/scripts/repers.py state --json",
     "package_again": "python <target-repo>/.repers/scripts/repers.py package --output dist --json"
   },
   "acceptance": [

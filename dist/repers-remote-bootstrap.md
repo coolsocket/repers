@@ -1,6 +1,6 @@
 # RePERS Remote Bootstrap
 
-- Generated: `2026-06-21T14:27:53.570888+00:00`
+- Generated: `2026-06-21T14:37:51.258140+00:00`
 - Remote name: `origin`
 - Remote URL provided: `https://example.invalid/repers.git`
 - Apply requested: `False`
@@ -40,7 +40,7 @@ git remote add origin https://example.invalid/repers.git
 - Reason: Handoff path: C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
 
 ```powershell
-python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title "Add RePERS objective continuation artifact" --json
+python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title "Add RePERS autonomous continuation runner" --json
 ```
 
 ### verify_publish_ready: Verify objective audit after remote setup
@@ -67,5 +67,5 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and a pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Add RePERS objective continuation artifact" --body-file C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
+gh pr create --draft --base main --head codex/repers-initial-package --title "Add RePERS autonomous continuation runner" --body-file C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
 ```

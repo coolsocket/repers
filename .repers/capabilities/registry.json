@@ -368,6 +368,37 @@
       ]
     },
     {
+      "id": "state-report",
+      "kind": "shipping-gate",
+      "name": "Repository State Report",
+      "summary": "Composes objective audit, release evidence, package readiness, Git state, and continuation actions into compact JSON and Markdown state artifacts.",
+      "tags": [
+        "state",
+        "status",
+        "dashboard",
+        "objective",
+        "publish",
+        "package",
+        "continuation"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py state --json",
+        "python .repers/scripts/repers.py state --deep --json"
+      ],
+      "paths": [
+        "scripts/state_report.py",
+        "scripts/objective_audit.py",
+        "scripts/release_evidence.py",
+        "scripts/repers.py",
+        "docs/contracts.md",
+        "dist/repers-state.json",
+        "dist/repers-state.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py state --json"
+      ]
+    },
+    {
       "id": "receiver-fixture",
       "kind": "harness",
       "name": "Installed Receiver Acceptance Fixture",
