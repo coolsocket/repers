@@ -3,7 +3,7 @@
   "ok": true,
   "release_evidence_ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-21T05:45:42.080719+00:00",
+  "generated_at": "2026-06-21T13:42:17.122514+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -20,7 +20,7 @@
   "pull_request": {
     "base_branch": "main",
     "head_branch": "codex/repers-initial-package",
-    "title": "Add RePERS publish handoff artifacts",
+    "title": "Add RePERS objective audit gate",
     "github_cli": {
       "available": false,
       "path": null
@@ -29,27 +29,21 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "edf2a658e64a7b44e5b4a2c6d4e2e7847afbe067",
+    "head_sha": "b5ac1ce725741ab582597c3c27cdd2e502a898fc",
     "has_head": true,
     "dirty": true,
-    "status_count": 16,
+    "status_count": 10,
     "status_entries": [
-      "M .repers/capabilities/registry.json",
-      " M .repers/docs/contracts.md",
-      " M .repers/index/repers.db",
+      "M .repers/index/repers.db",
       " M .repers/manifest.json",
-      " M .repers/scripts/package_repers.py",
-      " M .repers/scripts/repers.py",
-      " M README.md",
+      " M .repers/scripts/objective_audit.py",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
+      " M dist/repers-objective-audit.json",
       " M dist/repers-publish-handoff.json",
       " M dist/repers-publish-handoff.md",
       " M dist/repers-release-evidence.json",
-      " M docs/planning/active-repers-build.md",
-      " M tests/smoke_repers.py",
-      "?? .repers/scripts/objective_audit.py",
-      "?? dist/repers-objective-audit.json"
+      " M tests/smoke_repers.py"
     ],
     "remote_count": 0,
     "errors": []
@@ -58,7 +52,7 @@
     "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "b72544af8abc4ff39888e76ba6045e8c55256bd0c3108b9526812ef0bac051e9",
+    "archive_sha256": "cb0bb405b5a93e5f5719931a1dc591cee96c2b01d823e72f9d76b3006a16e4e7",
     "manifest_file_count": 45,
     "readiness_warnings": [],
     "roundtrip_ok": true
@@ -81,7 +75,7 @@
     {
       "id": "open_draft_pr",
       "title": "Open draft pull request",
-      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS publish handoff artifacts\" --body-file <handoff-md>",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS objective audit gate\" --body-file <handoff-md>",
       "status": "blocked",
       "reason": "Requires GitHub CLI authentication and pushed branch."
     }

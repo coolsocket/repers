@@ -1,4 +1,5 @@
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -8,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REPERS = ROOT / ".repers" / "scripts" / "repers.py"
+DIST = Path(os.environ.get("REPERS_SMOKE_DIST", ROOT / "dist"))
 
 
 def run(cmd):
@@ -97,7 +99,7 @@ def test_install_manifest_verification():
 
 
 def test_package_archive_manifest():
-    stdout = run([sys.executable, str(REPERS), "package", "--output", "dist", "--json"])
+    stdout = run([sys.executable, str(REPERS), "package", "--output", str(DIST), "--json"])
     package = json.loads(stdout)
     assert package["schema"] == "repers.package.v1"
     assert package["ok"] is True
@@ -175,7 +177,7 @@ def test_package_archive_manifest():
 
 
 def test_package_roundtrip_install_from_archive():
-    stdout = run([sys.executable, str(REPERS), "package", "--output", "dist", "--json"])
+    stdout = run([sys.executable, str(REPERS), "package", "--output", str(DIST), "--json"])
     package = json.loads(stdout)
     archive_path = Path(package["archive_path"])
     archive_root = package["manifest"]["archive_root"]
@@ -221,7 +223,7 @@ def test_package_roundtrip_install_from_archive():
 
 
 def test_package_verify_roundtrip_flag():
-    stdout = run([sys.executable, str(REPERS), "package", "--output", "dist", "--verify-roundtrip", "--json"])
+    stdout = run([sys.executable, str(REPERS), "package", "--output", str(DIST), "--verify-roundtrip", "--json"])
     package = json.loads(stdout)
     assert package["schema"] == "repers.package.v1"
     assert package["ok"] is True
@@ -255,7 +257,7 @@ def test_bundle_status_with_package_roundtrip():
             "--package",
             "--verify-roundtrip",
             "--output",
-            "dist",
+            str(DIST),
             "--json",
         ]
     )
@@ -363,6 +365,8 @@ def test_release_evidence_publish_readiness_artifact():
             sys.executable,
             str(REPERS),
             "release-evidence",
+            "--output",
+            str(DIST),
             "--package",
             "--verify-roundtrip",
             "--json",
@@ -473,7 +477,7 @@ def test_objective_audit_reports_requirements_and_blockers():
 
 
 def test_receiver_fixture_proves_installed_package_commands():
-    stdout = run([sys.executable, str(REPERS), "receiver-fixture", "--json"])
+    stdout = run([sys.executable, str(REPERS), "receiver-fixture", "--output", str(DIST), "--json"])
     fixture = json.loads(stdout)
     assert fixture["schema"] == "repers.receiver_fixture.v1"
     assert fixture["ok"] is True

@@ -1,5 +1,7 @@
 import json
+import os
 import subprocess
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -16,8 +18,8 @@ DEFAULT_OBJECTIVE = (
 )
 
 
-def command_result(name, command, cwd):
-    proc = subprocess.run(command, cwd=cwd, capture_output=True, text=True)
+def command_result(name, command, cwd, env=None):
+    proc = subprocess.run(command, cwd=cwd, capture_output=True, text=True, env=env)
     parsed = None
     if proc.stdout.strip():
         try:
@@ -94,7 +96,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         commands.append(
             command_result(
                 "receiver_fixture",
-                ["python", "-B", str(repers), "receiver-fixture", "--json"],
+                ["python", "-B", str(repers), "receiver-fixture", "--output", str(output), "--json"],
                 workspace,
             )
         )
@@ -110,6 +112,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
                 "smoke_tests",
                 ["python", "-B", str(workspace / "tests" / "smoke_repers.py")],
                 workspace,
+                env={**os.environ, "REPERS_SMOKE_DIST": tempfile.mkdtemp(prefix="repers-objective-smoke-")},
             )
         )
 
