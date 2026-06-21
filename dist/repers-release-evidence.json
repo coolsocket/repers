@@ -2,7 +2,7 @@
   "schema": "repers.release_evidence.v1",
   "ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-21T13:44:16.251669+00:00",
+  "generated_at": "2026-06-21T13:54:49.823438+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -13,18 +13,29 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "2e2596d06c5fefae70536ac9b7ddfc8c78536b86",
+    "head_sha": "b55b704f61c1ec367de0f9ba4d531d010e760e86",
     "has_head": true,
     "dirty": true,
-    "status_count": 7,
+    "status_count": 18,
     "status_entries": [
-      "M .repers/index/repers.db",
+      "M .repers/capabilities/registry.json",
+      " M .repers/docs/contracts.md",
+      " M .repers/index/repers.db",
       " M .repers/manifest.json",
       " M .repers/scripts/objective_audit.py",
+      " M .repers/scripts/package_repers.py",
       " M .repers/scripts/repers.py",
+      " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
-      " M dist/repers-release-evidence.json"
+      " M dist/repers-publish-handoff.json",
+      " M dist/repers-publish-handoff.md",
+      " M dist/repers-release-evidence.json",
+      " M docs/planning/active-repers-build.md",
+      " M tests/smoke_repers.py",
+      "?? .repers/scripts/remote_bootstrap.py",
+      "?? dist/repers-remote-bootstrap.json",
+      "?? dist/repers-remote-bootstrap.md"
     ],
     "remote_count": 0,
     "errors": []
@@ -35,7 +46,7 @@
       {
         "path": "README.md",
         "exists": true,
-        "size_bytes": 4893
+        "size_bytes": 5363
       },
       {
         "path": "CONTRIBUTING.md",
@@ -80,7 +91,7 @@
       {
         "path": "docs/planning/active-repers-build.md",
         "exists": true,
-        "size_bytes": 3896
+        "size_bytes": 4372
       }
     ],
     "missing": []
@@ -90,7 +101,7 @@
       "schema": "repers.capability_registry_validation.v1",
       "ok": true,
       "registry_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers\\capabilities\\registry.json",
-      "entry_count": 12,
+      "entry_count": 13,
       "errors": []
     },
     "release_query": {
@@ -219,33 +230,34 @@
           "score": 30
         },
         {
-          "id": "receiver-fixture",
-          "kind": "harness",
-          "name": "Installed Receiver Acceptance Fixture",
-          "summary": "Installs the packaged RePERS archive into a fresh Git repository and proves receiver commands: verify-install, doctor, bundle-status, capabilities, and fixture.",
+          "id": "remote-bootstrap",
+          "kind": "shipping-gate",
+          "name": "Remote Bootstrap Artifact",
+          "summary": "Writes provider-neutral remote setup evidence and can optionally apply git remote add before regenerating publish handoff artifacts.",
           "tags": [
-            "receiver",
-            "install",
-            "package",
-            "acceptance",
-            "doctor",
-            "bundle-status",
-            "capabilities",
-            "fixture"
+            "remote",
+            "bootstrap",
+            "publish",
+            "handoff",
+            "git",
+            "setup",
+            "pr"
           ],
           "commands": [
-            "python .repers/scripts/repers.py receiver-fixture --json"
+            "python .repers/scripts/repers.py remote-bootstrap --remote-url <url> --json",
+            "python .repers/scripts/repers.py remote-bootstrap --remote-url <url> --apply --json"
           ],
           "paths": [
-            "scripts/receiver_fixture.py",
-            "scripts/install_repers.py",
-            "scripts/package_repers.py",
-            "tests/smoke_repers.py"
+            "scripts/remote_bootstrap.py",
+            "scripts/publish_handoff.py",
+            "docs/contracts.md",
+            "dist/repers-remote-bootstrap.json",
+            "dist/repers-remote-bootstrap.md"
           ],
           "verification": [
-            "python .repers/scripts/repers.py receiver-fixture --json"
+            "python .repers/scripts/repers.py remote-bootstrap --remote-url https://example.invalid/repers.git --json"
           ],
-          "score": 12
+          "score": 13
         }
       ]
     }
@@ -254,8 +266,8 @@
     "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "fea398f7799a46670551393a74f29e1d38796bbc4ca4bee63e755e8137876cd5",
-    "manifest_file_count": 45,
+    "archive_sha256": "9bed1044af463a8fb41f51c7b3d87d30da46fcace189c0589e3573f032b98ca5",
+    "manifest_file_count": 46,
     "readiness_warnings": [],
     "roundtrip_ok": true
   }

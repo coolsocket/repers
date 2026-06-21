@@ -1,0 +1,96 @@
+{
+  "schema": "repers.remote_bootstrap.v1",
+  "ok": true,
+  "generated_at": "2026-06-21T13:54:49.924483+00:00",
+  "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
+  "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
+  "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
+  "remote": {
+    "name": "origin",
+    "provided_url": "https://example.invalid/repers.git",
+    "records": [],
+    "named_remote_urls": []
+  },
+  "git": {
+    "branch": "codex/repers-initial-package",
+    "head_sha": "b55b704f61c1ec367de0f9ba4d531d010e760e86",
+    "has_head": true,
+    "dirty": true,
+    "status_count": 18,
+    "remote_count": 0,
+    "remotes": []
+  },
+  "applied": {
+    "requested": false,
+    "ok": true,
+    "changed": false,
+    "remote_name": "origin",
+    "remote_url": "https://example.invalid/repers.git",
+    "actions": [],
+    "errors": []
+  },
+  "publish_handoff": {
+    "ok": true,
+    "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.json",
+    "markdown_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
+    "publish_ready": false,
+    "missing_for_publish": [
+      "commit or intentionally exclude working tree changes",
+      "configure a Git remote before opening a PR"
+    ]
+  },
+  "actions": [
+    {
+      "id": "inspect_remotes",
+      "title": "Inspect current Git remotes",
+      "command": "git remote -v",
+      "status": "done",
+      "reason": "Remote state was inspected before generating this bootstrap artifact."
+    },
+    {
+      "id": "add_remote",
+      "title": "Configure publication remote",
+      "command": "git remote add origin https://example.invalid/repers.git",
+      "status": "ready",
+      "reason": "Remote URL was provided."
+    },
+    {
+      "id": "publish_handoff",
+      "title": "Regenerate publish handoff evidence",
+      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \"Isolate RePERS objective audit temp state\" --json",
+      "status": "ready",
+      "reason": "Handoff path: C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md"
+    },
+    {
+      "id": "verify_publish_ready",
+      "title": "Verify objective audit after remote setup",
+      "command": "python .repers/scripts/repers.py objective-audit --deep --json",
+      "status": "ready",
+      "reason": "Run after the remote is configured and publish handoff is refreshed."
+    },
+    {
+      "id": "push_branch",
+      "title": "Push release branch",
+      "command": "git push -u origin codex/repers-initial-package",
+      "status": "blocked",
+      "reason": "Commit or intentionally exclude working tree changes first."
+    },
+    {
+      "id": "open_draft_pr",
+      "title": "Open draft pull request",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Isolate RePERS objective audit temp state\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
+      "status": "blocked",
+      "reason": "Requires GitHub CLI authentication and a pushed branch."
+    }
+  ],
+  "safety": {
+    "executes_push": false,
+    "opens_pull_request": false,
+    "mutates_git_remote_by_default": false,
+    "mutates_git_remote": false,
+    "requires_apply_for_remote_mutation": true,
+    "overwrites_existing_remote": false
+  },
+  "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-remote-bootstrap.json",
+  "markdown_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-remote-bootstrap.md"
+}

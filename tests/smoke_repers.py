@@ -134,6 +134,7 @@ def test_package_archive_manifest():
     assert "fixture_prove" in readiness["receiver_commands"]
     assert "receiver_fixture" in readiness["receiver_commands"]
     assert "publish_handoff" in readiness["receiver_commands"]
+    assert "remote_bootstrap" in readiness["receiver_commands"]
     assert "objective_audit" in readiness["receiver_commands"]
 
     archive_root = package["manifest"]["archive_root"]
@@ -157,6 +158,7 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/receiver_fixture.py" in names
         assert f"{archive_root}/scripts/release_evidence.py" in names
         assert f"{archive_root}/scripts/publish_handoff.py" in names
+        assert f"{archive_root}/scripts/remote_bootstrap.py" in names
         assert f"{archive_root}/scripts/objective_audit.py" in names
         assert f"{archive_root}/capabilities/registry.json" in names
         assert f"{archive_root}/templates/plan.md" in names
@@ -435,6 +437,58 @@ def test_publish_handoff_artifact_is_non_destructive():
             shutil.rmtree(output_dir)
 
 
+def test_remote_bootstrap_artifact_is_non_destructive():
+    output_dir = ROOT / ".repers-smoke-remote-bootstrap"
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    before = subprocess.run(["git", "remote", "-v"], cwd=ROOT, capture_output=True, text=True)
+    try:
+        stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "remote-bootstrap",
+                "--output",
+                str(output_dir),
+                "--remote-url",
+                "https://example.invalid/repo.git",
+                "--base-branch",
+                "main",
+                "--pr-title",
+                "RePERS smoke bootstrap",
+                "--json",
+            ]
+        )
+        after = subprocess.run(["git", "remote", "-v"], cwd=ROOT, capture_output=True, text=True)
+        assert before.stdout == after.stdout
+        result = json.loads(stdout)
+        bootstrap = result["remote_bootstrap"]
+        bootstrap_path = Path(result["path"])
+        markdown_path = Path(result["markdown_path"])
+        assert bootstrap_path.exists()
+        assert markdown_path.exists()
+        assert bootstrap["schema"] == "repers.remote_bootstrap.v1"
+        assert bootstrap["ok"] is True
+        assert bootstrap["remote"]["provided_url"] == "https://example.invalid/repo.git"
+        assert bootstrap["applied"]["requested"] is False
+        assert bootstrap["applied"]["changed"] is False
+        assert bootstrap["safety"]["mutates_git_remote_by_default"] is False
+        assert bootstrap["safety"]["mutates_git_remote"] is False
+        assert bootstrap["safety"]["executes_push"] is False
+        assert bootstrap["safety"]["opens_pull_request"] is False
+        assert bootstrap["publish_handoff"]["ok"] is True
+        action_ids = {action["id"] for action in bootstrap["actions"]}
+        assert {"add_remote", "publish_handoff", "push_branch", "open_draft_pr"} <= action_ids
+        written = json.loads(bootstrap_path.read_text(encoding="utf-8"))
+        assert written["schema"] == "repers.remote_bootstrap.v1"
+        markdown = markdown_path.read_text(encoding="utf-8")
+        assert "git remote add origin https://example.invalid/repo.git" in markdown
+        assert "gh pr create --draft" in markdown
+    finally:
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+
+
 def test_objective_audit_reports_requirements_and_blockers():
     output_dir = ROOT / ".repers-smoke-objective-audit"
     if output_dir.exists():
@@ -504,6 +558,7 @@ def main():
     test_capability_registry_and_preflight_surface()
     test_release_evidence_publish_readiness_artifact()
     test_publish_handoff_artifact_is_non_destructive()
+    test_remote_bootstrap_artifact_is_non_destructive()
     test_objective_audit_reports_requirements_and_blockers()
     test_receiver_fixture_proves_installed_package_commands()
     print("installed repers smoke tests ok")

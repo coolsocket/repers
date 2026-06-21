@@ -621,11 +621,44 @@ command does not mutate Git remotes, push branches, or open pull requests.
 `release_evidence_ok` and `publish_ready` to decide whether the repository is
 ready to execute the generated commands.
 
+## Remote Bootstrap
+
+`remote-bootstrap --json` writes `dist/repers-remote-bootstrap.json` and
+`dist/repers-remote-bootstrap.md`. By default it is non-destructive: it
+generates remote setup and publication commands, then regenerates publish
+handoff evidence. Pass `--apply --remote-url <url>` to run `git remote add`;
+the command refuses to overwrite an existing named remote with a different URL.
+
+Required top-level command fields:
+
+- `remote_bootstrap`
+- `path`
+- `markdown_path`
+
+Required `remote_bootstrap` fields:
+
+- `schema`: `repers.remote_bootstrap.v1`
+- `ok`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `output_dir`
+- `remote`
+- `git`
+- `applied`
+- `publish_handoff`
+- `actions`
+- `safety`
+
+`applied.requested=false` means no Git remote mutation was attempted. Safety
+must record that the command does not push branches or open pull requests, and
+that remote mutation requires `--apply`.
+
 ## Objective Audit
 
 `objective-audit --json` writes `dist/repers-objective-audit.json`. Use
-`--deep` to run package, receiver, publish handoff, and smoke checks before
-auditing.
+`--deep` to run package, receiver, publish handoff, remote bootstrap, and smoke
+checks before auditing.
 
 Required top-level command fields:
 

@@ -1,8 +1,8 @@
 # RePERS Publish Handoff
 
-- Generated: `2026-06-21T13:44:16.270737+00:00`
+- Generated: `2026-06-21T13:54:49.825982+00:00`
 - Branch: `codex/repers-initial-package`
-- Commit: `2e2596d06c5fefae70536ac9b7ddfc8c78536b86`
+- Commit: `b55b704f61c1ec367de0f9ba4d531d010e760e86`
 - Clean tree: `False`
 - Publish ready: `False`
 
@@ -15,11 +15,11 @@
 
 ### add_remote: Configure Git remote
 
-- Status: `blocked`
-- Reason: No remote is configured; provide --remote-url or add one manually.
+- Status: `ready`
+- Reason: Remote URL was provided.
 
 ```powershell
-git remote add origin <remote-url>
+git remote add origin https://example.invalid/repers.git
 ```
 
 ### push_branch: Push release branch
@@ -37,13 +37,13 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Make objective audit temp output clean" --body-file <handoff-md>
+gh pr create --draft --base main --head codex/repers-initial-package --title "Isolate RePERS objective audit temp state" --body-file <handoff-md>
 ```
 
 ## Package
 
 - Archive: `C:\Users\Administrator\Documents\RePERS\dist\repers-0.1.0.zip`
-- SHA-256: `fea398f7799a46670551393a74f29e1d38796bbc4ca4bee63e755e8137876cd5`
+- SHA-256: `9bed1044af463a8fb41f51c7b3d87d30da46fcace189c0589e3573f032b98ca5`
 - Round trip: `True`
 
 This handoff is intentionally non-destructive. It records the commands

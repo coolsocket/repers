@@ -16,6 +16,7 @@ python .repers\scripts\repers.py fixture --action prove --json
 python .repers\scripts\repers.py receiver-fixture --json
 python .repers\scripts\repers.py release-evidence --package --verify-roundtrip --json
 python .repers\scripts\repers.py publish-handoff --package --verify-roundtrip --json
+python .repers\scripts\repers.py remote-bootstrap --remote-url <remote-url> --json
 python .repers\scripts\repers.py objective-audit --deep --json
 python .repers\scripts\repers.py package --output dist --json
 python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
@@ -61,6 +62,13 @@ checks are valid.
 turns release evidence into a non-destructive remote/push/draft-PR checklist so
 another agent or maintainer can finish publication without relying on chat
 history.
+
+`remote-bootstrap --remote-url <remote-url> --json` writes
+`dist/repers-remote-bootstrap.json` and `dist/repers-remote-bootstrap.md`. By
+default it does not change Git state; it records the remote setup, publish
+handoff, objective audit, push, and draft PR commands. Add `--apply` only when
+you want it to run `git remote add`; existing remotes with different URLs are
+not overwritten.
 
 `objective-audit --deep --json` writes `dist/repers-objective-audit.json`. It
 checks the whole repository against the RePERS end-state: installability,

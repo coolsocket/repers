@@ -109,6 +109,25 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         )
         commands.append(
             command_result(
+                "remote_bootstrap",
+                [
+                    "python",
+                    "-B",
+                    str(repers),
+                    "remote-bootstrap",
+                    "--remote-url",
+                    "https://example.invalid/repers.git",
+                    "--package",
+                    "--verify-roundtrip",
+                    "--output",
+                    str(output),
+                    "--json",
+                ],
+                workspace,
+            )
+        )
+        commands.append(
+            command_result(
                 "smoke_tests",
                 ["python", "-B", str(workspace / "tests" / "smoke_repers.py")],
                 workspace,
@@ -123,6 +142,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
     readiness = load_json(output / "repers-0.1.0-readiness.json")
     release_evidence = load_json(output / "repers-release-evidence.json")
     publish_handoff = load_json(output / "repers-publish-handoff.json")
+    remote_bootstrap = load_json(output / "repers-remote-bootstrap.json")
     registry = load_json(install / "capabilities" / "registry.json")
     manifest = load_json(install / "manifest.json")
     study_path = install / "docs" / "open-source-structure-study.md"
@@ -157,12 +177,14 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "release-evidence",
         "receiver-fixture",
         "publish-handoff",
+        "remote-bootstrap",
     }
 
     command_map = {item["name"]: item for item in commands}
     bundle_status = command_map.get("bundle_status_package_roundtrip", {}).get("json")
     receiver_fixture = command_map.get("receiver_fixture", {}).get("json")
     publish_handoff_json = command_map.get("publish_handoff", {}).get("json", {})
+    remote_bootstrap_json = command_map.get("remote_bootstrap", {}).get("json", {})
     smoke = command_map.get("smoke_tests")
 
     package_ok = bool(readiness and readiness.get("ok") and not readiness.get("warnings"))
@@ -171,6 +193,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
 
     receiver_ok = bool(receiver_fixture and receiver_fixture.get("ok")) if deep else Path(workspace / "dist" / "repers-0.1.0.zip").exists()
     handoff = publish_handoff_json.get("publish_handoff") if publish_handoff_json else publish_handoff
+    bootstrap = remote_bootstrap_json.get("remote_bootstrap") if remote_bootstrap_json else remote_bootstrap
     release = release_evidence or {}
     git = handoff.get("git", {}) if isinstance(handoff, dict) else release.get("git", {})
     missing_for_publish = handoff.get("missing_for_publish", []) if isinstance(handoff, dict) else release.get("missing_for_publish", [])
@@ -238,13 +261,16 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         ),
         audit_requirement(
             "verified_without_chat_history",
-            "Repo carries machine-readable release, package, receiver, and publish handoff evidence.",
-            bool(readiness and release_evidence and publish_handoff),
+            "Repo carries machine-readable release, package, receiver, publish handoff, and remote bootstrap evidence.",
+            bool(readiness and release_evidence and publish_handoff and remote_bootstrap),
             {
                 "readiness": file_record(output, "repers-0.1.0-readiness.json"),
                 "release_evidence": file_record(output, "repers-release-evidence.json"),
                 "publish_handoff": file_record(output, "repers-publish-handoff.json"),
                 "publish_handoff_markdown": file_record(output, "repers-publish-handoff.md"),
+                "remote_bootstrap": file_record(output, "repers-remote-bootstrap.json"),
+                "remote_bootstrap_markdown": file_record(output, "repers-remote-bootstrap.md"),
+                "remote_bootstrap_ok": bootstrap.get("ok") if isinstance(bootstrap, dict) else None,
             },
         ),
         audit_requirement(

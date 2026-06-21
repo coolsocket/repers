@@ -528,6 +528,35 @@ def run_publish_handoff_command(args):
         sys.exit(1)
 
 
+def run_remote_bootstrap_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from remote_bootstrap import create_remote_bootstrap
+
+    bootstrap, json_path, md_path = create_remote_bootstrap(
+        REPO_ROOT,
+        INSTALL_ROOT,
+        output_dir=args.output,
+        remote_name=args.remote_name,
+        remote_url=args.remote_url,
+        base_branch=args.base_branch,
+        pr_title=args.pr_title,
+        include_package=args.package,
+        verify_roundtrip=args.verify_roundtrip,
+        apply=args.apply,
+    )
+    result = {
+        "remote_bootstrap": bootstrap,
+        "path": str(Path(json_path).resolve()),
+        "markdown_path": str(Path(md_path).resolve()),
+    }
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not bootstrap.get("ok"):
+        sys.exit(1)
+
+
 def run_objective_audit_command(args):
     sys.path.append(SCRIPT_DIR)
     from objective_audit import DEFAULT_OBJECTIVE, build_objective_audit
@@ -1015,6 +1044,17 @@ def main():
     publish_handoff_parser.add_argument("--verify-roundtrip", action="store_true", help="When --package is used, verify package round-trip install")
     publish_handoff_parser.add_argument("--json", action="store_true")
 
+    remote_bootstrap_parser = subparsers.add_parser("remote-bootstrap", help="Write or optionally apply remote setup and publish handoff artifacts")
+    remote_bootstrap_parser.add_argument("--output", default="dist", help="Output directory for remote bootstrap artifacts")
+    remote_bootstrap_parser.add_argument("--remote-name", default="origin", help="Remote name to configure or describe")
+    remote_bootstrap_parser.add_argument("--remote-url", help="Remote URL to include in generated commands or apply with --apply")
+    remote_bootstrap_parser.add_argument("--base-branch", default="main", help="Base branch for generated draft PR command")
+    remote_bootstrap_parser.add_argument("--pr-title", help="Optional draft PR title; defaults to the latest commit subject")
+    remote_bootstrap_parser.add_argument("--package", action="store_true", help="Create package evidence before writing the handoff")
+    remote_bootstrap_parser.add_argument("--verify-roundtrip", action="store_true", help="When --package is used, verify package round-trip install")
+    remote_bootstrap_parser.add_argument("--apply", action="store_true", help="Actually run git remote add when --remote-url is provided")
+    remote_bootstrap_parser.add_argument("--json", action="store_true")
+
     objective_audit_parser = subparsers.add_parser("objective-audit", help="Audit RePERS against the full repository objective")
     objective_audit_parser.add_argument("--output", default="dist", help="Output directory for objective audit artifacts")
     objective_audit_parser.add_argument("--objective", help="Objective text to audit; defaults to the current RePERS build objective")
@@ -1107,6 +1147,8 @@ def main():
         run_release_evidence_command(args)
     elif args.command == "publish-handoff":
         run_publish_handoff_command(args)
+    elif args.command == "remote-bootstrap":
+        run_remote_bootstrap_command(args)
     elif args.command == "objective-audit":
         run_objective_audit_command(args)
     elif args.command == "receiver-fixture":

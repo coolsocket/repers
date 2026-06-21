@@ -31,6 +31,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add installed receiver acceptance fixture.
 - [x] Add non-destructive publish handoff artifacts for remote/push/PR steps.
 - [x] Add objective completion audit with deep evidence gates.
+- [x] Add remote bootstrap artifact and optional `git remote add` apply path.
 
 ## Acceptance
 
@@ -80,3 +81,10 @@ current evidence. The deep audit proves the local repository, receiver install,
 capability registry, orchestration fixture, 10-repository structure study,
 tests/package gates, and chat-free evidence. It correctly leaves
 `publication_ready` incomplete until a Git remote exists.
+
+Remote bootstrap phase complete: `remote-bootstrap --remote-url <url> --json`
+writes `dist/repers-remote-bootstrap.json` and
+`dist/repers-remote-bootstrap.md`, regenerates publish handoff evidence, and
+keeps Git state unchanged unless `--apply` is explicitly passed. This gives the
+next maintainer a concrete local command for the only remaining external step:
+configuring the publication remote.

@@ -276,6 +276,35 @@
       ]
     },
     {
+      "id": "remote-bootstrap",
+      "kind": "shipping-gate",
+      "name": "Remote Bootstrap Artifact",
+      "summary": "Writes provider-neutral remote setup evidence and can optionally apply git remote add before regenerating publish handoff artifacts.",
+      "tags": [
+        "remote",
+        "bootstrap",
+        "publish",
+        "handoff",
+        "git",
+        "setup",
+        "pr"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py remote-bootstrap --remote-url <url> --json",
+        "python .repers/scripts/repers.py remote-bootstrap --remote-url <url> --apply --json"
+      ],
+      "paths": [
+        "scripts/remote_bootstrap.py",
+        "scripts/publish_handoff.py",
+        "docs/contracts.md",
+        "dist/repers-remote-bootstrap.json",
+        "dist/repers-remote-bootstrap.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py remote-bootstrap --remote-url https://example.invalid/repers.git --json"
+      ]
+    },
+    {
       "id": "objective-audit",
       "kind": "shipping-gate",
       "name": "Objective Completion Audit",
