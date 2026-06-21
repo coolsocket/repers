@@ -32,6 +32,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add non-destructive publish handoff artifacts for remote/push/PR steps.
 - [x] Add objective completion audit with deep evidence gates.
 - [x] Add remote bootstrap artifact and optional `git remote add` apply path.
+- [x] Add local bare-remote fixture proving `remote-bootstrap --apply` and push.
 
 ## Acceptance
 
@@ -88,3 +89,9 @@ writes `dist/repers-remote-bootstrap.json` and
 keeps Git state unchanged unless `--apply` is explicitly passed. This gives the
 next maintainer a concrete local command for the only remaining external step:
 configuring the publication remote.
+
+Remote apply fixture phase complete: `remote-bootstrap-fixture --json` creates
+a temporary Git target, installs RePERS, creates a local bare remote, runs
+`remote-bootstrap --apply`, and pushes to that bare remote. This proves the
+remote mutation and branch push mechanics without requiring a hosted Git
+provider.

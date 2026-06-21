@@ -135,6 +135,7 @@ def test_package_archive_manifest():
     assert "receiver_fixture" in readiness["receiver_commands"]
     assert "publish_handoff" in readiness["receiver_commands"]
     assert "remote_bootstrap" in readiness["receiver_commands"]
+    assert "remote_bootstrap_fixture" in readiness["receiver_commands"]
     assert "objective_audit" in readiness["receiver_commands"]
 
     archive_root = package["manifest"]["archive_root"]
@@ -489,6 +490,46 @@ def test_remote_bootstrap_artifact_is_non_destructive():
             shutil.rmtree(output_dir)
 
 
+def test_remote_bootstrap_fixture_proves_apply_path():
+    output_dir = ROOT / ".repers-smoke-remote-bootstrap-fixture"
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    try:
+        stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "remote-bootstrap-fixture",
+                "--output",
+                str(output_dir),
+                "--json",
+            ]
+        )
+        result = json.loads(stdout)
+        fixture = result["remote_bootstrap_fixture"]
+        fixture_path = Path(result["path"])
+        assert fixture_path.exists()
+        assert fixture["schema"] == "repers.remote_bootstrap_apply_fixture.v1"
+        assert fixture["ok"] is True
+        assert fixture["errors"] == []
+        assert fixture["checks"]["remote_bootstrap_apply"]["json"]["remote_bootstrap"]["applied"]["changed"] is True
+        assert fixture["checks"]["remote_bootstrap_apply"]["json"]["remote_bootstrap"]["safety"]["mutates_git_remote"] is True
+        assert fixture["checks"]["remote_bootstrap_apply"]["json"]["remote_bootstrap"]["git"]["dirty"] is False
+        action_by_id = {
+            action["id"]: action
+            for action in fixture["checks"]["remote_bootstrap_apply"]["json"]["remote_bootstrap"]["actions"]
+        }
+        assert action_by_id["push_branch"]["status"] == "ready"
+        assert fixture["checks"]["remote_url"]["ok"] is True
+        assert fixture["checks"]["local_push"]["ok"] is True
+        assert fixture["checks"]["bare_remote_refs"]["ok"] is True
+        written = json.loads(fixture_path.read_text(encoding="utf-8"))
+        assert written["schema"] == "repers.remote_bootstrap_apply_fixture.v1"
+    finally:
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+
+
 def test_objective_audit_reports_requirements_and_blockers():
     output_dir = ROOT / ".repers-smoke-objective-audit"
     if output_dir.exists():
@@ -520,6 +561,7 @@ def test_objective_audit_reports_requirements_and_blockers():
             "open_source_structure_research",
             "tests_and_package_gates",
             "verified_without_chat_history",
+            "local_remote_bootstrap_apply",
             "publication_ready",
         } <= requirement_ids
         assert any(item["id"] == "publication_ready" for item in audit["requirements"])
@@ -542,6 +584,7 @@ def test_receiver_fixture_proves_installed_package_commands():
     assert fixture["checks"]["capabilities_validate"]["json"]["ok"] is True
     assert fixture["checks"]["capabilities_search"]["json"]["entries"][0]["id"] == "orchestration-fixture"
     assert fixture["checks"]["fixture_prove"]["json"]["ok"] is True
+    assert fixture["checks"]["remote_bootstrap_fixture"]["json"]["remote_bootstrap_fixture"]["ok"] is True
 
 
 def main():
@@ -559,6 +602,7 @@ def main():
     test_release_evidence_publish_readiness_artifact()
     test_publish_handoff_artifact_is_non_destructive()
     test_remote_bootstrap_artifact_is_non_destructive()
+    test_remote_bootstrap_fixture_proves_apply_path()
     test_objective_audit_reports_requirements_and_blockers()
     test_receiver_fixture_proves_installed_package_commands()
     print("installed repers smoke tests ok")

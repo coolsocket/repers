@@ -264,17 +264,22 @@ fi
 
 def ensure_gitignore(target_root):
     gitignore_path = target_root / ".gitignore"
-    block = """# RePERS
-.repers/**/__pycache__/
-.repers/**/*.pyc
-repers_tasks/**/__pycache__/
-repers_tasks/**/*.pyc
-"""
     existing = gitignore_path.read_text(encoding="utf-8") if gitignore_path.exists() else ""
-    if ".repers/**/__pycache__/" in existing:
+    lines = [
+        "# RePERS",
+        ".repers/**/__pycache__/",
+        ".repers/**/*.pyc",
+        "repers_tasks/**/__pycache__/",
+        "repers_tasks/**/*.pyc",
+        "tests/**/__pycache__/",
+        "tests/**/*.pyc",
+        "docs/goal/**/.goal-machine/",
+    ]
+    missing = [line for line in lines if line not in existing.splitlines()]
+    if not missing:
         return gitignore_path
     separator = "" if not existing or existing.endswith("\n") else "\n"
-    gitignore_path.write_text(existing + separator + block, encoding="utf-8")
+    gitignore_path.write_text(existing + separator + "\n".join(missing) + "\n", encoding="utf-8")
     return gitignore_path
 
 

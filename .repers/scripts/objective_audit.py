@@ -128,6 +128,13 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         )
         commands.append(
             command_result(
+                "remote_bootstrap_fixture",
+                ["python", "-B", str(repers), "remote-bootstrap-fixture", "--output", str(output), "--json"],
+                workspace,
+            )
+        )
+        commands.append(
+            command_result(
                 "smoke_tests",
                 ["python", "-B", str(workspace / "tests" / "smoke_repers.py")],
                 workspace,
@@ -143,6 +150,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
     release_evidence = load_json(output / "repers-release-evidence.json")
     publish_handoff = load_json(output / "repers-publish-handoff.json")
     remote_bootstrap = load_json(output / "repers-remote-bootstrap.json")
+    remote_bootstrap_fixture = load_json(output / "repers-remote-bootstrap-fixture.json")
     registry = load_json(install / "capabilities" / "registry.json")
     manifest = load_json(install / "manifest.json")
     study_path = install / "docs" / "open-source-structure-study.md"
@@ -185,6 +193,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
     receiver_fixture = command_map.get("receiver_fixture", {}).get("json")
     publish_handoff_json = command_map.get("publish_handoff", {}).get("json", {})
     remote_bootstrap_json = command_map.get("remote_bootstrap", {}).get("json", {})
+    remote_bootstrap_fixture_json = command_map.get("remote_bootstrap_fixture", {}).get("json", {})
     smoke = command_map.get("smoke_tests")
 
     package_ok = bool(readiness and readiness.get("ok") and not readiness.get("warnings"))
@@ -194,6 +203,11 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
     receiver_ok = bool(receiver_fixture and receiver_fixture.get("ok")) if deep else Path(workspace / "dist" / "repers-0.1.0.zip").exists()
     handoff = publish_handoff_json.get("publish_handoff") if publish_handoff_json else publish_handoff
     bootstrap = remote_bootstrap_json.get("remote_bootstrap") if remote_bootstrap_json else remote_bootstrap
+    bootstrap_fixture = (
+        remote_bootstrap_fixture_json.get("remote_bootstrap_fixture")
+        if remote_bootstrap_fixture_json
+        else remote_bootstrap_fixture
+    )
     release = release_evidence or {}
     git = handoff.get("git", {}) if isinstance(handoff, dict) else release.get("git", {})
     missing_for_publish = handoff.get("missing_for_publish", []) if isinstance(handoff, dict) else release.get("missing_for_publish", [])
@@ -271,6 +285,21 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
                 "remote_bootstrap": file_record(output, "repers-remote-bootstrap.json"),
                 "remote_bootstrap_markdown": file_record(output, "repers-remote-bootstrap.md"),
                 "remote_bootstrap_ok": bootstrap.get("ok") if isinstance(bootstrap, dict) else None,
+            },
+        ),
+        audit_requirement(
+            "local_remote_bootstrap_apply",
+            "Remote bootstrap apply path is proven against a temporary local bare remote.",
+            bool(bootstrap_fixture and bootstrap_fixture.get("ok")),
+            {
+                "deep_check": bool(deep),
+                "fixture": file_record(output, "repers-remote-bootstrap-fixture.json"),
+                "fixture_ok": bootstrap_fixture.get("ok") if isinstance(bootstrap_fixture, dict) else None,
+                "local_push_ok": (
+                    bootstrap_fixture.get("checks", {}).get("local_push", {}).get("ok")
+                    if isinstance(bootstrap_fixture, dict)
+                    else None
+                ),
             },
         ),
         audit_requirement(

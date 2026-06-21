@@ -291,17 +291,20 @@
       ],
       "commands": [
         "python .repers/scripts/repers.py remote-bootstrap --remote-url <url> --json",
-        "python .repers/scripts/repers.py remote-bootstrap --remote-url <url> --apply --json"
+        "python .repers/scripts/repers.py remote-bootstrap --remote-url <url> --apply --json",
+        "python .repers/scripts/repers.py remote-bootstrap-fixture --json"
       ],
       "paths": [
         "scripts/remote_bootstrap.py",
         "scripts/publish_handoff.py",
         "docs/contracts.md",
         "dist/repers-remote-bootstrap.json",
-        "dist/repers-remote-bootstrap.md"
+        "dist/repers-remote-bootstrap.md",
+        "dist/repers-remote-bootstrap-fixture.json"
       ],
       "verification": [
-        "python .repers/scripts/repers.py remote-bootstrap --remote-url https://example.invalid/repers.git --json"
+        "python .repers/scripts/repers.py remote-bootstrap --remote-url https://example.invalid/repers.git --json",
+        "python .repers/scripts/repers.py remote-bootstrap-fixture --json"
       ]
     },
     {

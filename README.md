@@ -17,6 +17,7 @@ python .repers\scripts\repers.py receiver-fixture --json
 python .repers\scripts\repers.py release-evidence --package --verify-roundtrip --json
 python .repers\scripts\repers.py publish-handoff --package --verify-roundtrip --json
 python .repers\scripts\repers.py remote-bootstrap --remote-url <remote-url> --json
+python .repers\scripts\repers.py remote-bootstrap-fixture --json
 python .repers\scripts\repers.py objective-audit --deep --json
 python .repers\scripts\repers.py package --output dist --json
 python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
@@ -69,6 +70,11 @@ default it does not change Git state; it records the remote setup, publish
 handoff, objective audit, push, and draft PR commands. Add `--apply` only when
 you want it to run `git remote add`; existing remotes with different URLs are
 not overwritten.
+
+`remote-bootstrap-fixture --json` proves the apply path without external
+network access. It creates a temporary Git repository, installs RePERS, creates
+a local bare remote, runs `remote-bootstrap --apply`, and pushes the fixture
+branch to that bare remote.
 
 `objective-audit --deep --json` writes `dist/repers-objective-audit.json`. It
 checks the whole repository against the RePERS end-state: installability,

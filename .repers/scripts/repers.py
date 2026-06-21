@@ -557,6 +557,24 @@ def run_remote_bootstrap_command(args):
         sys.exit(1)
 
 
+def run_remote_bootstrap_fixture_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from remote_bootstrap import prove_remote_bootstrap_apply
+
+    fixture, path = prove_remote_bootstrap_apply(
+        REPO_ROOT,
+        INSTALL_ROOT,
+        output_dir=args.output,
+    )
+    result = {"remote_bootstrap_fixture": fixture, "path": str(Path(path).resolve())}
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not fixture.get("ok"):
+        sys.exit(1)
+
+
 def run_objective_audit_command(args):
     sys.path.append(SCRIPT_DIR)
     from objective_audit import DEFAULT_OBJECTIVE, build_objective_audit
@@ -1055,6 +1073,10 @@ def main():
     remote_bootstrap_parser.add_argument("--apply", action="store_true", help="Actually run git remote add when --remote-url is provided")
     remote_bootstrap_parser.add_argument("--json", action="store_true")
 
+    remote_bootstrap_fixture_parser = subparsers.add_parser("remote-bootstrap-fixture", help="Prove remote-bootstrap --apply against a temporary local bare remote")
+    remote_bootstrap_fixture_parser.add_argument("--output", default="dist", help="Output directory for remote bootstrap fixture evidence")
+    remote_bootstrap_fixture_parser.add_argument("--json", action="store_true")
+
     objective_audit_parser = subparsers.add_parser("objective-audit", help="Audit RePERS against the full repository objective")
     objective_audit_parser.add_argument("--output", default="dist", help="Output directory for objective audit artifacts")
     objective_audit_parser.add_argument("--objective", help="Objective text to audit; defaults to the current RePERS build objective")
@@ -1149,6 +1171,8 @@ def main():
         run_publish_handoff_command(args)
     elif args.command == "remote-bootstrap":
         run_remote_bootstrap_command(args)
+    elif args.command == "remote-bootstrap-fixture":
+        run_remote_bootstrap_fixture_command(args)
     elif args.command == "objective-audit":
         run_objective_audit_command(args)
     elif args.command == "receiver-fixture":

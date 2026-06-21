@@ -1,5 +1,7 @@
 import json
 import subprocess
+import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -7,6 +9,7 @@ from publish_handoff import create_publish_handoff, default_pr_title, remote_rec
 
 
 REMOTE_BOOTSTRAP_SCHEMA = "repers.remote_bootstrap.v1"
+REMOTE_BOOTSTRAP_APPLY_FIXTURE_SCHEMA = "repers.remote_bootstrap_apply_fixture.v1"
 
 
 def command_record(step_id, title, command, status, reason):
@@ -24,12 +27,14 @@ def current_git_state(workspace_root):
     head = run_git(["rev-parse", "HEAD"], workspace_root)
     status = run_git(["status", "--porcelain"], workspace_root)
     records = remote_records(workspace_root)
+    entries = [line for line in status.get("stdout", "").splitlines() if line.strip()] if status["ok"] else []
     return {
         "branch": branch["stdout"] if branch["ok"] else None,
         "head_sha": head["stdout"] if head["ok"] else None,
         "has_head": bool(head["ok"] and head["stdout"]),
-        "dirty": bool(status["stdout"]) if status["ok"] else None,
-        "status_count": len(status["stdout"].splitlines()) if status["ok"] and status["stdout"] else 0,
+        "dirty": bool(entries) if status["ok"] else None,
+        "status_count": len(entries),
+        "status_entries": entries[:100],
         "remote_count": len({record["name"] for record in records}),
         "remotes": records,
     }
@@ -265,3 +270,161 @@ def create_remote_bootstrap(
     json_path.write_text(json.dumps(bootstrap, indent=2, ensure_ascii=False), encoding="utf-8")
     write_markdown(bootstrap, md_path)
     return bootstrap, json_path, md_path
+
+
+def run_plain(command, cwd):
+    proc = subprocess.run(command, cwd=cwd, capture_output=True, text=True)
+    return {
+        "command": [str(part) for part in command],
+        "cwd": str(Path(cwd).resolve()),
+        "returncode": proc.returncode,
+        "ok": proc.returncode == 0,
+        "stdout_tail": proc.stdout[-2000:],
+        "stderr_tail": proc.stderr[-2000:],
+    }
+
+
+def run_json(command, cwd):
+    proc = subprocess.run(command, cwd=cwd, capture_output=True, text=True)
+    parsed = None
+    errors = []
+    if proc.stdout.strip():
+        try:
+            parsed = json.loads(proc.stdout)
+        except json.JSONDecodeError as exc:
+            errors.append(f"stdout was not JSON: {exc}")
+    return {
+        "command": [str(part) for part in command],
+        "cwd": str(Path(cwd).resolve()),
+        "returncode": proc.returncode,
+        "ok": proc.returncode == 0 and not errors,
+        "json": parsed,
+        "stdout_tail": proc.stdout[-4000:],
+        "stderr_tail": proc.stderr[-4000:],
+        "errors": errors,
+    }
+
+
+def prove_remote_bootstrap_apply(workspace_root, install_root, output_dir="dist"):
+    workspace = Path(workspace_root).resolve()
+    install = Path(install_root).resolve()
+    output = Path(output_dir).resolve()
+    output.mkdir(parents=True, exist_ok=True)
+    result = {
+        "schema": REMOTE_BOOTSTRAP_APPLY_FIXTURE_SCHEMA,
+        "ok": False,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "workspace_root": str(workspace),
+        "install_root": str(install),
+        "output_dir": str(output),
+        "steps": [],
+        "checks": {},
+        "errors": [],
+    }
+
+    with tempfile.TemporaryDirectory(prefix="repers-remote-apply-") as temp_dir:
+        temp_root = Path(temp_dir)
+        target = temp_root / "target"
+        bare_remote = temp_root / "remote.git"
+        fixture_output = temp_root / "output"
+        target.mkdir()
+        fixture_output.mkdir()
+
+        for name, command, cwd in [
+            ("git_init", ["git", "init"], target),
+            ("git_config_name", ["git", "config", "user.name", "RePERS Fixture"], target),
+            ("git_config_email", ["git", "config", "user.email", "repers-fixture@example.invalid"], target),
+        ]:
+            step = run_plain(command, cwd)
+            result["steps"].append({"name": name, **step})
+            if not step["ok"]:
+                result["errors"].append(f"{name} failed")
+                result["path"] = str((output / "repers-remote-bootstrap-fixture.json").resolve())
+                Path(result["path"]).write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+                return result, Path(result["path"])
+
+        (target / "README.md").write_text("# RePERS remote bootstrap fixture\n", encoding="utf-8")
+        for name, command in [
+            ("git_add_seed", ["git", "add", "README.md"]),
+            ("git_commit_seed", ["git", "commit", "-m", "Seed fixture repository"]),
+        ]:
+            step = run_plain(command, target)
+            result["steps"].append({"name": name, **step})
+            if not step["ok"]:
+                result["errors"].append(f"{name} failed")
+                result["path"] = str((output / "repers-remote-bootstrap-fixture.json").resolve())
+                Path(result["path"]).write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+                return result, Path(result["path"])
+
+        installer = install / "scripts" / "install_repers.py"
+        install_step = run_plain([sys.executable, str(installer), "--target", str(target), "--no-hook"], workspace)
+        result["steps"].append({"name": "install_repers", **install_step})
+        if not install_step["ok"]:
+            result["errors"].append("install_repers failed")
+            result["path"] = str((output / "repers-remote-bootstrap-fixture.json").resolve())
+            Path(result["path"]).write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+            return result, Path(result["path"])
+
+        install_paths = [".repers", ".gitignore"]
+        if (target / "docs").exists():
+            install_paths.append("docs")
+        commit_installed = run_plain(["git", "add", *install_paths], target)
+        result["steps"].append({"name": "git_add_repers", **commit_installed})
+        if not commit_installed["ok"]:
+            result["errors"].append("git_add_repers failed")
+        else:
+            commit = run_plain(["git", "commit", "-m", "Install RePERS fixture runtime"], target)
+            result["steps"].append({"name": "git_commit_repers", **commit})
+            if not commit["ok"]:
+                result["errors"].append("git_commit_repers failed")
+
+        bare_init = run_plain(["git", "init", "--bare", str(bare_remote)], temp_root)
+        result["steps"].append({"name": "git_init_bare_remote", **bare_init})
+        if not bare_init["ok"]:
+            result["errors"].append("git_init_bare_remote failed")
+
+        cli = target / ".repers" / "scripts" / "repers.py"
+        bootstrap_check = run_json(
+            [
+                sys.executable,
+                str(cli),
+                "remote-bootstrap",
+                "--remote-url",
+                str(bare_remote),
+                "--output",
+                str(fixture_output),
+                "--apply",
+                "--json",
+            ],
+            target,
+        )
+        result["checks"]["remote_bootstrap_apply"] = bootstrap_check
+        bootstrap = (bootstrap_check.get("json") or {}).get("remote_bootstrap") or {}
+        if not bootstrap_check["ok"] or bootstrap.get("ok") is not True:
+            result["errors"].append("remote-bootstrap --apply failed")
+        if bootstrap.get("applied", {}).get("changed") is not True:
+            result["errors"].append("remote-bootstrap did not report changed remote")
+        if str(bare_remote) not in bootstrap.get("remote", {}).get("named_remote_urls", []):
+            result["errors"].append("bootstrap artifact did not record the bare remote URL")
+
+        remote_show = run_plain(["git", "remote", "get-url", "origin"], target)
+        result["checks"]["remote_url"] = remote_show
+        if remote_show.get("stdout_tail", "").strip() != str(bare_remote):
+            result["errors"].append("configured origin URL did not match bare remote")
+
+        branch = bootstrap.get("git", {}).get("branch") or "master"
+        push = run_plain(["git", "push", "-u", "origin", branch], target)
+        result["checks"]["local_push"] = push
+        if not push["ok"]:
+            result["errors"].append("local push to bare remote failed")
+
+        remote_refs = run_plain(["git", "show-ref"], bare_remote)
+        result["checks"]["bare_remote_refs"] = remote_refs
+        if branch not in remote_refs.get("stdout_tail", ""):
+            result["errors"].append("bare remote did not receive the pushed branch")
+
+    result["ok"] = not result["errors"]
+    path = output / "repers-remote-bootstrap-fixture.json"
+    result["path"] = str(path.resolve())
+    path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+    return result, path

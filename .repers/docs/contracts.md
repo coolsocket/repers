@@ -654,11 +654,39 @@ Required `remote_bootstrap` fields:
 must record that the command does not push branches or open pull requests, and
 that remote mutation requires `--apply`.
 
+## Remote Bootstrap Fixture
+
+`remote-bootstrap-fixture --json` writes
+`dist/repers-remote-bootstrap-fixture.json`. It proves the `--apply` path
+without using a hosted Git provider by creating a temporary target repository,
+installing RePERS there, creating a local bare remote, running
+`remote-bootstrap --apply`, and pushing to that bare remote.
+
+Required top-level command fields:
+
+- `remote_bootstrap_fixture`
+- `path`
+
+Required `remote_bootstrap_fixture` fields:
+
+- `schema`: `repers.remote_bootstrap_apply_fixture.v1`
+- `ok`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `output_dir`
+- `steps`
+- `checks`
+- `errors`
+
+The fixture passes only when `remote_bootstrap_apply`, `remote_url`,
+`local_push`, and `bare_remote_refs` checks succeed.
+
 ## Objective Audit
 
 `objective-audit --json` writes `dist/repers-objective-audit.json`. Use
-`--deep` to run package, receiver, publish handoff, remote bootstrap, and smoke
-checks before auditing.
+`--deep` to run package, receiver, publish handoff, remote bootstrap, remote
+bootstrap fixture, and smoke checks before auditing.
 
 Required top-level command fields:
 

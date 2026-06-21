@@ -202,6 +202,7 @@ def build_readiness_manifest(archive_path, archive_sha256, file_records):
             "receiver_fixture": f"python {archive_root}/scripts/repers.py receiver-fixture --json",
             "publish_handoff": "python <target-repo>/.repers/scripts/repers.py publish-handoff --json",
             "remote_bootstrap": "python <target-repo>/.repers/scripts/repers.py remote-bootstrap --remote-url <remote-url> --json",
+            "remote_bootstrap_fixture": "python <target-repo>/.repers/scripts/repers.py remote-bootstrap-fixture --json",
             "objective_audit": "python <target-repo>/.repers/scripts/repers.py objective-audit --json",
             "package_again": "python <target-repo>/.repers/scripts/repers.py package --output dist --json",
         },

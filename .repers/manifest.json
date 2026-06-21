@@ -1,15 +1,15 @@
 {
   "schema": "repers.install_manifest.v1",
   "version": "0.1.0",
-  "generated_at": "2026-06-21T13:53:57.032821+00:00",
+  "generated_at": "2026-06-21T14:05:19.486276+00:00",
   "source_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "target_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "source_git": {
     "ok": true,
-    "commit": "b55b704f61c1ec367de0f9ba4d531d010e760e86",
+    "commit": "853bb937d84270201a8bd7fe9df8af067a1c3a07",
     "dirty": true,
-    "status_count": 10
+    "status_count": 12
   },
   "with_hook": true,
   "hook_policy": "warn",
@@ -18,8 +18,8 @@
   "files": [
     {
       "path": "capabilities/registry.json",
-      "size_bytes": 11650,
-      "sha256": "f83187ac54df25954884e9eab5dd2573def4e1ae1eca330e383646a10ae07d3f"
+      "size_bytes": 11855,
+      "sha256": "be9c1fa4807650c20da84cf4dda8678f1f5fecaecddb69a6d66aa2c83c6bb57c"
     },
     {
       "path": "docs/architecture.md",
@@ -28,8 +28,8 @@
     },
     {
       "path": "docs/contracts.md",
-      "size_bytes": 16911,
-      "sha256": "f6a9468420b378704189f0f03e17bbd014a877a8d2ab5c5d3ee9b63420dd47bc"
+      "size_bytes": 17691,
+      "sha256": "a7cb19e3da25a16a9349cb8f9d7fe69e062476409ad2f7d858cc508eab1b8ebc"
     },
     {
       "path": "docs/installation.md",
@@ -93,13 +93,13 @@
     },
     {
       "path": "scripts/install_repers.py",
-      "size_bytes": 12880,
-      "sha256": "47223e9de9db68f937cc2407429f4dda696ed2d20a796067f053f786bc48916e"
+      "size_bytes": 13104,
+      "sha256": "59d7006164dc33c0d5b06a44b523bd1854bf18102f72a6f730fb4652e9ba008b"
     },
     {
       "path": "scripts/objective_audit.py",
-      "size_bytes": 12470,
-      "sha256": "3ff27d39f7ac98e42897805c9ebe5397c92c6913717465a55ae4b38978221a1b"
+      "size_bytes": 13840,
+      "sha256": "9f54ebdf59e42c4d76139f7bfa69bbbeaabee73a90cf77ba99fdc7bf57e96518"
     },
     {
       "path": "scripts/orchestration_fixture.py",
@@ -108,8 +108,8 @@
     },
     {
       "path": "scripts/package_repers.py",
-      "size_bytes": 15817,
-      "sha256": "23e86477f9abddc2d7df55188586c449c4eb034a7fb450dd96158673c4241c41"
+      "size_bytes": 15939,
+      "sha256": "28b0e69aa0891455946436fa548fa87a266a8f3ae33ec0b8288f679672547620"
     },
     {
       "path": "scripts/plan_runner.py",
@@ -123,8 +123,8 @@
     },
     {
       "path": "scripts/receiver_fixture.py",
-      "size_bytes": 5844,
-      "sha256": "4d1389146fa931dddf57834a21a3e7cc41c5be79f0086f1d40a927618f457ed9"
+      "size_bytes": 6157,
+      "sha256": "b332ad40340f7895462ad2de62067c05405a0543603c3532a7ab5f5312b5426c"
     },
     {
       "path": "scripts/release_evidence.py",
@@ -138,13 +138,13 @@
     },
     {
       "path": "scripts/remote_bootstrap.py",
-      "size_bytes": 9933,
-      "sha256": "9ee29c1d14d6fed093f057c5d227774732d622de0d8df09436cb5b1e8dfb1e97"
+      "size_bytes": 17302,
+      "sha256": "38aa6b1d196a18a43fad71fba2705ca7d397d6c3a08355d7b0fa0e69e5210b5e"
     },
     {
       "path": "scripts/repers.py",
-      "size_bytes": 51388,
-      "sha256": "f847dcf298b76cc16a6008891f931a4ec89b42eaf16b980eb5be4c3d695527e1"
+      "size_bytes": 52368,
+      "sha256": "f73f7978385f7f2341bae820117226f341d4c8a108512c58480a013fc4b272cf"
     },
     {
       "path": "scripts/research_index.py",
