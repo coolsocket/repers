@@ -729,3 +729,38 @@ audit into a resumable control artifact. It includes:
 `external_actions` name required external state, such as a hosted Git remote or
 provider-authenticated pull request creation. `repers-continuation.md` renders
 the same action plan for humans.
+
+## Continuation Runner
+
+`continue --json` regenerates the objective audit, reads
+`repers.objective_continuation.v1`, and emits a resumable action report. It is a
+dry-run by default. Pass `--apply` to execute only selected local continuation
+actions whose status is `ready`; external actions are never executed by this
+command. Use repeatable `--action-id <id>` to limit local action selection.
+
+Required top-level fields:
+
+- `schema`: `repers.continuation_run.v1`
+- `ok`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `output_dir`
+- `mode`: `dry-run` or `apply`
+- `audit_path`
+- `objective_complete`
+- `blocking_incomplete`
+- `continuation_status`
+- `selected_action_ids`
+- `ready_action_ids`
+- `deferred_action_ids`
+- `external_action_ids`
+- `local_actions`
+- `external_actions`
+- `executions`
+- `errors`
+
+`executions` is empty in dry-run mode. In apply mode, each execution includes
+the action id, title, command result, return code, stdout/stderr tails, and
+parsed JSON when available. `ok=false` means at least one executed local action
+failed.

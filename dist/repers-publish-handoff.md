@@ -1,8 +1,8 @@
 # RePERS Publish Handoff
 
-- Generated: `2026-06-21T14:15:59.166280+00:00`
+- Generated: `2026-06-21T14:27:53.464450+00:00`
 - Branch: `codex/repers-initial-package`
-- Commit: `e6a72c3f2cdaf9bb7e31f88b906a380e3789af54`
+- Commit: `3a76ec7408fb278339ec37fac00eec6351795db3`
 - Clean tree: `False`
 - Publish ready: `False`
 
@@ -37,13 +37,13 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Prove RePERS remote bootstrap apply path" --body-file <handoff-md>
+gh pr create --draft --base main --head codex/repers-initial-package --title "Add RePERS objective continuation artifact" --body-file <handoff-md>
 ```
 
 ## Package
 
 - Archive: `C:\Users\Administrator\Documents\RePERS\dist\repers-0.1.0.zip`
-- SHA-256: `5202063f1c3364d491e76e451cc3ef04d1f55e471c2c26a5f2b5bacacbeca998`
+- SHA-256: `f2e3f90fb4c84e62e0d52110a62f20303012e7d16f59b9eb29eb24f1e49a38ec`
 - Round trip: `True`
 
 This handoff is intentionally non-destructive. It records the commands

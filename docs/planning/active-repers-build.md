@@ -34,6 +34,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add remote bootstrap artifact and optional `git remote add` apply path.
 - [x] Add local bare-remote fixture proving `remote-bootstrap --apply` and push.
 - [x] Add objective continuation actions for autonomous handoff/resume.
+- [x] Add autonomous continuation runner for ready local resume actions.
 
 ## Acceptance
 
@@ -101,3 +102,9 @@ Continuation phase complete: `objective-audit --json` now includes
 `continuation` with local and external next actions, and writes
 `dist/repers-continuation.md`. This keeps the remaining hosted-publication
 blocker explicit while giving the next maintainer exact resume commands.
+
+Continuation runner phase complete: `continue --json` regenerates objective
+audit evidence, reports local/external resume actions, and stays dry-run by
+default. `continue --apply --action-id prove_local_remote_apply --json` was
+validated against the safe local remote-bootstrap fixture action, while hosted
+remote setup, push, and draft PR creation remain explicit external steps.

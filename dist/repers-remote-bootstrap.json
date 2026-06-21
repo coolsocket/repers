@@ -1,7 +1,7 @@
 {
   "schema": "repers.remote_bootstrap.v1",
   "ok": true,
-  "generated_at": "2026-06-21T14:15:59.265937+00:00",
+  "generated_at": "2026-06-21T14:27:53.570888+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -13,19 +13,22 @@
   },
   "git": {
     "branch": "codex/repers-initial-package",
-    "head_sha": "e6a72c3f2cdaf9bb7e31f88b906a380e3789af54",
+    "head_sha": "3a76ec7408fb278339ec37fac00eec6351795db3",
     "has_head": true,
     "dirty": true,
-    "status_count": 18,
+    "status_count": 21,
     "status_entries": [
       "M .repers/capabilities/registry.json",
       " M .repers/docs/contracts.md",
       " M .repers/index/repers.db",
       " M .repers/manifest.json",
       " M .repers/scripts/objective_audit.py",
+      " M .repers/scripts/package_repers.py",
+      " M .repers/scripts/repers.py",
       " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
+      " M dist/repers-continuation.md",
       " M dist/repers-objective-audit.json",
       " M dist/repers-publish-handoff.json",
       " M dist/repers-publish-handoff.md",
@@ -35,7 +38,7 @@
       " M dist/repers-remote-bootstrap.md",
       " M docs/planning/active-repers-build.md",
       " M tests/smoke_repers.py",
-      "?? dist/repers-continuation.md"
+      "?? .repers/scripts/continuation_runner.py"
     ],
     "remote_count": 0,
     "remotes": []
@@ -77,7 +80,7 @@
     {
       "id": "publish_handoff",
       "title": "Regenerate publish handoff evidence",
-      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \"Prove RePERS remote bootstrap apply path\" --json",
+      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \"Add RePERS objective continuation artifact\" --json",
       "status": "ready",
       "reason": "Handoff path: C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md"
     },
@@ -98,7 +101,7 @@
     {
       "id": "open_draft_pr",
       "title": "Open draft pull request",
-      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Prove RePERS remote bootstrap apply path\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS objective continuation artifact\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
       "status": "blocked",
       "reason": "Requires GitHub CLI authentication and a pushed branch."
     }

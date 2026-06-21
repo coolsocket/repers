@@ -595,6 +595,27 @@ def run_objective_audit_command(args):
         sys.exit(1)
 
 
+def run_continue_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from continuation_runner import build_continuation_run
+
+    result = build_continuation_run(
+        REPO_ROOT,
+        INSTALL_ROOT,
+        output_dir=args.output,
+        objective=args.objective,
+        deep=args.deep,
+        apply=args.apply,
+        action_ids=args.action_id,
+    )
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not result.get("ok"):
+        sys.exit(1)
+
+
 def run_receiver_fixture_command(args):
     sys.path.append(SCRIPT_DIR)
     from receiver_fixture import prove_receiver
@@ -1083,6 +1104,14 @@ def main():
     objective_audit_parser.add_argument("--deep", action="store_true", help="Run package, receiver, handoff, and smoke checks before auditing")
     objective_audit_parser.add_argument("--json", action="store_true")
 
+    continue_parser = subparsers.add_parser("continue", help="Read objective continuation actions and optionally run ready local actions")
+    continue_parser.add_argument("--output", default="dist", help="Output directory for objective audit and continuation artifacts")
+    continue_parser.add_argument("--objective", help="Objective text to audit; defaults to the current RePERS build objective")
+    continue_parser.add_argument("--deep", action="store_true", help="Run deep objective audit before selecting continuation actions")
+    continue_parser.add_argument("--apply", action="store_true", help="Execute ready local continuation actions")
+    continue_parser.add_argument("--action-id", action="append", help="Limit execution/reporting to one local continuation action id; repeatable")
+    continue_parser.add_argument("--json", action="store_true")
+
     receiver_fixture_parser = subparsers.add_parser("receiver-fixture", help="Install the package into a fresh Git repo and prove receiver commands")
     receiver_fixture_parser.add_argument("--output", default="dist", help="Output directory for the package archive")
     receiver_fixture_parser.add_argument("--verify-package-roundtrip", action="store_true", help="Also run package-level round-trip verification before receiver checks")
@@ -1175,6 +1204,8 @@ def main():
         run_remote_bootstrap_fixture_command(args)
     elif args.command == "objective-audit":
         run_objective_audit_command(args)
+    elif args.command == "continue":
+        run_continue_command(args)
     elif args.command == "receiver-fixture":
         run_receiver_fixture_command(args)
     elif args.command == "install-hook":

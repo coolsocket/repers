@@ -407,6 +407,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "receiver-fixture",
         "publish-handoff",
         "remote-bootstrap",
+        "continuation-runner",
     }
 
     command_map = {item["name"]: item for item in commands}

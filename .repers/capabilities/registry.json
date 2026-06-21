@@ -339,6 +339,35 @@
       ]
     },
     {
+      "id": "continuation-runner",
+      "kind": "workflow",
+      "name": "Objective Continuation Runner",
+      "summary": "Reads objective continuation actions, reports local and external next steps, and optionally executes ready local actions.",
+      "tags": [
+        "continuation",
+        "resume",
+        "autonomous",
+        "next-actions",
+        "local-actions",
+        "objective"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py continue --json",
+        "python .repers/scripts/repers.py continue --apply --json",
+        "python .repers/scripts/repers.py continue --action-id <id> --apply --json"
+      ],
+      "paths": [
+        "scripts/continuation_runner.py",
+        "scripts/objective_audit.py",
+        "scripts/repers.py",
+        "docs/contracts.md",
+        "dist/repers-continuation.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py continue --json"
+      ]
+    },
+    {
       "id": "receiver-fixture",
       "kind": "harness",
       "name": "Installed Receiver Acceptance Fixture",

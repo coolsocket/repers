@@ -87,6 +87,11 @@ The objective audit also writes `dist/repers-continuation.md` and embeds a
 splits executable local resume commands from external actions such as providing
 a hosted Git remote URL.
 
+`continue --json` consumes that continuation object as the autonomous resume
+surface. It defaults to a dry-run report and only runs ready local actions when
+`--apply` is passed; remote setup, push, and draft PR creation remain explicit
+external steps.
+
 `receiver-fixture --json` installs the packaged archive into a fresh Git
 repository and runs receiver-side checks: `verify-install`, `doctor`,
 `bundle-status`, `capabilities`, and `fixture`. Use it before handing the
