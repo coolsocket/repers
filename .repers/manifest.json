@@ -1,15 +1,15 @@
 {
   "schema": "repers.install_manifest.v1",
   "version": "0.1.0",
-  "generated_at": "2026-06-21T13:42:08.177243+00:00",
+  "generated_at": "2026-06-21T13:44:07.356947+00:00",
   "source_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "target_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "source_git": {
     "ok": true,
-    "commit": "b5ac1ce725741ab582597c3c27cdd2e502a898fc",
+    "commit": "2e2596d06c5fefae70536ac9b7ddfc8c78536b86",
     "dirty": true,
-    "status_count": 10
+    "status_count": 3
   },
   "with_hook": true,
   "hook_policy": "warn",
@@ -98,8 +98,8 @@
     },
     {
       "path": "scripts/objective_audit.py",
-      "size_bytes": 11100,
-      "sha256": "af677ba1f45f33ecd5bdc6bdf61a31ff2242d8feccefb418b5d6beb5b8164d87"
+      "size_bytes": 11280,
+      "sha256": "4c8df0aeb703c721aa7f2a73cbc7347d86251a588c0472fe1d6783d0f929b2bd"
     },
     {
       "path": "scripts/orchestration_fixture.py",
@@ -138,8 +138,8 @@
     },
     {
       "path": "scripts/repers.py",
-      "size_bytes": 49147,
-      "sha256": "6001c79dab211e358aa7e500f47c17e546cfd78598ff08f5f16cf62d8a63ec11"
+      "size_bytes": 49204,
+      "sha256": "5b5bb59b968c0b8480ce318fe4bfb7b9289363e5004e1b1a600bb138bc969e6a"
     },
     {
       "path": "scripts/research_index.py",

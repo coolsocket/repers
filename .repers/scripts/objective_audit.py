@@ -112,7 +112,11 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
                 "smoke_tests",
                 ["python", "-B", str(workspace / "tests" / "smoke_repers.py")],
                 workspace,
-                env={**os.environ, "REPERS_SMOKE_DIST": tempfile.mkdtemp(prefix="repers-objective-smoke-")},
+                env={
+                    **os.environ,
+                    "REPERS_SMOKE_DIST": tempfile.mkdtemp(prefix="repers-objective-smoke-"),
+                    "REPERS_INDEX_DB_PATH": str(Path(tempfile.mkdtemp(prefix="repers-objective-index-")) / "repers.db"),
+                },
             )
         )
 

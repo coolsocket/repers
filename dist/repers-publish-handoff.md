@@ -1,8 +1,8 @@
 # RePERS Publish Handoff
 
-- Generated: `2026-06-21T13:42:17.122514+00:00`
+- Generated: `2026-06-21T13:44:16.270737+00:00`
 - Branch: `codex/repers-initial-package`
-- Commit: `b5ac1ce725741ab582597c3c27cdd2e502a898fc`
+- Commit: `2e2596d06c5fefae70536ac9b7ddfc8c78536b86`
 - Clean tree: `False`
 - Publish ready: `False`
 
@@ -37,13 +37,13 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Add RePERS objective audit gate" --body-file <handoff-md>
+gh pr create --draft --base main --head codex/repers-initial-package --title "Make objective audit temp output clean" --body-file <handoff-md>
 ```
 
 ## Package
 
 - Archive: `C:\Users\Administrator\Documents\RePERS\dist\repers-0.1.0.zip`
-- SHA-256: `cb0bb405b5a93e5f5719931a1dc591cee96c2b01d823e72f9d76b3006a16e4e7`
+- SHA-256: `fea398f7799a46670551393a74f29e1d38796bbc4ca4bee63e755e8137876cd5`
 - Round trip: `True`
 
 This handoff is intentionally non-destructive. It records the commands

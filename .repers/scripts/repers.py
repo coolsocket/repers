@@ -20,7 +20,7 @@ DEFAULT_CODEX_SKILLS_DIR = "C:/Users/Administrator/.codex/skills"
 LSP_GUARD_CMD = "C:/Users/Administrator/AppData/Local/CodexAgentTools/lsp-guard/agent-lsp-guard.cmd"
 PREFLIGHT_EXCLUDED_DIRS = {".git", ".repers", "repers_tasks", "templates", "__pycache__"}
 AUDIT_EXCLUDED_DIRS = {".git", ".repers", "__pycache__"}
-INDEX_DB_PATH = os.path.join(REPO_ROOT, ".repers", "index", "repers.db")
+INDEX_DB_PATH = os.path.abspath(os.environ.get("REPERS_INDEX_DB_PATH", os.path.join(REPO_ROOT, ".repers", "index", "repers.db")))
 
 
 def emit_json(data):
