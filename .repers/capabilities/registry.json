@@ -276,6 +276,34 @@
       ]
     },
     {
+      "id": "objective-audit",
+      "kind": "shipping-gate",
+      "name": "Objective Completion Audit",
+      "summary": "Audits the whole RePERS repository against the requested end-state and records proven, incomplete, and externally blocked requirements.",
+      "tags": [
+        "objective",
+        "completion",
+        "audit",
+        "evidence",
+        "requirements",
+        "self-verification",
+        "goal"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py objective-audit --json",
+        "python .repers/scripts/repers.py objective-audit --deep --json"
+      ],
+      "paths": [
+        "scripts/objective_audit.py",
+        "docs/contracts.md",
+        "dist/repers-objective-audit.json",
+        "docs/planning/active-repers-build.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py objective-audit --deep --json"
+      ]
+    },
+    {
       "id": "receiver-fixture",
       "kind": "harness",
       "name": "Installed Receiver Acceptance Fixture",

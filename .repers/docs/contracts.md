@@ -620,3 +620,33 @@ command does not mutate Git remotes, push branches, or open pull requests.
 `ok=true` means the handoff artifact was generated. Use
 `release_evidence_ok` and `publish_ready` to decide whether the repository is
 ready to execute the generated commands.
+
+## Objective Audit
+
+`objective-audit --json` writes `dist/repers-objective-audit.json`. Use
+`--deep` to run package, receiver, publish handoff, and smoke checks before
+auditing.
+
+Required top-level command fields:
+
+- `objective_audit`
+- `path`
+
+Required `objective_audit` fields:
+
+- `schema`: `repers.objective_audit.v1`
+- `ok`
+- `objective_complete`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `output_dir`
+- `objective`
+- `deep`
+- `requirements`
+- `blocking_incomplete`
+- `commands`
+
+Each requirement includes `id`, `title`, `status`, `passed`,
+`blocks_completion`, and `evidence`. `objective_complete=false` means at least
+one blocking requirement is still unproven or incomplete.

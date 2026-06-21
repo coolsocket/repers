@@ -30,6 +30,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add release-shape branch/commit/PR metadata when the repo state is ready.
 - [x] Add installed receiver acceptance fixture.
 - [x] Add non-destructive publish handoff artifacts for remote/push/PR steps.
+- [x] Add objective completion audit with deep evidence gates.
 
 ## Acceptance
 
@@ -72,3 +73,10 @@ Publish handoff phase complete: `publish-handoff --package --verify-roundtrip
 non-destructive commands for adding a remote, pushing the branch, and opening a
 draft PR. The command is now in the capability registry and package readiness
 receiver commands.
+
+Objective audit phase complete: `objective-audit --deep --json` writes
+`dist/repers-objective-audit.json` and checks the full RePERS end-state against
+current evidence. The deep audit proves the local repository, receiver install,
+capability registry, orchestration fixture, 10-repository structure study,
+tests/package gates, and chat-free evidence. It correctly leaves
+`publication_ready` incomplete until a Git remote exists.

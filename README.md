@@ -16,6 +16,7 @@ python .repers\scripts\repers.py fixture --action prove --json
 python .repers\scripts\repers.py receiver-fixture --json
 python .repers\scripts\repers.py release-evidence --package --verify-roundtrip --json
 python .repers\scripts\repers.py publish-handoff --package --verify-roundtrip --json
+python .repers\scripts\repers.py objective-audit --deep --json
 python .repers\scripts\repers.py package --output dist --json
 python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
 python .repers\scripts\repers.py install-hook --json
@@ -60,6 +61,12 @@ checks are valid.
 turns release evidence into a non-destructive remote/push/draft-PR checklist so
 another agent or maintainer can finish publication without relying on chat
 history.
+
+`objective-audit --deep --json` writes `dist/repers-objective-audit.json`. It
+checks the whole repository against the RePERS end-state: installability,
+receiver reuse, capability registry, deterministic DAG proof, open-source
+structure study, tests/package gates, chat-free evidence, and publication
+readiness.
 
 `receiver-fixture --json` installs the packaged archive into a fresh Git
 repository and runs receiver-side checks: `verify-install`, `doctor`,

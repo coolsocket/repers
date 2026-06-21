@@ -1,10 +1,10 @@
 {
   "schema": "repers.package_readiness.v1",
   "version": "0.1.0",
-  "generated_at": "2026-06-21T05:35:20.316762+00:00",
+  "generated_at": "2026-06-21T05:45:45.786056+00:00",
   "source_shape": "installed_bundle",
   "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-  "archive_sha256": "703bf5b332995e7b12ec78480f78ede430f4feee46572bf955af4db7333042c0",
+  "archive_sha256": "da36586c7094a7bd6608f13af232a0f4f129e01c6781ee153c97b93e2af2ebaf",
   "archive_sha256_scope": "final_sidecar",
   "archive_root": "repers-0.1.0",
   "package_manifest": "repers-0.1.0/repers-package-manifest.json",
@@ -38,6 +38,7 @@
     "fixture_prove": "python <target-repo>/.repers/scripts/repers.py fixture --action prove --json",
     "receiver_fixture": "python repers-0.1.0/scripts/repers.py receiver-fixture --json",
     "publish_handoff": "python <target-repo>/.repers/scripts/repers.py publish-handoff --json",
+    "objective_audit": "python <target-repo>/.repers/scripts/repers.py objective-audit --json",
     "package_again": "python <target-repo>/.repers/scripts/repers.py package --output dist --json"
   },
   "acceptance": [

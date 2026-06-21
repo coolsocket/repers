@@ -132,6 +132,7 @@ def test_package_archive_manifest():
     assert "fixture_prove" in readiness["receiver_commands"]
     assert "receiver_fixture" in readiness["receiver_commands"]
     assert "publish_handoff" in readiness["receiver_commands"]
+    assert "objective_audit" in readiness["receiver_commands"]
 
     archive_root = package["manifest"]["archive_root"]
     manifest_path = f"{archive_root}/repers-package-manifest.json"
@@ -154,6 +155,7 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/receiver_fixture.py" in names
         assert f"{archive_root}/scripts/release_evidence.py" in names
         assert f"{archive_root}/scripts/publish_handoff.py" in names
+        assert f"{archive_root}/scripts/objective_audit.py" in names
         assert f"{archive_root}/capabilities/registry.json" in names
         assert f"{archive_root}/templates/plan.md" in names
         assert f"{archive_root}/hooks/pre-commit" in names
@@ -429,6 +431,47 @@ def test_publish_handoff_artifact_is_non_destructive():
             shutil.rmtree(output_dir)
 
 
+def test_objective_audit_reports_requirements_and_blockers():
+    output_dir = ROOT / ".repers-smoke-objective-audit"
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    try:
+        stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "objective-audit",
+                "--output",
+                str(output_dir),
+                "--json",
+            ]
+        )
+        result = json.loads(stdout)
+        audit = result["objective_audit"]
+        audit_path = Path(result["path"])
+        assert audit_path.exists()
+        assert audit["schema"] == "repers.objective_audit.v1"
+        assert audit["ok"] is True
+        assert isinstance(audit["objective_complete"], bool)
+        requirement_ids = {item["id"] for item in audit["requirements"]}
+        assert {
+            "self_contained_repository",
+            "installable_by_another_repository",
+            "agent_reusable_capabilities",
+            "deterministic_orchestration",
+            "open_source_structure_research",
+            "tests_and_package_gates",
+            "verified_without_chat_history",
+            "publication_ready",
+        } <= requirement_ids
+        assert any(item["id"] == "publication_ready" for item in audit["requirements"])
+        written = json.loads(audit_path.read_text(encoding="utf-8"))
+        assert written["schema"] == "repers.objective_audit.v1"
+    finally:
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+
+
 def test_receiver_fixture_proves_installed_package_commands():
     stdout = run([sys.executable, str(REPERS), "receiver-fixture", "--json"])
     fixture = json.loads(stdout)
@@ -457,6 +500,7 @@ def main():
     test_capability_registry_and_preflight_surface()
     test_release_evidence_publish_readiness_artifact()
     test_publish_handoff_artifact_is_non_destructive()
+    test_objective_audit_reports_requirements_and_blockers()
     test_receiver_fixture_proves_installed_package_commands()
     print("installed repers smoke tests ok")
 

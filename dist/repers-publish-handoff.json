@@ -3,7 +3,7 @@
   "ok": true,
   "release_evidence_ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-21T05:35:20.782630+00:00",
+  "generated_at": "2026-06-21T05:45:42.080719+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -20,7 +20,7 @@
   "pull_request": {
     "base_branch": "main",
     "head_branch": "codex/repers-initial-package",
-    "title": "Build RePERS installable workflow bundle",
+    "title": "Add RePERS publish handoff artifacts",
     "github_cli": {
       "available": false,
       "path": null
@@ -29,10 +29,10 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "82ae3e221979961fd21208974bd4054278463ef6",
+    "head_sha": "edf2a658e64a7b44e5b4a2c6d4e2e7847afbe067",
     "has_head": true,
     "dirty": true,
-    "status_count": 15,
+    "status_count": 16,
     "status_entries": [
       "M .repers/capabilities/registry.json",
       " M .repers/docs/contracts.md",
@@ -43,12 +43,13 @@
       " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
+      " M dist/repers-publish-handoff.json",
+      " M dist/repers-publish-handoff.md",
       " M dist/repers-release-evidence.json",
       " M docs/planning/active-repers-build.md",
       " M tests/smoke_repers.py",
-      "?? .repers/scripts/publish_handoff.py",
-      "?? dist/repers-publish-handoff.json",
-      "?? dist/repers-publish-handoff.md"
+      "?? .repers/scripts/objective_audit.py",
+      "?? dist/repers-objective-audit.json"
     ],
     "remote_count": 0,
     "errors": []
@@ -57,8 +58,8 @@
     "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "703bf5b332995e7b12ec78480f78ede430f4feee46572bf955af4db7333042c0",
-    "manifest_file_count": 44,
+    "archive_sha256": "b72544af8abc4ff39888e76ba6045e8c55256bd0c3108b9526812ef0bac051e9",
+    "manifest_file_count": 45,
     "readiness_warnings": [],
     "roundtrip_ok": true
   },
@@ -80,7 +81,7 @@
     {
       "id": "open_draft_pr",
       "title": "Open draft pull request",
-      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Build RePERS installable workflow bundle\" --body-file <handoff-md>",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS publish handoff artifacts\" --body-file <handoff-md>",
       "status": "blocked",
       "reason": "Requires GitHub CLI authentication and pushed branch."
     }

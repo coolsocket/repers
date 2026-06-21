@@ -528,6 +528,26 @@ def run_publish_handoff_command(args):
         sys.exit(1)
 
 
+def run_objective_audit_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from objective_audit import DEFAULT_OBJECTIVE, build_objective_audit
+
+    audit, path = build_objective_audit(
+        REPO_ROOT,
+        INSTALL_ROOT,
+        output_dir=args.output,
+        objective=args.objective or DEFAULT_OBJECTIVE,
+        deep=args.deep,
+    )
+    result = {"objective_audit": audit, "path": str(Path(path).resolve())}
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not audit.get("ok"):
+        sys.exit(1)
+
+
 def run_receiver_fixture_command(args):
     sys.path.append(SCRIPT_DIR)
     from receiver_fixture import prove_receiver
@@ -995,6 +1015,12 @@ def main():
     publish_handoff_parser.add_argument("--verify-roundtrip", action="store_true", help="When --package is used, verify package round-trip install")
     publish_handoff_parser.add_argument("--json", action="store_true")
 
+    objective_audit_parser = subparsers.add_parser("objective-audit", help="Audit RePERS against the full repository objective")
+    objective_audit_parser.add_argument("--output", default="dist", help="Output directory for objective audit artifacts")
+    objective_audit_parser.add_argument("--objective", help="Objective text to audit; defaults to the current RePERS build objective")
+    objective_audit_parser.add_argument("--deep", action="store_true", help="Run package, receiver, handoff, and smoke checks before auditing")
+    objective_audit_parser.add_argument("--json", action="store_true")
+
     receiver_fixture_parser = subparsers.add_parser("receiver-fixture", help="Install the package into a fresh Git repo and prove receiver commands")
     receiver_fixture_parser.add_argument("--output", default="dist", help="Output directory for the package archive")
     receiver_fixture_parser.add_argument("--verify-package-roundtrip", action="store_true", help="Also run package-level round-trip verification before receiver checks")
@@ -1081,6 +1107,8 @@ def main():
         run_release_evidence_command(args)
     elif args.command == "publish-handoff":
         run_publish_handoff_command(args)
+    elif args.command == "objective-audit":
+        run_objective_audit_command(args)
     elif args.command == "receiver-fixture":
         run_receiver_fixture_command(args)
     elif args.command == "install-hook":
