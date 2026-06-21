@@ -1,6 +1,6 @@
 # RePERS Remote Bootstrap
 
-- Generated: `2026-06-21T14:05:53.781157+00:00`
+- Generated: `2026-06-21T14:15:59.265937+00:00`
 - Remote name: `origin`
 - Remote URL provided: `https://example.invalid/repers.git`
 - Apply requested: `False`
@@ -40,7 +40,7 @@ git remote add origin https://example.invalid/repers.git
 - Reason: Handoff path: C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
 
 ```powershell
-python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title "Add RePERS remote bootstrap gate" --json
+python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title "Prove RePERS remote bootstrap apply path" --json
 ```
 
 ### verify_publish_ready: Verify objective audit after remote setup
@@ -67,5 +67,5 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and a pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Add RePERS remote bootstrap gate" --body-file C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
+gh pr create --draft --base main --head codex/repers-initial-package --title "Prove RePERS remote bootstrap apply path" --body-file C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
 ```

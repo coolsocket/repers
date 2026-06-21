@@ -2,7 +2,7 @@
   "schema": "repers.objective_audit.v1",
   "ok": true,
   "objective_complete": false,
-  "generated_at": "2026-06-21T14:06:06.050396+00:00",
+  "generated_at": "2026-06-21T14:16:11.296156+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -20,7 +20,7 @@
           {
             "path": "README.md",
             "exists": true,
-            "size_bytes": 5687
+            "size_bytes": 5945
           },
           {
             "path": "CONTRIBUTING.md",
@@ -146,7 +146,7 @@
     },
     {
       "id": "verified_without_chat_history",
-      "title": "Repo carries machine-readable release, package, receiver, publish handoff, and remote bootstrap evidence.",
+      "title": "Repo carries machine-readable release, package, receiver, publish handoff, remote bootstrap, and continuation evidence.",
       "status": "passed",
       "passed": true,
       "blocks_completion": true,
@@ -159,27 +159,32 @@
         "release_evidence": {
           "path": "repers-release-evidence.json",
           "exists": true,
-          "size_bytes": 9508
+          "size_bytes": 9511
         },
         "publish_handoff": {
           "path": "repers-publish-handoff.json",
           "exists": true,
-          "size_bytes": 3597
+          "size_bytes": 3616
         },
         "publish_handoff_markdown": {
           "path": "repers-publish-handoff.md",
           "exists": true,
-          "size_bytes": 1404
+          "size_bytes": 1412
         },
         "remote_bootstrap": {
           "path": "repers-remote-bootstrap.json",
           "exists": true,
-          "size_bytes": 4535
+          "size_bytes": 4554
         },
         "remote_bootstrap_markdown": {
           "path": "repers-remote-bootstrap.md",
           "exists": true,
-          "size_bytes": 2081
+          "size_bytes": 2097
+        },
+        "continuation_markdown": {
+          "path": "repers-continuation.md",
+          "exists": true,
+          "size_bytes": 1606
         },
         "remote_bootstrap_ok": true
       }
@@ -211,27 +216,29 @@
         "git": {
           "is_git_repo": true,
           "branch": "codex/repers-initial-package",
-          "head_sha": "853bb937d84270201a8bd7fe9df8af067a1c3a07",
+          "head_sha": "e6a72c3f2cdaf9bb7e31f88b906a380e3789af54",
           "has_head": true,
           "dirty": true,
-          "status_count": 16,
+          "status_count": 18,
           "status_entries": [
             "M .repers/capabilities/registry.json",
             " M .repers/docs/contracts.md",
             " M .repers/index/repers.db",
             " M .repers/manifest.json",
-            " M .repers/scripts/install_repers.py",
             " M .repers/scripts/objective_audit.py",
-            " M .repers/scripts/package_repers.py",
-            " M .repers/scripts/receiver_fixture.py",
-            " M .repers/scripts/remote_bootstrap.py",
-            " M .repers/scripts/repers.py",
             " M README.md",
             " M dist/repers-0.1.0-readiness.json",
             " M dist/repers-0.1.0.zip",
+            " M dist/repers-objective-audit.json",
+            " M dist/repers-publish-handoff.json",
+            " M dist/repers-publish-handoff.md",
             " M dist/repers-release-evidence.json",
+            " M dist/repers-remote-bootstrap-fixture.json",
+            " M dist/repers-remote-bootstrap.json",
+            " M dist/repers-remote-bootstrap.md",
             " M docs/planning/active-repers-build.md",
-            " M tests/smoke_repers.py"
+            " M tests/smoke_repers.py",
+            "?? dist/repers-continuation.md"
           ],
           "remote_count": 0,
           "errors": []
@@ -246,6 +253,117 @@
   "blocking_incomplete": [
     "publication_ready"
   ],
+  "continuation": {
+    "schema": "repers.objective_continuation.v1",
+    "status": "local_work_available",
+    "blocking_incomplete": [
+      "publication_ready"
+    ],
+    "requirement_status": {
+      "self_contained_repository": {
+        "passed": true,
+        "status": "passed",
+        "blocks_completion": true
+      },
+      "installable_by_another_repository": {
+        "passed": true,
+        "status": "passed",
+        "blocks_completion": true
+      },
+      "agent_reusable_capabilities": {
+        "passed": true,
+        "status": "passed",
+        "blocks_completion": true
+      },
+      "deterministic_orchestration": {
+        "passed": true,
+        "status": "passed",
+        "blocks_completion": true
+      },
+      "open_source_structure_research": {
+        "passed": true,
+        "status": "passed",
+        "blocks_completion": true
+      },
+      "tests_and_package_gates": {
+        "passed": true,
+        "status": "passed",
+        "blocks_completion": true
+      },
+      "verified_without_chat_history": {
+        "passed": true,
+        "status": "passed",
+        "blocks_completion": true
+      },
+      "local_remote_bootstrap_apply": {
+        "passed": true,
+        "status": "passed",
+        "blocks_completion": true
+      },
+      "publication_ready": {
+        "passed": false,
+        "status": "incomplete",
+        "blocks_completion": true
+      }
+    },
+    "local_actions": [
+      {
+        "id": "commit_or_clean_worktree",
+        "title": "Commit or intentionally exclude working tree changes",
+        "command": "git status --short",
+        "kind": "local",
+        "status": "ready",
+        "reason": "Publication readiness requires a clean committed branch before configuring or pushing a remote."
+      },
+      {
+        "id": "verify_after_publication_setup",
+        "title": "Re-run deep audit after remote setup",
+        "command": "python -B .repers/scripts/repers.py objective-audit --deep --output dist --json",
+        "kind": "local",
+        "status": "after_remote",
+        "reason": "Confirms clean tree, package gates, and publish readiness after the external remote is configured."
+      }
+    ],
+    "external_actions": [
+      {
+        "id": "configure_hosted_remote",
+        "title": "Configure hosted Git remote",
+        "command": "python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json",
+        "kind": "external",
+        "status": "needs_remote_url",
+        "reason": "Requires a real hosted repository URL; local fixture already proves the apply and push mechanics."
+      },
+      {
+        "id": "push_branch",
+        "title": "Push committed branch",
+        "command": "git push -u origin <branch>",
+        "kind": "external",
+        "status": "after_remote",
+        "reason": "Requires the hosted remote to exist and be configured."
+      },
+      {
+        "id": "open_draft_pr",
+        "title": "Open draft pull request",
+        "command": "gh pr create --draft --base main --head <branch> --title \"Publish RePERS\" --body-file dist/repers-publish-handoff.md",
+        "kind": "external",
+        "status": "after_push",
+        "reason": "Requires GitHub CLI authentication or an equivalent provider API."
+      }
+    ],
+    "handoff_action_ids": [
+      "add_remote",
+      "push_branch",
+      "open_draft_pr"
+    ],
+    "bootstrap_action_ids": [
+      "inspect_remotes",
+      "add_remote",
+      "publish_handoff",
+      "verify_publish_ready",
+      "push_branch",
+      "open_draft_pr"
+    ]
+  },
   "commands": [
     {
       "name": "bundle_status_package_roundtrip",
@@ -355,16 +473,16 @@
           "schema": "repers.package.v1",
           "ok": true,
           "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-          "archive_size_bytes": 104029,
-          "archive_sha256": "826b94a13c4f6e6460fd1ed3aa24c4983ca3e430dbda639992e338cc427e983a",
+          "archive_size_bytes": 106400,
+          "archive_sha256": "ee94fd3820df88d51e0e26345492af13d15c7756c3c5009ec447a447891915f3",
           "readiness_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0-readiness.json",
           "readiness": {
             "schema": "repers.package_readiness.v1",
             "version": "0.1.0",
-            "generated_at": "2026-06-21T14:05:48.628615+00:00",
+            "generated_at": "2026-06-21T14:15:53.950016+00:00",
             "source_shape": "installed_bundle",
             "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-            "archive_sha256": "826b94a13c4f6e6460fd1ed3aa24c4983ca3e430dbda639992e338cc427e983a",
+            "archive_sha256": "ee94fd3820df88d51e0e26345492af13d15c7756c3c5009ec447a447891915f3",
             "archive_sha256_scope": "final_sidecar",
             "archive_root": "repers-0.1.0",
             "package_manifest": "repers-0.1.0/repers-package-manifest.json",
@@ -416,16 +534,16 @@
           "manifest": {
             "schema": "repers.package_manifest.v1",
             "version": "0.1.0",
-            "generated_at": "2026-06-21T14:05:48.562301+00:00",
+            "generated_at": "2026-06-21T14:15:53.883486+00:00",
             "source_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
             "source_git_root": "C:\\Users\\Administrator\\Documents\\RePERS",
             "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
             "archive_root": "repers-0.1.0",
             "source_git": {
               "ok": true,
-              "commit": "853bb937d84270201a8bd7fe9df8af067a1c3a07",
+              "commit": "e6a72c3f2cdaf9bb7e31f88b906a380e3789af54",
               "dirty": true,
-              "status_count": 16
+              "status_count": 18
             },
             "files": [
               {
@@ -460,8 +578,8 @@
               },
               {
                 "path": "README.md",
-                "size_bytes": 5687,
-                "sha256": "88b825eeffeb2930e9194857d38b925344eace007e113bd87dc8c43931971b91"
+                "size_bytes": 5945,
+                "sha256": "8d6d2e6ccb7e3dee2325a72474ff0684295d8924a325b34e3ecb9b699870aa0d"
               },
               {
                 "path": "ROADMAP.md",
@@ -480,8 +598,8 @@
               },
               {
                 "path": "docs/planning/active-repers-build.md",
-                "size_bytes": 4767,
-                "sha256": "afe77bd4e0c836890b9a6094d4b1e196e3855596387e260eb755b2ee452b7c4b"
+                "size_bytes": 5119,
+                "sha256": "b5fa963d6f1e5b767bae04309d0c20b0eb1706ba53b033a8e738b37d266c1dd9"
               },
               {
                 "path": "examples/basic-task/README.md",
@@ -490,13 +608,13 @@
               },
               {
                 "path": "tests/smoke_repers.py",
-                "size_bytes": 25665,
-                "sha256": "f5b99af5852a570d5594b5be21e00bfe6a4404c3f591451e0ad3bf704dbfb831"
+                "size_bytes": 26278,
+                "sha256": "cc97a8a44da2c169de5d3775ff38053e6dbf0f1a90c4d1ef1ae18d665515456e"
               },
               {
                 "path": "capabilities/registry.json",
-                "size_bytes": 11855,
-                "sha256": "be9c1fa4807650c20da84cf4dda8678f1f5fecaecddb69a6d66aa2c83c6bb57c"
+                "size_bytes": 11942,
+                "sha256": "0c78ea5825e80ea2e3c60158ceed9d206fcd3ca80d140e47ae5ff056a0a99267"
               },
               {
                 "path": "docs/architecture.md",
@@ -505,8 +623,8 @@
               },
               {
                 "path": "docs/contracts.md",
-                "size_bytes": 17691,
-                "sha256": "a7cb19e3da25a16a9349cb8f9d7fe69e062476409ad2f7d858cc508eab1b8ebc"
+                "size_bytes": 18346,
+                "sha256": "30f617e57dc886e80b9be54d9ca07c8521766c2ecd8e89b5a1cc84f7a2cb83a7"
               },
               {
                 "path": "docs/installation.md",
@@ -575,8 +693,8 @@
               },
               {
                 "path": "scripts/objective_audit.py",
-                "size_bytes": 13840,
-                "sha256": "9f54ebdf59e42c4d76139f7bfa69bbbeaabee73a90cf77ba99fdc7bf57e96518"
+                "size_bytes": 23547,
+                "sha256": "751c18b230eda24cbf936b7a1e9a56ac996d78aa33e4ca580352a630fb9c8287"
               },
               {
                 "path": "scripts/orchestration_fixture.py",
@@ -670,35 +788,35 @@
               {
                 "name": "extract",
                 "ok": true,
-                "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-fsziay93\\extract"
+                "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-jqhla9_u\\extract"
               },
               {
                 "name": "git_init",
                 "ok": true,
                 "returncode": 0,
-                "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-package-roundtrip-fsziay93/target/.git/\n",
+                "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-package-roundtrip-jqhla9_u/target/.git/\n",
                 "stderr_tail": ""
               },
               {
                 "name": "install",
                 "ok": true,
                 "returncode": 0,
-                "stdout_tail": "[OK] Installed RePERS into C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-fsziay93\\target\\.repers\n[OK] Updated ignore rules at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-fsziay93\\target\\.gitignore\n[OK] Refreshed RePERS index at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-fsziay93\\target\\.repers\\index\\repers.db (13 documents)\n[OK] Wrote install manifest at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-fsziay93\\target\\.repers\\manifest.json (34 files)\n[OK] Try: python .repers/scripts/repers.py --help\n",
+                "stdout_tail": "[OK] Installed RePERS into C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-jqhla9_u\\target\\.repers\n[OK] Updated ignore rules at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-jqhla9_u\\target\\.gitignore\n[OK] Refreshed RePERS index at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-jqhla9_u\\target\\.repers\\index\\repers.db (13 documents)\n[OK] Wrote install manifest at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-jqhla9_u\\target\\.repers\\manifest.json (34 files)\n[OK] Try: python .repers/scripts/repers.py --help\n",
                 "stderr_tail": ""
               },
               {
                 "name": "verify_install",
                 "ok": true,
                 "returncode": 0,
-                "stdout_tail": "{\n  \"schema\": \"repers.install_verify.v1\",\n  \"ok\": true,\n  \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-fsziay93\\\\target\\\\.repers\",\n  \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-fsziay93\\\\target\\\\.repers\\\\manifest.json\",\n  \"manifest_schema\": \"repers.install_manifest.v1\",\n  \"manifest_version\": \"0.1.0\",\n  \"strict_extra\": false,\n  \"file_count\": 34,\n  \"checked_count\": 34,\n  \"missing\": [],\n  \"changed\": [],\n  \"extra\": [],\n  \"errors\": []\n}\n",
+                "stdout_tail": "{\n  \"schema\": \"repers.install_verify.v1\",\n  \"ok\": true,\n  \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-jqhla9_u\\\\target\\\\.repers\",\n  \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-jqhla9_u\\\\target\\\\.repers\\\\manifest.json\",\n  \"manifest_schema\": \"repers.install_manifest.v1\",\n  \"manifest_version\": \"0.1.0\",\n  \"strict_extra\": false,\n  \"file_count\": 34,\n  \"checked_count\": 34,\n  \"missing\": [],\n  \"changed\": [],\n  \"extra\": [],\n  \"errors\": []\n}\n",
                 "stderr_tail": ""
               }
             ],
             "verify": {
               "schema": "repers.install_verify.v1",
               "ok": true,
-              "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-fsziay93\\target\\.repers",
-              "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-fsziay93\\target\\.repers\\manifest.json",
+              "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-jqhla9_u\\target\\.repers",
+              "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-package-roundtrip-jqhla9_u\\target\\.repers\\manifest.json",
               "manifest_schema": "repers.install_manifest.v1",
               "manifest_version": "0.1.0",
               "strict_extra": false,
@@ -714,7 +832,7 @@
         },
         "errors": []
       },
-      "stdout_tail": "pdated ignore rules at C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-fsziay93\\\\target\\\\.gitignore\\n[OK] Refreshed RePERS index at C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-fsziay93\\\\target\\\\.repers\\\\index\\\\repers.db (13 documents)\\n[OK] Wrote install manifest at C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-fsziay93\\\\target\\\\.repers\\\\manifest.json (34 files)\\n[OK] Try: python .repers/scripts/repers.py --help\\n\",\n          \"stderr_tail\": \"\"\n        },\n        {\n          \"name\": \"verify_install\",\n          \"ok\": true,\n          \"returncode\": 0,\n          \"stdout_tail\": \"{\\n  \\\"schema\\\": \\\"repers.install_verify.v1\\\",\\n  \\\"ok\\\": true,\\n  \\\"install_root\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-package-roundtrip-fsziay93\\\\\\\\target\\\\\\\\.repers\\\",\\n  \\\"manifest_path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-package-roundtrip-fsziay93\\\\\\\\target\\\\\\\\.repers\\\\\\\\manifest.json\\\",\\n  \\\"manifest_schema\\\": \\\"repers.install_manifest.v1\\\",\\n  \\\"manifest_version\\\": \\\"0.1.0\\\",\\n  \\\"strict_extra\\\": false,\\n  \\\"file_count\\\": 34,\\n  \\\"checked_count\\\": 34,\\n  \\\"missing\\\": [],\\n  \\\"changed\\\": [],\\n  \\\"extra\\\": [],\\n  \\\"errors\\\": []\\n}\\n\",\n          \"stderr_tail\": \"\"\n        }\n      ],\n      \"verify\": {\n        \"schema\": \"repers.install_verify.v1\",\n        \"ok\": true,\n        \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-fsziay93\\\\target\\\\.repers\",\n        \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-fsziay93\\\\target\\\\.repers\\\\manifest.json\",\n        \"manifest_schema\": \"repers.install_manifest.v1\",\n        \"manifest_version\": \"0.1.0\",\n        \"strict_extra\": false,\n        \"file_count\": 34,\n        \"checked_count\": 34,\n        \"missing\": [],\n        \"changed\": [],\n        \"extra\": [],\n        \"errors\": []\n      },\n      \"errors\": []\n    }\n  },\n  \"errors\": []\n}\n",
+      "stdout_tail": "pdated ignore rules at C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-jqhla9_u\\\\target\\\\.gitignore\\n[OK] Refreshed RePERS index at C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-jqhla9_u\\\\target\\\\.repers\\\\index\\\\repers.db (13 documents)\\n[OK] Wrote install manifest at C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-jqhla9_u\\\\target\\\\.repers\\\\manifest.json (34 files)\\n[OK] Try: python .repers/scripts/repers.py --help\\n\",\n          \"stderr_tail\": \"\"\n        },\n        {\n          \"name\": \"verify_install\",\n          \"ok\": true,\n          \"returncode\": 0,\n          \"stdout_tail\": \"{\\n  \\\"schema\\\": \\\"repers.install_verify.v1\\\",\\n  \\\"ok\\\": true,\\n  \\\"install_root\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-package-roundtrip-jqhla9_u\\\\\\\\target\\\\\\\\.repers\\\",\\n  \\\"manifest_path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-package-roundtrip-jqhla9_u\\\\\\\\target\\\\\\\\.repers\\\\\\\\manifest.json\\\",\\n  \\\"manifest_schema\\\": \\\"repers.install_manifest.v1\\\",\\n  \\\"manifest_version\\\": \\\"0.1.0\\\",\\n  \\\"strict_extra\\\": false,\\n  \\\"file_count\\\": 34,\\n  \\\"checked_count\\\": 34,\\n  \\\"missing\\\": [],\\n  \\\"changed\\\": [],\\n  \\\"extra\\\": [],\\n  \\\"errors\\\": []\\n}\\n\",\n          \"stderr_tail\": \"\"\n        }\n      ],\n      \"verify\": {\n        \"schema\": \"repers.install_verify.v1\",\n        \"ok\": true,\n        \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-jqhla9_u\\\\target\\\\.repers\",\n        \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-package-roundtrip-jqhla9_u\\\\target\\\\.repers\\\\manifest.json\",\n        \"manifest_schema\": \"repers.install_manifest.v1\",\n        \"manifest_version\": \"0.1.0\",\n        \"strict_extra\": false,\n        \"file_count\": 34,\n        \"checked_count\": 34,\n        \"missing\": [],\n        \"changed\": [],\n        \"extra\": [],\n        \"errors\": []\n      },\n      \"errors\": []\n    }\n  },\n  \"errors\": []\n}\n",
       "stderr_tail": ""
     },
     {
@@ -733,20 +851,20 @@
       "json": {
         "schema": "repers.receiver_fixture.v1",
         "ok": true,
-        "generated_at": "2026-06-21T14:05:49.169734+00:00",
+        "generated_at": "2026-06-21T14:15:54.481973+00:00",
         "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
         "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
         "package": {
           "ok": true,
           "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-          "archive_sha256": "186474c23530c4a9c4f425660a3a9450a93ffa321c06a367efdc6e9621ae60bf",
+          "archive_sha256": "8aecc1010f4aeea4272d658f2bb9aeffc4759c8525d80b5313c556547faf96cb",
           "roundtrip_ok": null
         },
         "steps": [
           {
             "name": "extract",
             "ok": true,
-            "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\extract"
+            "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\extract"
           },
           {
             "name": "git_init",
@@ -754,24 +872,24 @@
               "git",
               "init"
             ],
-            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
+            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
             "returncode": 0,
             "ok": true,
-            "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/.git/\n",
+            "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/.git/\n",
             "stderr_tail": ""
           },
           {
             "name": "install",
             "command": [
               "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\extract\\repers-0.1.0\\scripts\\install_repers.py",
+              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\extract\\repers-0.1.0\\scripts\\install_repers.py",
               "--target",
-              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target"
+              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target"
             ],
-            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\extract\\repers-0.1.0",
+            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\extract\\repers-0.1.0",
             "returncode": 0,
             "ok": true,
-            "stdout_tail": "[OK] Installed RePERS into C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\n[OK] Installed pre-commit hook at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.git\\hooks\\pre-commit (policy=warn)\n[OK] Updated ignore rules at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.gitignore\n[OK] Refreshed RePERS index at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\index\\repers.db (13 documents)\n[OK] Wrote install manifest at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\manifest.json (34 files)\n[OK] Try: python .repers/scripts/repers.py --help\n",
+            "stdout_tail": "[OK] Installed RePERS into C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\n[OK] Installed pre-commit hook at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.git\\hooks\\pre-commit (policy=warn)\n[OK] Updated ignore rules at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.gitignore\n[OK] Refreshed RePERS index at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\index\\repers.db (13 documents)\n[OK] Wrote install manifest at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\manifest.json (34 files)\n[OK] Try: python .repers/scripts/repers.py --help\n",
             "stderr_tail": ""
           }
         ],
@@ -779,18 +897,18 @@
           "verify_install": {
             "command": [
               "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\repers.py",
+              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\repers.py",
               "verify-install",
               "--json"
             ],
-            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
+            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
             "returncode": 0,
             "ok": true,
             "json": {
               "schema": "repers.install_verify.v1",
               "ok": true,
-              "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers",
-              "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\manifest.json",
+              "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers",
+              "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\manifest.json",
               "manifest_schema": "repers.install_manifest.v1",
               "manifest_version": "0.1.0",
               "strict_extra": false,
@@ -801,18 +919,18 @@
               "extra": [],
               "errors": []
             },
-            "stdout_tail": "{\n  \"schema\": \"repers.install_verify.v1\",\n  \"ok\": true,\n  \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\",\n  \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\\\\manifest.json\",\n  \"manifest_schema\": \"repers.install_manifest.v1\",\n  \"manifest_version\": \"0.1.0\",\n  \"strict_extra\": false,\n  \"file_count\": 34,\n  \"checked_count\": 34,\n  \"missing\": [],\n  \"changed\": [],\n  \"extra\": [],\n  \"errors\": []\n}\n",
+            "stdout_tail": "{\n  \"schema\": \"repers.install_verify.v1\",\n  \"ok\": true,\n  \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\",\n  \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\\\\manifest.json\",\n  \"manifest_schema\": \"repers.install_manifest.v1\",\n  \"manifest_version\": \"0.1.0\",\n  \"strict_extra\": false,\n  \"file_count\": 34,\n  \"checked_count\": 34,\n  \"missing\": [],\n  \"changed\": [],\n  \"extra\": [],\n  \"errors\": []\n}\n",
             "stderr_tail": "",
             "errors": []
           },
           "doctor": {
             "command": [
               "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\repers.py",
+              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\repers.py",
               "doctor",
               "--json"
             ],
-            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
+            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
             "returncode": 0,
             "ok": true,
             "json": {
@@ -830,16 +948,16 @@
               },
               "git_repo": {
                 "ok": true,
-                "root": "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target"
+                "root": "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target"
               },
               "hook": {
                 "ok": true,
-                "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.git\\hooks\\pre-commit",
+                "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.git\\hooks\\pre-commit",
                 "installed": true
               },
               "index": {
                 "ok": true,
-                "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\index\\repers.db",
+                "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\index\\repers.db",
                 "documents": 13
               },
               "lsp_guard": {
@@ -879,35 +997,35 @@
                 }
               ],
               "paths": {
-                "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
-                "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers"
+                "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
+                "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers"
               },
               "ok": true
             },
-            "stdout_tail": "{\n  \"python\": {\n    \"name\": \"python\",\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Scripts\\\\python.EXE\",\n    \"version\": \"Python 3.11.15\"\n  },\n  \"git\": {\n    \"name\": \"git\",\n    \"ok\": true,\n    \"path\": \"D:\\\\Git\\\\cmd\\\\git.EXE\",\n    \"version\": \"git version 2.54.0.windows.1\"\n  },\n  \"git_repo\": {\n    \"ok\": true,\n    \"root\": \"C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target\"\n  },\n  \"hook\": {\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.git\\\\hooks\\\\pre-commit\",\n    \"installed\": true\n  },\n  \"index\": {\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\\\\index\\\\repers.db\",\n    \"documents\": 13\n  },\n  \"lsp_guard\": {\n    \"ok\": true,\n    \"path\": \"C:/Users/Administrator/AppData/Local/CodexAgentTools/lsp-guard/agent-lsp-guard.cmd\",\n    \"installed\": true\n  },\n  \"backends\": [\n    {\n      \"name\": \"local\",\n      \"ok\": true,\n      \"mode\": \"built-in\"\n    },\n    {\n      \"name\": \"worker-command\",\n      \"ok\": true,\n      \"mode\": \"built-in\",\n      \"configured\": false\n    },\n    {\n      \"name\": \"openai-agents\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'agents'\"\n    },\n    {\n      \"name\": \"langgraph\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'langgraph'\"\n    },\n    {\n      \"name\": \"mcp\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'mcp'\"\n    }\n  ],\n  \"paths\": {\n    \"workspace_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\",\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\"\n  },\n  \"ok\": true\n}\n",
+            "stdout_tail": "{\n  \"python\": {\n    \"name\": \"python\",\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Scripts\\\\python.EXE\",\n    \"version\": \"Python 3.11.15\"\n  },\n  \"git\": {\n    \"name\": \"git\",\n    \"ok\": true,\n    \"path\": \"D:\\\\Git\\\\cmd\\\\git.EXE\",\n    \"version\": \"git version 2.54.0.windows.1\"\n  },\n  \"git_repo\": {\n    \"ok\": true,\n    \"root\": \"C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target\"\n  },\n  \"hook\": {\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.git\\\\hooks\\\\pre-commit\",\n    \"installed\": true\n  },\n  \"index\": {\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\\\\index\\\\repers.db\",\n    \"documents\": 13\n  },\n  \"lsp_guard\": {\n    \"ok\": true,\n    \"path\": \"C:/Users/Administrator/AppData/Local/CodexAgentTools/lsp-guard/agent-lsp-guard.cmd\",\n    \"installed\": true\n  },\n  \"backends\": [\n    {\n      \"name\": \"local\",\n      \"ok\": true,\n      \"mode\": \"built-in\"\n    },\n    {\n      \"name\": \"worker-command\",\n      \"ok\": true,\n      \"mode\": \"built-in\",\n      \"configured\": false\n    },\n    {\n      \"name\": \"openai-agents\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'agents'\"\n    },\n    {\n      \"name\": \"langgraph\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'langgraph'\"\n    },\n    {\n      \"name\": \"mcp\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'mcp'\"\n    }\n  ],\n  \"paths\": {\n    \"workspace_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\",\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\"\n  },\n  \"ok\": true\n}\n",
             "stderr_tail": "",
             "errors": []
           },
           "bundle_status": {
             "command": [
               "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\repers.py",
+              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\repers.py",
               "bundle-status",
               "--json"
             ],
-            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
+            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
             "returncode": 0,
             "ok": true,
             "json": {
               "schema": "repers.bundle_status.v1",
               "ok": true,
-              "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
-              "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers",
+              "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
+              "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers",
               "verify_install": {
                 "schema": "repers.install_verify.v1",
                 "ok": true,
-                "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers",
-                "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\manifest.json",
+                "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers",
+                "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\manifest.json",
                 "manifest_schema": "repers.install_manifest.v1",
                 "manifest_version": "0.1.0",
                 "strict_extra": false,
@@ -933,16 +1051,16 @@
                 },
                 "git_repo": {
                   "ok": true,
-                  "root": "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target"
+                  "root": "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target"
                 },
                 "hook": {
                   "ok": true,
-                  "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.git\\hooks\\pre-commit",
+                  "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.git\\hooks\\pre-commit",
                   "installed": true
                 },
                 "index": {
                   "ok": true,
-                  "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\index\\repers.db",
+                  "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\index\\repers.db",
                   "documents": 13
                 },
                 "lsp_guard": {
@@ -982,45 +1100,45 @@
                   }
                 ],
                 "paths": {
-                  "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
-                  "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers"
+                  "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
+                  "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers"
                 },
                 "ok": true
               },
               "package": null,
               "errors": []
             },
-            "stdout_tail": "{\n  \"schema\": \"repers.bundle_status.v1\",\n  \"ok\": true,\n  \"workspace_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\",\n  \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\",\n  \"verify_install\": {\n    \"schema\": \"repers.install_verify.v1\",\n    \"ok\": true,\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\",\n    \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\\\\manifest.json\",\n    \"manifest_schema\": \"repers.install_manifest.v1\",\n    \"manifest_version\": \"0.1.0\",\n    \"strict_extra\": false,\n    \"file_count\": 34,\n    \"checked_count\": 34,\n    \"missing\": [],\n    \"changed\": [],\n    \"extra\": [],\n    \"errors\": []\n  },\n  \"doctor\": {\n    \"python\": {\n      \"name\": \"python\",\n      \"ok\": true,\n      \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Scripts\\\\python.EXE\",\n      \"version\": \"Python 3.11.15\"\n    },\n    \"git\": {\n      \"name\": \"git\",\n      \"ok\": true,\n      \"path\": \"D:\\\\Git\\\\cmd\\\\git.EXE\",\n      \"version\": \"git version 2.54.0.windows.1\"\n    },\n    \"git_repo\": {\n      \"ok\": true,\n      \"root\": \"C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target\"\n    },\n    \"hook\": {\n      \"ok\": true,\n      \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.git\\\\hooks\\\\pre-commit\",\n      \"installed\": true\n    },\n    \"index\": {\n      \"ok\": true,\n      \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\\\\index\\\\repers.db\",\n      \"documents\": 13\n    },\n    \"lsp_guard\": {\n      \"ok\": true,\n      \"path\": \"C:/Users/Administrator/AppData/Local/CodexAgentTools/lsp-guard/agent-lsp-guard.cmd\",\n      \"installed\": true\n    },\n    \"backends\": [\n      {\n        \"name\": \"local\",\n        \"ok\": true,\n        \"mode\": \"built-in\"\n      },\n      {\n        \"name\": \"worker-command\",\n        \"ok\": true,\n        \"mode\": \"built-in\",\n        \"configured\": false\n      },\n      {\n        \"name\": \"openai-agents\",\n        \"ok\": false,\n        \"mode\": \"optional\",\n        \"error\": \"No module named 'agents'\"\n      },\n      {\n        \"name\": \"langgraph\",\n        \"ok\": false,\n        \"mode\": \"optional\",\n        \"error\": \"No module named 'langgraph'\"\n      },\n      {\n        \"name\": \"mcp\",\n        \"ok\": false,\n        \"mode\": \"optional\",\n        \"error\": \"No module named 'mcp'\"\n      }\n    ],\n    \"paths\": {\n      \"workspace_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\",\n      \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\"\n    },\n    \"ok\": true\n  },\n  \"package\": null,\n  \"errors\": []\n}\n",
+            "stdout_tail": "{\n  \"schema\": \"repers.bundle_status.v1\",\n  \"ok\": true,\n  \"workspace_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\",\n  \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\",\n  \"verify_install\": {\n    \"schema\": \"repers.install_verify.v1\",\n    \"ok\": true,\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\",\n    \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\\\\manifest.json\",\n    \"manifest_schema\": \"repers.install_manifest.v1\",\n    \"manifest_version\": \"0.1.0\",\n    \"strict_extra\": false,\n    \"file_count\": 34,\n    \"checked_count\": 34,\n    \"missing\": [],\n    \"changed\": [],\n    \"extra\": [],\n    \"errors\": []\n  },\n  \"doctor\": {\n    \"python\": {\n      \"name\": \"python\",\n      \"ok\": true,\n      \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Scripts\\\\python.EXE\",\n      \"version\": \"Python 3.11.15\"\n    },\n    \"git\": {\n      \"name\": \"git\",\n      \"ok\": true,\n      \"path\": \"D:\\\\Git\\\\cmd\\\\git.EXE\",\n      \"version\": \"git version 2.54.0.windows.1\"\n    },\n    \"git_repo\": {\n      \"ok\": true,\n      \"root\": \"C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target\"\n    },\n    \"hook\": {\n      \"ok\": true,\n      \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.git\\\\hooks\\\\pre-commit\",\n      \"installed\": true\n    },\n    \"index\": {\n      \"ok\": true,\n      \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\\\\index\\\\repers.db\",\n      \"documents\": 13\n    },\n    \"lsp_guard\": {\n      \"ok\": true,\n      \"path\": \"C:/Users/Administrator/AppData/Local/CodexAgentTools/lsp-guard/agent-lsp-guard.cmd\",\n      \"installed\": true\n    },\n    \"backends\": [\n      {\n        \"name\": \"local\",\n        \"ok\": true,\n        \"mode\": \"built-in\"\n      },\n      {\n        \"name\": \"worker-command\",\n        \"ok\": true,\n        \"mode\": \"built-in\",\n        \"configured\": false\n      },\n      {\n        \"name\": \"openai-agents\",\n        \"ok\": false,\n        \"mode\": \"optional\",\n        \"error\": \"No module named 'agents'\"\n      },\n      {\n        \"name\": \"langgraph\",\n        \"ok\": false,\n        \"mode\": \"optional\",\n        \"error\": \"No module named 'langgraph'\"\n      },\n      {\n        \"name\": \"mcp\",\n        \"ok\": false,\n        \"mode\": \"optional\",\n        \"error\": \"No module named 'mcp'\"\n      }\n    ],\n    \"paths\": {\n      \"workspace_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\",\n      \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\"\n    },\n    \"ok\": true\n  },\n  \"package\": null,\n  \"errors\": []\n}\n",
             "stderr_tail": "",
             "errors": []
           },
           "capabilities_validate": {
             "command": [
               "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\repers.py",
+              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\repers.py",
               "capabilities",
               "--action",
               "validate",
               "--json"
             ],
-            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
+            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
             "returncode": 0,
             "ok": true,
             "json": {
               "schema": "repers.capability_registry_validation.v1",
               "ok": true,
-              "registry_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\capabilities\\registry.json",
+              "registry_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\capabilities\\registry.json",
               "entry_count": 13,
               "errors": []
             },
-            "stdout_tail": "{\n  \"schema\": \"repers.capability_registry_validation.v1\",\n  \"ok\": true,\n  \"registry_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\\\\capabilities\\\\registry.json\",\n  \"entry_count\": 13,\n  \"errors\": []\n}\n",
+            "stdout_tail": "{\n  \"schema\": \"repers.capability_registry_validation.v1\",\n  \"ok\": true,\n  \"registry_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\\\\capabilities\\\\registry.json\",\n  \"entry_count\": 13,\n  \"errors\": []\n}\n",
             "stderr_tail": "",
             "errors": []
           },
           "capabilities_search": {
             "command": [
               "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\repers.py",
+              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\repers.py",
               "capabilities",
               "--action",
               "search",
@@ -1028,13 +1146,13 @@
               "fixture worker-command parallel dag",
               "--json"
             ],
-            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
+            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
             "returncode": 0,
             "ok": true,
             "json": {
               "schema": "repers.capability_query.v1",
               "ok": true,
-              "registry_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\capabilities\\registry.json",
+              "registry_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\capabilities\\registry.json",
               "query": "fixture worker-command parallel dag",
               "count": 5,
               "errors": [],
@@ -1194,7 +1312,7 @@
           "fixture_prove": {
             "command": [
               "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\repers.py",
+              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\repers.py",
               "fixture",
               "--action",
               "prove",
@@ -1202,7 +1320,7 @@
               "receiver-fixture",
               "--json"
             ],
-            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
+            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
             "returncode": 0,
             "ok": true,
             "json": {
@@ -1211,8 +1329,8 @@
               "task": "receiver-fixture",
               "created": {
                 "task": "receiver-fixture",
-                "task_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture",
-                "plan_md": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\plan.md"
+                "task_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture",
+                "plan_md": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\plan.md"
               },
               "initial_dry_run": {
                 "schema": "repers.run_plan.v1",
@@ -1227,7 +1345,7 @@
                         "title": "Research lane writes shared artifact",
                         "mode": "subagent",
                         "target_files": [
-                          "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
+                          "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
                         ],
                         "verification_command": ""
                       },
@@ -1236,7 +1354,7 @@
                         "title": "Hook lane writes independent artifact",
                         "mode": "subagent",
                         "target_files": [
-                          "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/hook.json"
+                          "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/hook.json"
                         ],
                         "verification_command": ""
                       }
@@ -1250,7 +1368,7 @@
                         "title": "Package lane writes shared artifact",
                         "mode": "subagent",
                         "target_files": [
-                          "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
+                          "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
                         ],
                         "verification_command": ""
                       }
@@ -1261,9 +1379,9 @@
               "dispatch": {
                 "schema": "repers.dispatch.v1",
                 "task": "receiver-fixture",
-                "task_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture",
-                "plan_json": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\plan.json",
-                "plan_md": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\plan.md",
+                "task_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture",
+                "plan_json": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\plan.json",
+                "plan_md": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\plan.md",
                 "backend": "worker-command",
                 "max_workers": 3,
                 "ready_count": 3,
@@ -1278,11 +1396,11 @@
                     "title": "Research lane writes shared artifact",
                     "mode": "subagent",
                     "target_files": [
-                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
+                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
                     ],
                     "depends_on": [],
                     "verification_command": "",
-                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch1-step1.md"
+                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch1-step1.md"
                   },
                   {
                     "worker_id": "batch1-step3",
@@ -1293,11 +1411,11 @@
                     "title": "Hook lane writes independent artifact",
                     "mode": "subagent",
                     "target_files": [
-                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/hook.json"
+                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/hook.json"
                     ],
                     "depends_on": [],
                     "verification_command": "",
-                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch1-step3.md"
+                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch1-step3.md"
                   },
                   {
                     "worker_id": "batch2-step2",
@@ -1308,11 +1426,11 @@
                     "title": "Package lane writes shared artifact",
                     "mode": "subagent",
                     "target_files": [
-                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
+                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
                     ],
                     "depends_on": [],
                     "verification_command": "",
-                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch2-step2.md"
+                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch2-step2.md"
                   }
                 ],
                 "batches": [
@@ -1335,63 +1453,63 @@
                 "schema": "repers.run_result.v1",
                 "task": "receiver-fixture",
                 "backend": "worker-command",
-                "dispatch_manifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\dispatch\\manifest.json",
+                "dispatch_manifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\dispatch\\manifest.json",
                 "results": [
-                  {
-                    "schema": "repers.step_result.v1",
-                    "step_id": "3",
-                    "title": "Hook lane writes independent artifact",
-                    "status": "completed",
-                    "command": "\"C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\" \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\orchestration_fixture.py\" worker --json",
-                    "returncode": 0,
-                    "duration_seconds": 0.054,
-                    "stdout_tail": "{\n  \"schema\": \"repers.fixture_worker_record.v1\",\n  \"step_id\": \"3\",\n  \"worker_id\": \"batch1-step3\",\n  \"prompt_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\dispatch\\\\workers\\\\batch1-step3.md\",\n  \"generated_at\": \"2026-06-21T14:05:50.035268+00:00\"\n}\n",
-                    "stderr_tail": "",
-                    "target_files": [
-                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/hook.json"
-                    ],
-                    "worker_id": "batch1-step3",
-                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch1-step3.md",
-                    "result_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\results\\3.json"
-                  },
                   {
                     "schema": "repers.step_result.v1",
                     "step_id": "1",
                     "title": "Research lane writes shared artifact",
                     "status": "completed",
-                    "command": "\"C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\" \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\orchestration_fixture.py\" worker --json",
+                    "command": "\"C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\" \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\orchestration_fixture.py\" worker --json",
                     "returncode": 0,
-                    "duration_seconds": 0.054,
-                    "stdout_tail": "{\n  \"schema\": \"repers.fixture_worker_record.v1\",\n  \"step_id\": \"1\",\n  \"worker_id\": \"batch1-step1\",\n  \"prompt_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\dispatch\\\\workers\\\\batch1-step1.md\",\n  \"generated_at\": \"2026-06-21T14:05:50.035268+00:00\"\n}\n",
+                    "duration_seconds": 0.065,
+                    "stdout_tail": "{\n  \"schema\": \"repers.fixture_worker_record.v1\",\n  \"step_id\": \"1\",\n  \"worker_id\": \"batch1-step1\",\n  \"prompt_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\dispatch\\\\workers\\\\batch1-step1.md\",\n  \"generated_at\": \"2026-06-21T14:15:55.372253+00:00\"\n}\n",
                     "stderr_tail": "",
                     "target_files": [
-                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
+                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
                     ],
                     "worker_id": "batch1-step1",
-                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch1-step1.md",
-                    "result_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\results\\1.json"
+                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch1-step1.md",
+                    "result_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\results\\1.json"
+                  },
+                  {
+                    "schema": "repers.step_result.v1",
+                    "step_id": "3",
+                    "title": "Hook lane writes independent artifact",
+                    "status": "completed",
+                    "command": "\"C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\" \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\orchestration_fixture.py\" worker --json",
+                    "returncode": 0,
+                    "duration_seconds": 0.065,
+                    "stdout_tail": "{\n  \"schema\": \"repers.fixture_worker_record.v1\",\n  \"step_id\": \"3\",\n  \"worker_id\": \"batch1-step3\",\n  \"prompt_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\dispatch\\\\workers\\\\batch1-step3.md\",\n  \"generated_at\": \"2026-06-21T14:15:55.373254+00:00\"\n}\n",
+                    "stderr_tail": "",
+                    "target_files": [
+                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/hook.json"
+                    ],
+                    "worker_id": "batch1-step3",
+                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch1-step3.md",
+                    "result_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\results\\3.json"
                   },
                   {
                     "schema": "repers.step_result.v1",
                     "step_id": "2",
                     "title": "Package lane writes shared artifact",
                     "status": "completed",
-                    "command": "\"C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\" \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\orchestration_fixture.py\" worker --json",
+                    "command": "\"C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\" \"C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\orchestration_fixture.py\" worker --json",
                     "returncode": 0,
-                    "duration_seconds": 0.053,
-                    "stdout_tail": "{\n  \"schema\": \"repers.fixture_worker_record.v1\",\n  \"step_id\": \"2\",\n  \"worker_id\": \"batch2-step2\",\n  \"prompt_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\dispatch\\\\workers\\\\batch2-step2.md\",\n  \"generated_at\": \"2026-06-21T14:05:50.087869+00:00\"\n}\n",
+                    "duration_seconds": 0.052,
+                    "stdout_tail": "{\n  \"schema\": \"repers.fixture_worker_record.v1\",\n  \"step_id\": \"2\",\n  \"worker_id\": \"batch2-step2\",\n  \"prompt_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\dispatch\\\\workers\\\\batch2-step2.md\",\n  \"generated_at\": \"2026-06-21T14:15:55.429633+00:00\"\n}\n",
                     "stderr_tail": "",
                     "target_files": [
-                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
+                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/shared-log.jsonl"
                     ],
                     "worker_id": "batch2-step2",
-                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch2-step2.md",
-                    "result_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\results\\2.json"
+                    "prompt_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\dispatch\\workers\\batch2-step2.md",
+                    "result_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\results\\2.json"
                   }
                 ],
                 "completed": [
-                  "3",
                   "1",
+                  "3",
                   "2"
                 ],
                 "failed": []
@@ -1409,9 +1527,9 @@
                         "title": "Join and verify worker evidence",
                         "mode": "local",
                         "target_files": [
-                          "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/join.json"
+                          "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/join.json"
                         ],
-                        "verification_command": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\orchestration_fixture.py assert --task receiver-fixture --workspace C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target"
+                        "verification_command": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\orchestration_fixture.py assert --task receiver-fixture --workspace C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target"
                       }
                     ]
                   }
@@ -1426,15 +1544,15 @@
                     "step_id": "4",
                     "title": "Join and verify worker evidence",
                     "status": "completed",
-                    "command": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\orchestration_fixture.py assert --task receiver-fixture --workspace C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
+                    "command": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\orchestration_fixture.py assert --task receiver-fixture --workspace C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
                     "returncode": 0,
-                    "duration_seconds": 0.08,
-                    "stdout_tail": "{\n  \"schema\": \"repers.fixture_join.v1\",\n  \"fixture_ok\": true,\n  \"task\": \"receiver-fixture\",\n  \"task_dir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\",\n  \"dispatch_manifest\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\dispatch\\\\manifest.json\",\n  \"batch_count\": 2,\n  \"worker_count\": 3,\n  \"result_status\": {\n    \"1\": \"completed\",\n    \"2\": \"completed\",\n    \"3\": \"completed\"\n  },\n  \"shared_record_count\": 2,\n  \"errors\": []\n}\n",
+                    "duration_seconds": 0.173,
+                    "stdout_tail": "{\n  \"schema\": \"repers.fixture_join.v1\",\n  \"fixture_ok\": true,\n  \"task\": \"receiver-fixture\",\n  \"task_dir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\",\n  \"dispatch_manifest\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\dispatch\\\\manifest.json\",\n  \"batch_count\": 2,\n  \"worker_count\": 3,\n  \"result_status\": {\n    \"1\": \"completed\",\n    \"2\": \"completed\",\n    \"3\": \"completed\"\n  },\n  \"shared_record_count\": 2,\n  \"errors\": []\n}\n",
                     "stderr_tail": "",
                     "target_files": [
-                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/join.json"
+                      "C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/join.json"
                     ],
-                    "result_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\results\\4.json"
+                    "result_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\results\\4.json"
                   }
                 ],
                 "completed": [
@@ -1446,8 +1564,8 @@
                 "schema": "repers.fixture_join.v1",
                 "fixture_ok": true,
                 "task": "receiver-fixture",
-                "task_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture",
-                "dispatch_manifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\dispatch\\manifest.json",
+                "task_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture",
+                "dispatch_manifest": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\dispatch\\manifest.json",
                 "batch_count": 2,
                 "worker_count": 3,
                 "result_status": {
@@ -1460,36 +1578,36 @@
               },
               "review": {
                 "schema": "repers.review.v1",
-                "task_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture",
-                "results_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\results",
+                "task_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture",
+                "results_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\results",
                 "result_count": 4,
                 "ok_count": 4,
                 "failed_count": 0,
                 "ok": true,
                 "results": [
                   {
-                    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\results\\1.json",
+                    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\results\\1.json",
                     "step_id": "1",
                     "status": "completed",
                     "ok": true,
                     "errors": []
                   },
                   {
-                    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\results\\2.json",
+                    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\results\\2.json",
                     "step_id": "2",
                     "status": "completed",
                     "ok": true,
                     "errors": []
                   },
                   {
-                    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\results\\3.json",
+                    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\results\\3.json",
                     "step_id": "3",
                     "status": "completed",
                     "ok": true,
                     "errors": []
                   },
                   {
-                    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\repers_tasks\\receiver_fixture\\results\\4.json",
+                    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\repers_tasks\\receiver_fixture\\results\\4.json",
                     "step_id": "4",
                     "status": "completed",
                     "ok": true,
@@ -1520,28 +1638,28 @@
                 }
               }
             },
-            "stdout_tail": "\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\.repers\\\\scripts\\\\orchestration_fixture.py assert --task receiver-fixture --workspace C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\",\n        \"returncode\": 0,\n        \"duration_seconds\": 0.08,\n        \"stdout_tail\": \"{\\n  \\\"schema\\\": \\\"repers.fixture_join.v1\\\",\\n  \\\"fixture_ok\\\": true,\\n  \\\"task\\\": \\\"receiver-fixture\\\",\\n  \\\"task_dir\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-receiver-fixture-0e4pkyjc\\\\\\\\target\\\\\\\\repers_tasks\\\\\\\\receiver_fixture\\\",\\n  \\\"dispatch_manifest\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-receiver-fixture-0e4pkyjc\\\\\\\\target\\\\\\\\repers_tasks\\\\\\\\receiver_fixture\\\\\\\\dispatch\\\\\\\\manifest.json\\\",\\n  \\\"batch_count\\\": 2,\\n  \\\"worker_count\\\": 3,\\n  \\\"result_status\\\": {\\n    \\\"1\\\": \\\"completed\\\",\\n    \\\"2\\\": \\\"completed\\\",\\n    \\\"3\\\": \\\"completed\\\"\\n  },\\n  \\\"shared_record_count\\\": 2,\\n  \\\"errors\\\": []\\n}\\n\",\n        \"stderr_tail\": \"\",\n        \"target_files\": [\n          \"C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-0e4pkyjc/target/repers_tasks/receiver_fixture/outputs/join.json\"\n        ],\n        \"result_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\\\\4.json\"\n      }\n    ],\n    \"completed\": [\n      \"4\"\n    ],\n    \"failed\": []\n  },\n  \"join\": {\n    \"schema\": \"repers.fixture_join.v1\",\n    \"fixture_ok\": true,\n    \"task\": \"receiver-fixture\",\n    \"task_dir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\",\n    \"dispatch_manifest\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\dispatch\\\\manifest.json\",\n    \"batch_count\": 2,\n    \"worker_count\": 3,\n    \"result_status\": {\n      \"1\": \"completed\",\n      \"2\": \"completed\",\n      \"3\": \"completed\"\n    },\n    \"shared_record_count\": 2,\n    \"errors\": []\n  },\n  \"review\": {\n    \"schema\": \"repers.review.v1\",\n    \"task_dir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\",\n    \"results_dir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\",\n    \"result_count\": 4,\n    \"ok_count\": 4,\n    \"failed_count\": 0,\n    \"ok\": true,\n    \"results\": [\n      {\n        \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\\\\1.json\",\n        \"step_id\": \"1\",\n        \"status\": \"completed\",\n        \"ok\": true,\n        \"errors\": []\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\\\\2.json\",\n        \"step_id\": \"2\",\n        \"status\": \"completed\",\n        \"ok\": true,\n        \"errors\": []\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\\\\3.json\",\n        \"step_id\": \"3\",\n        \"status\": \"completed\",\n        \"ok\": true,\n        \"errors\": []\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\\\\4.json\",\n        \"step_id\": \"4\",\n        \"status\": \"completed\",\n        \"ok\": true,\n        \"errors\": []\n      }\n    ],\n    \"status_update\": {\n      \"updated\": [\n        {\n          \"step_id\": \"1\",\n          \"status\": \"Completed\"\n        },\n        {\n          \"step_id\": \"2\",\n          \"status\": \"Completed\"\n        },\n        {\n          \"step_id\": \"3\",\n          \"status\": \"Completed\"\n        },\n        {\n          \"step_id\": \"4\",\n          \"status\": \"Completed\"\n        }\n      ],\n      \"skipped\": [],\n      \"error\": null\n    }\n  }\n}\n",
+            "stdout_tail": "\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\.repers\\\\scripts\\\\orchestration_fixture.py assert --task receiver-fixture --workspace C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\",\n        \"returncode\": 0,\n        \"duration_seconds\": 0.173,\n        \"stdout_tail\": \"{\\n  \\\"schema\\\": \\\"repers.fixture_join.v1\\\",\\n  \\\"fixture_ok\\\": true,\\n  \\\"task\\\": \\\"receiver-fixture\\\",\\n  \\\"task_dir\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-receiver-fixture-08tb7y8e\\\\\\\\target\\\\\\\\repers_tasks\\\\\\\\receiver_fixture\\\",\\n  \\\"dispatch_manifest\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-receiver-fixture-08tb7y8e\\\\\\\\target\\\\\\\\repers_tasks\\\\\\\\receiver_fixture\\\\\\\\dispatch\\\\\\\\manifest.json\\\",\\n  \\\"batch_count\\\": 2,\\n  \\\"worker_count\\\": 3,\\n  \\\"result_status\\\": {\\n    \\\"1\\\": \\\"completed\\\",\\n    \\\"2\\\": \\\"completed\\\",\\n    \\\"3\\\": \\\"completed\\\"\\n  },\\n  \\\"shared_record_count\\\": 2,\\n  \\\"errors\\\": []\\n}\\n\",\n        \"stderr_tail\": \"\",\n        \"target_files\": [\n          \"C:/Users/Administrator/AppData/Local/Temp/repers-receiver-fixture-08tb7y8e/target/repers_tasks/receiver_fixture/outputs/join.json\"\n        ],\n        \"result_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\\\\4.json\"\n      }\n    ],\n    \"completed\": [\n      \"4\"\n    ],\n    \"failed\": []\n  },\n  \"join\": {\n    \"schema\": \"repers.fixture_join.v1\",\n    \"fixture_ok\": true,\n    \"task\": \"receiver-fixture\",\n    \"task_dir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\",\n    \"dispatch_manifest\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\dispatch\\\\manifest.json\",\n    \"batch_count\": 2,\n    \"worker_count\": 3,\n    \"result_status\": {\n      \"1\": \"completed\",\n      \"2\": \"completed\",\n      \"3\": \"completed\"\n    },\n    \"shared_record_count\": 2,\n    \"errors\": []\n  },\n  \"review\": {\n    \"schema\": \"repers.review.v1\",\n    \"task_dir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\",\n    \"results_dir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\",\n    \"result_count\": 4,\n    \"ok_count\": 4,\n    \"failed_count\": 0,\n    \"ok\": true,\n    \"results\": [\n      {\n        \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\\\\1.json\",\n        \"step_id\": \"1\",\n        \"status\": \"completed\",\n        \"ok\": true,\n        \"errors\": []\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\\\\2.json\",\n        \"step_id\": \"2\",\n        \"status\": \"completed\",\n        \"ok\": true,\n        \"errors\": []\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\\\\3.json\",\n        \"step_id\": \"3\",\n        \"status\": \"completed\",\n        \"ok\": true,\n        \"errors\": []\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\repers_tasks\\\\receiver_fixture\\\\results\\\\4.json\",\n        \"step_id\": \"4\",\n        \"status\": \"completed\",\n        \"ok\": true,\n        \"errors\": []\n      }\n    ],\n    \"status_update\": {\n      \"updated\": [\n        {\n          \"step_id\": \"1\",\n          \"status\": \"Completed\"\n        },\n        {\n          \"step_id\": \"2\",\n          \"status\": \"Completed\"\n        },\n        {\n          \"step_id\": \"3\",\n          \"status\": \"Completed\"\n        },\n        {\n          \"step_id\": \"4\",\n          \"status\": \"Completed\"\n        }\n      ],\n      \"skipped\": [],\n      \"error\": null\n    }\n  }\n}\n",
             "stderr_tail": "",
             "errors": []
           },
           "remote_bootstrap_fixture": {
             "command": [
               "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\repers.py",
+              "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\repers.py",
               "remote-bootstrap-fixture",
               "--json"
             ],
-            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
+            "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
             "returncode": 0,
             "ok": true,
             "json": {
               "remote_bootstrap_fixture": {
                 "schema": "repers.remote_bootstrap_apply_fixture.v1",
                 "ok": true,
-                "generated_at": "2026-06-21T14:05:50.265374+00:00",
-                "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
-                "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers",
-                "output_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\dist",
+                "generated_at": "2026-06-21T14:15:55.712607+00:00",
+                "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
+                "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers",
+                "output_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\dist",
                 "steps": [
                   {
                     "name": "git_init",
@@ -1549,10 +1667,10 @@
                       "git",
                       "init"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                     "returncode": 0,
                     "ok": true,
-                    "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-remote-apply-z24golx8/target/.git/\n",
+                    "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-remote-apply-n8kro5z7/target/.git/\n",
                     "stderr_tail": ""
                   },
                   {
@@ -1563,7 +1681,7 @@
                       "user.name",
                       "RePERS Fixture"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                     "returncode": 0,
                     "ok": true,
                     "stdout_tail": "",
@@ -1577,7 +1695,7 @@
                       "user.email",
                       "repers-fixture@example.invalid"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                     "returncode": 0,
                     "ok": true,
                     "stdout_tail": "",
@@ -1590,7 +1708,7 @@
                       "add",
                       "README.md"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                     "returncode": 0,
                     "ok": true,
                     "stdout_tail": "",
@@ -1604,25 +1722,25 @@
                       "-m",
                       "Seed fixture repository"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                     "returncode": 0,
                     "ok": true,
-                    "stdout_tail": "[master (root-commit) 036c8a9] Seed fixture repository\n 1 file changed, 1 insertion(+)\n create mode 100644 README.md\n",
+                    "stdout_tail": "[master (root-commit) 3ebfe7e] Seed fixture repository\n 1 file changed, 1 insertion(+)\n create mode 100644 README.md\n",
                     "stderr_tail": ""
                   },
                   {
                     "name": "install_repers",
                     "command": [
                       "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\.repers\\scripts\\install_repers.py",
+                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\.repers\\scripts\\install_repers.py",
                       "--target",
-                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                       "--no-hook"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target",
                     "returncode": 0,
                     "ok": true,
-                    "stdout_tail": "[OK] Installed RePERS into C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target\\.repers\n[OK] Updated ignore rules at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target\\.gitignore\n[OK] Refreshed RePERS index at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target\\.repers\\index\\repers.db (14 documents)\n[OK] Wrote install manifest at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target\\.repers\\manifest.json (34 files)\n[OK] Try: python .repers/scripts/repers.py --help\n",
+                    "stdout_tail": "[OK] Installed RePERS into C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target\\.repers\n[OK] Updated ignore rules at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target\\.gitignore\n[OK] Refreshed RePERS index at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target\\.repers\\index\\repers.db (14 documents)\n[OK] Wrote install manifest at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target\\.repers\\manifest.json (34 files)\n[OK] Try: python .repers/scripts/repers.py --help\n",
                     "stderr_tail": ""
                   },
                   {
@@ -1634,7 +1752,7 @@
                       ".gitignore",
                       "docs"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                     "returncode": 0,
                     "ok": true,
                     "stdout_tail": "",
@@ -1648,10 +1766,10 @@
                       "-m",
                       "Install RePERS fixture runtime"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                     "returncode": 0,
                     "ok": true,
-                    "stdout_tail": "[master a57886e] Install RePERS fixture runtime\n 37 files changed, 8099 insertions(+)\n create mode 100644 .gitignore\n create mode 100644 .repers/capabilities/registry.json\n create mode 100644 .repers/docs/architecture.md\n create mode 100644 .repers/docs/contracts.md\n create mode 100644 .repers/docs/installation.md\n create mode 100644 .repers/docs/integration.md\n create mode 100644 .repers/docs/open-source-structure-study.md\n create mode 100644 .repers/docs/packaging.md\n create mode 100644 .repers/docs/planning/active-repers-build.md\n create mode 100644 .repers/docs/spec.md\n create mode 100644 .repers/docs/workflow.md\n create mode 100644 .repers/hooks/pre-commit\n create mode 100644 .repers/index/repers.db\n create mode 100644 .repers/manifest.json\n create mode 100644 .repers/scripts/backends.py\n create mode 100644 .repers/scripts/capability_registry.py\n create mode 100644 .repers/scripts/codegraph_support.py\n create mode 100644 .repers/scripts/dag_engine.py\n create mode 100644 .repers/scripts/doctor.py\n create mode 100644 .repers/scripts/install_repers.py\n create mode 100644 .repers/scripts/objective_audit.py\n create mode 100644 .repers/scripts/orchestration_fixture.py\n create mode 100644 .repers/scripts/package_repers.py\n create mode 100644 .repers/scripts/plan_runner.py\n create mode 100644 .repers/scripts/publish_handoff.py\n create mode 100644 .repers/scripts/receiver_fixture.py\n create mode 100644 .repers/scripts/release_evidence.py\n create mode 100644 .repers/scripts/release_gate.py\n create mode 100644 .repers/scripts/remote_bootstrap.py\n create mode 100644 .repers/scripts/repers.py\n create mode 100644 .repers/scripts/research_index.py\n create mode 100644 .repers/scripts/reviewer.py\n create mode 100644 .repers/scripts/shipping.py\n create mode 100644 .repers/templates/plan.md\n create mode 100644 .repers/templates/research.md\n create mode 100644 .repers/templates/review.md\n create mode 100644 .repers/templates/shipping.md\n",
+                    "stdout_tail": "[master caa993f] Install RePERS fixture runtime\n 37 files changed, 8363 insertions(+)\n create mode 100644 .gitignore\n create mode 100644 .repers/capabilities/registry.json\n create mode 100644 .repers/docs/architecture.md\n create mode 100644 .repers/docs/contracts.md\n create mode 100644 .repers/docs/installation.md\n create mode 100644 .repers/docs/integration.md\n create mode 100644 .repers/docs/open-source-structure-study.md\n create mode 100644 .repers/docs/packaging.md\n create mode 100644 .repers/docs/planning/active-repers-build.md\n create mode 100644 .repers/docs/spec.md\n create mode 100644 .repers/docs/workflow.md\n create mode 100644 .repers/hooks/pre-commit\n create mode 100644 .repers/index/repers.db\n create mode 100644 .repers/manifest.json\n create mode 100644 .repers/scripts/backends.py\n create mode 100644 .repers/scripts/capability_registry.py\n create mode 100644 .repers/scripts/codegraph_support.py\n create mode 100644 .repers/scripts/dag_engine.py\n create mode 100644 .repers/scripts/doctor.py\n create mode 100644 .repers/scripts/install_repers.py\n create mode 100644 .repers/scripts/objective_audit.py\n create mode 100644 .repers/scripts/orchestration_fixture.py\n create mode 100644 .repers/scripts/package_repers.py\n create mode 100644 .repers/scripts/plan_runner.py\n create mode 100644 .repers/scripts/publish_handoff.py\n create mode 100644 .repers/scripts/receiver_fixture.py\n create mode 100644 .repers/scripts/release_evidence.py\n create mode 100644 .repers/scripts/release_gate.py\n create mode 100644 .repers/scripts/remote_bootstrap.py\n create mode 100644 .repers/scripts/repers.py\n create mode 100644 .repers/scripts/research_index.py\n create mode 100644 .repers/scripts/reviewer.py\n create mode 100644 .repers/scripts/shipping.py\n create mode 100644 .repers/templates/plan.md\n create mode 100644 .repers/templates/research.md\n create mode 100644 .repers/templates/review.md\n create mode 100644 .repers/templates/shipping.md\n",
                     "stderr_tail": ""
                   },
                   {
@@ -1660,12 +1778,12 @@
                       "git",
                       "init",
                       "--bare",
-                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git"
+                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7",
                     "returncode": 0,
                     "ok": true,
-                    "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-remote-apply-z24golx8/remote.git/\n",
+                    "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-remote-apply-n8kro5z7/remote.git/\n",
                     "stderr_tail": ""
                   }
                 ],
@@ -1673,48 +1791,48 @@
                   "remote_bootstrap_apply": {
                     "command": [
                       "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target\\.repers\\scripts\\repers.py",
+                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target\\.repers\\scripts\\repers.py",
                       "remote-bootstrap",
                       "--remote-url",
-                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git",
+                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git",
                       "--output",
-                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\output",
+                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\output",
                       "--apply",
                       "--json"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                     "returncode": 0,
                     "ok": true,
                     "json": {
                       "remote_bootstrap": {
                         "schema": "repers.remote_bootstrap.v1",
                         "ok": true,
-                        "generated_at": "2026-06-21T14:05:51.928586+00:00",
-                        "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
-                        "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target\\.repers",
-                        "output_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\output",
+                        "generated_at": "2026-06-21T14:15:57.449697+00:00",
+                        "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
+                        "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target\\.repers",
+                        "output_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\output",
                         "remote": {
                           "name": "origin",
-                          "provided_url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git",
+                          "provided_url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git",
                           "records": [
                             {
                               "name": "origin",
-                              "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git",
+                              "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git",
                               "kind": "fetch"
                             },
                             {
                               "name": "origin",
-                              "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git",
+                              "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git",
                               "kind": "push"
                             }
                           ],
                           "named_remote_urls": [
-                            "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git"
+                            "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git"
                           ]
                         },
                         "git": {
                           "branch": "master",
-                          "head_sha": "a57886e7cd23f3a289a5f37ad6c3ec7fbe3197a6",
+                          "head_sha": "caa993f5ac542a1e2a8b3c89a5df8bd3fba9b03a",
                           "has_head": true,
                           "dirty": false,
                           "status_count": 0,
@@ -1723,12 +1841,12 @@
                           "remotes": [
                             {
                               "name": "origin",
-                              "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git",
+                              "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git",
                               "kind": "fetch"
                             },
                             {
                               "name": "origin",
-                              "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git",
+                              "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git",
                               "kind": "push"
                             }
                           ]
@@ -1738,7 +1856,7 @@
                           "ok": true,
                           "changed": true,
                           "remote_name": "origin",
-                          "remote_url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git",
+                          "remote_url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git",
                           "actions": [
                             {
                               "name": "git_remote_add",
@@ -1752,8 +1870,8 @@
                         },
                         "publish_handoff": {
                           "ok": true,
-                          "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\output\\repers-publish-handoff.json",
-                          "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\output\\repers-publish-handoff.md",
+                          "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\output\\repers-publish-handoff.json",
+                          "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\output\\repers-publish-handoff.md",
                           "publish_ready": false,
                           "missing_for_publish": [
                             "produce an ok package readiness artifact",
@@ -1771,16 +1889,16 @@
                           {
                             "id": "add_remote",
                             "title": "Configure publication remote",
-                            "command": "git remote add origin C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git",
+                            "command": "git remote add origin C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git",
                             "status": "done",
                             "reason": "Named remote already exists."
                           },
                           {
                             "id": "publish_handoff",
                             "title": "Regenerate publish handoff evidence",
-                            "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git --base-branch main --pr-title \"Install RePERS fixture runtime\" --json",
+                            "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git --base-branch main --pr-title \"Install RePERS fixture runtime\" --json",
                             "status": "ready",
-                            "reason": "Handoff path: C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\output\\repers-publish-handoff.md"
+                            "reason": "Handoff path: C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\output\\repers-publish-handoff.md"
                           },
                           {
                             "id": "verify_publish_ready",
@@ -1799,7 +1917,7 @@
                           {
                             "id": "open_draft_pr",
                             "title": "Open draft pull request",
-                            "command": "gh pr create --draft --base main --head master --title \"Install RePERS fixture runtime\" --body-file C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\output\\repers-publish-handoff.md",
+                            "command": "gh pr create --draft --base main --head master --title \"Install RePERS fixture runtime\" --body-file C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\output\\repers-publish-handoff.md",
                             "status": "ready",
                             "reason": "Requires GitHub CLI authentication and a pushed branch."
                           }
@@ -1812,13 +1930,13 @@
                           "requires_apply_for_remote_mutation": true,
                           "overwrites_existing_remote": false
                         },
-                        "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\output\\repers-remote-bootstrap.json",
-                        "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\output\\repers-remote-bootstrap.md"
+                        "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\output\\repers-remote-bootstrap.json",
+                        "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\output\\repers-remote-bootstrap.md"
                       },
-                      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\output\\repers-remote-bootstrap.json",
-                      "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\output\\repers-remote-bootstrap.md"
+                      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\output\\repers-remote-bootstrap.json",
+                      "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\output\\repers-remote-bootstrap.md"
                     },
-                    "stdout_tail": "        \"name\": \"origin\",\n          \"url\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\remote.git\",\n          \"kind\": \"push\"\n        }\n      ]\n    },\n    \"applied\": {\n      \"requested\": true,\n      \"ok\": true,\n      \"changed\": true,\n      \"remote_name\": \"origin\",\n      \"remote_url\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\remote.git\",\n      \"actions\": [\n        {\n          \"name\": \"git_remote_add\",\n          \"ok\": true,\n          \"returncode\": 0,\n          \"stdout_tail\": \"\",\n          \"stderr_tail\": \"\"\n        }\n      ],\n      \"errors\": []\n    },\n    \"publish_handoff\": {\n      \"ok\": true,\n      \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\output\\\\repers-publish-handoff.json\",\n      \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\output\\\\repers-publish-handoff.md\",\n      \"publish_ready\": false,\n      \"missing_for_publish\": [\n        \"produce an ok package readiness artifact\",\n        \"add missing governance files\"\n      ]\n    },\n    \"actions\": [\n      {\n        \"id\": \"inspect_remotes\",\n        \"title\": \"Inspect current Git remotes\",\n        \"command\": \"git remote -v\",\n        \"status\": \"done\",\n        \"reason\": \"Remote state was inspected before generating this bootstrap artifact.\"\n      },\n      {\n        \"id\": \"add_remote\",\n        \"title\": \"Configure publication remote\",\n        \"command\": \"git remote add origin C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\remote.git\",\n        \"status\": \"done\",\n        \"reason\": \"Named remote already exists.\"\n      },\n      {\n        \"id\": \"publish_handoff\",\n        \"title\": \"Regenerate publish handoff evidence\",\n        \"command\": \"python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\remote.git --base-branch main --pr-title \\\"Install RePERS fixture runtime\\\" --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Handoff path: C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\output\\\\repers-publish-handoff.md\"\n      },\n      {\n        \"id\": \"verify_publish_ready\",\n        \"title\": \"Verify objective audit after remote setup\",\n        \"command\": \"python .repers/scripts/repers.py objective-audit --deep --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Run after the remote is configured and publish handoff is refreshed.\"\n      },\n      {\n        \"id\": \"push_branch\",\n        \"title\": \"Push release branch\",\n        \"command\": \"git push -u origin master\",\n        \"status\": \"ready\",\n        \"reason\": \"Clean committed branch and remote are available.\"\n      },\n      {\n        \"id\": \"open_draft_pr\",\n        \"title\": \"Open draft pull request\",\n        \"command\": \"gh pr create --draft --base main --head master --title \\\"Install RePERS fixture runtime\\\" --body-file C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\output\\\\repers-publish-handoff.md\",\n        \"status\": \"ready\",\n        \"reason\": \"Requires GitHub CLI authentication and a pushed branch.\"\n      }\n    ],\n    \"safety\": {\n      \"executes_push\": false,\n      \"opens_pull_request\": false,\n      \"mutates_git_remote_by_default\": false,\n      \"mutates_git_remote\": true,\n      \"requires_apply_for_remote_mutation\": true,\n      \"overwrites_existing_remote\": false\n    },\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\output\\\\repers-remote-bootstrap.json\",\n    \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\output\\\\repers-remote-bootstrap.md\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\output\\\\repers-remote-bootstrap.json\",\n  \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\output\\\\repers-remote-bootstrap.md\"\n}\n",
+                    "stdout_tail": "        \"name\": \"origin\",\n          \"url\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\remote.git\",\n          \"kind\": \"push\"\n        }\n      ]\n    },\n    \"applied\": {\n      \"requested\": true,\n      \"ok\": true,\n      \"changed\": true,\n      \"remote_name\": \"origin\",\n      \"remote_url\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\remote.git\",\n      \"actions\": [\n        {\n          \"name\": \"git_remote_add\",\n          \"ok\": true,\n          \"returncode\": 0,\n          \"stdout_tail\": \"\",\n          \"stderr_tail\": \"\"\n        }\n      ],\n      \"errors\": []\n    },\n    \"publish_handoff\": {\n      \"ok\": true,\n      \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\output\\\\repers-publish-handoff.json\",\n      \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\output\\\\repers-publish-handoff.md\",\n      \"publish_ready\": false,\n      \"missing_for_publish\": [\n        \"produce an ok package readiness artifact\",\n        \"add missing governance files\"\n      ]\n    },\n    \"actions\": [\n      {\n        \"id\": \"inspect_remotes\",\n        \"title\": \"Inspect current Git remotes\",\n        \"command\": \"git remote -v\",\n        \"status\": \"done\",\n        \"reason\": \"Remote state was inspected before generating this bootstrap artifact.\"\n      },\n      {\n        \"id\": \"add_remote\",\n        \"title\": \"Configure publication remote\",\n        \"command\": \"git remote add origin C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\remote.git\",\n        \"status\": \"done\",\n        \"reason\": \"Named remote already exists.\"\n      },\n      {\n        \"id\": \"publish_handoff\",\n        \"title\": \"Regenerate publish handoff evidence\",\n        \"command\": \"python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\remote.git --base-branch main --pr-title \\\"Install RePERS fixture runtime\\\" --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Handoff path: C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\output\\\\repers-publish-handoff.md\"\n      },\n      {\n        \"id\": \"verify_publish_ready\",\n        \"title\": \"Verify objective audit after remote setup\",\n        \"command\": \"python .repers/scripts/repers.py objective-audit --deep --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Run after the remote is configured and publish handoff is refreshed.\"\n      },\n      {\n        \"id\": \"push_branch\",\n        \"title\": \"Push release branch\",\n        \"command\": \"git push -u origin master\",\n        \"status\": \"ready\",\n        \"reason\": \"Clean committed branch and remote are available.\"\n      },\n      {\n        \"id\": \"open_draft_pr\",\n        \"title\": \"Open draft pull request\",\n        \"command\": \"gh pr create --draft --base main --head master --title \\\"Install RePERS fixture runtime\\\" --body-file C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\output\\\\repers-publish-handoff.md\",\n        \"status\": \"ready\",\n        \"reason\": \"Requires GitHub CLI authentication and a pushed branch.\"\n      }\n    ],\n    \"safety\": {\n      \"executes_push\": false,\n      \"opens_pull_request\": false,\n      \"mutates_git_remote_by_default\": false,\n      \"mutates_git_remote\": true,\n      \"requires_apply_for_remote_mutation\": true,\n      \"overwrites_existing_remote\": false\n    },\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\output\\\\repers-remote-bootstrap.json\",\n    \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\output\\\\repers-remote-bootstrap.md\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\output\\\\repers-remote-bootstrap.json\",\n  \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\output\\\\repers-remote-bootstrap.md\"\n}\n",
                     "stderr_tail": "",
                     "errors": []
                   },
@@ -1829,10 +1947,10 @@
                       "get-url",
                       "origin"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                     "returncode": 0,
                     "ok": true,
-                    "stdout_tail": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git\n",
+                    "stdout_tail": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git\n",
                     "stderr_tail": ""
                   },
                   "local_push": {
@@ -1843,37 +1961,37 @@
                       "origin",
                       "master"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\target",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\target",
                     "returncode": 0,
                     "ok": true,
                     "stdout_tail": "branch 'master' set up to track 'origin/master'.\n",
-                    "stderr_tail": "To C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git\n * [new branch]      master -> master\n"
+                    "stderr_tail": "To C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git\n * [new branch]      master -> master\n"
                   },
                   "bare_remote_refs": {
                     "command": [
                       "git",
                       "show-ref"
                     ],
-                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-z24golx8\\remote.git",
+                    "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-n8kro5z7\\remote.git",
                     "returncode": 0,
                     "ok": true,
-                    "stdout_tail": "a57886e7cd23f3a289a5f37ad6c3ec7fbe3197a6 refs/heads/master\n",
+                    "stdout_tail": "caa993f5ac542a1e2a8b3c89a5df8bd3fba9b03a refs/heads/master\n",
                     "stderr_tail": ""
                   }
                 },
                 "errors": [],
-                "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\dist\\repers-remote-bootstrap-fixture.json"
+                "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\dist\\repers-remote-bootstrap-fixture.json"
               },
-              "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-0e4pkyjc\\target\\dist\\repers-remote-bootstrap-fixture.json"
+              "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-receiver-fixture-08tb7y8e\\target\\dist\\repers-remote-bootstrap-fixture.json"
             },
-            "stdout_tail": "-base-branch main --pr-title \\\\\\\"Install RePERS fixture runtime\\\\\\\" --json\\\",\\n        \\\"status\\\": \\\"ready\\\",\\n        \\\"reason\\\": \\\"Handoff path: C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\output\\\\\\\\repers-publish-handoff.md\\\"\\n      },\\n      {\\n        \\\"id\\\": \\\"verify_publish_ready\\\",\\n        \\\"title\\\": \\\"Verify objective audit after remote setup\\\",\\n        \\\"command\\\": \\\"python .repers/scripts/repers.py objective-audit --deep --json\\\",\\n        \\\"status\\\": \\\"ready\\\",\\n        \\\"reason\\\": \\\"Run after the remote is configured and publish handoff is refreshed.\\\"\\n      },\\n      {\\n        \\\"id\\\": \\\"push_branch\\\",\\n        \\\"title\\\": \\\"Push release branch\\\",\\n        \\\"command\\\": \\\"git push -u origin master\\\",\\n        \\\"status\\\": \\\"ready\\\",\\n        \\\"reason\\\": \\\"Clean committed branch and remote are available.\\\"\\n      },\\n      {\\n        \\\"id\\\": \\\"open_draft_pr\\\",\\n        \\\"title\\\": \\\"Open draft pull request\\\",\\n        \\\"command\\\": \\\"gh pr create --draft --base main --head master --title \\\\\\\"Install RePERS fixture runtime\\\\\\\" --body-file C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\output\\\\\\\\repers-publish-handoff.md\\\",\\n        \\\"status\\\": \\\"ready\\\",\\n        \\\"reason\\\": \\\"Requires GitHub CLI authentication and a pushed branch.\\\"\\n      }\\n    ],\\n    \\\"safety\\\": {\\n      \\\"executes_push\\\": false,\\n      \\\"opens_pull_request\\\": false,\\n      \\\"mutates_git_remote_by_default\\\": false,\\n      \\\"mutates_git_remote\\\": true,\\n      \\\"requires_apply_for_remote_mutation\\\": true,\\n      \\\"overwrites_existing_remote\\\": false\\n    },\\n    \\\"path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\output\\\\\\\\repers-remote-bootstrap.json\\\",\\n    \\\"markdown_path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\output\\\\\\\\repers-remote-bootstrap.md\\\"\\n  },\\n  \\\"path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\output\\\\\\\\repers-remote-bootstrap.json\\\",\\n  \\\"markdown_path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\output\\\\\\\\repers-remote-bootstrap.md\\\"\\n}\\n\",\n        \"stderr_tail\": \"\",\n        \"errors\": []\n      },\n      \"remote_url\": {\n        \"command\": [\n          \"git\",\n          \"remote\",\n          \"get-url\",\n          \"origin\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\target\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\remote.git\\n\",\n        \"stderr_tail\": \"\"\n      },\n      \"local_push\": {\n        \"command\": [\n          \"git\",\n          \"push\",\n          \"-u\",\n          \"origin\",\n          \"master\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\target\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"branch 'master' set up to track 'origin/master'.\\n\",\n        \"stderr_tail\": \"To C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\remote.git\\n * [new branch]      master -> master\\n\"\n      },\n      \"bare_remote_refs\": {\n        \"command\": [\n          \"git\",\n          \"show-ref\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-z24golx8\\\\remote.git\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"a57886e7cd23f3a289a5f37ad6c3ec7fbe3197a6 refs/heads/master\\n\",\n        \"stderr_tail\": \"\"\n      }\n    },\n    \"errors\": [],\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\dist\\\\repers-remote-bootstrap-fixture.json\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-0e4pkyjc\\\\target\\\\dist\\\\repers-remote-bootstrap-fixture.json\"\n}\n",
+            "stdout_tail": "-base-branch main --pr-title \\\\\\\"Install RePERS fixture runtime\\\\\\\" --json\\\",\\n        \\\"status\\\": \\\"ready\\\",\\n        \\\"reason\\\": \\\"Handoff path: C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\output\\\\\\\\repers-publish-handoff.md\\\"\\n      },\\n      {\\n        \\\"id\\\": \\\"verify_publish_ready\\\",\\n        \\\"title\\\": \\\"Verify objective audit after remote setup\\\",\\n        \\\"command\\\": \\\"python .repers/scripts/repers.py objective-audit --deep --json\\\",\\n        \\\"status\\\": \\\"ready\\\",\\n        \\\"reason\\\": \\\"Run after the remote is configured and publish handoff is refreshed.\\\"\\n      },\\n      {\\n        \\\"id\\\": \\\"push_branch\\\",\\n        \\\"title\\\": \\\"Push release branch\\\",\\n        \\\"command\\\": \\\"git push -u origin master\\\",\\n        \\\"status\\\": \\\"ready\\\",\\n        \\\"reason\\\": \\\"Clean committed branch and remote are available.\\\"\\n      },\\n      {\\n        \\\"id\\\": \\\"open_draft_pr\\\",\\n        \\\"title\\\": \\\"Open draft pull request\\\",\\n        \\\"command\\\": \\\"gh pr create --draft --base main --head master --title \\\\\\\"Install RePERS fixture runtime\\\\\\\" --body-file C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\output\\\\\\\\repers-publish-handoff.md\\\",\\n        \\\"status\\\": \\\"ready\\\",\\n        \\\"reason\\\": \\\"Requires GitHub CLI authentication and a pushed branch.\\\"\\n      }\\n    ],\\n    \\\"safety\\\": {\\n      \\\"executes_push\\\": false,\\n      \\\"opens_pull_request\\\": false,\\n      \\\"mutates_git_remote_by_default\\\": false,\\n      \\\"mutates_git_remote\\\": true,\\n      \\\"requires_apply_for_remote_mutation\\\": true,\\n      \\\"overwrites_existing_remote\\\": false\\n    },\\n    \\\"path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\output\\\\\\\\repers-remote-bootstrap.json\\\",\\n    \\\"markdown_path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\output\\\\\\\\repers-remote-bootstrap.md\\\"\\n  },\\n  \\\"path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\output\\\\\\\\repers-remote-bootstrap.json\\\",\\n  \\\"markdown_path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\output\\\\\\\\repers-remote-bootstrap.md\\\"\\n}\\n\",\n        \"stderr_tail\": \"\",\n        \"errors\": []\n      },\n      \"remote_url\": {\n        \"command\": [\n          \"git\",\n          \"remote\",\n          \"get-url\",\n          \"origin\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\target\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\remote.git\\n\",\n        \"stderr_tail\": \"\"\n      },\n      \"local_push\": {\n        \"command\": [\n          \"git\",\n          \"push\",\n          \"-u\",\n          \"origin\",\n          \"master\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\target\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"branch 'master' set up to track 'origin/master'.\\n\",\n        \"stderr_tail\": \"To C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\remote.git\\n * [new branch]      master -> master\\n\"\n      },\n      \"bare_remote_refs\": {\n        \"command\": [\n          \"git\",\n          \"show-ref\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-n8kro5z7\\\\remote.git\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"caa993f5ac542a1e2a8b3c89a5df8bd3fba9b03a refs/heads/master\\n\",\n        \"stderr_tail\": \"\"\n      }\n    },\n    \"errors\": [],\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\dist\\\\repers-remote-bootstrap-fixture.json\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-receiver-fixture-08tb7y8e\\\\target\\\\dist\\\\repers-remote-bootstrap-fixture.json\"\n}\n",
             "stderr_tail": "",
             "errors": []
           }
         },
         "errors": []
       },
-      "stdout_tail": ": []\\n      },\\n      \\\"remote_url\\\": {\\n        \\\"command\\\": [\\n          \\\"git\\\",\\n          \\\"remote\\\",\\n          \\\"get-url\\\",\\n          \\\"origin\\\"\\n        ],\\n        \\\"cwd\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\target\\\",\\n        \\\"returncode\\\": 0,\\n        \\\"ok\\\": true,\\n        \\\"stdout_tail\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\remote.git\\\\n\\\",\\n        \\\"stderr_tail\\\": \\\"\\\"\\n      },\\n      \\\"local_push\\\": {\\n        \\\"command\\\": [\\n          \\\"git\\\",\\n          \\\"push\\\",\\n          \\\"-u\\\",\\n          \\\"origin\\\",\\n          \\\"master\\\"\\n        ],\\n        \\\"cwd\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\target\\\",\\n        \\\"returncode\\\": 0,\\n        \\\"ok\\\": true,\\n        \\\"stdout_tail\\\": \\\"branch 'master' set up to track 'origin/master'.\\\\n\\\",\\n        \\\"stderr_tail\\\": \\\"To C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\remote.git\\\\n * [new branch]      master -> master\\\\n\\\"\\n      },\\n      \\\"bare_remote_refs\\\": {\\n        \\\"command\\\": [\\n          \\\"git\\\",\\n          \\\"show-ref\\\"\\n        ],\\n        \\\"cwd\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-z24golx8\\\\\\\\remote.git\\\",\\n        \\\"returncode\\\": 0,\\n        \\\"ok\\\": true,\\n        \\\"stdout_tail\\\": \\\"a57886e7cd23f3a289a5f37ad6c3ec7fbe3197a6 refs/heads/master\\\\n\\\",\\n        \\\"stderr_tail\\\": \\\"\\\"\\n      }\\n    },\\n    \\\"errors\\\": [],\\n    \\\"path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-receiver-fixture-0e4pkyjc\\\\\\\\target\\\\\\\\dist\\\\\\\\repers-remote-bootstrap-fixture.json\\\"\\n  },\\n  \\\"path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-receiver-fixture-0e4pkyjc\\\\\\\\target\\\\\\\\dist\\\\\\\\repers-remote-bootstrap-fixture.json\\\"\\n}\\n\",\n      \"stderr_tail\": \"\",\n      \"errors\": []\n    }\n  },\n  \"errors\": []\n}\n",
+      "stdout_tail": ": []\\n      },\\n      \\\"remote_url\\\": {\\n        \\\"command\\\": [\\n          \\\"git\\\",\\n          \\\"remote\\\",\\n          \\\"get-url\\\",\\n          \\\"origin\\\"\\n        ],\\n        \\\"cwd\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\target\\\",\\n        \\\"returncode\\\": 0,\\n        \\\"ok\\\": true,\\n        \\\"stdout_tail\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\remote.git\\\\n\\\",\\n        \\\"stderr_tail\\\": \\\"\\\"\\n      },\\n      \\\"local_push\\\": {\\n        \\\"command\\\": [\\n          \\\"git\\\",\\n          \\\"push\\\",\\n          \\\"-u\\\",\\n          \\\"origin\\\",\\n          \\\"master\\\"\\n        ],\\n        \\\"cwd\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\target\\\",\\n        \\\"returncode\\\": 0,\\n        \\\"ok\\\": true,\\n        \\\"stdout_tail\\\": \\\"branch 'master' set up to track 'origin/master'.\\\\n\\\",\\n        \\\"stderr_tail\\\": \\\"To C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\remote.git\\\\n * [new branch]      master -> master\\\\n\\\"\\n      },\\n      \\\"bare_remote_refs\\\": {\\n        \\\"command\\\": [\\n          \\\"git\\\",\\n          \\\"show-ref\\\"\\n        ],\\n        \\\"cwd\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-n8kro5z7\\\\\\\\remote.git\\\",\\n        \\\"returncode\\\": 0,\\n        \\\"ok\\\": true,\\n        \\\"stdout_tail\\\": \\\"caa993f5ac542a1e2a8b3c89a5df8bd3fba9b03a refs/heads/master\\\\n\\\",\\n        \\\"stderr_tail\\\": \\\"\\\"\\n      }\\n    },\\n    \\\"errors\\\": [],\\n    \\\"path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-receiver-fixture-08tb7y8e\\\\\\\\target\\\\\\\\dist\\\\\\\\repers-remote-bootstrap-fixture.json\\\"\\n  },\\n  \\\"path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-receiver-fixture-08tb7y8e\\\\\\\\target\\\\\\\\dist\\\\\\\\repers-remote-bootstrap-fixture.json\\\"\\n}\\n\",\n      \"stderr_tail\": \"\",\n      \"errors\": []\n    }\n  },\n  \"errors\": []\n}\n",
       "stderr_tail": ""
     },
     {
@@ -1897,7 +2015,7 @@
           "ok": true,
           "release_evidence_ok": true,
           "publish_ready": false,
-          "generated_at": "2026-06-21T14:05:53.005340+00:00",
+          "generated_at": "2026-06-21T14:15:58.509821+00:00",
           "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
           "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
           "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -1914,7 +2032,7 @@
           "pull_request": {
             "base_branch": "main",
             "head_branch": "codex/repers-initial-package",
-            "title": "Add RePERS remote bootstrap gate",
+            "title": "Prove RePERS remote bootstrap apply path",
             "github_cli": {
               "available": false,
               "path": null
@@ -1923,27 +2041,29 @@
           "git": {
             "is_git_repo": true,
             "branch": "codex/repers-initial-package",
-            "head_sha": "853bb937d84270201a8bd7fe9df8af067a1c3a07",
+            "head_sha": "e6a72c3f2cdaf9bb7e31f88b906a380e3789af54",
             "has_head": true,
             "dirty": true,
-            "status_count": 16,
+            "status_count": 18,
             "status_entries": [
               "M .repers/capabilities/registry.json",
               " M .repers/docs/contracts.md",
               " M .repers/index/repers.db",
               " M .repers/manifest.json",
-              " M .repers/scripts/install_repers.py",
               " M .repers/scripts/objective_audit.py",
-              " M .repers/scripts/package_repers.py",
-              " M .repers/scripts/receiver_fixture.py",
-              " M .repers/scripts/remote_bootstrap.py",
-              " M .repers/scripts/repers.py",
               " M README.md",
               " M dist/repers-0.1.0-readiness.json",
               " M dist/repers-0.1.0.zip",
+              " M dist/repers-objective-audit.json",
+              " M dist/repers-publish-handoff.json",
+              " M dist/repers-publish-handoff.md",
               " M dist/repers-release-evidence.json",
+              " M dist/repers-remote-bootstrap-fixture.json",
+              " M dist/repers-remote-bootstrap.json",
+              " M dist/repers-remote-bootstrap.md",
               " M docs/planning/active-repers-build.md",
-              " M tests/smoke_repers.py"
+              " M tests/smoke_repers.py",
+              "?? dist/repers-continuation.md"
             ],
             "remote_count": 0,
             "errors": []
@@ -1952,7 +2072,7 @@
             "included": true,
             "ok": true,
             "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-            "archive_sha256": "c00b683615b2282cb5048efc7992d36a820878a4eaf807ffd3d570ed940efcc5",
+            "archive_sha256": "4023a45bb958702e71b58afdb95ae0003365e6e78cf9e9a64dcc08c09687e7ec",
             "manifest_file_count": 46,
             "readiness_warnings": [],
             "roundtrip_ok": true
@@ -1975,7 +2095,7 @@
             {
               "id": "open_draft_pr",
               "title": "Open draft pull request",
-              "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS remote bootstrap gate\" --body-file <handoff-md>",
+              "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Prove RePERS remote bootstrap apply path\" --body-file <handoff-md>",
               "status": "blocked",
               "reason": "Requires GitHub CLI authentication and pushed branch."
             }
@@ -1992,7 +2112,7 @@
         "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.json",
         "markdown_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md"
       },
-      "stdout_tail": "ip\",\n        \" M dist/repers-release-evidence.json\",\n        \" M docs/planning/active-repers-build.md\",\n        \" M tests/smoke_repers.py\"\n      ],\n      \"remote_count\": 0,\n      \"errors\": []\n    },\n    \"package\": {\n      \"included\": true,\n      \"ok\": true,\n      \"archive_path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-0.1.0.zip\",\n      \"archive_sha256\": \"c00b683615b2282cb5048efc7992d36a820878a4eaf807ffd3d570ed940efcc5\",\n      \"manifest_file_count\": 46,\n      \"readiness_warnings\": [],\n      \"roundtrip_ok\": true\n    },\n    \"actions\": [\n      {\n        \"id\": \"add_remote\",\n        \"title\": \"Configure Git remote\",\n        \"command\": \"git remote add origin <remote-url>\",\n        \"status\": \"blocked\",\n        \"reason\": \"No remote is configured; provide --remote-url or add one manually.\"\n      },\n      {\n        \"id\": \"push_branch\",\n        \"title\": \"Push release branch\",\n        \"command\": \"git push -u origin codex/repers-initial-package\",\n        \"status\": \"blocked\",\n        \"reason\": \"Commit or intentionally exclude working tree changes first.\"\n      },\n      {\n        \"id\": \"open_draft_pr\",\n        \"title\": \"Open draft pull request\",\n        \"command\": \"gh pr create --draft --base main --head codex/repers-initial-package --title \\\"Add RePERS remote bootstrap gate\\\" --body-file <handoff-md>\",\n        \"status\": \"blocked\",\n        \"reason\": \"Requires GitHub CLI authentication and pushed branch.\"\n      }\n    ],\n    \"safety\": {\n      \"executes_publish_commands\": false,\n      \"mutates_git_remote\": false,\n      \"pushes_branch\": false,\n      \"opens_pull_request\": false\n    },\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.json\",\n    \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.md\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.json\",\n  \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.md\"\n}\n",
+      "stdout_tail": "\",\n        \" M docs/planning/active-repers-build.md\",\n        \" M tests/smoke_repers.py\",\n        \"?? dist/repers-continuation.md\"\n      ],\n      \"remote_count\": 0,\n      \"errors\": []\n    },\n    \"package\": {\n      \"included\": true,\n      \"ok\": true,\n      \"archive_path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-0.1.0.zip\",\n      \"archive_sha256\": \"4023a45bb958702e71b58afdb95ae0003365e6e78cf9e9a64dcc08c09687e7ec\",\n      \"manifest_file_count\": 46,\n      \"readiness_warnings\": [],\n      \"roundtrip_ok\": true\n    },\n    \"actions\": [\n      {\n        \"id\": \"add_remote\",\n        \"title\": \"Configure Git remote\",\n        \"command\": \"git remote add origin <remote-url>\",\n        \"status\": \"blocked\",\n        \"reason\": \"No remote is configured; provide --remote-url or add one manually.\"\n      },\n      {\n        \"id\": \"push_branch\",\n        \"title\": \"Push release branch\",\n        \"command\": \"git push -u origin codex/repers-initial-package\",\n        \"status\": \"blocked\",\n        \"reason\": \"Commit or intentionally exclude working tree changes first.\"\n      },\n      {\n        \"id\": \"open_draft_pr\",\n        \"title\": \"Open draft pull request\",\n        \"command\": \"gh pr create --draft --base main --head codex/repers-initial-package --title \\\"Prove RePERS remote bootstrap apply path\\\" --body-file <handoff-md>\",\n        \"status\": \"blocked\",\n        \"reason\": \"Requires GitHub CLI authentication and pushed branch.\"\n      }\n    ],\n    \"safety\": {\n      \"executes_publish_commands\": false,\n      \"mutates_git_remote\": false,\n      \"pushes_branch\": false,\n      \"opens_pull_request\": false\n    },\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.json\",\n    \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.md\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.json\",\n  \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.md\"\n}\n",
       "stderr_tail": ""
     },
     {
@@ -2016,7 +2136,7 @@
         "remote_bootstrap": {
           "schema": "repers.remote_bootstrap.v1",
           "ok": true,
-          "generated_at": "2026-06-21T14:05:53.781157+00:00",
+          "generated_at": "2026-06-21T14:15:59.265937+00:00",
           "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
           "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
           "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -2028,7 +2148,7 @@
           },
           "git": {
             "branch": "codex/repers-initial-package",
-            "head_sha": "853bb937d84270201a8bd7fe9df8af067a1c3a07",
+            "head_sha": "e6a72c3f2cdaf9bb7e31f88b906a380e3789af54",
             "has_head": true,
             "dirty": true,
             "status_count": 18,
@@ -2037,20 +2157,20 @@
               " M .repers/docs/contracts.md",
               " M .repers/index/repers.db",
               " M .repers/manifest.json",
-              " M .repers/scripts/install_repers.py",
               " M .repers/scripts/objective_audit.py",
-              " M .repers/scripts/package_repers.py",
-              " M .repers/scripts/receiver_fixture.py",
-              " M .repers/scripts/remote_bootstrap.py",
-              " M .repers/scripts/repers.py",
               " M README.md",
               " M dist/repers-0.1.0-readiness.json",
               " M dist/repers-0.1.0.zip",
+              " M dist/repers-objective-audit.json",
               " M dist/repers-publish-handoff.json",
               " M dist/repers-publish-handoff.md",
               " M dist/repers-release-evidence.json",
+              " M dist/repers-remote-bootstrap-fixture.json",
+              " M dist/repers-remote-bootstrap.json",
+              " M dist/repers-remote-bootstrap.md",
               " M docs/planning/active-repers-build.md",
-              " M tests/smoke_repers.py"
+              " M tests/smoke_repers.py",
+              "?? dist/repers-continuation.md"
             ],
             "remote_count": 0,
             "remotes": []
@@ -2092,7 +2212,7 @@
             {
               "id": "publish_handoff",
               "title": "Regenerate publish handoff evidence",
-              "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \"Add RePERS remote bootstrap gate\" --json",
+              "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \"Prove RePERS remote bootstrap apply path\" --json",
               "status": "ready",
               "reason": "Handoff path: C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md"
             },
@@ -2113,7 +2233,7 @@
             {
               "id": "open_draft_pr",
               "title": "Open draft pull request",
-              "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS remote bootstrap gate\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
+              "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Prove RePERS remote bootstrap apply path\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
               "status": "blocked",
               "reason": "Requires GitHub CLI authentication and a pushed branch."
             }
@@ -2132,7 +2252,7 @@
         "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-remote-bootstrap.json",
         "markdown_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-remote-bootstrap.md"
       },
-      "stdout_tail": "repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \\\"Add RePERS remote bootstrap gate\\\" --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Handoff path: C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.md\"\n      },\n      {\n        \"id\": \"verify_publish_ready\",\n        \"title\": \"Verify objective audit after remote setup\",\n        \"command\": \"python .repers/scripts/repers.py objective-audit --deep --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Run after the remote is configured and publish handoff is refreshed.\"\n      },\n      {\n        \"id\": \"push_branch\",\n        \"title\": \"Push release branch\",\n        \"command\": \"git push -u origin codex/repers-initial-package\",\n        \"status\": \"blocked\",\n        \"reason\": \"Commit or intentionally exclude working tree changes first.\"\n      },\n      {\n        \"id\": \"open_draft_pr\",\n        \"title\": \"Open draft pull request\",\n        \"command\": \"gh pr create --draft --base main --head codex/repers-initial-package --title \\\"Add RePERS remote bootstrap gate\\\" --body-file C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.md\",\n        \"status\": \"blocked\",\n        \"reason\": \"Requires GitHub CLI authentication and a pushed branch.\"\n      }\n    ],\n    \"safety\": {\n      \"executes_push\": false,\n      \"opens_pull_request\": false,\n      \"mutates_git_remote_by_default\": false,\n      \"mutates_git_remote\": false,\n      \"requires_apply_for_remote_mutation\": true,\n      \"overwrites_existing_remote\": false\n    },\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap.json\",\n    \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap.md\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap.json\",\n  \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap.md\"\n}\n",
+      "stdout_tail": "epers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \\\"Prove RePERS remote bootstrap apply path\\\" --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Handoff path: C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.md\"\n      },\n      {\n        \"id\": \"verify_publish_ready\",\n        \"title\": \"Verify objective audit after remote setup\",\n        \"command\": \"python .repers/scripts/repers.py objective-audit --deep --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Run after the remote is configured and publish handoff is refreshed.\"\n      },\n      {\n        \"id\": \"push_branch\",\n        \"title\": \"Push release branch\",\n        \"command\": \"git push -u origin codex/repers-initial-package\",\n        \"status\": \"blocked\",\n        \"reason\": \"Commit or intentionally exclude working tree changes first.\"\n      },\n      {\n        \"id\": \"open_draft_pr\",\n        \"title\": \"Open draft pull request\",\n        \"command\": \"gh pr create --draft --base main --head codex/repers-initial-package --title \\\"Prove RePERS remote bootstrap apply path\\\" --body-file C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-publish-handoff.md\",\n        \"status\": \"blocked\",\n        \"reason\": \"Requires GitHub CLI authentication and a pushed branch.\"\n      }\n    ],\n    \"safety\": {\n      \"executes_push\": false,\n      \"opens_pull_request\": false,\n      \"mutates_git_remote_by_default\": false,\n      \"mutates_git_remote\": false,\n      \"requires_apply_for_remote_mutation\": true,\n      \"overwrites_existing_remote\": false\n    },\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap.json\",\n    \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap.md\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap.json\",\n  \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap.md\"\n}\n",
       "stderr_tail": ""
     },
     {
@@ -2152,7 +2272,7 @@
         "remote_bootstrap_fixture": {
           "schema": "repers.remote_bootstrap_apply_fixture.v1",
           "ok": true,
-          "generated_at": "2026-06-21T14:05:53.838858+00:00",
+          "generated_at": "2026-06-21T14:15:59.326278+00:00",
           "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
           "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
           "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -2163,10 +2283,10 @@
                 "git",
                 "init"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
               "returncode": 0,
               "ok": true,
-              "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-remote-apply-anux2ssb/target/.git/\n",
+              "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-remote-apply-xv6nlmck/target/.git/\n",
               "stderr_tail": ""
             },
             {
@@ -2177,7 +2297,7 @@
                 "user.name",
                 "RePERS Fixture"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
               "returncode": 0,
               "ok": true,
               "stdout_tail": "",
@@ -2191,7 +2311,7 @@
                 "user.email",
                 "repers-fixture@example.invalid"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
               "returncode": 0,
               "ok": true,
               "stdout_tail": "",
@@ -2204,7 +2324,7 @@
                 "add",
                 "README.md"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
               "returncode": 0,
               "ok": true,
               "stdout_tail": "",
@@ -2218,10 +2338,10 @@
                 "-m",
                 "Seed fixture repository"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
               "returncode": 0,
               "ok": true,
-              "stdout_tail": "[master (root-commit) 07284e7] Seed fixture repository\n 1 file changed, 1 insertion(+)\n create mode 100644 README.md\n",
+              "stdout_tail": "[master (root-commit) 423354e] Seed fixture repository\n 1 file changed, 1 insertion(+)\n create mode 100644 README.md\n",
               "stderr_tail": ""
             },
             {
@@ -2230,13 +2350,13 @@
                 "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
                 "C:\\Users\\Administrator\\Documents\\RePERS\\.repers\\scripts\\install_repers.py",
                 "--target",
-                "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+                "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
                 "--no-hook"
               ],
               "cwd": "C:\\Users\\Administrator\\Documents\\RePERS",
               "returncode": 0,
               "ok": true,
-              "stdout_tail": "[OK] Installed RePERS into C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target\\.repers\n[OK] Updated ignore rules at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target\\.gitignore\n[OK] Refreshed RePERS index at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target\\.repers\\index\\repers.db (14 documents)\n[OK] Wrote install manifest at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target\\.repers\\manifest.json (33 files)\n[OK] Try: python .repers/scripts/repers.py --help\n",
+              "stdout_tail": "[OK] Installed RePERS into C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target\\.repers\n[OK] Updated ignore rules at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target\\.gitignore\n[OK] Refreshed RePERS index at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target\\.repers\\index\\repers.db (14 documents)\n[OK] Wrote install manifest at C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target\\.repers\\manifest.json (33 files)\n[OK] Try: python .repers/scripts/repers.py --help\n",
               "stderr_tail": ""
             },
             {
@@ -2248,7 +2368,7 @@
                 ".gitignore",
                 "docs"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
               "returncode": 0,
               "ok": true,
               "stdout_tail": "",
@@ -2262,10 +2382,10 @@
                 "-m",
                 "Install RePERS fixture runtime"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
               "returncode": 0,
               "ok": true,
-              "stdout_tail": "[master ab9a382] Install RePERS fixture runtime\n 36 files changed, 7996 insertions(+)\n create mode 100644 .gitignore\n create mode 100644 .repers/capabilities/registry.json\n create mode 100644 .repers/docs/architecture.md\n create mode 100644 .repers/docs/contracts.md\n create mode 100644 .repers/docs/installation.md\n create mode 100644 .repers/docs/integration.md\n create mode 100644 .repers/docs/open-source-structure-study.md\n create mode 100644 .repers/docs/packaging.md\n create mode 100644 .repers/docs/spec.md\n create mode 100644 .repers/docs/workflow.md\n create mode 100644 .repers/hooks/pre-commit\n create mode 100644 .repers/index/repers.db\n create mode 100644 .repers/manifest.json\n create mode 100644 .repers/scripts/backends.py\n create mode 100644 .repers/scripts/capability_registry.py\n create mode 100644 .repers/scripts/codegraph_support.py\n create mode 100644 .repers/scripts/dag_engine.py\n create mode 100644 .repers/scripts/doctor.py\n create mode 100644 .repers/scripts/install_repers.py\n create mode 100644 .repers/scripts/objective_audit.py\n create mode 100644 .repers/scripts/orchestration_fixture.py\n create mode 100644 .repers/scripts/package_repers.py\n create mode 100644 .repers/scripts/plan_runner.py\n create mode 100644 .repers/scripts/publish_handoff.py\n create mode 100644 .repers/scripts/receiver_fixture.py\n create mode 100644 .repers/scripts/release_evidence.py\n create mode 100644 .repers/scripts/release_gate.py\n create mode 100644 .repers/scripts/remote_bootstrap.py\n create mode 100644 .repers/scripts/repers.py\n create mode 100644 .repers/scripts/research_index.py\n create mode 100644 .repers/scripts/reviewer.py\n create mode 100644 .repers/scripts/shipping.py\n create mode 100644 .repers/templates/plan.md\n create mode 100644 .repers/templates/research.md\n create mode 100644 .repers/templates/review.md\n create mode 100644 .repers/templates/shipping.md\n",
+              "stdout_tail": "[master 59feb86] Install RePERS fixture runtime\n 36 files changed, 8254 insertions(+)\n create mode 100644 .gitignore\n create mode 100644 .repers/capabilities/registry.json\n create mode 100644 .repers/docs/architecture.md\n create mode 100644 .repers/docs/contracts.md\n create mode 100644 .repers/docs/installation.md\n create mode 100644 .repers/docs/integration.md\n create mode 100644 .repers/docs/open-source-structure-study.md\n create mode 100644 .repers/docs/packaging.md\n create mode 100644 .repers/docs/spec.md\n create mode 100644 .repers/docs/workflow.md\n create mode 100644 .repers/hooks/pre-commit\n create mode 100644 .repers/index/repers.db\n create mode 100644 .repers/manifest.json\n create mode 100644 .repers/scripts/backends.py\n create mode 100644 .repers/scripts/capability_registry.py\n create mode 100644 .repers/scripts/codegraph_support.py\n create mode 100644 .repers/scripts/dag_engine.py\n create mode 100644 .repers/scripts/doctor.py\n create mode 100644 .repers/scripts/install_repers.py\n create mode 100644 .repers/scripts/objective_audit.py\n create mode 100644 .repers/scripts/orchestration_fixture.py\n create mode 100644 .repers/scripts/package_repers.py\n create mode 100644 .repers/scripts/plan_runner.py\n create mode 100644 .repers/scripts/publish_handoff.py\n create mode 100644 .repers/scripts/receiver_fixture.py\n create mode 100644 .repers/scripts/release_evidence.py\n create mode 100644 .repers/scripts/release_gate.py\n create mode 100644 .repers/scripts/remote_bootstrap.py\n create mode 100644 .repers/scripts/repers.py\n create mode 100644 .repers/scripts/research_index.py\n create mode 100644 .repers/scripts/reviewer.py\n create mode 100644 .repers/scripts/shipping.py\n create mode 100644 .repers/templates/plan.md\n create mode 100644 .repers/templates/research.md\n create mode 100644 .repers/templates/review.md\n create mode 100644 .repers/templates/shipping.md\n",
               "stderr_tail": ""
             },
             {
@@ -2274,12 +2394,12 @@
                 "git",
                 "init",
                 "--bare",
-                "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git"
+                "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck",
               "returncode": 0,
               "ok": true,
-              "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-remote-apply-anux2ssb/remote.git/\n",
+              "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-remote-apply-xv6nlmck/remote.git/\n",
               "stderr_tail": ""
             }
           ],
@@ -2287,48 +2407,48 @@
             "remote_bootstrap_apply": {
               "command": [
                 "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
-                "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target\\.repers\\scripts\\repers.py",
+                "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target\\.repers\\scripts\\repers.py",
                 "remote-bootstrap",
                 "--remote-url",
-                "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git",
+                "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git",
                 "--output",
-                "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\output",
+                "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\output",
                 "--apply",
                 "--json"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
               "returncode": 0,
               "ok": true,
               "json": {
                 "remote_bootstrap": {
                   "schema": "repers.remote_bootstrap.v1",
                   "ok": true,
-                  "generated_at": "2026-06-21T14:05:55.589068+00:00",
-                  "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
-                  "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target\\.repers",
-                  "output_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\output",
+                  "generated_at": "2026-06-21T14:16:01.074508+00:00",
+                  "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
+                  "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target\\.repers",
+                  "output_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\output",
                   "remote": {
                     "name": "origin",
-                    "provided_url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git",
+                    "provided_url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git",
                     "records": [
                       {
                         "name": "origin",
-                        "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git",
+                        "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git",
                         "kind": "fetch"
                       },
                       {
                         "name": "origin",
-                        "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git",
+                        "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git",
                         "kind": "push"
                       }
                     ],
                     "named_remote_urls": [
-                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git"
+                      "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git"
                     ]
                   },
                   "git": {
                     "branch": "master",
-                    "head_sha": "ab9a382fe0ef2dbfab8bd99d6951dfb4c96a3dae",
+                    "head_sha": "59feb8658b7bc4ac590c76948a6af4b1d1a30a7f",
                     "has_head": true,
                     "dirty": false,
                     "status_count": 0,
@@ -2337,12 +2457,12 @@
                     "remotes": [
                       {
                         "name": "origin",
-                        "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git",
+                        "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git",
                         "kind": "fetch"
                       },
                       {
                         "name": "origin",
-                        "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git",
+                        "url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git",
                         "kind": "push"
                       }
                     ]
@@ -2352,7 +2472,7 @@
                     "ok": true,
                     "changed": true,
                     "remote_name": "origin",
-                    "remote_url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git",
+                    "remote_url": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git",
                     "actions": [
                       {
                         "name": "git_remote_add",
@@ -2366,8 +2486,8 @@
                   },
                   "publish_handoff": {
                     "ok": true,
-                    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\output\\repers-publish-handoff.json",
-                    "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\output\\repers-publish-handoff.md",
+                    "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\output\\repers-publish-handoff.json",
+                    "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\output\\repers-publish-handoff.md",
                     "publish_ready": false,
                     "missing_for_publish": [
                       "produce an ok package readiness artifact",
@@ -2385,16 +2505,16 @@
                     {
                       "id": "add_remote",
                       "title": "Configure publication remote",
-                      "command": "git remote add origin C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git",
+                      "command": "git remote add origin C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git",
                       "status": "done",
                       "reason": "Named remote already exists."
                     },
                     {
                       "id": "publish_handoff",
                       "title": "Regenerate publish handoff evidence",
-                      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git --base-branch main --pr-title \"Install RePERS fixture runtime\" --json",
+                      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git --base-branch main --pr-title \"Install RePERS fixture runtime\" --json",
                       "status": "ready",
-                      "reason": "Handoff path: C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\output\\repers-publish-handoff.md"
+                      "reason": "Handoff path: C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\output\\repers-publish-handoff.md"
                     },
                     {
                       "id": "verify_publish_ready",
@@ -2413,7 +2533,7 @@
                     {
                       "id": "open_draft_pr",
                       "title": "Open draft pull request",
-                      "command": "gh pr create --draft --base main --head master --title \"Install RePERS fixture runtime\" --body-file C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\output\\repers-publish-handoff.md",
+                      "command": "gh pr create --draft --base main --head master --title \"Install RePERS fixture runtime\" --body-file C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\output\\repers-publish-handoff.md",
                       "status": "ready",
                       "reason": "Requires GitHub CLI authentication and a pushed branch."
                     }
@@ -2426,13 +2546,13 @@
                     "requires_apply_for_remote_mutation": true,
                     "overwrites_existing_remote": false
                   },
-                  "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\output\\repers-remote-bootstrap.json",
-                  "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\output\\repers-remote-bootstrap.md"
+                  "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\output\\repers-remote-bootstrap.json",
+                  "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\output\\repers-remote-bootstrap.md"
                 },
-                "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\output\\repers-remote-bootstrap.json",
-                "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\output\\repers-remote-bootstrap.md"
+                "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\output\\repers-remote-bootstrap.json",
+                "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\output\\repers-remote-bootstrap.md"
               },
-              "stdout_tail": "        \"name\": \"origin\",\n          \"url\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\remote.git\",\n          \"kind\": \"push\"\n        }\n      ]\n    },\n    \"applied\": {\n      \"requested\": true,\n      \"ok\": true,\n      \"changed\": true,\n      \"remote_name\": \"origin\",\n      \"remote_url\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\remote.git\",\n      \"actions\": [\n        {\n          \"name\": \"git_remote_add\",\n          \"ok\": true,\n          \"returncode\": 0,\n          \"stdout_tail\": \"\",\n          \"stderr_tail\": \"\"\n        }\n      ],\n      \"errors\": []\n    },\n    \"publish_handoff\": {\n      \"ok\": true,\n      \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\output\\\\repers-publish-handoff.json\",\n      \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\output\\\\repers-publish-handoff.md\",\n      \"publish_ready\": false,\n      \"missing_for_publish\": [\n        \"produce an ok package readiness artifact\",\n        \"add missing governance files\"\n      ]\n    },\n    \"actions\": [\n      {\n        \"id\": \"inspect_remotes\",\n        \"title\": \"Inspect current Git remotes\",\n        \"command\": \"git remote -v\",\n        \"status\": \"done\",\n        \"reason\": \"Remote state was inspected before generating this bootstrap artifact.\"\n      },\n      {\n        \"id\": \"add_remote\",\n        \"title\": \"Configure publication remote\",\n        \"command\": \"git remote add origin C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\remote.git\",\n        \"status\": \"done\",\n        \"reason\": \"Named remote already exists.\"\n      },\n      {\n        \"id\": \"publish_handoff\",\n        \"title\": \"Regenerate publish handoff evidence\",\n        \"command\": \"python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\remote.git --base-branch main --pr-title \\\"Install RePERS fixture runtime\\\" --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Handoff path: C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\output\\\\repers-publish-handoff.md\"\n      },\n      {\n        \"id\": \"verify_publish_ready\",\n        \"title\": \"Verify objective audit after remote setup\",\n        \"command\": \"python .repers/scripts/repers.py objective-audit --deep --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Run after the remote is configured and publish handoff is refreshed.\"\n      },\n      {\n        \"id\": \"push_branch\",\n        \"title\": \"Push release branch\",\n        \"command\": \"git push -u origin master\",\n        \"status\": \"ready\",\n        \"reason\": \"Clean committed branch and remote are available.\"\n      },\n      {\n        \"id\": \"open_draft_pr\",\n        \"title\": \"Open draft pull request\",\n        \"command\": \"gh pr create --draft --base main --head master --title \\\"Install RePERS fixture runtime\\\" --body-file C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\output\\\\repers-publish-handoff.md\",\n        \"status\": \"ready\",\n        \"reason\": \"Requires GitHub CLI authentication and a pushed branch.\"\n      }\n    ],\n    \"safety\": {\n      \"executes_push\": false,\n      \"opens_pull_request\": false,\n      \"mutates_git_remote_by_default\": false,\n      \"mutates_git_remote\": true,\n      \"requires_apply_for_remote_mutation\": true,\n      \"overwrites_existing_remote\": false\n    },\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\output\\\\repers-remote-bootstrap.json\",\n    \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\output\\\\repers-remote-bootstrap.md\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\output\\\\repers-remote-bootstrap.json\",\n  \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\output\\\\repers-remote-bootstrap.md\"\n}\n",
+              "stdout_tail": "        \"name\": \"origin\",\n          \"url\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\remote.git\",\n          \"kind\": \"push\"\n        }\n      ]\n    },\n    \"applied\": {\n      \"requested\": true,\n      \"ok\": true,\n      \"changed\": true,\n      \"remote_name\": \"origin\",\n      \"remote_url\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\remote.git\",\n      \"actions\": [\n        {\n          \"name\": \"git_remote_add\",\n          \"ok\": true,\n          \"returncode\": 0,\n          \"stdout_tail\": \"\",\n          \"stderr_tail\": \"\"\n        }\n      ],\n      \"errors\": []\n    },\n    \"publish_handoff\": {\n      \"ok\": true,\n      \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\output\\\\repers-publish-handoff.json\",\n      \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\output\\\\repers-publish-handoff.md\",\n      \"publish_ready\": false,\n      \"missing_for_publish\": [\n        \"produce an ok package readiness artifact\",\n        \"add missing governance files\"\n      ]\n    },\n    \"actions\": [\n      {\n        \"id\": \"inspect_remotes\",\n        \"title\": \"Inspect current Git remotes\",\n        \"command\": \"git remote -v\",\n        \"status\": \"done\",\n        \"reason\": \"Remote state was inspected before generating this bootstrap artifact.\"\n      },\n      {\n        \"id\": \"add_remote\",\n        \"title\": \"Configure publication remote\",\n        \"command\": \"git remote add origin C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\remote.git\",\n        \"status\": \"done\",\n        \"reason\": \"Named remote already exists.\"\n      },\n      {\n        \"id\": \"publish_handoff\",\n        \"title\": \"Regenerate publish handoff evidence\",\n        \"command\": \"python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\remote.git --base-branch main --pr-title \\\"Install RePERS fixture runtime\\\" --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Handoff path: C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\output\\\\repers-publish-handoff.md\"\n      },\n      {\n        \"id\": \"verify_publish_ready\",\n        \"title\": \"Verify objective audit after remote setup\",\n        \"command\": \"python .repers/scripts/repers.py objective-audit --deep --json\",\n        \"status\": \"ready\",\n        \"reason\": \"Run after the remote is configured and publish handoff is refreshed.\"\n      },\n      {\n        \"id\": \"push_branch\",\n        \"title\": \"Push release branch\",\n        \"command\": \"git push -u origin master\",\n        \"status\": \"ready\",\n        \"reason\": \"Clean committed branch and remote are available.\"\n      },\n      {\n        \"id\": \"open_draft_pr\",\n        \"title\": \"Open draft pull request\",\n        \"command\": \"gh pr create --draft --base main --head master --title \\\"Install RePERS fixture runtime\\\" --body-file C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\output\\\\repers-publish-handoff.md\",\n        \"status\": \"ready\",\n        \"reason\": \"Requires GitHub CLI authentication and a pushed branch.\"\n      }\n    ],\n    \"safety\": {\n      \"executes_push\": false,\n      \"opens_pull_request\": false,\n      \"mutates_git_remote_by_default\": false,\n      \"mutates_git_remote\": true,\n      \"requires_apply_for_remote_mutation\": true,\n      \"overwrites_existing_remote\": false\n    },\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\output\\\\repers-remote-bootstrap.json\",\n    \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\output\\\\repers-remote-bootstrap.md\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\output\\\\repers-remote-bootstrap.json\",\n  \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\output\\\\repers-remote-bootstrap.md\"\n}\n",
               "stderr_tail": "",
               "errors": []
             },
@@ -2443,10 +2563,10 @@
                 "get-url",
                 "origin"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
               "returncode": 0,
               "ok": true,
-              "stdout_tail": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git\n",
+              "stdout_tail": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git\n",
               "stderr_tail": ""
             },
             "local_push": {
@@ -2457,21 +2577,21 @@
                 "origin",
                 "master"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\target",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\target",
               "returncode": 0,
               "ok": true,
               "stdout_tail": "branch 'master' set up to track 'origin/master'.\n",
-              "stderr_tail": "To C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git\n * [new branch]      master -> master\n"
+              "stderr_tail": "To C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git\n * [new branch]      master -> master\n"
             },
             "bare_remote_refs": {
               "command": [
                 "git",
                 "show-ref"
               ],
-              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-anux2ssb\\remote.git",
+              "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-remote-apply-xv6nlmck\\remote.git",
               "returncode": 0,
               "ok": true,
-              "stdout_tail": "ab9a382fe0ef2dbfab8bd99d6951dfb4c96a3dae refs/heads/master\n",
+              "stdout_tail": "59feb8658b7bc4ac590c76948a6af4b1d1a30a7f refs/heads/master\n",
               "stderr_tail": ""
             }
           },
@@ -2480,7 +2600,7 @@
         },
         "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-remote-bootstrap-fixture.json"
       },
-      "stdout_tail": "ly-anux2ssb\\\\\\\\output\\\\\\\\repers-remote-bootstrap.md\\\"\\n  },\\n  \\\"path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-anux2ssb\\\\\\\\output\\\\\\\\repers-remote-bootstrap.json\\\",\\n  \\\"markdown_path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-anux2ssb\\\\\\\\output\\\\\\\\repers-remote-bootstrap.md\\\"\\n}\\n\",\n        \"stderr_tail\": \"\",\n        \"errors\": []\n      },\n      \"remote_url\": {\n        \"command\": [\n          \"git\",\n          \"remote\",\n          \"get-url\",\n          \"origin\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\target\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\remote.git\\n\",\n        \"stderr_tail\": \"\"\n      },\n      \"local_push\": {\n        \"command\": [\n          \"git\",\n          \"push\",\n          \"-u\",\n          \"origin\",\n          \"master\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\target\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"branch 'master' set up to track 'origin/master'.\\n\",\n        \"stderr_tail\": \"To C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\remote.git\\n * [new branch]      master -> master\\n\"\n      },\n      \"bare_remote_refs\": {\n        \"command\": [\n          \"git\",\n          \"show-ref\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-anux2ssb\\\\remote.git\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"ab9a382fe0ef2dbfab8bd99d6951dfb4c96a3dae refs/heads/master\\n\",\n        \"stderr_tail\": \"\"\n      }\n    },\n    \"errors\": [],\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap-fixture.json\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap-fixture.json\"\n}\n",
+      "stdout_tail": "ly-xv6nlmck\\\\\\\\output\\\\\\\\repers-remote-bootstrap.md\\\"\\n  },\\n  \\\"path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-xv6nlmck\\\\\\\\output\\\\\\\\repers-remote-bootstrap.json\\\",\\n  \\\"markdown_path\\\": \\\"C:\\\\\\\\Users\\\\\\\\Administrator\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\repers-remote-apply-xv6nlmck\\\\\\\\output\\\\\\\\repers-remote-bootstrap.md\\\"\\n}\\n\",\n        \"stderr_tail\": \"\",\n        \"errors\": []\n      },\n      \"remote_url\": {\n        \"command\": [\n          \"git\",\n          \"remote\",\n          \"get-url\",\n          \"origin\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\target\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\remote.git\\n\",\n        \"stderr_tail\": \"\"\n      },\n      \"local_push\": {\n        \"command\": [\n          \"git\",\n          \"push\",\n          \"-u\",\n          \"origin\",\n          \"master\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\target\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"branch 'master' set up to track 'origin/master'.\\n\",\n        \"stderr_tail\": \"To C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\remote.git\\n * [new branch]      master -> master\\n\"\n      },\n      \"bare_remote_refs\": {\n        \"command\": [\n          \"git\",\n          \"show-ref\"\n        ],\n        \"cwd\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-remote-apply-xv6nlmck\\\\remote.git\",\n        \"returncode\": 0,\n        \"ok\": true,\n        \"stdout_tail\": \"59feb8658b7bc4ac590c76948a6af4b1d1a30a7f refs/heads/master\\n\",\n        \"stderr_tail\": \"\"\n      }\n    },\n    \"errors\": [],\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap-fixture.json\"\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\Documents\\\\RePERS\\\\dist\\\\repers-remote-bootstrap-fixture.json\"\n}\n",
       "stderr_tail": ""
     },
     {
@@ -2496,5 +2616,6 @@
       "stdout_tail": "installed repers smoke tests ok\n",
       "stderr_tail": ""
     }
-  ]
+  ],
+  "continuation_markdown_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-continuation.md"
 }

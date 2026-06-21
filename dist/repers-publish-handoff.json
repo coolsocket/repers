@@ -3,7 +3,7 @@
   "ok": true,
   "release_evidence_ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-21T14:05:53.677871+00:00",
+  "generated_at": "2026-06-21T14:15:59.166280+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -20,7 +20,7 @@
   "pull_request": {
     "base_branch": "main",
     "head_branch": "codex/repers-initial-package",
-    "title": "Add RePERS remote bootstrap gate",
+    "title": "Prove RePERS remote bootstrap apply path",
     "github_cli": {
       "available": false,
       "path": null
@@ -29,7 +29,7 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "853bb937d84270201a8bd7fe9df8af067a1c3a07",
+    "head_sha": "e6a72c3f2cdaf9bb7e31f88b906a380e3789af54",
     "has_head": true,
     "dirty": true,
     "status_count": 18,
@@ -38,20 +38,20 @@
       " M .repers/docs/contracts.md",
       " M .repers/index/repers.db",
       " M .repers/manifest.json",
-      " M .repers/scripts/install_repers.py",
       " M .repers/scripts/objective_audit.py",
-      " M .repers/scripts/package_repers.py",
-      " M .repers/scripts/receiver_fixture.py",
-      " M .repers/scripts/remote_bootstrap.py",
-      " M .repers/scripts/repers.py",
       " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
+      " M dist/repers-objective-audit.json",
       " M dist/repers-publish-handoff.json",
       " M dist/repers-publish-handoff.md",
       " M dist/repers-release-evidence.json",
+      " M dist/repers-remote-bootstrap-fixture.json",
+      " M dist/repers-remote-bootstrap.json",
+      " M dist/repers-remote-bootstrap.md",
       " M docs/planning/active-repers-build.md",
-      " M tests/smoke_repers.py"
+      " M tests/smoke_repers.py",
+      "?? dist/repers-continuation.md"
     ],
     "remote_count": 0,
     "errors": []
@@ -60,7 +60,7 @@
     "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "d4c2d09574ed4966acfb72165ca3dc285dabc9084d86f0d572ef93b9256fdb14",
+    "archive_sha256": "5202063f1c3364d491e76e451cc3ef04d1f55e471c2c26a5f2b5bacacbeca998",
     "manifest_file_count": 46,
     "readiness_warnings": [],
     "roundtrip_ok": true
@@ -83,7 +83,7 @@
     {
       "id": "open_draft_pr",
       "title": "Open draft pull request",
-      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add RePERS remote bootstrap gate\" --body-file <handoff-md>",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Prove RePERS remote bootstrap apply path\" --body-file <handoff-md>",
       "status": "blocked",
       "reason": "Requires GitHub CLI authentication and pushed branch."
     }

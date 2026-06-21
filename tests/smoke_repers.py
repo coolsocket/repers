@@ -565,8 +565,16 @@ def test_objective_audit_reports_requirements_and_blockers():
             "publication_ready",
         } <= requirement_ids
         assert any(item["id"] == "publication_ready" for item in audit["requirements"])
+        assert audit["continuation"]["schema"] == "repers.objective_continuation.v1"
+        assert audit["continuation"]["status"] in {"blocked_external", "local_work_available", "complete"}
+        assert audit["continuation"]["local_actions"]
+        assert "publication_ready" in audit["continuation"]["requirement_status"]
+        continuation_path = Path(audit["continuation_markdown_path"])
+        assert continuation_path.exists()
+        assert "RePERS Continuation" in continuation_path.read_text(encoding="utf-8")
         written = json.loads(audit_path.read_text(encoding="utf-8"))
         assert written["schema"] == "repers.objective_audit.v1"
+        assert written["continuation"]["schema"] == "repers.objective_continuation.v1"
     finally:
         if output_dir.exists():
             shutil.rmtree(output_dir)

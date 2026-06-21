@@ -706,8 +706,26 @@ Required `objective_audit` fields:
 - `deep`
 - `requirements`
 - `blocking_incomplete`
+- `continuation`
+- `continuation_markdown_path`
 - `commands`
 
 Each requirement includes `id`, `title`, `status`, `passed`,
 `blocks_completion`, and `evidence`. `objective_complete=false` means at least
 one blocking requirement is still unproven or incomplete.
+
+`continuation` uses schema `repers.objective_continuation.v1` and turns the
+audit into a resumable control artifact. It includes:
+
+- `status`: `complete`, `local_work_available`, or `blocked_external`
+- `blocking_incomplete`
+- `requirement_status`
+- `local_actions`
+- `external_actions`
+- `handoff_action_ids`
+- `bootstrap_action_ids`
+
+`local_actions` are commands another agent can run in the current repository.
+`external_actions` name required external state, such as a hosted Git remote or
+provider-authenticated pull request creation. `repers-continuation.md` renders
+the same action plan for humans.

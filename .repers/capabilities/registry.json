@@ -318,6 +318,8 @@
         "audit",
         "evidence",
         "requirements",
+        "continuation",
+        "next-actions",
         "self-verification",
         "goal"
       ],
@@ -329,6 +331,7 @@
         "scripts/objective_audit.py",
         "docs/contracts.md",
         "dist/repers-objective-audit.json",
+        "dist/repers-continuation.md",
         "docs/planning/active-repers-build.md"
       ],
       "verification": [

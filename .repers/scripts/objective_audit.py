@@ -58,6 +58,17 @@ def audit_requirement(requirement_id, title, passed, evidence, blocks_completion
     }
 
 
+def continuation_action(action_id, title, command, kind, status, reason):
+    return {
+        "id": action_id,
+        "title": title,
+        "command": command,
+        "kind": kind,
+        "status": status,
+        "reason": reason,
+    }
+
+
 def count_open_source_repositories(study_text):
     count = 0
     source_count = 0
@@ -74,6 +85,216 @@ def load_json(path):
     if not path.exists():
         return None
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def build_continuation(requirements, blocking_incomplete, handoff, bootstrap, missing_for_publish):
+    local_actions = []
+    external_actions = []
+    blocked = set(blocking_incomplete)
+    publish_local_blockers = [
+        item
+        for item in missing_for_publish
+        if (
+            "commit" in item
+            or "package" in item
+            or "round-trip" in item
+            or "governance" in item
+            or "registry" in item
+        )
+    ]
+
+    if not blocking_incomplete:
+        status = "complete"
+    elif blocked == {"publication_ready"} and not publish_local_blockers:
+        status = "blocked_external"
+    else:
+        status = "local_work_available"
+
+    if any(item in blocked for item in ["tests_and_package_gates", "verified_without_chat_history"]):
+        local_actions.append(
+            continuation_action(
+                "refresh_deep_evidence",
+                "Regenerate deep objective evidence",
+                "python -B .repers/scripts/repers.py objective-audit --deep --output dist --json",
+                "local",
+                "ready",
+                "Deep audit regenerates package, receiver, handoff, remote bootstrap, fixture, and smoke evidence.",
+            )
+        )
+
+    if "local_remote_bootstrap_apply" in blocked:
+        local_actions.append(
+            continuation_action(
+                "prove_local_remote_apply",
+                "Prove remote bootstrap apply path",
+                "python -B .repers/scripts/repers.py remote-bootstrap-fixture --output dist --json",
+                "local",
+                "ready",
+                "Runs the offline local bare-remote fixture.",
+            )
+        )
+
+    if "publication_ready" in blocked:
+        if any("commit" in item for item in missing_for_publish):
+            local_actions.append(
+                continuation_action(
+                    "commit_or_clean_worktree",
+                    "Commit or intentionally exclude working tree changes",
+                    "git status --short",
+                    "local",
+                    "ready",
+                    "Publication readiness requires a clean committed branch before configuring or pushing a remote.",
+                )
+            )
+        if any("package" in item or "round-trip" in item for item in missing_for_publish):
+            local_actions.append(
+                continuation_action(
+                    "refresh_package_evidence",
+                    "Refresh package and round-trip evidence",
+                    "python -B .repers/scripts/repers.py bundle-status --package --verify-roundtrip --output dist --json",
+                    "local",
+                    "ready",
+                    "Publication readiness requires ok package readiness and round-trip evidence.",
+                )
+            )
+        if any("governance" in item or "registry" in item for item in missing_for_publish):
+            local_actions.append(
+                continuation_action(
+                    "repair_release_surface",
+                    "Repair governance or capability registry surface",
+                    "python -B .repers/scripts/repers.py capabilities --action validate --json",
+                    "local",
+                    "ready",
+                    "Publication readiness requires governance files and a valid capability registry.",
+                )
+            )
+        remote_missing = any("remote" in item for item in missing_for_publish) or not missing_for_publish
+        external_actions.append(
+            continuation_action(
+                "configure_hosted_remote",
+                "Configure hosted Git remote",
+                "python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json",
+                "external",
+                "needs_remote_url" if remote_missing else "after_local_cleanup",
+                "Requires a real hosted repository URL; local fixture already proves the apply and push mechanics.",
+            )
+        )
+        external_actions.append(
+            continuation_action(
+                "push_branch",
+                "Push committed branch",
+                "git push -u origin <branch>",
+                "external",
+                "after_remote",
+                "Requires the hosted remote to exist and be configured.",
+            )
+        )
+        external_actions.append(
+            continuation_action(
+                "open_draft_pr",
+                "Open draft pull request",
+                "gh pr create --draft --base main --head <branch> --title \"Publish RePERS\" --body-file dist/repers-publish-handoff.md",
+                "external",
+                "after_push",
+                "Requires GitHub CLI authentication or an equivalent provider API.",
+            )
+        )
+        local_actions.append(
+            continuation_action(
+                "verify_after_publication_setup",
+                "Re-run deep audit after remote setup",
+                "python -B .repers/scripts/repers.py objective-audit --deep --output dist --json",
+                "local",
+                "after_remote",
+                "Confirms clean tree, package gates, and publish readiness after the external remote is configured.",
+            )
+        )
+
+    if not local_actions and not external_actions:
+        local_actions.append(
+            continuation_action(
+                "verify_complete",
+                "Verify objective completion",
+                "python -B .repers/scripts/repers.py objective-audit --deep --output dist --json",
+                "local",
+                "ready",
+                "No blockers are recorded; this command revalidates completion from current state.",
+            )
+        )
+
+    requirement_status = {
+        item["id"]: {
+            "passed": item["passed"],
+            "status": item["status"],
+            "blocks_completion": item["blocks_completion"],
+        }
+        for item in requirements
+    }
+    handoff_actions = handoff.get("actions", []) if isinstance(handoff, dict) else []
+    bootstrap_actions = bootstrap.get("actions", []) if isinstance(bootstrap, dict) else []
+    return {
+        "schema": "repers.objective_continuation.v1",
+        "status": status,
+        "blocking_incomplete": blocking_incomplete,
+        "requirement_status": requirement_status,
+        "local_actions": local_actions,
+        "external_actions": external_actions,
+        "handoff_action_ids": [action.get("id") for action in handoff_actions],
+        "bootstrap_action_ids": [action.get("id") for action in bootstrap_actions],
+    }
+
+
+def write_continuation_markdown(audit, markdown_path):
+    continuation = audit["continuation"]
+    lines = [
+        "# RePERS Continuation",
+        "",
+        f"- Generated: `{audit['generated_at']}`",
+        f"- Status: `{continuation['status']}`",
+        f"- Objective complete: `{audit['objective_complete']}`",
+        "",
+        "## Blocking Requirements",
+        "",
+    ]
+    if continuation["blocking_incomplete"]:
+        lines.extend(f"- `{item}`" for item in continuation["blocking_incomplete"])
+    else:
+        lines.append("- None")
+    lines.extend(["", "## Local Actions", ""])
+    for action in continuation["local_actions"]:
+        lines.extend(
+            [
+                f"### {action['id']}: {action['title']}",
+                "",
+                f"- Status: `{action['status']}`",
+                f"- Reason: {action['reason']}",
+                "",
+                "```powershell",
+                action["command"],
+                "```",
+                "",
+            ]
+        )
+    lines.extend(["## External Actions", ""])
+    if continuation["external_actions"]:
+        for action in continuation["external_actions"]:
+            lines.extend(
+                [
+                    f"### {action['id']}: {action['title']}",
+                    "",
+                    f"- Status: `{action['status']}`",
+                    f"- Reason: {action['reason']}",
+                    "",
+                    "```powershell",
+                    action["command"],
+                    "```",
+                    "",
+                ]
+            )
+    else:
+        lines.append("- None")
+        lines.append("")
+    markdown_path.write_text("\n".join(lines), encoding="utf-8")
 
 
 def build_objective_audit(workspace_root, install_root, output_dir="dist", objective=None, deep=False):
@@ -275,7 +496,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         ),
         audit_requirement(
             "verified_without_chat_history",
-            "Repo carries machine-readable release, package, receiver, publish handoff, and remote bootstrap evidence.",
+            "Repo carries machine-readable release, package, receiver, publish handoff, remote bootstrap, and continuation evidence.",
             bool(readiness and release_evidence and publish_handoff and remote_bootstrap),
             {
                 "readiness": file_record(output, "repers-0.1.0-readiness.json"),
@@ -284,6 +505,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
                 "publish_handoff_markdown": file_record(output, "repers-publish-handoff.md"),
                 "remote_bootstrap": file_record(output, "repers-remote-bootstrap.json"),
                 "remote_bootstrap_markdown": file_record(output, "repers-remote-bootstrap.md"),
+                "continuation_markdown": file_record(output, "repers-continuation.md"),
                 "remote_bootstrap_ok": bootstrap.get("ok") if isinstance(bootstrap, dict) else None,
             },
         ),
@@ -314,6 +536,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
     ]
 
     blocking_incomplete = [item["id"] for item in requirements if item["blocks_completion"] and not item["passed"]]
+    continuation = build_continuation(requirements, blocking_incomplete, handoff, bootstrap, missing_for_publish)
     audit = {
         "schema": OBJECTIVE_AUDIT_SCHEMA,
         "ok": True,
@@ -326,8 +549,22 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "deep": bool(deep),
         "requirements": requirements,
         "blocking_incomplete": blocking_incomplete,
+        "continuation": continuation,
         "commands": commands,
     }
     output_path = output / "repers-objective-audit.json"
+    continuation_path = output / "repers-continuation.md"
+    audit["continuation_markdown_path"] = str(continuation_path.resolve())
+    write_continuation_markdown(audit, continuation_path)
+    for requirement in audit["requirements"]:
+        if requirement["id"] == "verified_without_chat_history":
+            continuation_record = file_record(output, "repers-continuation.md")
+            requirement["evidence"]["continuation_markdown"] = continuation_record
+            requirement["passed"] = bool(requirement["passed"] and continuation_record["exists"])
+            requirement["status"] = "passed" if requirement["passed"] else "incomplete"
+    audit["blocking_incomplete"] = [
+        item["id"] for item in audit["requirements"] if item["blocks_completion"] and not item["passed"]
+    ]
+    audit["objective_complete"] = not audit["blocking_incomplete"]
     output_path.write_text(json.dumps(audit, indent=2, ensure_ascii=False), encoding="utf-8")
     return audit, output_path

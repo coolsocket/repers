@@ -33,6 +33,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add objective completion audit with deep evidence gates.
 - [x] Add remote bootstrap artifact and optional `git remote add` apply path.
 - [x] Add local bare-remote fixture proving `remote-bootstrap --apply` and push.
+- [x] Add objective continuation actions for autonomous handoff/resume.
 
 ## Acceptance
 
@@ -95,3 +96,8 @@ a temporary Git target, installs RePERS, creates a local bare remote, runs
 `remote-bootstrap --apply`, and pushes to that bare remote. This proves the
 remote mutation and branch push mechanics without requiring a hosted Git
 provider.
+
+Continuation phase complete: `objective-audit --json` now includes
+`continuation` with local and external next actions, and writes
+`dist/repers-continuation.md`. This keeps the remaining hosted-publication
+blocker explicit while giving the next maintainer exact resume commands.

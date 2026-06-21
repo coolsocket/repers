@@ -82,6 +82,11 @@ receiver reuse, capability registry, deterministic DAG proof, open-source
 structure study, tests/package gates, chat-free evidence, and publication
 readiness.
 
+The objective audit also writes `dist/repers-continuation.md` and embeds a
+`repers.objective_continuation.v1` object in JSON. That continuation section
+splits executable local resume commands from external actions such as providing
+a hosted Git remote URL.
+
 `receiver-fixture --json` installs the packaged archive into a fresh Git
 repository and runs receiver-side checks: `verify-install`, `doctor`,
 `bundle-status`, `capabilities`, and `fixture`. Use it before handing the
