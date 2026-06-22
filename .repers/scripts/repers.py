@@ -785,6 +785,38 @@ def run_install_hook_command(args):
         print(f"[OK] Installed RePERS pre-commit hook at {hook_path}")
 
 
+def run_refresh_manifest_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from install_repers import verify_manifest, write_manifest
+
+    target_root = Path(REPO_ROOT).resolve()
+    install_root = Path(INSTALL_ROOT).resolve()
+    hook_path = target_root / ".git" / "hooks" / "pre-commit"
+    gitignore_path = target_root / ".gitignore"
+    manifest_path, manifest = write_manifest(
+        target_root,
+        install_root,
+        with_hook=hook_path.exists(),
+        hook_policy=args.hook_policy,
+        hook_path=hook_path if hook_path.exists() else None,
+        gitignore_path=gitignore_path if gitignore_path.exists() else None,
+    )
+    verify = verify_manifest(install_root, strict_extra=args.strict_extra)
+    result = {
+        "schema": "repers.refresh_manifest.v1",
+        "ok": bool(verify.get("ok")),
+        "manifest_path": str(manifest_path.resolve()),
+        "manifest_file_count": manifest.get("file_count"),
+        "verify_install": verify,
+    }
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not result["ok"]:
+        sys.exit(1)
+
+
 def run_verify_install_command(args):
     sys.path.append(SCRIPT_DIR)
     from install_repers import verify_manifest
@@ -1279,6 +1311,11 @@ def main():
     install_hook_parser.add_argument("--json", action="store_true")
     install_hook_parser.add_argument("--hook-policy", choices=["warn", "strict"], default="warn", help="Whether the hook allows warnings or treats them as failures")
 
+    refresh_manifest_parser = subparsers.add_parser("refresh-manifest", help="Refresh .repers/manifest.json for the installed RePERS runtime")
+    refresh_manifest_parser.add_argument("--hook-policy", choices=["warn", "strict"], default="warn", help="Manifest hook policy to record")
+    refresh_manifest_parser.add_argument("--strict-extra", action="store_true", help="Fail when non-runtime files exist in the install root but are not in the manifest")
+    refresh_manifest_parser.add_argument("--json", action="store_true")
+
     verify_install_parser = subparsers.add_parser("verify-install", help="Verify .repers/manifest.json against the installed bundle")
     verify_install_parser.add_argument("--install-root", help="Path to the .repers install root; defaults to this CLI's install root")
     verify_install_parser.add_argument("--strict-extra", action="store_true", help="Fail when non-runtime files exist in the install root but are not in the manifest")
@@ -1380,6 +1417,8 @@ def main():
         run_install_command(args)
     elif args.command == "install-hook":
         run_install_hook_command(args)
+    elif args.command == "refresh-manifest":
+        run_refresh_manifest_command(args)
     elif args.command == "verify-install":
         run_verify_install_command(args)
     elif args.command == "package":

@@ -98,6 +98,16 @@ def test_install_manifest_verification():
     assert verify["checked_count"] == verify["file_count"]
 
 
+def test_refresh_manifest_updates_install_manifest():
+    stdout = run([sys.executable, str(REPERS), "refresh-manifest", "--json"])
+    result = json.loads(stdout)
+    assert result["schema"] == "repers.refresh_manifest.v1"
+    assert result["ok"] is True
+    assert Path(result["manifest_path"]).exists()
+    assert result["manifest_file_count"] == result["verify_install"]["file_count"]
+    assert result["verify_install"]["ok"] is True
+
+
 def test_package_archive_manifest():
     stdout = run([sys.executable, str(REPERS), "package", "--output", str(DIST), "--json"])
     package = json.loads(stdout)
@@ -130,6 +140,7 @@ def test_package_archive_manifest():
     assert readiness["warnings"] == []
     assert "install" in readiness["receiver_commands"]
     assert "install_cli" in readiness["receiver_commands"]
+    assert "refresh_manifest" in readiness["receiver_commands"]
     assert "verify" in readiness["receiver_commands"]
     assert "capabilities" in readiness["receiver_commands"]
     assert "fixture_prove" in readiness["receiver_commands"]
@@ -795,6 +806,23 @@ def test_state_report_summarizes_current_repository():
     if output_dir.exists():
         shutil.rmtree(output_dir)
     try:
+        output_dir.mkdir(parents=True)
+        stale_release = {
+            "schema": "repers.release_evidence.v1",
+            "git": {
+                "branch": "stale-branch",
+                "head_sha": "stale-head",
+                "has_head": True,
+                "dirty": False,
+                "status_count": 0,
+                "remote_count": 99,
+                "errors": [],
+            },
+            "missing_for_publish": [],
+            "package": {"ok": True, "roundtrip_ok": True, "readiness_warnings": []},
+        }
+        (output_dir / "repers-release-evidence.json").write_text(json.dumps(stale_release), encoding="utf-8")
+        live_head = run(["git", "rev-parse", "HEAD"]).strip()
         stdout = run(
             [
                 sys.executable,
@@ -817,6 +845,8 @@ def test_state_report_summarizes_current_repository():
         assert isinstance(state["objective"]["complete"], bool)
         assert isinstance(state["objective"]["blocking_incomplete"], list)
         assert "remote_count" in state["git"]
+        assert state["git"]["head_sha"] == live_head
+        assert state["git"]["head_sha"] != "stale-head"
         assert "ok" in state["package"]
         assert isinstance(state["capabilities"]["missing"], list)
         assert "local_action_id" in state["next"]
@@ -858,9 +888,9 @@ def test_snapshot_freshness_checks_generated_state():
         assert Path(result["markdown_path"]).exists()
         assert freshness["schema"] == "repers.snapshot_freshness.v1"
         assert freshness["ok"] is True
-        assert freshness["fresh"] is False
+        assert freshness["fresh"] is True
         assert freshness["strict"] is False
-        assert freshness["stale_count"] >= 0
+        assert freshness["stale_count"] == 0
         assert freshness["checked_count"] >= 1
     finally:
         if output_dir.exists():
@@ -937,6 +967,7 @@ def main():
     test_json_preflight_with_codegraph_fallback()
     test_preflight_help_exposes_codegraph_flags()
     test_audit_warning_policy()
+    test_refresh_manifest_updates_install_manifest()
     test_install_manifest_verification()
     test_package_archive_manifest()
     test_package_roundtrip_install_from_archive()

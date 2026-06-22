@@ -5,6 +5,8 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
+from release_evidence import git_publish_state, missing_publish_requirements
+
 
 OBJECTIVE_AUDIT_SCHEMA = "repers.objective_audit.v1"
 
@@ -440,6 +442,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "orchestration-fixture",
         "package-readiness",
         "install-hook",
+        "install-manifest-refresh",
         "task-dag",
         "review-release",
         "receiver-governance",
@@ -488,8 +491,16 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         else source_install_fixture
     )
     release = release_evidence or {}
-    git = handoff.get("git", {}) if isinstance(handoff, dict) else release.get("git", {})
-    missing_for_publish = handoff.get("missing_for_publish", []) if isinstance(handoff, dict) else release.get("missing_for_publish", [])
+    live_git = git_publish_state(workspace)
+    git = live_git or (handoff.get("git", {}) if isinstance(handoff, dict) else release.get("git", {}))
+    missing_for_publish = missing_publish_requirements(
+        git,
+        package_ok,
+        None,
+        False,
+        governance_ok,
+        required_capabilities <= capability_ids,
+    )
 
     requirements = [
         audit_requirement(

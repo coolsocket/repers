@@ -3,16 +3,16 @@
   "ok": true,
   "fresh": true,
   "strict": false,
-  "generated_at": "2026-06-22T02:09:47.308473+00:00",
+  "generated_at": "2026-06-22T02:43:53.504328+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
   "live_git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "15c3c17fb16a7115aa05173d8c1cb78c136f8c56",
+    "head_sha": "34b187e25d33799dd1914b982ed7749544ea9338",
     "has_head": true,
     "dirty": true,
-    "status_count": 31,
+    "status_count": 30,
     "status_entries": [
       "M .repers/capabilities/registry.json",
       " M .repers/docs/contracts.md",
@@ -20,9 +20,9 @@
       " M .repers/manifest.json",
       " M .repers/scripts/objective_audit.py",
       " M .repers/scripts/package_repers.py",
-      " M .repers/scripts/receiver_fixture.py",
+      " M .repers/scripts/release_evidence.py",
       " M .repers/scripts/repers.py",
-      " M .repers/scripts/verify_all.py",
+      " M .repers/scripts/state_report.py",
       " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
@@ -35,16 +35,15 @@
       " M dist/repers-remote-bootstrap-fixture.json",
       " M dist/repers-remote-bootstrap.json",
       " M dist/repers-remote-bootstrap.md",
+      " M dist/repers-snapshot-freshness.json",
+      " M dist/repers-snapshot-freshness.md",
       " M dist/repers-source-install-fixture.json",
       " M dist/repers-state.json",
       " M dist/repers-state.md",
       " M dist/repers-verify-all.json",
       " M dist/repers-verify-all.md",
       " M docs/planning/active-repers-build.md",
-      " M tests/smoke_repers.py",
-      "?? .repers/scripts/snapshot_freshness.py",
-      "?? dist/repers-snapshot-freshness.json",
-      "?? dist/repers-snapshot-freshness.md"
+      " M tests/smoke_repers.py"
     ],
     "remote_count": 0,
     "errors": []
@@ -60,7 +59,7 @@
       "exists": true,
       "comparable": true,
       "fresh": true,
-      "generated_at": "2026-06-22T02:08:21.741902+00:00",
+      "generated_at": "2026-06-22T02:43:47.481442+00:00",
       "mismatches": []
     },
     {
@@ -69,7 +68,7 @@
       "exists": true,
       "comparable": true,
       "fresh": true,
-      "generated_at": "2026-06-22T02:06:52.981365+00:00",
+      "generated_at": "2026-06-22T02:40:52.825384+00:00",
       "mismatches": []
     },
     {
@@ -78,7 +77,7 @@
       "exists": true,
       "comparable": true,
       "fresh": true,
-      "generated_at": "2026-06-22T02:08:21.740902+00:00",
+      "generated_at": "2026-06-22T02:43:47.480442+00:00",
       "mismatches": []
     },
     {
@@ -87,7 +86,7 @@
       "exists": true,
       "comparable": true,
       "fresh": true,
-      "generated_at": "2026-06-22T02:09:40.434645+00:00",
+      "generated_at": "2026-06-22T02:43:39.668795+00:00",
       "mismatches": []
     }
   ],

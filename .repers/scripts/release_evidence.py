@@ -86,6 +86,27 @@ def latest_readiness(output_dir):
     return load_json(candidates[0])
 
 
+def missing_publish_requirements(git, package_ok, roundtrip_ok, require_roundtrip, governance_ok, registry_ok):
+    missing_for_publish = []
+    if not git["has_head"]:
+        missing_for_publish.append("create an initial commit")
+    if git["dirty"]:
+        missing_for_publish.append("commit or intentionally exclude working tree changes")
+    if not git["branch"]:
+        missing_for_publish.append("create or name a release branch")
+    if git["remote_count"] == 0:
+        missing_for_publish.append("configure a Git remote before opening a PR")
+    if not package_ok:
+        missing_for_publish.append("produce an ok package readiness artifact")
+    if require_roundtrip and not roundtrip_ok:
+        missing_for_publish.append("make package round-trip verification pass")
+    if not governance_ok:
+        missing_for_publish.append("add missing governance files")
+    if not registry_ok:
+        missing_for_publish.append("fix capability registry validation")
+    return missing_for_publish
+
+
 def build_release_evidence(workspace_root, install_root, output_dir="dist", include_package=False, verify_roundtrip=False):
     workspace = Path(workspace_root).resolve()
     install = Path(install_root).resolve()
@@ -107,23 +128,14 @@ def build_release_evidence(workspace_root, install_root, output_dir="dist", incl
     governance = governance_state(workspace)
     package_ok = bool(package.get("ok")) if package else bool(readiness and readiness.get("ok"))
     roundtrip_ok = package.get("roundtrip", {}).get("ok") if package else None
-    missing_for_publish = []
-    if not git["has_head"]:
-        missing_for_publish.append("create an initial commit")
-    if git["dirty"]:
-        missing_for_publish.append("commit or intentionally exclude working tree changes")
-    if not git["branch"]:
-        missing_for_publish.append("create or name a release branch")
-    if git["remote_count"] == 0:
-        missing_for_publish.append("configure a Git remote before opening a PR")
-    if not package_ok:
-        missing_for_publish.append("produce an ok package readiness artifact")
-    if include_package and verify_roundtrip and not roundtrip_ok:
-        missing_for_publish.append("make package round-trip verification pass")
-    if not governance["ok"]:
-        missing_for_publish.append("add missing governance files")
-    if not registry_validation["ok"]:
-        missing_for_publish.append("fix capability registry validation")
+    missing_for_publish = missing_publish_requirements(
+        git,
+        package_ok,
+        roundtrip_ok,
+        include_package and verify_roundtrip,
+        governance["ok"],
+        registry_validation["ok"],
+    )
 
     evidence = {
         "schema": RELEASE_EVIDENCE_SCHEMA,

@@ -424,6 +424,17 @@ Each file entry includes:
 - `size_bytes`
 - `sha256`
 
+`refresh-manifest --json` rewrites `.repers/manifest.json` for the current
+installed runtime and then runs the same installed-bundle verification.
+
+Required `refresh-manifest` fields:
+
+- `schema`: `repers.refresh_manifest.v1`
+- `ok`
+- `manifest_path`
+- `manifest_file_count`
+- `verify_install`
+
 ## Install Verify
 
 `verify-install --json` verifies the installed `.repers/manifest.json` against

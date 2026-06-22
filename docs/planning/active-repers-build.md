@@ -43,6 +43,7 @@ repository, reused by other agents, and verified without chat history.
   with the pre-commit hook.
 - [x] Add snapshot freshness gate distinguishing live Git state from committed
   generated evidence.
+- [x] Add installed manifest refresh command and stale-state evidence guard.
 
 ## Acceptance
 
@@ -55,6 +56,8 @@ repository, reused by other agents, and verified without chat history.
   `ok=true` and target-side `doctor` reports the hook installed.
 - `python -B .repers/scripts/repers.py snapshot-freshness --json` reports
   whether generated state evidence still matches live Git state.
+- `python -B .repers/scripts/repers.py refresh-manifest --json` returns
+  `ok=true` after runtime edits.
 - `python -B tests/smoke_repers.py` returns success.
 
 ## Status
@@ -159,3 +162,10 @@ Git branch, HEAD, dirty state, and remote count. `verify-all --json` now runs a
 strict freshness check against its freshly generated temporary deep state output,
 while non-strict mode gives receiver installs a safe report even before their
 first commit.
+
+Manifest refresh/state freshness follow-up complete: `refresh-manifest --json`
+is now a first-class maintenance command that rewrites `.repers/manifest.json`
+and immediately verifies installed runtime hashes. Shallow objective audit and
+state reports now use live publication Git evidence instead of stale release or
+handoff files, and smoke coverage seeds a stale release file to prevent
+regression.

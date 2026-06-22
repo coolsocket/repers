@@ -195,6 +195,7 @@ def build_readiness_manifest(archive_path, archive_sha256, file_records):
             "extract": f"Expand-Archive {archive_path.name} -DestinationPath .",
             "install": f"python {archive_root}/scripts/install_repers.py --target <target-repo>",
             "install_cli": f"python {archive_root}/scripts/repers.py install --target <target-repo> --json",
+            "refresh_manifest": "python <target-repo>/.repers/scripts/repers.py refresh-manifest --json",
             "verify": "python <target-repo>/.repers/scripts/repers.py verify-install --json",
             "doctor": "python <target-repo>/.repers/scripts/repers.py doctor --json",
             "capabilities": "python <target-repo>/.repers/scripts/repers.py capabilities --action search --query \"capability query\" --json",

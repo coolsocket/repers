@@ -1,8 +1,8 @@
 # RePERS Publish Handoff
 
-- Generated: `2026-06-22T02:06:52.986872+00:00`
+- Generated: `2026-06-22T02:40:52.830385+00:00`
 - Branch: `codex/repers-initial-package`
-- Commit: `15c3c17fb16a7115aa05173d8c1cb78c136f8c56`
+- Commit: `34b187e25d33799dd1914b982ed7749544ea9338`
 - Clean tree: `False`
 - Publish ready: `False`
 
@@ -37,13 +37,13 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Add source install fixture" --body-file <handoff-md>
+gh pr create --draft --base main --head codex/repers-initial-package --title "Add snapshot freshness gate" --body-file <handoff-md>
 ```
 
 ## Package
 
 - Archive: `C:\Users\Administrator\Documents\RePERS\dist\repers-0.1.0.zip`
-- SHA-256: `95257b93ed48da22ca8fc8ed6cd0e8a526ae61a3e12bf4e641cc0a3727afd078`
+- SHA-256: `70f3fa4053878df7992a3e7219ccc879d42099cd795ab9f4ee470e17debe1bda`
 - Round trip: `True`
 
 This handoff is intentionally non-destructive. It records the commands

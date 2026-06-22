@@ -1,7 +1,7 @@
 {
   "schema": "repers.publish_clone_fixture.v1",
   "ok": true,
-  "generated_at": "2026-06-22T02:06:55.304283+00:00",
+  "generated_at": "2026-06-22T02:40:55.141881+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -10,7 +10,7 @@
     {
       "name": "copy_workspace",
       "ok": true,
-      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source"
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source"
     },
     {
       "name": "git_init_source",
@@ -18,10 +18,10 @@
         "git",
         "init"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-publish-clone-u7o3fud6/source/.git/\n",
+      "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-publish-clone-wyi4198b/source/.git/\n",
       "stderr_tail": ""
     },
     {
@@ -32,7 +32,7 @@
         "core.hooksPath",
         ".git/hooks"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
       "returncode": 0,
       "ok": true,
       "stdout_tail": "",
@@ -46,7 +46,7 @@
         "-B",
         "publish-clone-fixture"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
       "returncode": 0,
       "ok": true,
       "stdout_tail": "",
@@ -60,7 +60,7 @@
         "user.name",
         "RePERS Fixture"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
       "returncode": 0,
       "ok": true,
       "stdout_tail": "",
@@ -74,7 +74,7 @@
         "user.email",
         "repers-fixture@example.invalid"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
       "returncode": 0,
       "ok": true,
       "stdout_tail": "",
@@ -87,11 +87,11 @@
         "add",
         "."
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
       "returncode": 0,
       "ok": true,
       "stdout_tail": "",
-      "stderr_tail": "ed by CRLF the next time Git touches it\nwarning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'dist/repers-0.1.0-readiness.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-continuation.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-objective-audit.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-publish-clone-fixture.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-publish-handoff.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-publish-handoff.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-release-evidence.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-remote-bootstrap-fixture.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-remote-bootstrap.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-remote-bootstrap.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-source-install-fixture.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-state.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-state.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-verify-all.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-verify-all.md', CRLF will be replaced by LF the next time Git touches it\n"
+      "stderr_tail": "it touches it\nwarning: in the working copy of 'dist/repers-continuation.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-objective-audit.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-publish-clone-fixture.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-publish-handoff.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-publish-handoff.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-release-evidence.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-remote-bootstrap-fixture.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-remote-bootstrap.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-remote-bootstrap.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-snapshot-freshness.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-snapshot-freshness.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-source-install-fixture.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-state.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-state.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-verify-all.json', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'dist/repers-verify-all.md', CRLF will be replaced by LF the next time Git touches it\n"
     },
     {
       "name": "git_commit_source",
@@ -101,10 +101,10 @@
         "-m",
         "Publish clone fixture source"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "scripts/receiver_fixture.py\n create mode 100644 .repers/scripts/release_evidence.py\n create mode 100644 .repers/scripts/release_gate.py\n create mode 100644 .repers/scripts/remote_bootstrap.py\n create mode 100644 .repers/scripts/repers.py\n create mode 100644 .repers/scripts/research_index.py\n create mode 100644 .repers/scripts/reviewer.py\n create mode 100644 .repers/scripts/shipping.py\n create mode 100644 .repers/scripts/snapshot_freshness.py\n create mode 100644 .repers/scripts/source_install_fixture.py\n create mode 100644 .repers/scripts/state_report.py\n create mode 100644 .repers/scripts/verify_all.py\n create mode 100644 .repers/templates/plan.md\n create mode 100644 .repers/templates/research.md\n create mode 100644 .repers/templates/review.md\n create mode 100644 .repers/templates/shipping.md\n create mode 100644 CHANGELOG.md\n create mode 100644 CONTRIBUTING.md\n create mode 100644 MAINTAINERS.md\n create mode 100644 README.md\n create mode 100644 ROADMAP.md\n create mode 100644 SECURITY.md\n create mode 100644 SUPPORT.md\n create mode 100644 dist/repers-0.1.0-readiness.json\n create mode 100644 dist/repers-0.1.0.zip\n create mode 100644 dist/repers-continuation.md\n create mode 100644 dist/repers-objective-audit.json\n create mode 100644 dist/repers-publish-clone-fixture.json\n create mode 100644 dist/repers-publish-handoff.json\n create mode 100644 dist/repers-publish-handoff.md\n create mode 100644 dist/repers-release-evidence.json\n create mode 100644 dist/repers-remote-bootstrap-fixture.json\n create mode 100644 dist/repers-remote-bootstrap.json\n create mode 100644 dist/repers-remote-bootstrap.md\n create mode 100644 dist/repers-source-install-fixture.json\n create mode 100644 dist/repers-state.json\n create mode 100644 dist/repers-state.md\n create mode 100644 dist/repers-verify-all.json\n create mode 100644 dist/repers-verify-all.md\n create mode 100644 docs/planning/active-repers-build.md\n create mode 100644 examples/basic-task/README.md\n create mode 100644 tests/smoke_repers.py\n",
+      "stdout_tail": "s/scripts/release_gate.py\n create mode 100644 .repers/scripts/remote_bootstrap.py\n create mode 100644 .repers/scripts/repers.py\n create mode 100644 .repers/scripts/research_index.py\n create mode 100644 .repers/scripts/reviewer.py\n create mode 100644 .repers/scripts/shipping.py\n create mode 100644 .repers/scripts/snapshot_freshness.py\n create mode 100644 .repers/scripts/source_install_fixture.py\n create mode 100644 .repers/scripts/state_report.py\n create mode 100644 .repers/scripts/verify_all.py\n create mode 100644 .repers/templates/plan.md\n create mode 100644 .repers/templates/research.md\n create mode 100644 .repers/templates/review.md\n create mode 100644 .repers/templates/shipping.md\n create mode 100644 CHANGELOG.md\n create mode 100644 CONTRIBUTING.md\n create mode 100644 MAINTAINERS.md\n create mode 100644 README.md\n create mode 100644 ROADMAP.md\n create mode 100644 SECURITY.md\n create mode 100644 SUPPORT.md\n create mode 100644 dist/repers-0.1.0-readiness.json\n create mode 100644 dist/repers-0.1.0.zip\n create mode 100644 dist/repers-continuation.md\n create mode 100644 dist/repers-objective-audit.json\n create mode 100644 dist/repers-publish-clone-fixture.json\n create mode 100644 dist/repers-publish-handoff.json\n create mode 100644 dist/repers-publish-handoff.md\n create mode 100644 dist/repers-release-evidence.json\n create mode 100644 dist/repers-remote-bootstrap-fixture.json\n create mode 100644 dist/repers-remote-bootstrap.json\n create mode 100644 dist/repers-remote-bootstrap.md\n create mode 100644 dist/repers-snapshot-freshness.json\n create mode 100644 dist/repers-snapshot-freshness.md\n create mode 100644 dist/repers-source-install-fixture.json\n create mode 100644 dist/repers-state.json\n create mode 100644 dist/repers-state.md\n create mode 100644 dist/repers-verify-all.json\n create mode 100644 dist/repers-verify-all.md\n create mode 100644 docs/planning/active-repers-build.md\n create mode 100644 examples/basic-task/README.md\n create mode 100644 tests/smoke_repers.py\n",
       "stderr_tail": ""
     },
     {
@@ -113,12 +113,12 @@
         "git",
         "init",
         "--bare",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\remote.git"
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\remote.git"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-publish-clone-u7o3fud6/remote.git/\n",
+      "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-publish-clone-wyi4198b/remote.git/\n",
       "stderr_tail": ""
     },
     {
@@ -129,7 +129,7 @@
         "HEAD",
         "refs/heads/publish-clone-fixture"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\remote.git",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\remote.git",
       "returncode": 0,
       "ok": true,
       "stdout_tail": "",
@@ -142,9 +142,9 @@
         "remote",
         "add",
         "origin",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\remote.git"
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\remote.git"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
       "returncode": 0,
       "ok": true,
       "stdout_tail": "",
@@ -159,25 +159,25 @@
         "origin",
         "publish-clone-fixture"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
       "returncode": 0,
       "ok": true,
       "stdout_tail": "branch 'publish-clone-fixture' set up to track 'origin/publish-clone-fixture'.\n",
-      "stderr_tail": "To C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\remote.git\n * [new branch]      publish-clone-fixture -> publish-clone-fixture\n"
+      "stderr_tail": "To C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\remote.git\n * [new branch]      publish-clone-fixture -> publish-clone-fixture\n"
     },
     {
       "name": "git_clone_remote",
       "command": [
         "git",
         "clone",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\remote.git",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone"
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\remote.git",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b",
       "returncode": 0,
       "ok": true,
       "stdout_tail": "",
-      "stderr_tail": "Cloning into 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone'...\ndone.\n"
+      "stderr_tail": "Cloning into 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone'...\ndone.\n"
     }
   ],
   "checks": {
@@ -187,10 +187,10 @@
         "rev-parse",
         "HEAD"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "ca7a64dc5547536e5abb4a97794743c58448e91e\n",
+      "stdout_tail": "98b3e64c6a4758ae4d4c79cffcb1dbd3a1665f2d\n",
       "stderr_tail": ""
     },
     "clone_head": {
@@ -199,10 +199,10 @@
         "rev-parse",
         "HEAD"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "ca7a64dc5547536e5abb4a97794743c58448e91e\n",
+      "stdout_tail": "98b3e64c6a4758ae4d4c79cffcb1dbd3a1665f2d\n",
       "stderr_tail": ""
     },
     "bare_remote_refs": {
@@ -210,10 +210,10 @@
         "git",
         "show-ref"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\remote.git",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\remote.git",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "ca7a64dc5547536e5abb4a97794743c58448e91e refs/heads/publish-clone-fixture\n",
+      "stdout_tail": "98b3e64c6a4758ae4d4c79cffcb1dbd3a1665f2d refs/heads/publish-clone-fixture\n",
       "stderr_tail": ""
     },
     "clone_origin": {
@@ -223,28 +223,28 @@
         "get-url",
         "origin"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\remote.git\n",
+      "stdout_tail": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\remote.git\n",
       "stderr_tail": ""
     },
     "verify_install": {
       "command": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
         "-B",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone\\.repers\\scripts\\repers.py",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone\\.repers\\scripts\\repers.py",
         "verify-install",
         "--json"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone",
       "returncode": 0,
       "ok": true,
       "json": {
         "schema": "repers.install_verify.v1",
         "ok": true,
-        "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone\\.repers",
-        "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone\\.repers\\manifest.json",
+        "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone\\.repers",
+        "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone\\.repers\\manifest.json",
         "manifest_schema": "repers.install_manifest.v1",
         "manifest_version": "0.1.0",
         "strict_extra": false,
@@ -255,7 +255,7 @@
         "extra": [],
         "errors": []
       },
-      "stdout_tail": "{\n  \"schema\": \"repers.install_verify.v1\",\n  \"ok\": true,\n  \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone\\\\.repers\",\n  \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone\\\\.repers\\\\manifest.json\",\n  \"manifest_schema\": \"repers.install_manifest.v1\",\n  \"manifest_version\": \"0.1.0\",\n  \"strict_extra\": false,\n  \"file_count\": 39,\n  \"checked_count\": 39,\n  \"missing\": [],\n  \"changed\": [],\n  \"extra\": [],\n  \"errors\": []\n}\n",
+      "stdout_tail": "{\n  \"schema\": \"repers.install_verify.v1\",\n  \"ok\": true,\n  \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone\\\\.repers\",\n  \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone\\\\.repers\\\\manifest.json\",\n  \"manifest_schema\": \"repers.install_manifest.v1\",\n  \"manifest_version\": \"0.1.0\",\n  \"strict_extra\": false,\n  \"file_count\": 39,\n  \"checked_count\": 39,\n  \"missing\": [],\n  \"changed\": [],\n  \"extra\": [],\n  \"errors\": []\n}\n",
       "stderr_tail": "",
       "errors": []
     },
@@ -263,23 +263,23 @@
       "command": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
         "-B",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone\\.repers\\scripts\\repers.py",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone\\.repers\\scripts\\repers.py",
         "capabilities",
         "--action",
         "validate",
         "--json"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone",
       "returncode": 0,
       "ok": true,
       "json": {
         "schema": "repers.capability_registry_validation.v1",
         "ok": true,
-        "registry_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone\\.repers\\capabilities\\registry.json",
-        "entry_count": 19,
+        "registry_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone\\.repers\\capabilities\\registry.json",
+        "entry_count": 20,
         "errors": []
       },
-      "stdout_tail": "{\n  \"schema\": \"repers.capability_registry_validation.v1\",\n  \"ok\": true,\n  \"registry_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone\\\\.repers\\\\capabilities\\\\registry.json\",\n  \"entry_count\": 19,\n  \"errors\": []\n}\n",
+      "stdout_tail": "{\n  \"schema\": \"repers.capability_registry_validation.v1\",\n  \"ok\": true,\n  \"registry_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone\\\\.repers\\\\capabilities\\\\registry.json\",\n  \"entry_count\": 20,\n  \"errors\": []\n}\n",
       "stderr_tail": "",
       "errors": []
     },
@@ -287,24 +287,24 @@
       "command": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
         "-B",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone\\.repers\\scripts\\repers.py",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone\\.repers\\scripts\\repers.py",
         "state",
         "--output",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output",
         "--json"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone",
       "returncode": 0,
       "ok": true,
       "json": {
         "state": {
           "schema": "repers.state_report.v1",
           "ok": true,
-          "generated_at": "2026-06-22T02:06:56.972947+00:00",
-          "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone",
-          "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone\\.repers",
-          "output_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output",
-          "audit_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output\\repers-objective-audit.json",
+          "generated_at": "2026-06-22T02:40:57.043634+00:00",
+          "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone",
+          "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone\\.repers",
+          "output_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output",
+          "audit_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output\\repers-objective-audit.json",
           "deep": false,
           "status": "local_work_available",
           "objective": {
@@ -314,18 +314,17 @@
               "verified_without_chat_history",
               "local_remote_bootstrap_apply",
               "local_publish_clone_verification",
-              "one_command_source_install",
-              "publication_ready"
+              "one_command_source_install"
             ],
             "requirements_total": 11,
-            "requirements_passed": 5
+            "requirements_passed": 6
           },
           "git": {
-            "branch": null,
-            "head_sha": null,
-            "dirty": null,
-            "status_count": null,
-            "remote_count": null
+            "branch": "publish-clone-fixture",
+            "head_sha": "98b3e64c6a4758ae4d4c79cffcb1dbd3a1665f2d",
+            "dirty": false,
+            "status_count": 0,
+            "remote_count": 1
           },
           "package": {
             "ok": null,
@@ -334,7 +333,7 @@
             "readiness_warnings": []
           },
           "capabilities": {
-            "entry_count": 19,
+            "entry_count": 20,
             "missing": []
           },
           "tests": {
@@ -348,44 +347,39 @@
               "refresh_deep_evidence",
               "prove_local_remote_apply",
               "prove_local_publish_clone",
-              "prove_one_command_source_install",
-              "verify_after_publication_setup"
+              "prove_one_command_source_install"
             ],
-            "external_action_ids": [
-              "configure_hosted_remote",
-              "push_branch",
-              "open_draft_pr"
-            ]
+            "external_action_ids": []
           },
           "next": {
             "local_action_id": "refresh_deep_evidence",
             "local_command": "python -B .repers/scripts/repers.py objective-audit --deep --output dist --json",
-            "external_action_id": "configure_hosted_remote",
-            "external_command": "python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json"
+            "external_action_id": null,
+            "external_command": null
           },
           "artifacts": {
-            "state_json": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output\\repers-state.json",
-            "state_markdown": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output\\repers-state.md",
-            "objective_audit": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output\\repers-objective-audit.json",
-            "continuation_markdown": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output\\repers-continuation.md",
-            "release_evidence": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output\\repers-release-evidence.json"
+            "state_json": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output\\repers-state.json",
+            "state_markdown": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output\\repers-state.md",
+            "objective_audit": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output\\repers-objective-audit.json",
+            "continuation_markdown": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output\\repers-continuation.md",
+            "release_evidence": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output\\repers-release-evidence.json"
           }
         },
-        "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output\\repers-state.json",
-        "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output\\repers-state.md"
+        "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output\\repers-state.json",
+        "markdown_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output\\repers-state.md"
       },
-      "stdout_tail": "{\n  \"state\": {\n    \"schema\": \"repers.state_report.v1\",\n    \"ok\": true,\n    \"generated_at\": \"2026-06-22T02:06:56.972947+00:00\",\n    \"workspace_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone\",\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone\\\\.repers\",\n    \"output_dir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone-output\",\n    \"audit_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone-output\\\\repers-objective-audit.json\",\n    \"deep\": false,\n    \"status\": \"local_work_available\",\n    \"objective\": {\n      \"complete\": false,\n      \"blocking_incomplete\": [\n        \"tests_and_package_gates\",\n        \"verified_without_chat_history\",\n        \"local_remote_bootstrap_apply\",\n        \"local_publish_clone_verification\",\n        \"one_command_source_install\",\n        \"publication_ready\"\n      ],\n      \"requirements_total\": 11,\n      \"requirements_passed\": 5\n    },\n    \"git\": {\n      \"branch\": null,\n      \"head_sha\": null,\n      \"dirty\": null,\n      \"status_count\": null,\n      \"remote_count\": null\n    },\n    \"package\": {\n      \"ok\": null,\n      \"roundtrip_ok\": null,\n      \"archive_path\": null,\n      \"readiness_warnings\": []\n    },\n    \"capabilities\": {\n      \"entry_count\": 19,\n      \"missing\": []\n    },\n    \"tests\": {\n      \"passed\": false,\n      \"smoke_ok\": null,\n      \"bundle_status_ok\": null\n    },\n    \"continuation\": {\n      \"status\": \"local_work_available\",\n      \"local_action_ids\": [\n        \"refresh_deep_evidence\",\n        \"prove_local_remote_apply\",\n        \"prove_local_publish_clone\",\n        \"prove_one_command_source_install\",\n        \"verify_after_publication_setup\"\n      ],\n      \"external_action_ids\": [\n        \"configure_hosted_remote\",\n        \"push_branch\",\n        \"open_draft_pr\"\n      ]\n    },\n    \"next\": {\n      \"local_action_id\": \"refresh_deep_evidence\",\n      \"local_command\": \"python -B .repers/scripts/repers.py objective-audit --deep --output dist --json\",\n      \"external_action_id\": \"configure_hosted_remote\",\n      \"external_command\": \"python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json\"\n    },\n    \"artifacts\": {\n      \"state_json\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone-output\\\\repers-state.json\",\n      \"state_markdown\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone-output\\\\repers-state.md\",\n      \"objective_audit\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone-output\\\\repers-objective-audit.json\",\n      \"continuation_markdown\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone-output\\\\repers-continuation.md\",\n      \"release_evidence\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone-output\\\\repers-release-evidence.json\"\n    }\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone-output\\\\repers-state.json\",\n  \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-u7o3fud6\\\\clone-output\\\\repers-state.md\"\n}\n",
+      "stdout_tail": "{\n  \"state\": {\n    \"schema\": \"repers.state_report.v1\",\n    \"ok\": true,\n    \"generated_at\": \"2026-06-22T02:40:57.043634+00:00\",\n    \"workspace_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone\",\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone\\\\.repers\",\n    \"output_dir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone-output\",\n    \"audit_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone-output\\\\repers-objective-audit.json\",\n    \"deep\": false,\n    \"status\": \"local_work_available\",\n    \"objective\": {\n      \"complete\": false,\n      \"blocking_incomplete\": [\n        \"tests_and_package_gates\",\n        \"verified_without_chat_history\",\n        \"local_remote_bootstrap_apply\",\n        \"local_publish_clone_verification\",\n        \"one_command_source_install\"\n      ],\n      \"requirements_total\": 11,\n      \"requirements_passed\": 6\n    },\n    \"git\": {\n      \"branch\": \"publish-clone-fixture\",\n      \"head_sha\": \"98b3e64c6a4758ae4d4c79cffcb1dbd3a1665f2d\",\n      \"dirty\": false,\n      \"status_count\": 0,\n      \"remote_count\": 1\n    },\n    \"package\": {\n      \"ok\": null,\n      \"roundtrip_ok\": null,\n      \"archive_path\": null,\n      \"readiness_warnings\": []\n    },\n    \"capabilities\": {\n      \"entry_count\": 20,\n      \"missing\": []\n    },\n    \"tests\": {\n      \"passed\": false,\n      \"smoke_ok\": null,\n      \"bundle_status_ok\": null\n    },\n    \"continuation\": {\n      \"status\": \"local_work_available\",\n      \"local_action_ids\": [\n        \"refresh_deep_evidence\",\n        \"prove_local_remote_apply\",\n        \"prove_local_publish_clone\",\n        \"prove_one_command_source_install\"\n      ],\n      \"external_action_ids\": []\n    },\n    \"next\": {\n      \"local_action_id\": \"refresh_deep_evidence\",\n      \"local_command\": \"python -B .repers/scripts/repers.py objective-audit --deep --output dist --json\",\n      \"external_action_id\": null,\n      \"external_command\": null\n    },\n    \"artifacts\": {\n      \"state_json\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone-output\\\\repers-state.json\",\n      \"state_markdown\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone-output\\\\repers-state.md\",\n      \"objective_audit\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone-output\\\\repers-objective-audit.json\",\n      \"continuation_markdown\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone-output\\\\repers-continuation.md\",\n      \"release_evidence\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone-output\\\\repers-release-evidence.json\"\n    }\n  },\n  \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone-output\\\\repers-state.json\",\n  \"markdown_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-publish-clone-wyi4198b\\\\clone-output\\\\repers-state.md\"\n}\n",
       "stderr_tail": "",
       "errors": []
     }
   },
   "errors": [],
   "fixture_paths": {
-    "temp_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6",
-    "source": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\source",
-    "bare_remote": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\remote.git",
-    "clone": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone",
-    "clone_output": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-u7o3fud6\\clone-output"
+    "temp_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b",
+    "source": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\source",
+    "bare_remote": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\remote.git",
+    "clone": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone",
+    "clone_output": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-publish-clone-wyi4198b\\clone-output"
   },
   "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-clone-fixture.json"
 }

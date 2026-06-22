@@ -23,6 +23,7 @@ python .repers\scripts\repers.py publish-clone-fixture --json
 python .repers\scripts\repers.py source-install-fixture --json
 python .repers\scripts\repers.py objective-audit --deep --json
 python .repers\scripts\repers.py snapshot-freshness --json
+python .repers\scripts\repers.py refresh-manifest --json
 python .repers\scripts\repers.py package --output dist --json
 python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
 python .repers\scripts\repers.py install-hook --json
@@ -48,6 +49,10 @@ without relying on chat history.
 source checkout or extracted package. It copies the runtime into the target Git
 repository, writes receiver ignore and attributes rules, refreshes the local
 index, writes the install manifest, and immediately verifies the target.
+
+`refresh-manifest --json` updates `.repers/manifest.json` after runtime edits
+and immediately runs `verify-install`. Use it before local gates when scripts,
+docs, templates, hooks, or capability registry files changed.
 
 `fixture --action prove --json` creates a deterministic large-task DAG fixture,
 dispatches three worker-command lanes through conflict-safe batches, runs a

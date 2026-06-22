@@ -133,6 +133,32 @@
       ]
     },
     {
+      "id": "install-manifest-refresh",
+      "kind": "maintenance",
+      "name": "Installed Manifest Refresh",
+      "summary": "Refreshes .repers/manifest.json after runtime edits and immediately verifies the installed bundle hashes.",
+      "tags": [
+        "install",
+        "manifest",
+        "verify",
+        "maintenance",
+        "package"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py refresh-manifest --json",
+        "python .repers/scripts/repers.py verify-install --json"
+      ],
+      "paths": [
+        "scripts/repers.py",
+        "scripts/install_repers.py",
+        "manifest.json"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py refresh-manifest --json",
+        "python .repers/scripts/repers.py verify-install --json"
+      ]
+    },
+    {
       "id": "task-dag",
       "kind": "workflow",
       "name": "Task DAG Planning and Execution",
