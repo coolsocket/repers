@@ -698,6 +698,25 @@ def run_snapshot_freshness_command(args):
         sys.exit(1)
 
 
+def run_open_source_benchmark_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from open_source_benchmark import verify_open_source_benchmark, write_open_source_benchmark_report
+
+    benchmark = verify_open_source_benchmark(REPO_ROOT, INSTALL_ROOT)
+    json_path, markdown_path = write_open_source_benchmark_report(benchmark, args.output)
+    result = {
+        "open_source_benchmark": benchmark,
+        "path": str(Path(json_path).resolve()),
+        "markdown_path": str(Path(markdown_path).resolve()),
+    }
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not benchmark.get("ok"):
+        sys.exit(1)
+
+
 def run_verify_all_command(args):
     sys.path.append(SCRIPT_DIR)
     from verify_all import build_verify_all
@@ -1292,6 +1311,10 @@ def main():
     snapshot_freshness_parser.add_argument("--strict", action="store_true", help="Exit non-zero when comparable snapshots are stale")
     snapshot_freshness_parser.add_argument("--json", action="store_true")
 
+    open_source_benchmark_parser = subparsers.add_parser("open-source-benchmark", help="Verify the stored 10-repository open-source structure benchmark")
+    open_source_benchmark_parser.add_argument("--output", default="dist", help="Output directory for benchmark verification artifacts")
+    open_source_benchmark_parser.add_argument("--json", action="store_true")
+
     verify_all_parser = subparsers.add_parser("verify-all", help="Run all local RePERS gates sequentially with isolated outputs")
     verify_all_parser.add_argument("--output", default="dist", help="Output directory for verify-all artifacts")
     verify_all_parser.add_argument("--json", action="store_true")
@@ -1409,6 +1432,8 @@ def main():
         run_state_command(args)
     elif args.command == "snapshot-freshness":
         run_snapshot_freshness_command(args)
+    elif args.command == "open-source-benchmark":
+        run_open_source_benchmark_command(args)
     elif args.command == "verify-all":
         run_verify_all_command(args)
     elif args.command == "receiver-fixture":

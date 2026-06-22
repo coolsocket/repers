@@ -120,6 +120,7 @@ def prove_receiver(workspace_root, install_root, output_dir="dist", verify_packa
             "source_install_fixture": [sys.executable, str(cli), "source-install-fixture", "--json"],
             "state": [sys.executable, str(cli), "state", "--json"],
             "snapshot_freshness": [sys.executable, str(cli), "snapshot-freshness", "--json"],
+            "open_source_benchmark": [sys.executable, str(cli), "open-source-benchmark", "--json"],
         }
         for name, command in commands.items():
             check = run_json(command, target_root)
@@ -150,6 +151,8 @@ def prove_receiver(workspace_root, install_root, output_dir="dist", verify_packa
                 result["errors"].append("state returned ok=false")
             if name == "snapshot_freshness" and payload.get("snapshot_freshness", {}).get("ok") is not True:
                 result["errors"].append("snapshot freshness returned ok=false")
+            if name == "open_source_benchmark" and payload.get("open_source_benchmark", {}).get("ok") is not True:
+                result["errors"].append("open-source benchmark returned ok=false")
 
     result["ok"] = not result["errors"]
     return result

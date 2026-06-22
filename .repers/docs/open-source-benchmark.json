@@ -1,0 +1,101 @@
+{
+  "schema": "repers.open_source_benchmark.v1",
+  "version": "0.1.0",
+  "last_refreshed": "2026-06-22",
+  "source_method": "agent-reach doctor reported no gh CLI backend; evidence was refreshed with public GitHub/web sources and stored for offline verification.",
+  "repositories": [
+    {
+      "repo": "kubernetes/kubernetes",
+      "source_url": "https://api.github.com/repos/kubernetes/kubernetes/contents",
+      "root_signals": ["AGENTS.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSES", "OWNERS", "SECURITY_CONTACTS", "SUPPORT.md", ".github", "docs"],
+      "promotion_signals": ["docs", "support policy", "security contacts", "ownership metadata", "release/change log"]
+    },
+    {
+      "repo": "microsoft/vscode",
+      "source_url": "https://api.github.com/repos/microsoft/vscode/contents",
+      "root_signals": ["AGENTS.md", "CONTRIBUTING.md", "LICENSE.txt", "README.md", "SECURITY.md", ".github", ".devcontainer"],
+      "promotion_signals": ["README onboarding", "security policy", "contribution docs", "developer containers", "visible automation"]
+    },
+    {
+      "repo": "facebook/react",
+      "source_url": "https://api.github.com/repos/facebook/react/contents",
+      "root_signals": ["CHANGELOG.md", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md", "LICENSE", "MAINTAINERS", "README.md", "SECURITY.md", ".github"],
+      "promotion_signals": ["README", "maintainers", "code of conduct", "security policy", "release history"]
+    },
+    {
+      "repo": "vercel/next.js",
+      "source_url": "https://api.github.com/repos/vercel/next.js/contents",
+      "root_signals": ["AGENTS.md", ".agents", ".devcontainer", ".github", ".husky", "README.md", "package.json"],
+      "promotion_signals": ["README", "agent instructions", "developer environment", "CI/workflows", "package scripts"]
+    },
+    {
+      "repo": "rust-lang/rust",
+      "source_url": "https://api.github.com/repos/rust-lang/rust/contents",
+      "root_signals": ["CODE_OF_CONDUCT.md", "CONTRIBUTING.md", "INSTALL.md", "LICENSES", "README.md", "RELEASES.md", ".github", "src", "tests"],
+      "promotion_signals": ["install docs", "release docs", "code of conduct", "contribution docs", "tests"]
+    },
+    {
+      "repo": "python/cpython",
+      "source_url": "https://api.github.com/repos/python/cpython/contents",
+      "root_signals": [".github", ".pre-commit-config.yaml", "Doc", "Grammar", "Include", "InternalDocs", "Lib", "Makefile.pre.in", "Misc", "Modules", "Objects", "Tools"],
+      "promotion_signals": ["official docs tree", "internal docs", "tools", "pre-commit config", "visible build files"]
+    },
+    {
+      "repo": "hashicorp/terraform",
+      "source_url": "https://api.github.com/repos/hashicorp/terraform/contents",
+      "root_signals": [".changes", ".github", ".release", "BUGPROCESS.md", "BUILDING.md", "CHANGELOG.md", "CODEOWNERS", "Makefile", "docs"],
+      "promotion_signals": ["bug process", "build docs", "release metadata", "change notes", "ownership metadata"]
+    },
+    {
+      "repo": "moby/moby",
+      "source_url": "https://api.github.com/repos/moby/moby/contents",
+      "root_signals": ["AGENTS.md", "CONTRIBUTING.md", "Dockerfile", "MAINTAINERS", "ROADMAP.md", "SECURITY.md", "TESTING.md", ".github", "api"],
+      "promotion_signals": ["roadmap", "testing docs", "security policy", "maintainers", "agent instructions"]
+    },
+    {
+      "repo": "homebrew/brew",
+      "source_url": "https://api.github.com/repos/homebrew/brew/contents",
+      "root_signals": ["AGENTS.md", "CODEOWNERS", "CONTRIBUTING.md", "Dockerfile", "Library", "README.md", ".codex", ".github", "bin"],
+      "promotion_signals": ["README", "contribution docs", "ownership metadata", "agent/codex instructions", "CLI entrypoints"]
+    },
+    {
+      "repo": "fastapi/fastapi",
+      "source_url": "https://api.github.com/repos/fastapi/fastapi/contents",
+      "root_signals": ["CITATION.cff", "LICENSE", "README.md", "docs", "docs_src", "fastapi", "pyproject.toml", "scripts", "tests", ".github", ".pre-commit-config.yaml"],
+      "promotion_signals": ["docs site source", "examples/docs_src", "citation metadata", "tests", "package config"]
+    }
+  ],
+  "patterns": [
+    "root_onboarding",
+    "visible_automation",
+    "explicit_governance",
+    "security_and_support",
+    "examples_and_tests",
+    "agent_instructions",
+    "repeatable_packaging",
+    "release_or_change_history"
+  ],
+  "repers_adoption": {
+    "source_required_paths": [
+      "README.md",
+      "CONTRIBUTING.md",
+      "SECURITY.md",
+      "SUPPORT.md",
+      "ROADMAP.md",
+      "CHANGELOG.md",
+      "MAINTAINERS.md",
+      ".github/workflows/repers-smoke.yml",
+      "examples/basic-task/README.md"
+    ],
+    "installed_required_paths": [
+      ".repers/docs/open-source-structure-study.md",
+      ".repers/docs/open-source-benchmark.json",
+      ".repers/docs/installation.md",
+      ".repers/docs/packaging.md",
+      ".repers/docs/contracts.md",
+      ".repers/capabilities/registry.json",
+      ".repers/scripts/repers.py",
+      ".repers/scripts/open_source_benchmark.py"
+    ]
+  }
+}

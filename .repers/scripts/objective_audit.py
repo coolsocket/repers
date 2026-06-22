@@ -5,6 +5,7 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
+from open_source_benchmark import verify_open_source_benchmark
 from release_evidence import git_publish_state, missing_publish_requirements
 
 
@@ -69,17 +70,6 @@ def continuation_action(action_id, title, command, kind, status, reason):
         "status": status,
         "reason": reason,
     }
-
-
-def count_open_source_repositories(study_text):
-    count = 0
-    source_count = 0
-    for line in study_text.splitlines():
-        if line.startswith("| `") and "` |" in line:
-            count += 1
-        if line.startswith("- https://api.github.com/repos/"):
-            source_count += 1
-    return count, source_count
 
 
 def load_json(path):
@@ -417,8 +407,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
     registry = load_json(install / "capabilities" / "registry.json")
     manifest = load_json(install / "manifest.json")
     study_path = install / "docs" / "open-source-structure-study.md"
-    study_text = study_path.read_text(encoding="utf-8") if study_path.exists() else ""
-    repo_count, source_count = count_open_source_repositories(study_text)
+    benchmark = verify_open_source_benchmark(workspace, install)
 
     governance_files = [
         "README.md",
@@ -443,6 +432,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "package-readiness",
         "install-hook",
         "install-manifest-refresh",
+        "open-source-benchmark",
         "task-dag",
         "review-release",
         "receiver-governance",
@@ -543,12 +533,17 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         ),
         audit_requirement(
             "open_source_structure_research",
-            "Repository includes the 10-repository open-source structure and promotion study.",
-            repo_count >= 10 and source_count >= 10,
+            "Repository includes and verifies the 10-repository open-source structure and promotion benchmark.",
+            benchmark.get("ok") is True,
             {
                 "path": str(study_path),
-                "repo_rows": repo_count,
-                "source_urls": source_count,
+                "benchmark_path": benchmark.get("benchmark_path"),
+                "repository_count": benchmark.get("repository_count"),
+                "source_urls": benchmark.get("source_url_count"),
+                "pattern_count": benchmark.get("pattern_count"),
+                "missing_source_paths": benchmark.get("missing_source_paths"),
+                "missing_installed_paths": benchmark.get("missing_installed_paths"),
+                "errors": benchmark.get("errors"),
             },
         ),
         audit_requirement(

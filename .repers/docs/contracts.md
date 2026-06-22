@@ -931,6 +931,47 @@ match live Git branch, head, dirty state, and remote count. Exact status counts
 are intentionally not part of freshness because writing evidence inside the
 worktree can change the count without changing publication state.
 
+## Open Source Benchmark
+
+`open-source-benchmark --json` writes
+`dist/repers-open-source-benchmark.json` and
+`dist/repers-open-source-benchmark.md`. It verifies the stored
+10-repository structure/promotion benchmark and checks that RePERS still carries
+the adopted source and installed-runtime surfaces. The command is offline by
+default; network refresh is manual and should update
+`.repers/docs/open-source-benchmark.json`.
+
+Required top-level command fields:
+
+- `open_source_benchmark`
+- `path`
+- `markdown_path`
+
+Required `open_source_benchmark` fields:
+
+- `schema`: `repers.open_source_benchmark_result.v1`
+- `ok`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `benchmark_path`
+- `benchmark_schema`
+- `last_refreshed`
+- `repository_count`
+- `source_url_count`
+- `pattern_count`
+- `source_surface_applicable`
+- `source_files`
+- `installed_files`
+- `missing_source_paths`
+- `missing_installed_paths`
+- `missing_repository_fields`
+- `errors`
+
+`source_surface_applicable=false` is valid for a receiver repository that only
+contains the installed `.repers/` runtime. Source-level RePERS checkouts enforce
+the top-level governance, CI, and example files derived from the benchmark.
+
 ## Verify All
 
 `verify-all --json` writes `dist/repers-verify-all.json` and

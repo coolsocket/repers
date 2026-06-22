@@ -44,6 +44,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add snapshot freshness gate distinguishing live Git state from committed
   generated evidence.
 - [x] Add installed manifest refresh command and stale-state evidence guard.
+- [x] Add machine-checkable open-source benchmark verifier.
 
 ## Acceptance
 
@@ -169,3 +170,9 @@ and immediately verifies installed runtime hashes. Shallow objective audit and
 state reports now use live publication Git evidence instead of stale release or
 handoff files, and smoke coverage seeds a stale release file to prevent
 regression.
+
+Open-source benchmark verifier phase complete: the 10-repository structure and
+promotion study now has `.repers/docs/open-source-benchmark.json` plus
+`open-source-benchmark --json`. Objective audit requires this capability,
+package readiness advertises it to receivers, receiver-fixture proves it in an
+installed target, and `verify-all --json` passed with 21 registry entries.

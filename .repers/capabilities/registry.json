@@ -243,6 +243,34 @@
       ]
     },
     {
+      "id": "open-source-benchmark",
+      "kind": "research-gate",
+      "name": "Open Source Structure Benchmark",
+      "summary": "Stores the 10-repository open-source structure and promotion benchmark as JSON and verifies RePERS adopted the reusable repo surfaces.",
+      "tags": [
+        "open-source",
+        "benchmark",
+        "research",
+        "promotion",
+        "governance",
+        "structure",
+        "verification"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py open-source-benchmark --json"
+      ],
+      "paths": [
+        "docs/open-source-structure-study.md",
+        "docs/open-source-benchmark.json",
+        "scripts/open_source_benchmark.py",
+        "scripts/repers.py",
+        "docs/contracts.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py open-source-benchmark --json"
+      ]
+    },
+    {
       "id": "release-evidence",
       "kind": "shipping-gate",
       "name": "Release Evidence and Publish Readiness",

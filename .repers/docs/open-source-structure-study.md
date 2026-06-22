@@ -1,9 +1,18 @@
 # Open Source Structure Study
 
 This study sampled 10 popular open-source repositories through the GitHub
-contents API on 2026-06-20. The purpose is not to clone their internals, but to
+contents API on 2026-06-20 and refreshed the benchmark artifact on 2026-06-22.
+The purpose is not to clone their internals, but to
 extract packaging, promotion, governance, and contributor-experience patterns
 that RePERS should adopt.
+
+The machine-readable benchmark lives in
+`.repers/docs/open-source-benchmark.json`. Verify the stored sample, source
+URLs, reusable patterns, and RePERS adoption paths with:
+
+```powershell
+python .repers/scripts/repers.py open-source-benchmark --json
+```
 
 ## Sampled Repositories
 

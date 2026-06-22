@@ -146,6 +146,11 @@ the 10-repository structure study in `.repers/docs/open-source-structure-study.m
 `examples/basic-task/README.md`. Package readiness fails if these signals are
 missing.
 
+`open-source-benchmark --json` verifies the machine-readable benchmark in
+`.repers/docs/open-source-benchmark.json`: at least 10 sampled repositories,
+source URLs, reusable structure/promotion patterns, and the RePERS files that
+adopt those patterns. Receiver installs can run the same command offline.
+
 Round-trip receiver check:
 
 ```powershell

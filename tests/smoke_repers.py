@@ -180,6 +180,7 @@ def test_package_archive_manifest():
     assert "continue" in readiness["receiver_commands"]
     assert "state" in readiness["receiver_commands"]
     assert "snapshot_freshness" in readiness["receiver_commands"]
+    assert "open_source_benchmark" in readiness["receiver_commands"]
     assert "verify_all" in readiness["receiver_commands"]
 
     archive_root = package["manifest"]["archive_root"]
@@ -210,8 +211,10 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/continuation_runner.py" in names
         assert f"{archive_root}/scripts/state_report.py" in names
         assert f"{archive_root}/scripts/snapshot_freshness.py" in names
+        assert f"{archive_root}/scripts/open_source_benchmark.py" in names
         assert f"{archive_root}/scripts/verify_all.py" in names
         assert f"{archive_root}/capabilities/registry.json" in names
+        assert f"{archive_root}/docs/open-source-benchmark.json" in names
         assert f"{archive_root}/templates/plan.md" in names
         assert f"{archive_root}/hooks/pre-commit" in names
         assert f"{archive_root}/README.md" in names
@@ -446,6 +449,22 @@ def test_capability_registry_and_preflight_surface():
     assert freshness_search["ok"] is True
     assert freshness_search["entries"][0]["id"] == "snapshot-freshness"
 
+    benchmark_stdout = run(
+        [
+            sys.executable,
+            str(REPERS),
+            "capabilities",
+            "--action",
+            "search",
+            "--query",
+            "open source benchmark promotion repository structure",
+            "--json",
+        ]
+    )
+    benchmark_search = json.loads(benchmark_stdout)
+    assert benchmark_search["ok"] is True
+    assert benchmark_search["entries"][0]["id"] == "open-source-benchmark"
+
     verify_stdout = run(
         [
             sys.executable,
@@ -508,6 +527,38 @@ def test_capability_registry_and_preflight_surface():
     preflight = json.loads(preflight_stdout)
     assert preflight["counts"]["capability_hits"] >= 1
     assert any(result["source"] == "local_capability" for result in preflight["results"])
+
+
+def test_open_source_benchmark_verifies_research_surface():
+    output_dir = DIST / "open-source-benchmark"
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    try:
+        stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "open-source-benchmark",
+                "--output",
+                str(output_dir),
+                "--json",
+            ]
+        )
+        result = json.loads(stdout)
+        benchmark = result["open_source_benchmark"]
+        assert benchmark["schema"] == "repers.open_source_benchmark_result.v1"
+        assert benchmark["ok"] is True
+        assert benchmark["repository_count"] >= 10
+        assert benchmark["source_url_count"] >= 10
+        assert benchmark["pattern_count"] >= 6
+        assert benchmark["source_surface_applicable"] is True
+        assert benchmark["missing_source_paths"] == []
+        assert benchmark["missing_installed_paths"] == []
+        assert Path(result["path"]).exists()
+        assert Path(result["markdown_path"]).exists()
+    finally:
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
 
 
 def test_release_evidence_publish_readiness_artifact():
@@ -987,6 +1038,7 @@ def test_receiver_fixture_proves_installed_package_commands():
     assert fixture["checks"]["source_install_fixture"]["json"]["source_install_fixture"]["ok"] is True
     assert fixture["checks"]["state"]["json"]["state"]["ok"] is True
     assert fixture["checks"]["snapshot_freshness"]["json"]["snapshot_freshness"]["ok"] is True
+    assert fixture["checks"]["open_source_benchmark"]["json"]["open_source_benchmark"]["ok"] is True
 
 
 def main():
@@ -1002,6 +1054,7 @@ def main():
     test_bundle_status_with_package_roundtrip()
     test_orchestration_fixture_proves_worker_command_dag()
     test_capability_registry_and_preflight_surface()
+    test_open_source_benchmark_verifies_research_surface()
     test_release_evidence_publish_readiness_artifact()
     test_publish_handoff_artifact_is_non_destructive()
     test_remote_bootstrap_artifact_is_non_destructive()
