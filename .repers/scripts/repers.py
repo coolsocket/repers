@@ -593,6 +593,24 @@ def run_publish_clone_fixture_command(args):
         sys.exit(1)
 
 
+def run_source_install_fixture_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from source_install_fixture import prove_source_install
+
+    fixture, path = prove_source_install(
+        REPO_ROOT,
+        INSTALL_ROOT,
+        output_dir=args.output,
+    )
+    result = {"source_install_fixture": fixture, "path": str(Path(path).resolve())}
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not fixture.get("ok"):
+        sys.exit(1)
+
+
 def run_objective_audit_command(args):
     sys.path.append(SCRIPT_DIR)
     from objective_audit import DEFAULT_OBJECTIVE, build_objective_audit
@@ -690,6 +708,31 @@ def run_receiver_fixture_command(args):
         output_dir=args.output,
         verify_package_roundtrip=args.verify_package_roundtrip,
     )
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not result.get("ok"):
+        sys.exit(1)
+
+
+def run_install_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from install_repers import install, verify_manifest
+
+    install_result = install(
+        args.target,
+        with_hook=not args.no_hook,
+        hook_policy=args.hook_policy,
+        quiet=args.json,
+    )
+    verify_result = verify_manifest(Path(args.target).resolve() / ".repers")
+    result = {
+        "schema": "repers.install_command.v1",
+        "ok": bool(install_result.get("ok") and verify_result.get("ok")),
+        "install": install_result,
+        "verify_install": verify_result,
+    }
     if args.json:
         emit_json(result)
     else:
@@ -1166,6 +1209,10 @@ def main():
     publish_clone_fixture_parser.add_argument("--output", default="dist", help="Output directory for publish clone fixture evidence")
     publish_clone_fixture_parser.add_argument("--json", action="store_true")
 
+    source_install_fixture_parser = subparsers.add_parser("source-install-fixture", help="Prove source/clone one-command install into a fresh Git repository")
+    source_install_fixture_parser.add_argument("--output", default="dist", help="Output directory for source install fixture evidence")
+    source_install_fixture_parser.add_argument("--json", action="store_true")
+
     objective_audit_parser = subparsers.add_parser("objective-audit", help="Audit RePERS against the full repository objective")
     objective_audit_parser.add_argument("--output", default="dist", help="Output directory for objective audit artifacts")
     objective_audit_parser.add_argument("--objective", help="Objective text to audit; defaults to the current RePERS build objective")
@@ -1194,6 +1241,12 @@ def main():
     receiver_fixture_parser.add_argument("--output", default="dist", help="Output directory for the package archive")
     receiver_fixture_parser.add_argument("--verify-package-roundtrip", action="store_true", help="Also run package-level round-trip verification before receiver checks")
     receiver_fixture_parser.add_argument("--json", action="store_true")
+
+    install_parser = subparsers.add_parser("install", help="Install this RePERS bundle into a target Git repository")
+    install_parser.add_argument("--target", required=True, help="Target Git repository path")
+    install_parser.add_argument("--no-hook", action="store_true", help="Copy files without installing the pre-commit hook")
+    install_parser.add_argument("--hook-policy", choices=["warn", "strict"], default="warn", help="Whether the installed hook allows warnings or treats them as failures")
+    install_parser.add_argument("--json", action="store_true")
 
     install_hook_parser = subparsers.add_parser("install-hook", help="Install or refresh the RePERS pre-commit hook in this repo")
     install_hook_parser.add_argument("--json", action="store_true")
@@ -1282,6 +1335,8 @@ def main():
         run_remote_bootstrap_fixture_command(args)
     elif args.command == "publish-clone-fixture":
         run_publish_clone_fixture_command(args)
+    elif args.command == "source-install-fixture":
+        run_source_install_fixture_command(args)
     elif args.command == "objective-audit":
         run_objective_audit_command(args)
     elif args.command == "continue":
@@ -1292,6 +1347,8 @@ def main():
         run_verify_all_command(args)
     elif args.command == "receiver-fixture":
         run_receiver_fixture_command(args)
+    elif args.command == "install":
+        run_install_command(args)
     elif args.command == "install-hook":
         run_install_hook_command(args)
     elif args.command == "verify-install":

@@ -129,6 +129,7 @@ def test_package_archive_manifest():
     assert readiness["surface"]["has_tests"] is True
     assert readiness["warnings"] == []
     assert "install" in readiness["receiver_commands"]
+    assert "install_cli" in readiness["receiver_commands"]
     assert "verify" in readiness["receiver_commands"]
     assert "capabilities" in readiness["receiver_commands"]
     assert "fixture_prove" in readiness["receiver_commands"]
@@ -137,6 +138,7 @@ def test_package_archive_manifest():
     assert "remote_bootstrap" in readiness["receiver_commands"]
     assert "remote_bootstrap_fixture" in readiness["receiver_commands"]
     assert "publish_clone_fixture" in readiness["receiver_commands"]
+    assert "source_install_fixture" in readiness["receiver_commands"]
     assert "objective_audit" in readiness["receiver_commands"]
     assert "continue" in readiness["receiver_commands"]
     assert "state" in readiness["receiver_commands"]
@@ -165,6 +167,7 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/publish_handoff.py" in names
         assert f"{archive_root}/scripts/remote_bootstrap.py" in names
         assert f"{archive_root}/scripts/publish_clone_fixture.py" in names
+        assert f"{archive_root}/scripts/source_install_fixture.py" in names
         assert f"{archive_root}/scripts/objective_audit.py" in names
         assert f"{archive_root}/scripts/continuation_runner.py" in names
         assert f"{archive_root}/scripts/state_report.py" in names
@@ -420,6 +423,22 @@ def test_capability_registry_and_preflight_surface():
     assert clone_search["ok"] is True
     assert clone_search["entries"][0]["id"] == "publish-clone-fixture"
 
+    install_stdout = run(
+        [
+            sys.executable,
+            str(REPERS),
+            "capabilities",
+            "--action",
+            "search",
+            "--query",
+            "source install receiver bootstrap",
+            "--json",
+        ]
+    )
+    install_search = json.loads(install_stdout)
+    assert install_search["ok"] is True
+    assert install_search["entries"][0]["id"] == "source-install-fixture"
+
     preflight_stdout = run(
         [
             sys.executable,
@@ -636,6 +655,39 @@ def test_publish_clone_fixture_proves_clone_verification():
             shutil.rmtree(output_dir)
 
 
+def test_source_install_fixture_proves_one_command_install():
+    output_dir = ROOT / ".repers-smoke-source-install-fixture"
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    try:
+        stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "source-install-fixture",
+                "--output",
+                str(output_dir),
+                "--json",
+            ]
+        )
+        result = json.loads(stdout)
+        fixture = result["source_install_fixture"]
+        fixture_path = Path(result["path"])
+        assert fixture_path.exists()
+        assert fixture["schema"] == "repers.source_install_fixture.v1"
+        assert fixture["ok"] is True
+        assert fixture["errors"] == []
+        assert fixture["checks"]["source_install"]["json"]["ok"] is True
+        assert fixture["checks"]["source_install"]["json"]["install"]["with_hook"] is True
+        assert fixture["checks"]["verify_install"]["json"]["ok"] is True
+        assert fixture["checks"]["doctor"]["json"]["ok"] is True
+        assert fixture["checks"]["doctor"]["json"]["hook"]["ok"] is True
+        assert fixture["checks"]["capabilities_validate"]["json"]["ok"] is True
+    finally:
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+
+
 def test_objective_audit_reports_requirements_and_blockers():
     output_dir = ROOT / ".repers-smoke-objective-audit"
     if output_dir.exists():
@@ -669,6 +721,7 @@ def test_objective_audit_reports_requirements_and_blockers():
             "verified_without_chat_history",
             "local_remote_bootstrap_apply",
             "local_publish_clone_verification",
+            "one_command_source_install",
             "publication_ready",
         } <= requirement_ids
         assert any(item["id"] == "publication_ready" for item in audit["requirements"])
@@ -790,6 +843,7 @@ def test_verify_all_runs_sequential_local_gates():
             "receiver_fixture",
             "remote_bootstrap_fixture",
             "publish_clone_fixture",
+            "source_install_fixture",
             "smoke_tests",
             "state_deep",
         } <= gate_names
@@ -816,6 +870,7 @@ def test_receiver_fixture_proves_installed_package_commands():
     assert fixture["checks"]["fixture_prove"]["json"]["ok"] is True
     assert fixture["checks"]["remote_bootstrap_fixture"]["json"]["remote_bootstrap_fixture"]["ok"] is True
     assert fixture["checks"]["publish_clone_fixture"]["json"]["publish_clone_fixture"]["ok"] is True
+    assert fixture["checks"]["source_install_fixture"]["json"]["source_install_fixture"]["ok"] is True
 
 
 def main():
@@ -835,6 +890,7 @@ def main():
     test_remote_bootstrap_artifact_is_non_destructive()
     test_remote_bootstrap_fixture_proves_apply_path()
     test_publish_clone_fixture_proves_clone_verification()
+    test_source_install_fixture_proves_one_command_install()
     test_objective_audit_reports_requirements_and_blockers()
     test_continue_reports_resume_actions_without_applying_by_default()
     test_state_report_summarizes_current_repository()

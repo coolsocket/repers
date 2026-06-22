@@ -1,6 +1,6 @@
 # RePERS State
 
-- Generated: `2026-06-21T15:40:54.718208+00:00`
+- Generated: `2026-06-22T01:25:09.372948+00:00`
 - Status: `local_work_available`
 - Objective complete: `False`
 - Blockers: `publication_ready`
@@ -8,7 +8,7 @@
 ## Git
 
 - Branch: `codex/repers-initial-package`
-- Head: `730c7dec787078ba1242729d07427c9c607f06be`
+- Head: `d9aaf9c54be31ed18925d0e41e65f2b7ecfb0873`
 - Dirty: `True`
 - Remotes: `0`
 

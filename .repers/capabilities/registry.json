@@ -337,6 +337,37 @@
       ]
     },
     {
+      "id": "source-install-fixture",
+      "kind": "harness",
+      "name": "Source Install Acceptance Fixture",
+      "summary": "Proves a source or cloned RePERS repository can install itself into a fresh receiver Git repository with one CLI command and verify there.",
+      "tags": [
+        "install",
+        "bootstrap",
+        "source",
+        "clone",
+        "receiver",
+        "fixture",
+        "verify-install"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py install --target <target-repo> --json",
+        "python .repers/scripts/repers.py source-install-fixture --json"
+      ],
+      "paths": [
+        "scripts/source_install_fixture.py",
+        "scripts/install_repers.py",
+        "scripts/repers.py",
+        "scripts/verify_all.py",
+        "scripts/objective_audit.py",
+        "docs/contracts.md",
+        "dist/repers-source-install-fixture.json"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py source-install-fixture --json"
+      ]
+    },
+    {
       "id": "objective-audit",
       "kind": "shipping-gate",
       "name": "Objective Completion Audit",

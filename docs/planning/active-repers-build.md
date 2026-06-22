@@ -39,6 +39,8 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add race-safe sequential `verify-all` local gate.
 - [x] Route packaged CI workflow through `verify-all`.
 - [x] Add local publish/clone fixture proving clone-side RePERS verification.
+- [x] Add source checkout install fixture proving one-command receiver bootstrap
+  with the pre-commit hook.
 
 ## Acceptance
 
@@ -47,6 +49,8 @@ repository, reused by other agents, and verified without chat history.
   returns `ok=true`.
 - `python -B .repers/scripts/repers.py publish-clone-fixture --json` returns
   `ok=true`.
+- `python -B .repers/scripts/repers.py source-install-fixture --json` returns
+  `ok=true` and target-side `doctor` reports the hook installed.
 - `python -B tests/smoke_repers.py` returns success.
 
 ## Status
@@ -137,3 +141,10 @@ clones it, and proves clone-side `verify-install`, capability validation, and
 state reporting. The installer now writes receiver `.gitattributes` rules so
 Git checkout line-ending normalization does not invalidate the installed
 manifest on Windows.
+
+Source install fixture phase complete: `install --target <target-repo> --json`
+is now the one-command source checkout bootstrap path. `source-install-fixture
+--json` copies the current RePERS worktree into a temporary source checkout,
+creates a fresh receiver Git repository, runs that install command, and proves
+target-side `verify-install`, `doctor` with the hook installed, and capability
+registry validation.

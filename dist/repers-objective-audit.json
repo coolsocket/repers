@@ -2,7 +2,7 @@
   "schema": "repers.objective_audit.v1",
   "ok": true,
   "objective_complete": false,
-  "generated_at": "2026-06-21T15:40:54.718208+00:00",
+  "generated_at": "2026-06-22T01:25:09.371944+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -20,7 +20,7 @@
           {
             "path": "README.md",
             "exists": true,
-            "size_bytes": 7024
+            "size_bytes": 7768
           },
           {
             "path": "CONTRIBUTING.md",
@@ -63,7 +63,7 @@
             "size_bytes": 696
           }
         ],
-        "manifest_file_count": 37
+        "manifest_file_count": 38
       }
     },
     {
@@ -85,7 +85,7 @@
       "passed": true,
       "blocks_completion": true,
       "evidence": {
-        "entry_count": 17,
+        "entry_count": 18,
         "required": [
           "capability-registry",
           "continuation-runner",
@@ -100,6 +100,7 @@
           "release-evidence",
           "remote-bootstrap",
           "review-release",
+          "source-install-fixture",
           "state-report",
           "task-dag",
           "verify-all"
@@ -158,37 +159,42 @@
         "readiness": {
           "path": "repers-0.1.0-readiness.json",
           "exists": true,
-          "size_bytes": 3124
+          "size_bytes": 3334
         },
         "release_evidence": {
           "path": "repers-release-evidence.json",
           "exists": true,
-          "size_bytes": 9627
+          "size_bytes": 9782
         },
         "publish_handoff": {
           "path": "repers-publish-handoff.json",
           "exists": true,
-          "size_bytes": 3984
+          "size_bytes": 4147
         },
         "publish_handoff_markdown": {
           "path": "repers-publish-handoff.md",
           "exists": true,
-          "size_bytes": 1406
+          "size_bytes": 1410
         },
         "remote_bootstrap": {
           "path": "repers-remote-bootstrap.json",
           "exists": true,
-          "size_bytes": 4922
+          "size_bytes": 5085
         },
         "remote_bootstrap_markdown": {
           "path": "repers-remote-bootstrap.md",
           "exists": true,
-          "size_bytes": 2085
+          "size_bytes": 2093
         },
         "publish_clone_fixture": {
           "path": "repers-publish-clone-fixture.json",
           "exists": true,
-          "size_bytes": 23147
+          "size_bytes": 23331
+        },
+        "source_install_fixture": {
+          "path": "repers-source-install-fixture.json",
+          "exists": true,
+          "size_bytes": 14405
         },
         "continuation_markdown": {
           "path": "repers-continuation.md",
@@ -209,7 +215,7 @@
         "fixture": {
           "path": "repers-remote-bootstrap-fixture.json",
           "exists": true,
-          "size_bytes": 21721
+          "size_bytes": 21720
         },
         "fixture_ok": true,
         "local_push_ok": true
@@ -226,11 +232,29 @@
         "fixture": {
           "path": "repers-publish-clone-fixture.json",
           "exists": true,
-          "size_bytes": 23147
+          "size_bytes": 23331
         },
         "fixture_ok": true,
         "verify_install_ok": true,
         "state_ok": true
+      }
+    },
+    {
+      "id": "one_command_source_install",
+      "title": "A source or cloned RePERS repository can install itself into a fresh receiver with one CLI command.",
+      "status": "passed",
+      "passed": true,
+      "blocks_completion": true,
+      "evidence": {
+        "deep_check": false,
+        "fixture": {
+          "path": "repers-source-install-fixture.json",
+          "exists": true,
+          "size_bytes": 14405
+        },
+        "fixture_ok": true,
+        "install_command_ok": true,
+        "verify_install_ok": true
       }
     },
     {
@@ -243,10 +267,10 @@
         "git": {
           "is_git_repo": true,
           "branch": "codex/repers-initial-package",
-          "head_sha": "730c7dec787078ba1242729d07427c9c607f06be",
+          "head_sha": "d9aaf9c54be31ed18925d0e41e65f2b7ecfb0873",
           "has_head": true,
           "dirty": true,
-          "status_count": 26,
+          "status_count": 30,
           "status_entries": [
             "M .repers/capabilities/registry.json",
             " M .repers/docs/contracts.md",
@@ -256,7 +280,6 @@
             " M .repers/scripts/objective_audit.py",
             " M .repers/scripts/package_repers.py",
             " M .repers/scripts/receiver_fixture.py",
-            " M .repers/scripts/remote_bootstrap.py",
             " M .repers/scripts/repers.py",
             " M .repers/scripts/verify_all.py",
             " M README.md",
@@ -264,16 +287,21 @@
             " M dist/repers-0.1.0.zip",
             " M dist/repers-continuation.md",
             " M dist/repers-objective-audit.json",
+            " M dist/repers-publish-clone-fixture.json",
             " M dist/repers-publish-handoff.json",
             " M dist/repers-publish-handoff.md",
             " M dist/repers-release-evidence.json",
             " M dist/repers-remote-bootstrap-fixture.json",
             " M dist/repers-remote-bootstrap.json",
             " M dist/repers-remote-bootstrap.md",
+            " M dist/repers-state.json",
+            " M dist/repers-state.md",
+            " M dist/repers-verify-all.json",
+            " M dist/repers-verify-all.md",
             " M docs/planning/active-repers-build.md",
             " M tests/smoke_repers.py",
-            "?? .repers/scripts/publish_clone_fixture.py",
-            "?? dist/repers-publish-clone-fixture.json"
+            "?? .repers/scripts/source_install_fixture.py",
+            "?? dist/repers-source-install-fixture.json"
           ],
           "remote_count": 0,
           "errors": []
@@ -336,6 +364,11 @@
         "blocks_completion": true
       },
       "local_publish_clone_verification": {
+        "passed": true,
+        "status": "passed",
+        "blocks_completion": true
+      },
+      "one_command_source_install": {
         "passed": true,
         "status": "passed",
         "blocks_completion": true

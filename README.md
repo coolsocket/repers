@@ -8,6 +8,7 @@ Useful commands:
 python .repers\scripts\repers.py --help
 python .repers\scripts\repers.py preflight --query "capability query" --json --codegraph
 python .repers\scripts\repers.py doctor --json
+python .repers\scripts\repers.py install --target <target-repo> --json
 python .repers\scripts\repers.py verify-install --json
 python .repers\scripts\repers.py bundle-status --json
 python .repers\scripts\repers.py bundle-status --package --verify-roundtrip --json
@@ -19,6 +20,7 @@ python .repers\scripts\repers.py publish-handoff --package --verify-roundtrip --
 python .repers\scripts\repers.py remote-bootstrap --remote-url <remote-url> --json
 python .repers\scripts\repers.py remote-bootstrap-fixture --json
 python .repers\scripts\repers.py publish-clone-fixture --json
+python .repers\scripts\repers.py source-install-fixture --json
 python .repers\scripts\repers.py objective-audit --deep --json
 python .repers\scripts\repers.py package --output dist --json
 python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
@@ -40,6 +42,11 @@ verified.
 sidecar `repers-0.1.0-readiness.json` in `dist/` that records the final archive
 hash and receiver commands. This lets the bundle be checked and re-shipped
 without relying on chat history.
+
+`install --target <target-repo> --json` is the one-command install path from a
+source checkout or extracted package. It copies the runtime into the target Git
+repository, writes receiver ignore and attributes rules, refreshes the local
+index, writes the install manifest, and immediately verifies the target.
 
 `fixture --action prove --json` creates a deterministic large-task DAG fixture,
 dispatches three worker-command lanes through conflict-safe batches, runs a
@@ -81,6 +88,11 @@ branch to that bare remote.
 network access. It copies the current RePERS worktree into a temporary source
 repository, pushes that source to a local bare remote, clones it, and runs
 clone-side `verify-install`, capability validation, and state reporting.
+
+`source-install-fixture --json` proves the one-command install path without
+external network access. It copies the current RePERS worktree into a temporary
+source checkout, creates a fresh receiver Git repository, runs
+`repers.py install --target`, and verifies the receiver from inside the target.
 
 `objective-audit --deep --json` writes `dist/repers-objective-audit.json`. It
 checks the whole repository against the RePERS end-state: installability,

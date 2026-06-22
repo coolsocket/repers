@@ -1,8 +1,8 @@
 # RePERS Publish Handoff
 
-- Generated: `2026-06-21T15:38:25.618297+00:00`
+- Generated: `2026-06-22T01:23:46.310660+00:00`
 - Branch: `codex/repers-initial-package`
-- Commit: `730c7dec787078ba1242729d07427c9c607f06be`
+- Commit: `d9aaf9c54be31ed18925d0e41e65f2b7ecfb0873`
 - Clean tree: `False`
 - Publish ready: `False`
 
@@ -37,13 +37,13 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Route RePERS CI through verify all" --body-file <handoff-md>
+gh pr create --draft --base main --head codex/repers-initial-package --title "Add publish clone verification fixture" --body-file <handoff-md>
 ```
 
 ## Package
 
 - Archive: `C:\Users\Administrator\Documents\RePERS\dist\repers-0.1.0.zip`
-- SHA-256: `b66ea721ae351b736df225aeec71aa5d652a622814aa484530ef915fb372fe39`
+- SHA-256: `bd143e336b47c2a9a8a8b80414234e80c156187a34eac93f4b93b868ca75bb9f`
 - Round trip: `True`
 
 This handoff is intentionally non-destructive. It records the commands

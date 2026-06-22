@@ -714,11 +714,57 @@ the clone `HEAD` matches the pushed source `HEAD`, and clone-side
 `verify-install`, `capabilities --action validate`, and `state --json` checks
 return `ok=true`.
 
+## Install Command
+
+`install --target <target-repo> --json` installs the current RePERS bundle into
+another Git repository and emits `repers.install_command.v1`.
+
+Required top-level fields:
+
+- `schema`: `repers.install_command.v1`
+- `ok`
+- `install`
+- `verify_install`
+
+The command passes only when the install operation succeeds and target-side
+`verify-install` returns `ok=true`.
+
+## Source Install Fixture
+
+`source-install-fixture --json` writes
+`dist/repers-source-install-fixture.json`. It proves that a source checkout or
+cloned RePERS repository can run one CLI command to install itself into a fresh
+receiver Git repository, without requiring a package extraction step.
+
+Required top-level command fields:
+
+- `source_install_fixture`
+- `path`
+
+Required `source_install_fixture` fields:
+
+- `schema`: `repers.source_install_fixture.v1`
+- `ok`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `output_dir`
+- `fixture_paths`
+- `steps`
+- `checks`
+- `errors`
+
+The fixture passes only when `source_install`, target-side `verify-install`,
+`doctor`, and `capabilities --action validate` checks return `ok=true`.
+The default fixture path installs the receiver pre-commit hook and requires
+`doctor.hook.ok=true`.
+
 ## Objective Audit
 
 `objective-audit --json` writes `dist/repers-objective-audit.json`. Use
 `--deep` to run package, receiver, publish handoff, remote bootstrap, remote
-bootstrap fixture, publish clone fixture, and smoke checks before auditing.
+bootstrap fixture, publish clone fixture, source install fixture, and smoke
+checks before auditing.
 
 Required top-level command fields:
 

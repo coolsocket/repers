@@ -318,7 +318,7 @@ def refresh_installed_index(target_root, install_dir):
         return {"documents_indexed": 0, "db_path": str((install_dir / "index" / "repers.db").resolve()), "error": str(exc)}
 
 
-def install(target, with_hook, hook_policy="warn"):
+def install(target, with_hook, hook_policy="warn", quiet=False):
     target_root = Path(target).resolve()
     if not target_root.exists():
         raise RuntimeError(f"Target directory does not exist: {target_root}")
@@ -346,17 +346,35 @@ def install(target, with_hook, hook_policy="warn"):
         hook_path = write_hook(target_root, install_dir, audit_policy=hook_policy)
     manifest_path, manifest = write_manifest(target_root, install_dir, with_hook, hook_policy, hook_path=hook_path, gitignore_path=gitignore_path)
 
-    print(f"[OK] Installed RePERS into {install_dir}")
-    if hook_path:
-        print(f"[OK] Installed pre-commit hook at {hook_path} (policy={hook_policy})")
-    print(f"[OK] Updated ignore rules at {gitignore_path}")
-    print(f"[OK] Updated attributes rules at {gitattributes_path}")
-    if index_result.get("error"):
-        print(f"[!] RePERS index refresh warning: {index_result['error']}")
-    else:
-        print(f"[OK] Refreshed RePERS index at {index_result['db_path']} ({index_result['documents_indexed']} documents)")
-    print(f"[OK] Wrote install manifest at {manifest_path} ({manifest['file_count']} files)")
-    print("[OK] Try: python .repers/scripts/repers.py --help")
+    result = {
+        "schema": "repers.install_result.v1",
+        "ok": True,
+        "target_root": str(target_root),
+        "install_root": str(install_dir),
+        "with_hook": bool(with_hook),
+        "hook_policy": hook_policy,
+        "hook_path": str(hook_path) if hook_path else None,
+        "gitignore_path": str(gitignore_path),
+        "gitattributes_path": str(gitattributes_path),
+        "index": index_result,
+        "manifest_path": str(manifest_path),
+        "manifest_file_count": manifest["file_count"],
+        "next_command": "python .repers/scripts/repers.py verify-install --json",
+    }
+
+    if not quiet:
+        print(f"[OK] Installed RePERS into {install_dir}")
+        if hook_path:
+            print(f"[OK] Installed pre-commit hook at {hook_path} (policy={hook_policy})")
+        print(f"[OK] Updated ignore rules at {gitignore_path}")
+        print(f"[OK] Updated attributes rules at {gitattributes_path}")
+        if index_result.get("error"):
+            print(f"[!] RePERS index refresh warning: {index_result['error']}")
+        else:
+            print(f"[OK] Refreshed RePERS index at {index_result['db_path']} ({index_result['documents_indexed']} documents)")
+        print(f"[OK] Wrote install manifest at {manifest_path} ({manifest['file_count']} files)")
+        print("[OK] Try: python .repers/scripts/repers.py --help")
+    return result
 
 
 def main():
