@@ -2,29 +2,29 @@
   "schema": "repers.release_evidence.v1",
   "ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-22T06:55:20.902549+00:00",
+  "generated_at": "2026-06-22T13:18:16.005729+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
   "missing_for_publish": [
-    "commit or intentionally exclude working tree changes",
-    "configure a Git remote before opening a PR"
+    "commit or intentionally exclude working tree changes"
   ],
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "1d60d39406fba4627c9452f7e3b99776c7bf6d8b",
+    "head_sha": "b03fa5e2683727b49edc06f13e2fb8ca4f44cf77",
     "has_head": true,
     "dirty": true,
-    "status_count": 5,
+    "status_count": 6,
     "status_entries": [
-      "M dist/repers-0.1.0-readiness.json",
+      "M .repers/index/repers.db",
+      " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
-      " M dist/repers-publish-handoff.json",
-      " M dist/repers-publish-handoff.md",
-      " M dist/repers-release-evidence.json"
+      " M dist/repers-continuation.md",
+      " M dist/repers-objective-audit.json",
+      " M tests/smoke_repers.py"
     ],
-    "remote_count": 0,
+    "remote_count": 1,
     "errors": []
   },
   "governance": {
@@ -250,12 +250,12 @@
     }
   },
   "package": {
-    "included": false,
+    "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "07c02e77304d0dd004ba281273416b468fbc6d5bad16cb3612aeeef18353f6e8",
-    "manifest_file_count": null,
+    "archive_sha256": "69300e71a123a61074fb7f059b0f98a3c2f5a4e7a7c1cdef6b740639edb89db3",
+    "manifest_file_count": 55,
     "readiness_warnings": [],
-    "roundtrip_ok": null
+    "roundtrip_ok": true
   }
 }

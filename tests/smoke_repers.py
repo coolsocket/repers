@@ -976,9 +976,16 @@ def test_continue_reports_resume_actions_without_applying_by_default():
         assert isinstance(result["objective_complete"], bool)
         assert isinstance(result["blocking_incomplete"], list)
         assert result["local_actions"]
-        assert "verify_after_publication_setup" in result["selected_action_ids"]
-        assert result["external_actions"]
-        assert "configure_hosted_remote" in result["external_action_ids"]
+        if result["objective_complete"]:
+            assert "verify_complete" in result["selected_action_ids"]
+            assert result["external_actions"] == []
+            assert result["external_action_ids"] == []
+        elif "publication_ready" in result["blocking_incomplete"]:
+            assert "verify_after_publication_setup" in result["selected_action_ids"]
+            assert result["external_actions"]
+            assert "configure_hosted_remote" in result["external_action_ids"]
+        else:
+            assert "refresh_deep_evidence" in result["selected_action_ids"]
         assert result["executions"] == []
     finally:
         if output_dir.exists():
