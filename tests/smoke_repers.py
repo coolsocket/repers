@@ -155,6 +155,7 @@ def test_package_archive_manifest():
     assert readiness["surface"]["has_top_level_readme"] is True
     assert readiness["surface"]["has_changelog"] is True
     assert readiness["surface"]["has_contributing"] is True
+    assert readiness["surface"]["has_license"] is True
     assert readiness["surface"]["has_maintainers"] is True
     assert readiness["surface"]["has_roadmap"] is True
     assert readiness["surface"]["has_security"] is True
@@ -223,6 +224,7 @@ def test_package_archive_manifest():
         assert f"{archive_root}/docs/planning/active-repers-build.md" in names
         assert f"{archive_root}/CHANGELOG.md" in names
         assert f"{archive_root}/CONTRIBUTING.md" in names
+        assert f"{archive_root}/LICENSE" in names
         assert f"{archive_root}/MAINTAINERS.md" in names
         assert f"{archive_root}/ROADMAP.md" in names
         assert f"{archive_root}/SECURITY.md" in names
@@ -231,6 +233,7 @@ def test_package_archive_manifest():
         workflow = zf.read(f"{archive_root}/.github/workflows/repers-smoke.yml").decode("utf-8")
         assert "verify-all --json" in workflow
         assert f"{archive_root}/examples/basic-task/README.md" in names
+        assert f"{archive_root}/examples/bug-hunt/README.md" in names
         assert f"{archive_root}/tests/smoke_repers.py" in names
         assert not any(".repers/" in name for name in names)
         assert not any("repers_tasks/" in name for name in names)

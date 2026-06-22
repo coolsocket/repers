@@ -1,6 +1,6 @@
 # RePERS Remote Bootstrap
 
-- Generated: `2026-06-22T06:55:20.974361+00:00`
+- Generated: `2026-06-22T14:04:18.172369+00:00`
 - Remote name: `origin`
 - Remote URL provided: `None`
 - Apply requested: `False`
@@ -27,8 +27,8 @@ git remote -v
 
 ### add_remote: Configure publication remote
 
-- Status: `blocked`
-- Reason: No remote URL was provided.
+- Status: `done`
+- Reason: Named remote already exists.
 
 ```powershell
 git remote add origin <remote-url>
@@ -36,16 +36,16 @@ git remote add origin <remote-url>
 
 ### publish_handoff: Regenerate publish handoff evidence
 
-- Status: `blocked`
+- Status: `ready`
 - Reason: Handoff path: C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
 
 ```powershell
-python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url <remote-url> --base-branch main --pr-title "Add release pack archive verifier" --json
+python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url <remote-url> --base-branch main --pr-title "Fix continuation smoke after publication" --json
 ```
 
 ### verify_publish_ready: Verify objective audit after remote setup
 
-- Status: `blocked`
+- Status: `ready`
 - Reason: Run after the remote is configured and publish handoff is refreshed.
 
 ```powershell
@@ -67,5 +67,5 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and a pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Add release pack archive verifier" --body-file C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
+gh pr create --draft --base main --head codex/repers-initial-package --title "Fix continuation smoke after publication" --body-file C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
 ```

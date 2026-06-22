@@ -412,6 +412,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
     governance_files = [
         "README.md",
         "CONTRIBUTING.md",
+        "LICENSE",
         "SECURITY.md",
         "SUPPORT.md",
         "ROADMAP.md",
@@ -419,6 +420,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "MAINTAINERS.md",
         ".github/workflows/repers-smoke.yml",
         "examples/basic-task/README.md",
+        "examples/bug-hunt/README.md",
     ]
     governance = [file_record(workspace, rel) for rel in governance_files]
     governance_ok = all(item["exists"] for item in governance)

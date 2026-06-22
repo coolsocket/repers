@@ -48,6 +48,9 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add transferable release-pack archive composing package, evidence,
   handoff, benchmark, and continuation state.
 - [x] Add offline release-pack archive verifier for transferred handoffs.
+- [x] Rework the public launch surface: README, bug-hunt demo, promotion
+  playbook, repository metadata handoff, release checklist, license, and
+  package governance checks.
 
 ## Acceptance
 
@@ -199,3 +202,13 @@ Release pack verification phase complete: `release-pack-verify --archive
 the embedded manifest schema, required artifact roles, archive entries, and
 artifact SHA-256 values. `verify-all --json` now runs this verifier immediately
 after generating a release pack.
+
+Public launch surface phase in progress: the root `README.md` now leads with
+the product promise, quick start, bug-hunt flow, deliverables, and release
+shape instead of only listing receiver commands. `docs/bug-hunt-demo.md`,
+`docs/promotion-playbook.md`, `docs/repository-metadata.md`,
+`docs/release-checklist.md`, `examples/bug-hunt/README.md`, and `LICENSE` were
+added so public adoption, repository metadata, and release publication no
+longer depend on chat history. Package readiness, release evidence, objective
+audit, and smoke assertions now include `LICENSE` and the bug-hunt example as
+governance/package surface.

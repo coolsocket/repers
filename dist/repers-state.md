@@ -1,6 +1,6 @@
 # RePERS State
 
-- Generated: `2026-06-22T06:55:21.050964+00:00`
+- Generated: `2026-06-22T14:04:18.267401+00:00`
 - Status: `local_work_available`
 - Objective complete: `False`
 - Blockers: `publication_ready`
@@ -8,9 +8,9 @@
 ## Git
 
 - Branch: `codex/repers-initial-package`
-- Head: `1d60d39406fba4627c9452f7e3b99776c7bf6d8b`
+- Head: `7d0b3712f9f082efa4a067d06cd3612af988727e`
 - Dirty: `True`
-- Remotes: `0`
+- Remotes: `1`
 
 ## Package
 
@@ -22,12 +22,12 @@
 
 - Status: `local_work_available`
 - Ready local action: `commit_or_clean_worktree`
-- External action: `configure_hosted_remote`
+- External action: `push_branch`
 
 ```powershell
 git status --short
 ```
 
 ```powershell
-python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json
+git push -u origin <branch>
 ```

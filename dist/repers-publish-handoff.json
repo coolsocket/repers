@@ -3,24 +3,34 @@
   "ok": true,
   "release_evidence_ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-22T06:55:20.905869+00:00",
+  "generated_at": "2026-06-22T14:04:18.081063+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
   "release_evidence_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-release-evidence.json",
   "missing_for_publish": [
-    "commit or intentionally exclude working tree changes",
-    "configure a Git remote before opening a PR"
+    "commit or intentionally exclude working tree changes"
   ],
   "remote": {
     "name": "origin",
     "provided_url": null,
-    "records": []
+    "records": [
+      {
+        "name": "origin",
+        "url": "https://github.com/coolsocket/repers.git",
+        "kind": "fetch"
+      },
+      {
+        "name": "origin",
+        "url": "https://github.com/coolsocket/repers.git",
+        "kind": "push"
+      }
+    ]
   },
   "pull_request": {
     "base_branch": "main",
     "head_branch": "codex/repers-initial-package",
-    "title": "Add release pack archive verifier",
+    "title": "Fix continuation smoke after publication",
     "github_cli": {
       "available": false,
       "path": null
@@ -29,36 +39,59 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "1d60d39406fba4627c9452f7e3b99776c7bf6d8b",
+    "head_sha": "7d0b3712f9f082efa4a067d06cd3612af988727e",
     "has_head": true,
     "dirty": true,
-    "status_count": 5,
+    "status_count": 28,
     "status_entries": [
-      "M dist/repers-0.1.0-readiness.json",
+      "M .repers/index/repers.db",
+      " M .repers/manifest.json",
+      " M .repers/scripts/objective_audit.py",
+      " M .repers/scripts/package_repers.py",
+      " M .repers/scripts/release_evidence.py",
+      " M README.md",
+      " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
+      " M dist/repers-continuation.md",
+      " M dist/repers-objective-audit.json",
+      " M dist/repers-publish-clone-fixture.json",
       " M dist/repers-publish-handoff.json",
       " M dist/repers-publish-handoff.md",
-      " M dist/repers-release-evidence.json"
+      " M dist/repers-release-evidence.json",
+      " M dist/repers-remote-bootstrap-fixture.json",
+      " M dist/repers-remote-bootstrap.json",
+      " M dist/repers-remote-bootstrap.md",
+      " M dist/repers-source-install-fixture.json",
+      " M dist/repers-state.json",
+      " M dist/repers-state.md",
+      " M docs/planning/active-repers-build.md",
+      " M tests/smoke_repers.py",
+      "?? LICENSE",
+      "?? docs/bug-hunt-demo.md",
+      "?? docs/promotion-playbook.md",
+      "?? docs/release-checklist.md",
+      "?? docs/repository-metadata.md",
+      "?? examples/bug-hunt/"
     ],
-    "remote_count": 0,
+    "remote_count": 1,
     "errors": []
   },
   "package": {
     "included": false,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "07c02e77304d0dd004ba281273416b468fbc6d5bad16cb3612aeeef18353f6e8",
+    "archive_sha256": "7f8da64f3ed4069a58de5b8523f811952e1795c65d0211513dfec47cbf7480e1",
     "manifest_file_count": null,
     "readiness_warnings": [],
     "roundtrip_ok": null
   },
   "actions": [
     {
-      "id": "add_remote",
-      "title": "Configure Git remote",
-      "command": "git remote add origin <remote-url>",
-      "status": "blocked",
-      "reason": "No remote is configured; provide --remote-url or add one manually."
+      "id": "remote_present",
+      "title": "Confirm Git remote",
+      "command": "git remote -v",
+      "status": "done",
+      "reason": "At least one remote is configured."
     },
     {
       "id": "push_branch",
@@ -70,7 +103,7 @@
     {
       "id": "open_draft_pr",
       "title": "Open draft pull request",
-      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add release pack archive verifier\" --body-file <handoff-md>",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Fix continuation smoke after publication\" --body-file <handoff-md>",
       "status": "blocked",
       "reason": "Requires GitHub CLI authentication and pushed branch."
     }

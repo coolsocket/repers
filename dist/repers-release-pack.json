@@ -1,7 +1,7 @@
 {
   "schema": "repers.release_pack.v1",
   "ok": true,
-  "generated_at": "2026-06-22T06:55:21.088005+00:00",
+  "generated_at": "2026-06-22T14:04:18.291224+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -9,7 +9,7 @@
   "package": {
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "07c02e77304d0dd004ba281273416b468fbc6d5bad16cb3612aeeef18353f6e8",
+    "archive_sha256": "7f8da64f3ed4069a58de5b8523f811952e1795c65d0211513dfec47cbf7480e1",
     "roundtrip_ok": true
   },
   "state": {
@@ -22,21 +22,20 @@
   "next": {
     "local_action_id": "commit_or_clean_worktree",
     "local_command": "git status --short",
-    "external_action_id": "configure_hosted_remote",
-    "external_command": "python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json"
+    "external_action_id": "push_branch",
+    "external_command": "git push -u origin <branch>"
   },
   "publish_ready": false,
   "missing_for_publish": [
-    "commit or intentionally exclude working tree changes",
-    "configure a Git remote before opening a PR"
+    "commit or intentionally exclude working tree changes"
   ],
   "artifacts": [
     {
       "name": "package_archive",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
       "exists": true,
-      "size_bytes": 136672,
-      "sha256": "07c02e77304d0dd004ba281273416b468fbc6d5bad16cb3612aeeef18353f6e8",
+      "size_bytes": 143265,
+      "sha256": "7f8da64f3ed4069a58de5b8523f811952e1795c65d0211513dfec47cbf7480e1",
       "archive_path": "repers-0.1.0.zip",
       "relative_to_output": "repers-0.1.0.zip"
     },
@@ -44,8 +43,8 @@
       "name": "package_readiness",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0-readiness.json",
       "exists": true,
-      "size_bytes": 3786,
-      "sha256": "b13d2fce8b78bb8886cda0b747705c614462c93261bfe2a59b517bb97113bf81",
+      "size_bytes": 3812,
+      "sha256": "4fb3d658595129f273296a069868b679aadd423b9f5c717dcad4509d0b87416b",
       "archive_path": "repers-0.1.0-readiness.json",
       "relative_to_output": "repers-0.1.0-readiness.json"
     },
@@ -53,8 +52,8 @@
       "name": "release_evidence",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-release-evidence.json",
       "exists": true,
-      "size_bytes": 8622,
-      "sha256": "37a932f93de57ce65da6fb09fed55f673efeea734fd0cc17e336d6be120e1580",
+      "size_bytes": 9733,
+      "sha256": "c79e909d8f1c9b4905d947af6353ded068fc01e9d686dc9871bf8625ff3c34b3",
       "archive_path": "repers-release-evidence.json",
       "relative_to_output": "repers-release-evidence.json"
     },
@@ -62,8 +61,8 @@
       "name": "publish_handoff_json",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.json",
       "exists": true,
-      "size_bytes": 3045,
-      "sha256": "1dea50e4748b590429b9467c7c99993dd1b30fffee8f0e4e37fe0f4aaa8d5eff",
+      "size_bytes": 4162,
+      "sha256": "c4f8bd3fa6a2d4a008a8135e152d53a0a69d3dd8d65d8c09d023c47b340c0b91",
       "archive_path": "repers-publish-handoff.json",
       "relative_to_output": "repers-publish-handoff.json"
     },
@@ -71,8 +70,8 @@
       "name": "publish_handoff_markdown",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
       "exists": true,
-      "size_bytes": 1427,
-      "sha256": "d4880f4a69351bb4376726ecb2b5dfffb1322df54311b610d1cc06f81d1d07d4",
+      "size_bytes": 1334,
+      "sha256": "84c60b36f0205544f4485360881ece11bfb2e2d12c59f214be8218f6e1eb382d",
       "archive_path": "repers-publish-handoff.md",
       "relative_to_output": "repers-publish-handoff.md"
     },
@@ -80,8 +79,8 @@
       "name": "remote_bootstrap_json",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-remote-bootstrap.json",
       "exists": true,
-      "size_bytes": 3891,
-      "sha256": "46e491e869e6c3e3622f105145e689e813f17da07cbe61b2a1a008e96ef26781",
+      "size_bytes": 5376,
+      "sha256": "e6af3d821b4e5aa2d9fc0d137a0cd05b0f986f0780a479e65656670f24d3fc83",
       "archive_path": "repers-remote-bootstrap.json",
       "relative_to_output": "repers-remote-bootstrap.json"
     },
@@ -89,8 +88,8 @@
       "name": "remote_bootstrap_markdown",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-remote-bootstrap.md",
       "exists": true,
-      "size_bytes": 2018,
-      "sha256": "3aae4783781b6e2f696a20df6b0147a967c5456a28f15e85f85767c7445139e6",
+      "size_bytes": 2026,
+      "sha256": "70751fa404e158d29ef39a2d26cb90a218cb30018127b7850d793c2ac8f203dc",
       "archive_path": "repers-remote-bootstrap.md",
       "relative_to_output": "repers-remote-bootstrap.md"
     },
@@ -99,7 +98,7 @@
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-open-source-benchmark.json",
       "exists": true,
       "size_bytes": 2576,
-      "sha256": "c79c2731161c7491eaf515423082f31fbeec11776fee190e68260fdf8f0f5db6",
+      "sha256": "f5b7c6b428009ba08e6aeefa96763be51e1b5846e3e9a7a261c6d8922c84b681",
       "archive_path": "repers-open-source-benchmark.json",
       "relative_to_output": "repers-open-source-benchmark.json"
     },
@@ -108,7 +107,7 @@
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-open-source-benchmark.md",
       "exists": true,
       "size_bytes": 328,
-      "sha256": "7cde3e9119859ca05f3565a4d22f754d68e6b571d039c1d5fc777682e1483a8e",
+      "sha256": "4398041be7c8e691be73db18a3fd672211557ed7a9f2daad0410bdd6c9b8c23a",
       "archive_path": "repers-open-source-benchmark.md",
       "relative_to_output": "repers-open-source-benchmark.md"
     },
@@ -116,8 +115,8 @@
       "name": "objective_audit",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-objective-audit.json",
       "exists": true,
-      "size_bytes": 14051,
-      "sha256": "db2c4f951451c3e5a6a39c2640d60b26465291b54c45bc73ea46aba00564232e",
+      "size_bytes": 15237,
+      "sha256": "223b5e1be35989b620b4cff5b30e8e5fda4118820d78b8041854739ba83ae0bc",
       "archive_path": "repers-objective-audit.json",
       "relative_to_output": "repers-objective-audit.json"
     },
@@ -125,8 +124,8 @@
       "name": "continuation_markdown",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-continuation.md",
       "exists": true,
-      "size_bytes": 1606,
-      "sha256": "ab233ed1628157c9f791e52efadba57b986fe1631858f9afaabd82f0205f7ad0",
+      "size_bytes": 1609,
+      "sha256": "5408ebb061bcd7734521903865c7698302d7e82d0697f11033893eaa64c0f83f",
       "archive_path": "repers-continuation.md",
       "relative_to_output": "repers-continuation.md"
     },
@@ -134,8 +133,8 @@
       "name": "state_json",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-state.json",
       "exists": true,
-      "size_bytes": 2313,
-      "sha256": "960eabc3054b96d71c9c95db92fa77ae03bcdfb2ce3514f5016e8066d239f207",
+      "size_bytes": 2232,
+      "sha256": "84cf0d39c6159621e72654cfad3a9cf1538df7c3de32a3afcf4a8cbe33030746",
       "archive_path": "repers-state.json",
       "relative_to_output": "repers-state.json"
     },
@@ -143,8 +142,8 @@
       "name": "state_markdown",
       "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-state.md",
       "exists": true,
-      "size_bytes": 746,
-      "sha256": "36017e2f3faa253ee9b16347e1a4db7d742a3f12d283804dc6ebb08dbda47d2a",
+      "size_bytes": 664,
+      "sha256": "8c0948cdf9610f62c8cc483f6481212154106777d7b68b2de605d0c30f272555",
       "archive_path": "repers-state.md",
       "relative_to_output": "repers-state.md"
     }
@@ -158,5 +157,5 @@
   },
   "errors": [],
   "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-release-pack.zip",
-  "archive_sha256": "bfa5087a9a16afe0d58c200b9b27abbf9b299e6ae9dcee67ea98aa0d05ac478a"
+  "archive_sha256": "c2bd081d63cde0006ecede5522226460957b01c93396847753d1e167d8adfd18"
 }

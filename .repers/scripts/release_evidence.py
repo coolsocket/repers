@@ -54,6 +54,7 @@ def governance_state(workspace_root):
     required = [
         "README.md",
         "CONTRIBUTING.md",
+        "LICENSE",
         "SECURITY.md",
         "SUPPORT.md",
         "ROADMAP.md",
@@ -61,6 +62,7 @@ def governance_state(workspace_root):
         "MAINTAINERS.md",
         ".github/workflows/repers-smoke.yml",
         "examples/basic-task/README.md",
+        "examples/bug-hunt/README.md",
         "docs/planning/active-repers-build.md",
     ]
     files = []

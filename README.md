@@ -1,178 +1,159 @@
-# RePERS Installed Bundle
+# RePERS
 
-This folder is a target repository with RePERS installed under `.repers/`.
+Reusable planning, execution, review, and release packaging for agent-run
+repository work.
 
-Useful commands:
+RePERS is a local-first harness for turning a vague engineering request into a
+repeatable agent workflow:
+
+```text
+preflight -> task DAG -> worker lanes -> join/review -> package -> evidence
+```
+
+It is designed for agents and maintainers who need more than a chat transcript:
+capability discovery before work starts, a concrete task graph, deterministic
+local fixtures, installable hooks, JSON evidence, and a transferable release
+pack that another repository can verify.
+
+[Quick Start](#quick-start) - [Bug Hunt Demo](docs/bug-hunt-demo.md) -
+[Release Checklist](docs/release-checklist.md) -
+[Promotion Playbook](docs/promotion-playbook.md)
+
+## What You Get
+
+- A `.repers/` runtime that can be installed into another Git repository.
+- A capability registry with reusable local skills, scripts, hooks, templates,
+  and release gates.
+- A preflight command that searches local capabilities and can attach CodeGraph
+  evidence when available.
+- A deterministic DAG fixture that proves supervisor/worker/join behavior
+  without requiring external agent backends.
+- A conservative pre-commit hook that runs RePERS audit in warn or strict mode.
+- A release pack containing the install archive, readiness data, handoff,
+  remote bootstrap instructions, benchmark evidence, state, and continuation
+  artifacts.
+
+## Quick Start
+
+From this repository:
 
 ```powershell
-python .repers\scripts\repers.py --help
-python .repers\scripts\repers.py preflight --query "capability query" --json --codegraph
-python .repers\scripts\repers.py doctor --json
-python .repers\scripts\repers.py install --target <target-repo> --json
 python .repers\scripts\repers.py verify-install --json
-python .repers\scripts\repers.py bundle-status --json
 python .repers\scripts\repers.py bundle-status --package --verify-roundtrip --json
-python .repers\scripts\repers.py capabilities --action search --query "capability query" --json
+python .repers\scripts\repers.py release-pack --json
+python .repers\scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json
+```
+
+Install RePERS into another Git repository:
+
+```powershell
+python .repers\scripts\repers.py install --target C:\path\to\target-repo --json
+cd C:\path\to\target-repo
+python .repers\scripts\repers.py verify-install --json
+python .repers\scripts\repers.py doctor --json
+```
+
+Install from the packaged archive:
+
+```powershell
+Expand-Archive dist\repers-0.1.0.zip -DestinationPath .repers-package
+python .repers-package\repers-0.1.0\scripts\install_repers.py --target C:\path\to\target-repo
+```
+
+## A Single Bug-Finding Run
+
+When you ask an agent to find a bug, RePERS expects the run to look like this:
+
+```mermaid
+flowchart LR
+  A["User asks for a bug hunt"] --> B["preflight: find reusable local capabilities"]
+  B --> C["plan: create a task DAG"]
+  C --> D["dispatch: split safe worker lanes"]
+  D --> E["workers inspect code and produce JSON/Markdown evidence"]
+  E --> F["review: join findings and reject weak evidence"]
+  F --> G["fix and run focused verification"]
+  G --> H["release evidence, state, and handoff artifacts"]
+```
+
+Try the local proof:
+
+```powershell
+python .repers\scripts\repers.py preflight --query "bug hunt reusable workflow" --refresh --json
 python .repers\scripts\repers.py fixture --action prove --json
-python .repers\scripts\repers.py receiver-fixture --json
-python .repers\scripts\repers.py release-evidence --package --verify-roundtrip --json
-python .repers\scripts\repers.py publish-handoff --package --verify-roundtrip --json
-python .repers\scripts\repers.py remote-bootstrap --remote-url <remote-url> --json
-python .repers\scripts\repers.py remote-bootstrap-fixture --json
-python .repers\scripts\repers.py publish-clone-fixture --json
-python .repers\scripts\repers.py source-install-fixture --json
-python .repers\scripts\repers.py objective-audit --deep --json
-python .repers\scripts\repers.py snapshot-freshness --json
-python .repers\scripts\repers.py refresh-manifest --json
-python .repers\scripts\repers.py package --output dist --json
-python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
-python .repers\scripts\repers.py install-hook --json
-python tests\smoke_repers.py
+python .repers\scripts\repers.py verify-all --json
 ```
 
-`preflight --codegraph` is optional. It adds `code_evidence` when CodeGraph is
-available and returns a structured fallback when the CLI or local index is
-missing.
+The fixture does not pretend to fix a real bug. It proves that the master task,
+parallel lanes, conflict-safe batching, join review, and evidence contracts are
+wired before a real agent backend is used.
 
-`bundle-status --json` is the fastest receiver health check. Add
-`--package --verify-roundtrip` when you need one JSON report that also proves
-the archive can be extracted, installed into a fresh Git repository, and
-verified.
+## Core Commands
 
-`package --output dist --json` creates a zip archive with embedded
-`repers-package-manifest.json` and `repers-package-readiness.json` files, plus a
-sidecar `repers-0.1.0-readiness.json` in `dist/` that records the final archive
-hash and receiver commands. This lets the bundle be checked and re-shipped
-without relying on chat history.
+| Need | Command |
+|---|---|
+| Check installed runtime | `python .repers\scripts\repers.py verify-install --json` |
+| Discover reusable capabilities | `python .repers\scripts\repers.py preflight --query "<query>" --refresh --json` |
+| Search packaged capability registry | `python .repers\scripts\repers.py capabilities --action search --query "<query>" --json` |
+| Prove DAG orchestration locally | `python .repers\scripts\repers.py fixture --action prove --json` |
+| Build and round-trip package | `python .repers\scripts\repers.py package --output dist --verify-roundtrip --json` |
+| Verify receiver install shape | `python .repers\scripts\repers.py receiver-fixture --json` |
+| Build transferable release pack | `python .repers\scripts\repers.py release-pack --json` |
+| Verify transferred release pack | `python .repers\scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json` |
+| Run the full local gate | `python .repers\scripts\repers.py verify-all --json` |
 
-`install --target <target-repo> --json` is the one-command install path from a
-source checkout or extracted package. It copies the runtime into the target Git
-repository, writes receiver ignore and attributes rules, refreshes the local
-index, writes the install manifest, and immediately verifies the target.
+## Deliverables
 
-`refresh-manifest --json` updates `.repers/manifest.json` after runtime edits
-and immediately runs `verify-install`. Use it before local gates when scripts,
-docs, templates, hooks, or capability registry files changed.
+The release-ready handoff is not only source code. It should contain:
 
-`fixture --action prove --json` creates a deterministic large-task DAG fixture,
-dispatches three worker-command lanes through conflict-safe batches, runs a
-local join verification step, and emits `repers.orchestration_fixture.v1`.
-Use it as the fastest proof that the supervisor/worker DAG path is wired before
-trying optional external agent backends.
+- `dist/repers-0.1.0.zip`: installable runtime archive.
+- `dist/repers-release-pack.zip`: transferable pack with package, evidence,
+  handoff, bootstrap, state, continuation, and benchmark artifacts.
+- `dist/repers-verify-all.json`: full local verification evidence.
+- `dist/repers-state.json` and `dist/repers-state.md`: compact current status.
+- `dist/repers-release-pack.json` and `dist/repers-release-pack.md`: release
+  pack manifest and human summary.
+- Root governance files: `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`,
+  `SUPPORT.md`, `ROADMAP.md`, `CHANGELOG.md`, and `MAINTAINERS.md`.
 
-`capabilities --action search --query "..." --json` queries the packaged
-`capabilities/registry.json` inventory. `preflight --refresh --json` indexes
-the same registry as `source=local_capability`, so reusable scripts, hooks,
-templates, package gates, and harnesses can be found without rereading the
-whole repository.
+## Repository Layout
 
-`release-evidence --package --verify-roundtrip --json` writes
-`dist/repers-release-evidence.json`. It records package, governance, capability
-registry, and Git branch/commit/remote state. During active development it can
-report `publish_ready=false` while still proving the package and local release
-checks are valid.
-
-`publish-handoff --package --verify-roundtrip --json` writes
-`dist/repers-publish-handoff.json` and `dist/repers-publish-handoff.md`. It
-turns release evidence into a non-destructive remote/push/draft-PR checklist so
-another agent or maintainer can finish publication without relying on chat
-history.
-
-`release-pack --json` writes `dist/repers-release-pack.zip` plus JSON and
-Markdown manifests. The archive contains the installable RePERS package,
-package readiness, release evidence, publish handoff, remote bootstrap,
-open-source benchmark, objective audit, continuation, and state artifacts. It
-does not add remotes, push branches, or open pull requests.
-
-`release-pack-verify --archive <repers-release-pack.zip> --json` verifies that
-a transferred release pack contains the expected embedded manifest, artifact
-roles, zip entries, and SHA-256 checksums.
-
-`remote-bootstrap --remote-url <remote-url> --json` writes
-`dist/repers-remote-bootstrap.json` and `dist/repers-remote-bootstrap.md`. By
-default it does not change Git state; it records the remote setup, publish
-handoff, objective audit, push, and draft PR commands. Add `--apply` only when
-you want it to run `git remote add`; existing remotes with different URLs are
-not overwritten.
-
-`remote-bootstrap-fixture --json` proves the apply path without external
-network access. It creates a temporary Git repository, installs RePERS, creates
-a local bare remote, runs `remote-bootstrap --apply`, and pushes the fixture
-branch to that bare remote.
-
-`publish-clone-fixture --json` proves the publish/clone shape without external
-network access. It copies the current RePERS worktree into a temporary source
-repository, pushes that source to a local bare remote, clones it, and runs
-clone-side `verify-install`, capability validation, and state reporting.
-
-`source-install-fixture --json` proves the one-command install path without
-external network access. It copies the current RePERS worktree into a temporary
-source checkout, creates a fresh receiver Git repository, runs
-`repers.py install --target`, and verifies the receiver from inside the target.
-
-`objective-audit --deep --json` writes `dist/repers-objective-audit.json`. It
-checks the whole repository against the RePERS end-state: installability,
-receiver reuse, capability registry, deterministic DAG proof, open-source
-structure study, tests/package gates, chat-free evidence, and publication
-readiness.
-
-The objective audit also writes `dist/repers-continuation.md` and embeds a
-`repers.objective_continuation.v1` object in JSON. That continuation section
-splits executable local resume commands from external actions such as providing
-a hosted Git remote URL.
-
-`continue --json` consumes that continuation object as the autonomous resume
-surface. It defaults to a dry-run report and only runs ready local actions when
-`--apply` is passed; remote setup, push, and draft PR creation remain explicit
-external steps.
-
-`state --json` is the compact repository dashboard. It writes
-`dist/repers-state.json` and `dist/repers-state.md`, combining objective status,
-Git publish readiness, package state, capability count, test evidence, and the
-next continuation actions.
-
-`snapshot-freshness --json` compares generated state/release/audit snapshots
-with the live Git checkout. Use `--strict` in automation when stale comparable
-snapshots should fail the command instead of being reported as point-in-time
-evidence.
-
-`verify-all --json` is the race-safe local verification entrypoint. It runs
-install, capability, package, receiver, remote fixture, smoke, deep state, and
-strict snapshot freshness checks sequentially with isolated temporary outputs.
-
-`receiver-fixture --json` installs the packaged archive into a fresh Git
-repository and runs receiver-side checks: `verify-install`, `doctor`,
-`bundle-status`, `capabilities`, and `fixture`. Use it before handing the
-archive to another repository.
-
-When packaging from an installed `.repers/` bundle, the archive also carries
-this receiver `README.md` and `tests/` smoke coverage at the top level of the
-archive, alongside the installable RePERS runtime files.
-
-The receiver package also includes open-source promotion signals derived from
-the 10-repository structure study in `.repers/docs/open-source-structure-study.md`:
-`CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, `ROADMAP.md`, `CHANGELOG.md`,
-`MAINTAINERS.md`, `.github/workflows/repers-smoke.yml`, and
-`examples/basic-task/README.md`. Package readiness fails if these signals are
-missing.
-
-`open-source-benchmark --json` verifies the machine-readable benchmark in
-`.repers/docs/open-source-benchmark.json`: at least 10 sampled repositories,
-source URLs, reusable structure/promotion patterns, and the RePERS files that
-adopt those patterns. Receiver installs can run the same command offline.
-
-Round-trip receiver check:
-
-```powershell
-python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
+```text
+.repers/                 reusable runtime, scripts, hooks, docs, templates
+.github/workflows/       CI gate for packaged verification
+docs/                    public docs, demos, release and promotion notes
+examples/                runnable adoption examples
+repers_tasks/            generated task workspaces
+tests/                   smoke tests for package and runtime behavior
+dist/                    generated packages and evidence artifacts
 ```
 
-Manual receiver check:
+## Public Launch Shape
 
-```powershell
-python .repers\scripts\repers.py package --output dist --json
-Expand-Archive dist\repers-0.1.0.zip -DestinationPath .repers-roundtrip
-git init .repers-roundtrip-target
-python .repers-roundtrip\repers-0.1.0\scripts\install_repers.py --target .repers-roundtrip-target --no-hook
-python .repers-roundtrip-target\.repers\scripts\repers.py verify-install --json
-```
+RePERS should be presented as an installable agent harness, not as a pile of
+internal reports. The public launch surface is:
+
+1. README first screen: what it does, why it matters, and the first successful
+   command sequence.
+2. Demo: a bug-hunt walkthrough that shows preflight, DAG, worker lanes, review,
+   and verification.
+3. Release: GitHub Release with `repers-0.1.0.zip`,
+   `repers-release-pack.zip`, release notes, and checksums.
+4. Metadata: repo description, topics, license, and support files.
+5. Evidence: machine-readable JSON for agents and short Markdown summaries for
+   humans.
+
+See [docs/promotion-playbook.md](docs/promotion-playbook.md) and
+[docs/repository-metadata.md](docs/repository-metadata.md).
+
+## Current Limits
+
+- Core workflow is local-first; cloud agent backends are optional integrations,
+  not required for the package to verify.
+- CodeGraph evidence is optional. `preflight --codegraph` reports a structured
+  fallback when the local CodeGraph index or binary is unavailable.
+- The deterministic fixture proves orchestration contracts. Real multi-agent
+  dispatch should use those contracts and then attach backend-specific traces.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

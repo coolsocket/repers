@@ -1,8 +1,8 @@
 {
   "schema": "repers.objective_audit.v1",
   "ok": true,
-  "objective_complete": true,
-  "generated_at": "2026-06-22T13:17:46.859666+00:00",
+  "objective_complete": false,
+  "generated_at": "2026-06-22T14:04:18.264252+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -20,12 +20,17 @@
           {
             "path": "README.md",
             "exists": true,
-            "size_bytes": 9237
+            "size_bytes": 6659
           },
           {
             "path": "CONTRIBUTING.md",
             "exists": true,
             "size_bytes": 1088
+          },
+          {
+            "path": "LICENSE",
+            "exists": true,
+            "size_bytes": 1067
           },
           {
             "path": "SECURITY.md",
@@ -61,6 +66,11 @@
             "path": "examples/basic-task/README.md",
             "exists": true,
             "size_bytes": 696
+          },
+          {
+            "path": "examples/bug-hunt/README.md",
+            "exists": true,
+            "size_bytes": 1150
           }
         ],
         "manifest_file_count": 42
@@ -169,32 +179,32 @@
         "readiness": {
           "path": "repers-0.1.0-readiness.json",
           "exists": true,
-          "size_bytes": 3786
+          "size_bytes": 3812
         },
         "release_evidence": {
           "path": "repers-release-evidence.json",
           "exists": true,
-          "size_bytes": 8622
+          "size_bytes": 9733
         },
         "publish_handoff": {
           "path": "repers-publish-handoff.json",
           "exists": true,
-          "size_bytes": 3045
+          "size_bytes": 4162
         },
         "publish_handoff_markdown": {
           "path": "repers-publish-handoff.md",
           "exists": true,
-          "size_bytes": 1427
+          "size_bytes": 1334
         },
         "remote_bootstrap": {
           "path": "repers-remote-bootstrap.json",
           "exists": true,
-          "size_bytes": 3891
+          "size_bytes": 5376
         },
         "remote_bootstrap_markdown": {
           "path": "repers-remote-bootstrap.md",
           "exists": true,
-          "size_bytes": 2018
+          "size_bytes": 2026
         },
         "publish_clone_fixture": {
           "path": "repers-publish-clone-fixture.json",
@@ -209,7 +219,7 @@
         "continuation_markdown": {
           "path": "repers-continuation.md",
           "exists": true,
-          "size_bytes": 486
+          "size_bytes": 1609
         },
         "remote_bootstrap_ok": true
       }
@@ -225,7 +235,7 @@
         "fixture": {
           "path": "repers-remote-bootstrap-fixture.json",
           "exists": true,
-          "size_bytes": 21720
+          "size_bytes": 20432
         },
         "fixture_ok": true,
         "local_push_ok": true
@@ -270,30 +280,67 @@
     {
       "id": "publication_ready",
       "title": "Repo can be pushed and opened as a draft PR.",
-      "status": "passed",
-      "passed": true,
+      "status": "incomplete",
+      "passed": false,
       "blocks_completion": true,
       "evidence": {
         "git": {
           "is_git_repo": true,
           "branch": "codex/repers-initial-package",
-          "head_sha": "b03fa5e2683727b49edc06f13e2fb8ca4f44cf77",
+          "head_sha": "7d0b3712f9f082efa4a067d06cd3612af988727e",
           "has_head": true,
-          "dirty": false,
-          "status_count": 0,
-          "status_entries": [],
+          "dirty": true,
+          "status_count": 30,
+          "status_entries": [
+            "M .repers/index/repers.db",
+            " M .repers/manifest.json",
+            " M .repers/scripts/objective_audit.py",
+            " M .repers/scripts/package_repers.py",
+            " M .repers/scripts/release_evidence.py",
+            " M README.md",
+            " M dist/repers-0.1.0-readiness.json",
+            " M dist/repers-0.1.0.zip",
+            " M dist/repers-continuation.md",
+            " M dist/repers-objective-audit.json",
+            " M dist/repers-open-source-benchmark.json",
+            " M dist/repers-open-source-benchmark.md",
+            " M dist/repers-publish-clone-fixture.json",
+            " M dist/repers-publish-handoff.json",
+            " M dist/repers-publish-handoff.md",
+            " M dist/repers-release-evidence.json",
+            " M dist/repers-remote-bootstrap-fixture.json",
+            " M dist/repers-remote-bootstrap.json",
+            " M dist/repers-remote-bootstrap.md",
+            " M dist/repers-source-install-fixture.json",
+            " M dist/repers-state.json",
+            " M dist/repers-state.md",
+            " M docs/planning/active-repers-build.md",
+            " M tests/smoke_repers.py",
+            "?? LICENSE",
+            "?? docs/bug-hunt-demo.md",
+            "?? docs/promotion-playbook.md",
+            "?? docs/release-checklist.md",
+            "?? docs/repository-metadata.md",
+            "?? examples/bug-hunt/"
+          ],
           "remote_count": 1,
           "errors": []
         },
-        "missing_for_publish": []
+        "missing_for_publish": [
+          "commit or intentionally exclude working tree changes"
+        ]
       }
     }
   ],
-  "blocking_incomplete": [],
+  "blocking_incomplete": [
+    "publication_ready"
+  ],
   "continuation": {
     "schema": "repers.objective_continuation.v1",
-    "status": "complete",
-    "blocking_incomplete": [],
+    "status": "local_work_available",
+    "blocking_incomplete": [
+      "publication_ready"
+    ],
     "requirement_status": {
       "self_contained_repository": {
         "passed": true,
@@ -346,24 +393,57 @@
         "blocks_completion": true
       },
       "publication_ready": {
-        "passed": true,
-        "status": "passed",
+        "passed": false,
+        "status": "incomplete",
         "blocks_completion": true
       }
     },
     "local_actions": [
       {
-        "id": "verify_complete",
-        "title": "Verify objective completion",
-        "command": "python -B .repers/scripts/repers.py objective-audit --deep --output dist --json",
+        "id": "commit_or_clean_worktree",
+        "title": "Commit or intentionally exclude working tree changes",
+        "command": "git status --short",
         "kind": "local",
         "status": "ready",
-        "reason": "No blockers are recorded; this command revalidates completion from current state."
+        "reason": "Publication readiness requires a clean committed branch before configuring or pushing a remote."
+      },
+      {
+        "id": "verify_after_publication_setup",
+        "title": "Re-run deep audit after remote setup",
+        "command": "python -B .repers/scripts/repers.py objective-audit --deep --output dist --json",
+        "kind": "local",
+        "status": "after_remote",
+        "reason": "Confirms clean tree, package gates, and publish readiness after the external remote is configured."
       }
     ],
-    "external_actions": [],
+    "external_actions": [
+      {
+        "id": "configure_hosted_remote",
+        "title": "Configure hosted Git remote",
+        "command": "python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json",
+        "kind": "external",
+        "status": "after_local_cleanup",
+        "reason": "Requires a real hosted repository URL; local fixture already proves the apply and push mechanics."
+      },
+      {
+        "id": "push_branch",
+        "title": "Push committed branch",
+        "command": "git push -u origin <branch>",
+        "kind": "external",
+        "status": "after_remote",
+        "reason": "Requires the hosted remote to exist and be configured."
+      },
+      {
+        "id": "open_draft_pr",
+        "title": "Open draft pull request",
+        "command": "gh pr create --draft --base main --head <branch> --title \"Publish RePERS\" --body-file dist/repers-publish-handoff.md",
+        "kind": "external",
+        "status": "after_push",
+        "reason": "Requires GitHub CLI authentication or an equivalent provider API."
+      }
+    ],
     "handoff_action_ids": [
-      "add_remote",
+      "remote_present",
       "push_branch",
       "open_draft_pr"
     ],

@@ -1,7 +1,7 @@
 {
   "schema": "repers.open_source_benchmark_result.v1",
   "ok": true,
-  "generated_at": "2026-06-22T06:55:20.976362+00:00",
+  "generated_at": "2026-06-22T14:04:18.172369+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "benchmark_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers\\docs\\open-source-benchmark.json",
@@ -14,7 +14,7 @@
     {
       "path": "README.md",
       "exists": true,
-      "size_bytes": 9237
+      "size_bytes": 6659
     },
     {
       "path": "CONTRIBUTING.md",

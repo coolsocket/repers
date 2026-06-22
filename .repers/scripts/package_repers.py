@@ -33,6 +33,7 @@ INSTALLED_BUNDLE_PARENT_INCLUDE_PATHS = [
     ".gitignore",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
+    "LICENSE",
     "MAINTAINERS.md",
     "README.md",
     "ROADMAP.md",
@@ -129,6 +130,7 @@ def package_surface(file_records):
         "has_top_level_readme": "README.md" in paths,
         "has_changelog": "CHANGELOG.md" in paths,
         "has_contributing": "CONTRIBUTING.md" in paths,
+        "has_license": "LICENSE" in paths,
         "has_maintainers": "MAINTAINERS.md" in paths,
         "has_roadmap": "ROADMAP.md" in paths,
         "has_security": "SECURITY.md" in paths,
@@ -159,6 +161,8 @@ def build_readiness_manifest(archive_path, archive_sha256, file_records):
         warnings.append("package archive has no CHANGELOG.md")
     if not surface["has_contributing"]:
         warnings.append("package archive has no CONTRIBUTING.md")
+    if not surface["has_license"]:
+        warnings.append("package archive has no LICENSE")
     if not surface["has_maintainers"]:
         warnings.append("package archive has no MAINTAINERS.md")
     if not surface["has_roadmap"]:

@@ -1,18 +1,18 @@
 # RePERS Release Pack
 
-- Generated: `2026-06-22T06:55:21.088005+00:00`
+- Generated: `2026-06-22T14:04:18.291224+00:00`
 - OK: `True`
 - Status: `local_work_available`
 - Archive: `C:\Users\Administrator\Documents\RePERS\dist\repers-release-pack.zip`
-- Archive SHA-256: `bfa5087a9a16afe0d58c200b9b27abbf9b299e6ae9dcee67ea98aa0d05ac478a`
+- Archive SHA-256: `c2bd081d63cde0006ecede5522226460957b01c93396847753d1e167d8adfd18`
 - Artifact count: `13`
 
 ## Next
 
-- External action: `configure_hosted_remote`
+- External action: `push_branch`
 
 ```powershell
-python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json
+git push -u origin <branch>
 ```
 
 ## Artifacts

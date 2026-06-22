@@ -1,6 +1,6 @@
 # RePERS Verify All
 
-- Generated: `2026-06-22T02:59:29.034058+00:00`
+- Generated: `2026-06-22T14:05:20.227105+00:00`
 - OK: `True`
 - Status: `blocked_external`
 - Objective complete: `False`
@@ -16,14 +16,16 @@
 - `remote_bootstrap_fixture`: `True`
 - `publish_clone_fixture`: `True`
 - `source_install_fixture`: `True`
+- `release_pack`: `True`
+- `release_pack_verify`: `True`
 - `smoke_tests`: `True`
 - `state_deep`: `True`
 - `snapshot_freshness`: `True`
 
 ## Next
 
-- External action: `configure_hosted_remote`
+- External action: `push_branch`
 
 ```powershell
-python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json
+git push -u origin <branch>
 ```
