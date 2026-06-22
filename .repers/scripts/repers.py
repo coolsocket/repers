@@ -744,6 +744,20 @@ def run_release_pack_command(args):
         sys.exit(1)
 
 
+def run_release_pack_verify_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from release_pack import verify_release_pack_archive
+
+    verification = verify_release_pack_archive(args.archive)
+    result = {"release_pack_verification": verification}
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not verification.get("ok"):
+        sys.exit(1)
+
+
 def run_verify_all_command(args):
     sys.path.append(SCRIPT_DIR)
     from verify_all import build_verify_all
@@ -1350,6 +1364,10 @@ def main():
     release_pack_parser.add_argument("--pr-title", help="Optional draft PR title; defaults to the latest commit subject")
     release_pack_parser.add_argument("--json", action="store_true")
 
+    release_pack_verify_parser = subparsers.add_parser("release-pack-verify", help="Verify a transferable release-pack archive")
+    release_pack_verify_parser.add_argument("--archive", required=True, help="Path to repers-release-pack.zip")
+    release_pack_verify_parser.add_argument("--json", action="store_true")
+
     verify_all_parser = subparsers.add_parser("verify-all", help="Run all local RePERS gates sequentially with isolated outputs")
     verify_all_parser.add_argument("--output", default="dist", help="Output directory for verify-all artifacts")
     verify_all_parser.add_argument("--json", action="store_true")
@@ -1471,6 +1489,8 @@ def main():
         run_open_source_benchmark_command(args)
     elif args.command == "release-pack":
         run_release_pack_command(args)
+    elif args.command == "release-pack-verify":
+        run_release_pack_verify_command(args)
     elif args.command == "verify-all":
         run_verify_all_command(args)
     elif args.command == "receiver-fixture":

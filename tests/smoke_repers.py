@@ -181,6 +181,7 @@ def test_package_archive_manifest():
     assert "state" in readiness["receiver_commands"]
     assert "snapshot_freshness" in readiness["receiver_commands"]
     assert "open_source_benchmark" in readiness["receiver_commands"]
+    assert "release_pack_verify" in readiness["receiver_commands"]
     assert "verify_all" in readiness["receiver_commands"]
 
     archive_root = package["manifest"]["archive_root"]
@@ -514,6 +515,22 @@ def test_capability_registry_and_preflight_surface():
     assert release_pack_search["ok"] is True
     assert release_pack_search["entries"][0]["id"] == "release-pack"
 
+    release_pack_verify_stdout = run(
+        [
+            sys.executable,
+            str(REPERS),
+            "capabilities",
+            "--action",
+            "search",
+            "--query",
+            "verify transferred release pack archive checksum",
+            "--json",
+        ]
+    )
+    release_pack_verify_search = json.loads(release_pack_verify_stdout)
+    assert release_pack_verify_search["ok"] is True
+    assert release_pack_verify_search["entries"][0]["id"] == "release-pack-verify"
+
     install_stdout = run(
         [
             sys.executable,
@@ -660,6 +677,23 @@ def test_release_pack_builds_transferable_handoff_archive():
             archived_manifest = json.loads(zf.read("repers-release-pack.json").decode("utf-8"))
             assert archived_manifest["schema"] == "repers.release_pack.v1"
             assert archived_manifest["archive_path"].endswith("repers-release-pack.zip")
+        verify_stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "release-pack-verify",
+                "--archive",
+                str(archive_path),
+                "--json",
+            ]
+        )
+        verification = json.loads(verify_stdout)["release_pack_verification"]
+        assert verification["schema"] == "repers.release_pack_verification.v1"
+        assert verification["ok"] is True
+        assert verification["artifact_count"] == pack["artifact_count"]
+        assert verification["checked_artifact_count"] == pack["artifact_count"]
+        assert verification["missing_entries"] == []
+        assert verification["checksum_mismatches"] == []
     finally:
         if output_dir.exists():
             shutil.rmtree(output_dir)
@@ -1082,6 +1116,7 @@ def test_verify_all_runs_sequential_local_gates():
             "publish_clone_fixture",
             "source_install_fixture",
             "release_pack",
+            "release_pack_verify",
             "smoke_tests",
             "state_deep",
             "snapshot_freshness",

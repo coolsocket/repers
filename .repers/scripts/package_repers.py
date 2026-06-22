@@ -212,6 +212,7 @@ def build_readiness_manifest(archive_path, archive_sha256, file_records):
             "state": "python <target-repo>/.repers/scripts/repers.py state --json",
             "snapshot_freshness": "python <target-repo>/.repers/scripts/repers.py snapshot-freshness --json",
             "open_source_benchmark": "python <target-repo>/.repers/scripts/repers.py open-source-benchmark --json",
+            "release_pack_verify": "python <target-repo>/.repers/scripts/repers.py release-pack-verify --archive <repers-release-pack.zip> --json",
             "verify_all": "python <target-repo>/.repers/scripts/repers.py verify-all --json",
             "package_again": "python <target-repo>/.repers/scripts/repers.py package --output dist --json",
         },

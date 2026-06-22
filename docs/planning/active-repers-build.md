@@ -47,6 +47,7 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add machine-checkable open-source benchmark verifier.
 - [x] Add transferable release-pack archive composing package, evidence,
   handoff, benchmark, and continuation state.
+- [x] Add offline release-pack archive verifier for transferred handoffs.
 
 ## Acceptance
 
@@ -64,6 +65,8 @@ repository, reused by other agents, and verified without chat history.
 - `python -B .repers/scripts/repers.py release-pack --json` returns `ok=true`
   and writes `repers-release-pack.zip` with the install archive, handoff,
   remote bootstrap, benchmark, state, and continuation artifacts.
+- `python -B .repers/scripts/repers.py release-pack-verify --archive <zip>
+  --json` returns `ok=true` for a generated release pack.
 - `python -B tests/smoke_repers.py` returns success.
 
 ## Status
@@ -190,3 +193,9 @@ evidence, objective continuation, and state summary without mutating remotes,
 pushing branches, or opening pull requests. Focused validation passed with a
 placeholder remote URL and 13 archived artifacts; `refresh-manifest --json`
 then verified 42 installed runtime files.
+
+Release pack verification phase complete: `release-pack-verify --archive
+<repers-release-pack.zip> --json` verifies a transferred archive by checking
+the embedded manifest schema, required artifact roles, archive entries, and
+artifact SHA-256 values. `verify-all --json` now runs this verifier immediately
+after generating a release pack.

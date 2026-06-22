@@ -673,6 +673,37 @@ Required `release_pack` fields:
 builders succeeded. `status` and `missing_for_publish` still report whether
 hosted publication is externally blocked.
 
+## Release Pack Verification
+
+`release-pack-verify --archive <repers-release-pack.zip> --json` verifies a
+release-pack archive after transfer. It opens the zip, reads
+`repers-release-pack.json`, checks the manifest schema, requires the expected
+artifact roles, confirms every manifest-listed archive entry exists, and
+compares embedded artifact bytes with the SHA-256 values recorded in the
+manifest.
+
+Required top-level command fields:
+
+- `release_pack_verification`
+
+Required `release_pack_verification` fields:
+
+- `schema`: `repers.release_pack_verification.v1`
+- `ok`
+- `archive_path`
+- `archive_sha256`
+- `manifest_schema`
+- `artifact_count`
+- `checked_artifact_count`
+- `missing_entries`
+- `missing_artifacts`
+- `checksum_mismatches`
+- `duplicate_entries`
+- `errors`
+
+`ok=true` means the archive is internally consistent and contains the required
+offline handoff artifacts. It does not prove hosted publication exists.
+
 ## Remote Bootstrap
 
 `remote-bootstrap --json` writes `dist/repers-remote-bootstrap.json` and

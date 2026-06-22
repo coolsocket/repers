@@ -84,6 +84,10 @@ package readiness, release evidence, publish handoff, remote bootstrap,
 open-source benchmark, objective audit, continuation, and state artifacts. It
 does not add remotes, push branches, or open pull requests.
 
+`release-pack-verify --archive <repers-release-pack.zip> --json` verifies that
+a transferred release pack contains the expected embedded manifest, artifact
+roles, zip entries, and SHA-256 checksums.
+
 `remote-bootstrap --remote-url <remote-url> --json` writes
 `dist/repers-remote-bootstrap.json` and `dist/repers-remote-bootstrap.md`. By
 default it does not change Git state; it records the remote setup, publish

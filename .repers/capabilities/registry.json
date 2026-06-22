@@ -329,6 +329,34 @@
       ]
     },
     {
+      "id": "release-pack-verify",
+      "kind": "shipping-gate",
+      "name": "Release Pack Archive Verification",
+      "summary": "Verifies a transferred release-pack archive by checking the embedded manifest, required artifact roles, zip entries, and artifact SHA-256 values.",
+      "tags": [
+        "release",
+        "pack",
+        "verify",
+        "archive",
+        "handoff",
+        "checksum",
+        "offline"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py release-pack-verify --archive <repers-release-pack.zip> --json"
+      ],
+      "paths": [
+        "scripts/release_pack.py",
+        "scripts/repers.py",
+        "scripts/verify_all.py",
+        "docs/contracts.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py release-pack --output <temp-dir> --json",
+        "python .repers/scripts/repers.py release-pack-verify --archive <temp-dir>/repers-release-pack.zip --json"
+      ]
+    },
+    {
       "id": "publish-handoff",
       "kind": "shipping-gate",
       "name": "Publish Handoff Artifact",

@@ -438,6 +438,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "receiver-governance",
         "release-evidence",
         "release-pack",
+        "release-pack-verify",
         "receiver-fixture",
         "publish-handoff",
         "remote-bootstrap",

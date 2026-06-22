@@ -1,3 +1,4 @@
+import hashlib
 import json
 import zipfile
 from datetime import datetime, timezone
@@ -12,6 +13,26 @@ from state_report import build_state_report
 
 
 RELEASE_PACK_SCHEMA = "repers.release_pack.v1"
+RELEASE_PACK_VERIFICATION_SCHEMA = "repers.release_pack_verification.v1"
+REQUIRED_RELEASE_PACK_ENTRIES = {
+    "repers-release-pack.json",
+    "repers-release-pack.md",
+}
+REQUIRED_RELEASE_PACK_ARTIFACTS = {
+    "package_archive",
+    "package_readiness",
+    "release_evidence",
+    "publish_handoff_json",
+    "remote_bootstrap_json",
+    "open_source_benchmark_json",
+    "objective_audit",
+    "continuation_markdown",
+    "state_json",
+}
+
+
+def sha256_bytes(content):
+    return hashlib.sha256(content).hexdigest()
 
 
 def artifact_record(name, path, output_root):
@@ -73,6 +94,80 @@ def write_release_pack_markdown(pack, markdown_path):
         ]
     )
     markdown_path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def verify_release_pack_archive(archive_path):
+    archive = Path(archive_path).resolve()
+    result = {
+        "schema": RELEASE_PACK_VERIFICATION_SCHEMA,
+        "ok": False,
+        "archive_path": str(archive),
+        "archive_sha256": sha256_file(archive) if archive.exists() else None,
+        "manifest_schema": None,
+        "artifact_count": 0,
+        "checked_artifact_count": 0,
+        "missing_entries": [],
+        "missing_artifacts": [],
+        "checksum_mismatches": [],
+        "duplicate_entries": [],
+        "errors": [],
+    }
+    if not archive.exists():
+        result["errors"].append("archive does not exist")
+        return result
+    try:
+        with zipfile.ZipFile(archive) as zf:
+            names = zf.namelist()
+            name_set = set(names)
+            result["duplicate_entries"] = sorted({name for name in names if names.count(name) > 1})
+            for required_entry in sorted(REQUIRED_RELEASE_PACK_ENTRIES):
+                if required_entry not in name_set:
+                    result["missing_entries"].append(required_entry)
+            if "repers-release-pack.json" not in name_set:
+                result["errors"].append("missing release pack manifest")
+                return result
+            manifest = json.loads(zf.read("repers-release-pack.json").decode("utf-8"))
+            result["manifest_schema"] = manifest.get("schema")
+            if manifest.get("schema") != RELEASE_PACK_SCHEMA:
+                result["errors"].append("unexpected release pack manifest schema")
+            artifacts = manifest.get("artifacts") or []
+            result["artifact_count"] = len(artifacts)
+            artifact_names = {artifact.get("name") for artifact in artifacts}
+            for required_artifact in sorted(REQUIRED_RELEASE_PACK_ARTIFACTS):
+                if required_artifact not in artifact_names:
+                    result["missing_artifacts"].append(required_artifact)
+            for artifact in artifacts:
+                artifact_name = artifact.get("name")
+                archived_name = artifact.get("archive_path")
+                expected_sha = artifact.get("sha256")
+                if not archived_name:
+                    result["missing_entries"].append(f"{artifact_name}:<empty archive_path>")
+                    continue
+                if archived_name not in name_set:
+                    result["missing_entries"].append(archived_name)
+                    continue
+                actual_sha = sha256_bytes(zf.read(archived_name))
+                if expected_sha and actual_sha != expected_sha:
+                    result["checksum_mismatches"].append(
+                        {
+                            "name": artifact_name,
+                            "archive_path": archived_name,
+                            "expected": expected_sha,
+                            "actual": actual_sha,
+                        }
+                    )
+                result["checked_artifact_count"] += 1
+    except (OSError, zipfile.BadZipFile, json.JSONDecodeError, UnicodeDecodeError) as exc:
+        result["errors"].append(str(exc))
+        return result
+    result["ok"] = not (
+        result["missing_entries"]
+        or result["missing_artifacts"]
+        or result["checksum_mismatches"]
+        or result["duplicate_entries"]
+        or result["errors"]
+    )
+    return result
 
 
 def create_release_pack(

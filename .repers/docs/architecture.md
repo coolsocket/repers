@@ -29,6 +29,8 @@ Implemented:
   governance, capability registry, and Git branch/commit/remote state.
 - `release-pack`: compose the installable package and generated evidence into
   one transferable handoff archive.
+- `release-pack-verify`: verify a transferred release-pack archive from its
+  embedded manifest and artifact checksums.
 - `package`: create a distributable RePERS zip archive with a package manifest.
 - `install-hook`: install or refresh the RePERS `pre-commit` hook.
 - `verify-install`: verify `.repers/manifest.json` against installed bundle files.
@@ -175,6 +177,11 @@ release-pack
   -> open-source-benchmark
   -> state
   -> dist/repers-release-pack.zip
+
+release-pack-verify
+  -> dist/repers-release-pack.zip
+  -> embedded repers-release-pack.json
+  -> required artifact roles and SHA-256 checks
 
 package
   -> dist/repers-<version>.zip

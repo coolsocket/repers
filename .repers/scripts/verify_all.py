@@ -193,6 +193,21 @@ def build_verify_all(workspace_root, install_root, output_dir="dist"):
             workspace,
         )
     )
+    gates.append(
+        command_result(
+            "release_pack_verify",
+            [
+                sys.executable,
+                "-B",
+                str(repers),
+                "release-pack-verify",
+                "--archive",
+                str(temp_root / "release-pack" / "repers-release-pack.zip"),
+                "--json",
+            ],
+            workspace,
+        )
+    )
     smoke_env = {
         **os.environ,
         "REPERS_SMOKE_DIST": str(temp_root / "smoke-dist"),

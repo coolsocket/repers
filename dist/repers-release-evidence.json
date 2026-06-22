@@ -2,7 +2,7 @@
   "schema": "repers.release_evidence.v1",
   "ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-22T06:27:50.369192+00:00",
+  "generated_at": "2026-06-22T06:43:35.655843+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -13,7 +13,7 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "de9e46bfae0e725bb68110819aa78756c97c2e88",
+    "head_sha": "aced10ca0d56a433d5877e9fd61c45b5a3515466",
     "has_head": true,
     "dirty": true,
     "status_count": 15,
@@ -24,15 +24,15 @@
       " M .repers/index/repers.db",
       " M .repers/manifest.json",
       " M .repers/scripts/objective_audit.py",
+      " M .repers/scripts/package_repers.py",
+      " M .repers/scripts/release_pack.py",
       " M .repers/scripts/repers.py",
       " M .repers/scripts/verify_all.py",
       " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
-      " M dist/repers-release-evidence.json",
       " M docs/planning/active-repers-build.md",
-      " M tests/smoke_repers.py",
-      "?? .repers/scripts/release_pack.py"
+      " M tests/smoke_repers.py"
     ],
     "remote_count": 0,
     "errors": []
@@ -43,7 +43,7 @@
       {
         "path": "README.md",
         "exists": true,
-        "size_bytes": 9037
+        "size_bytes": 9237
       },
       {
         "path": "CONTRIBUTING.md",
@@ -88,7 +88,7 @@
       {
         "path": "docs/planning/active-repers-build.md",
         "exists": true,
-        "size_bytes": 10516
+        "size_bytes": 11063
       }
     ],
     "missing": []
@@ -98,7 +98,7 @@
       "schema": "repers.capability_registry_validation.v1",
       "ok": true,
       "registry_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers\\capabilities\\registry.json",
-      "entry_count": 22,
+      "entry_count": 23,
       "errors": []
     },
     "release_query": {
@@ -263,7 +263,7 @@
     "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "fc02fd83bd7534e244b2846fa97644d330933220a5662f3ae72fea29fef77221",
+    "archive_sha256": "007698d21c801cb8aeb0545fdfbf3566229ca9be1b1270d741b5748de917e976",
     "manifest_file_count": 55,
     "readiness_warnings": [],
     "roundtrip_ok": true
