@@ -1,7 +1,7 @@
 {
   "schema": "repers.state_report.v1",
   "ok": true,
-  "generated_at": "2026-06-22T02:43:47.481442+00:00",
+  "generated_at": "2026-06-22T02:59:36.471611+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -18,9 +18,9 @@
   },
   "git": {
     "branch": "codex/repers-initial-package",
-    "head_sha": "34b187e25d33799dd1914b982ed7749544ea9338",
+    "head_sha": "72e1114e56ced0236c3d4e1fb3cb0711b203a1ef",
     "dirty": true,
-    "status_count": 30,
+    "status_count": 19,
     "remote_count": 0
   },
   "package": {

@@ -1,7 +1,7 @@
 {
   "schema": "repers.source_install_fixture.v1",
   "ok": true,
-  "generated_at": "2026-06-22T02:40:57.201243+00:00",
+  "generated_at": "2026-06-22T02:56:45.759959+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -9,7 +9,7 @@
     {
       "name": "copy_workspace",
       "ok": true,
-      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\source"
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\source"
     },
     {
       "name": "git_init_target",
@@ -17,10 +17,10 @@
         "git",
         "init"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-source-install-3d_7wrqw/target/.git/\n",
+      "stdout_tail": "Initialized empty Git repository in C:/Users/Administrator/AppData/Local/Temp/repers-source-install-4xbs9t0u/target/.git/\n",
       "stderr_tail": ""
     }
   ],
@@ -29,13 +29,13 @@
       "command": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
         "-B",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\source\\.repers\\scripts\\repers.py",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\source\\.repers\\scripts\\repers.py",
         "install",
         "--target",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target",
         "--json"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\source",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\source",
       "returncode": 0,
       "ok": true,
       "json": {
@@ -44,26 +44,26 @@
         "install": {
           "schema": "repers.install_result.v1",
           "ok": true,
-          "target_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target",
-          "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers",
+          "target_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target",
+          "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers",
           "with_hook": true,
           "hook_policy": "warn",
-          "hook_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.git\\hooks\\pre-commit",
-          "gitignore_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.gitignore",
-          "gitattributes_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.gitattributes",
+          "hook_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.git\\hooks\\pre-commit",
+          "gitignore_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.gitignore",
+          "gitattributes_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.gitattributes",
           "index": {
             "documents_indexed": 20,
-            "db_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers\\index\\repers.db"
+            "db_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers\\index\\repers.db"
           },
-          "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers\\manifest.json",
+          "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers\\manifest.json",
           "manifest_file_count": 39,
           "next_command": "python .repers/scripts/repers.py verify-install --json"
         },
         "verify_install": {
           "schema": "repers.install_verify.v1",
           "ok": true,
-          "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers",
-          "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers\\manifest.json",
+          "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers",
+          "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers\\manifest.json",
           "manifest_schema": "repers.install_manifest.v1",
           "manifest_version": "0.1.0",
           "strict_extra": false,
@@ -75,7 +75,7 @@
           "errors": []
         }
       },
-      "stdout_tail": "{\n  \"schema\": \"repers.install_command.v1\",\n  \"ok\": true,\n  \"install\": {\n    \"schema\": \"repers.install_result.v1\",\n    \"ok\": true,\n    \"target_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\",\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.repers\",\n    \"with_hook\": true,\n    \"hook_policy\": \"warn\",\n    \"hook_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.git\\\\hooks\\\\pre-commit\",\n    \"gitignore_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.gitignore\",\n    \"gitattributes_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.gitattributes\",\n    \"index\": {\n      \"documents_indexed\": 20,\n      \"db_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.repers\\\\index\\\\repers.db\"\n    },\n    \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.repers\\\\manifest.json\",\n    \"manifest_file_count\": 39,\n    \"next_command\": \"python .repers/scripts/repers.py verify-install --json\"\n  },\n  \"verify_install\": {\n    \"schema\": \"repers.install_verify.v1\",\n    \"ok\": true,\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.repers\",\n    \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.repers\\\\manifest.json\",\n    \"manifest_schema\": \"repers.install_manifest.v1\",\n    \"manifest_version\": \"0.1.0\",\n    \"strict_extra\": false,\n    \"file_count\": 39,\n    \"checked_count\": 39,\n    \"missing\": [],\n    \"changed\": [],\n    \"extra\": [],\n    \"errors\": []\n  }\n}\n",
+      "stdout_tail": "{\n  \"schema\": \"repers.install_command.v1\",\n  \"ok\": true,\n  \"install\": {\n    \"schema\": \"repers.install_result.v1\",\n    \"ok\": true,\n    \"target_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\",\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.repers\",\n    \"with_hook\": true,\n    \"hook_policy\": \"warn\",\n    \"hook_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.git\\\\hooks\\\\pre-commit\",\n    \"gitignore_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.gitignore\",\n    \"gitattributes_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.gitattributes\",\n    \"index\": {\n      \"documents_indexed\": 20,\n      \"db_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.repers\\\\index\\\\repers.db\"\n    },\n    \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.repers\\\\manifest.json\",\n    \"manifest_file_count\": 39,\n    \"next_command\": \"python .repers/scripts/repers.py verify-install --json\"\n  },\n  \"verify_install\": {\n    \"schema\": \"repers.install_verify.v1\",\n    \"ok\": true,\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.repers\",\n    \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.repers\\\\manifest.json\",\n    \"manifest_schema\": \"repers.install_manifest.v1\",\n    \"manifest_version\": \"0.1.0\",\n    \"strict_extra\": false,\n    \"file_count\": 39,\n    \"checked_count\": 39,\n    \"missing\": [],\n    \"changed\": [],\n    \"extra\": [],\n    \"errors\": []\n  }\n}\n",
       "stderr_tail": "",
       "errors": []
     },
@@ -83,18 +83,18 @@
       "command": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
         "-B",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers\\scripts\\repers.py",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers\\scripts\\repers.py",
         "verify-install",
         "--json"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target",
       "returncode": 0,
       "ok": true,
       "json": {
         "schema": "repers.install_verify.v1",
         "ok": true,
-        "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers",
-        "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers\\manifest.json",
+        "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers",
+        "manifest_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers\\manifest.json",
         "manifest_schema": "repers.install_manifest.v1",
         "manifest_version": "0.1.0",
         "strict_extra": false,
@@ -105,7 +105,7 @@
         "extra": [],
         "errors": []
       },
-      "stdout_tail": "{\n  \"schema\": \"repers.install_verify.v1\",\n  \"ok\": true,\n  \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.repers\",\n  \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.repers\\\\manifest.json\",\n  \"manifest_schema\": \"repers.install_manifest.v1\",\n  \"manifest_version\": \"0.1.0\",\n  \"strict_extra\": false,\n  \"file_count\": 39,\n  \"checked_count\": 39,\n  \"missing\": [],\n  \"changed\": [],\n  \"extra\": [],\n  \"errors\": []\n}\n",
+      "stdout_tail": "{\n  \"schema\": \"repers.install_verify.v1\",\n  \"ok\": true,\n  \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.repers\",\n  \"manifest_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.repers\\\\manifest.json\",\n  \"manifest_schema\": \"repers.install_manifest.v1\",\n  \"manifest_version\": \"0.1.0\",\n  \"strict_extra\": false,\n  \"file_count\": 39,\n  \"checked_count\": 39,\n  \"missing\": [],\n  \"changed\": [],\n  \"extra\": [],\n  \"errors\": []\n}\n",
       "stderr_tail": "",
       "errors": []
     },
@@ -113,11 +113,11 @@
       "command": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
         "-B",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers\\scripts\\repers.py",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers\\scripts\\repers.py",
         "doctor",
         "--json"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target",
       "returncode": 0,
       "ok": true,
       "json": {
@@ -135,16 +135,16 @@
         },
         "git_repo": {
           "ok": true,
-          "root": "C:/Users/Administrator/AppData/Local/Temp/repers-source-install-3d_7wrqw/target"
+          "root": "C:/Users/Administrator/AppData/Local/Temp/repers-source-install-4xbs9t0u/target"
         },
         "hook": {
           "ok": true,
-          "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.git\\hooks\\pre-commit",
+          "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.git\\hooks\\pre-commit",
           "installed": true
         },
         "index": {
           "ok": true,
-          "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers\\index\\repers.db",
+          "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers\\index\\repers.db",
           "documents": 20
         },
         "lsp_guard": {
@@ -184,12 +184,12 @@
           }
         ],
         "paths": {
-          "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target",
-          "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers"
+          "workspace_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target",
+          "install_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers"
         },
         "ok": true
       },
-      "stdout_tail": "{\n  \"python\": {\n    \"name\": \"python\",\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Scripts\\\\python.EXE\",\n    \"version\": \"Python 3.11.15\"\n  },\n  \"git\": {\n    \"name\": \"git\",\n    \"ok\": true,\n    \"path\": \"D:\\\\Git\\\\cmd\\\\git.EXE\",\n    \"version\": \"git version 2.54.0.windows.1\"\n  },\n  \"git_repo\": {\n    \"ok\": true,\n    \"root\": \"C:/Users/Administrator/AppData/Local/Temp/repers-source-install-3d_7wrqw/target\"\n  },\n  \"hook\": {\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.git\\\\hooks\\\\pre-commit\",\n    \"installed\": true\n  },\n  \"index\": {\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.repers\\\\index\\\\repers.db\",\n    \"documents\": 20\n  },\n  \"lsp_guard\": {\n    \"ok\": true,\n    \"path\": \"C:/Users/Administrator/AppData/Local/CodexAgentTools/lsp-guard/agent-lsp-guard.cmd\",\n    \"installed\": true\n  },\n  \"backends\": [\n    {\n      \"name\": \"local\",\n      \"ok\": true,\n      \"mode\": \"built-in\"\n    },\n    {\n      \"name\": \"worker-command\",\n      \"ok\": true,\n      \"mode\": \"built-in\",\n      \"configured\": false\n    },\n    {\n      \"name\": \"openai-agents\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'agents'\"\n    },\n    {\n      \"name\": \"langgraph\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'langgraph'\"\n    },\n    {\n      \"name\": \"mcp\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'mcp'\"\n    }\n  ],\n  \"paths\": {\n    \"workspace_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\",\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.repers\"\n  },\n  \"ok\": true\n}\n",
+      "stdout_tail": "{\n  \"python\": {\n    \"name\": \"python\",\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Scripts\\\\python.EXE\",\n    \"version\": \"Python 3.11.15\"\n  },\n  \"git\": {\n    \"name\": \"git\",\n    \"ok\": true,\n    \"path\": \"D:\\\\Git\\\\cmd\\\\git.EXE\",\n    \"version\": \"git version 2.54.0.windows.1\"\n  },\n  \"git_repo\": {\n    \"ok\": true,\n    \"root\": \"C:/Users/Administrator/AppData/Local/Temp/repers-source-install-4xbs9t0u/target\"\n  },\n  \"hook\": {\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.git\\\\hooks\\\\pre-commit\",\n    \"installed\": true\n  },\n  \"index\": {\n    \"ok\": true,\n    \"path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.repers\\\\index\\\\repers.db\",\n    \"documents\": 20\n  },\n  \"lsp_guard\": {\n    \"ok\": true,\n    \"path\": \"C:/Users/Administrator/AppData/Local/CodexAgentTools/lsp-guard/agent-lsp-guard.cmd\",\n    \"installed\": true\n  },\n  \"backends\": [\n    {\n      \"name\": \"local\",\n      \"ok\": true,\n      \"mode\": \"built-in\"\n    },\n    {\n      \"name\": \"worker-command\",\n      \"ok\": true,\n      \"mode\": \"built-in\",\n      \"configured\": false\n    },\n    {\n      \"name\": \"openai-agents\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'agents'\"\n    },\n    {\n      \"name\": \"langgraph\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'langgraph'\"\n    },\n    {\n      \"name\": \"mcp\",\n      \"ok\": false,\n      \"mode\": \"optional\",\n      \"error\": \"No module named 'mcp'\"\n    }\n  ],\n  \"paths\": {\n    \"workspace_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\",\n    \"install_root\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.repers\"\n  },\n  \"ok\": true\n}\n",
       "stderr_tail": "",
       "errors": []
     },
@@ -197,32 +197,32 @@
       "command": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe",
         "-B",
-        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers\\scripts\\repers.py",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers\\scripts\\repers.py",
         "capabilities",
         "--action",
         "validate",
         "--json"
       ],
-      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target",
+      "cwd": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target",
       "returncode": 0,
       "ok": true,
       "json": {
         "schema": "repers.capability_registry_validation.v1",
         "ok": true,
-        "registry_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target\\.repers\\capabilities\\registry.json",
+        "registry_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target\\.repers\\capabilities\\registry.json",
         "entry_count": 20,
         "errors": []
       },
-      "stdout_tail": "{\n  \"schema\": \"repers.capability_registry_validation.v1\",\n  \"ok\": true,\n  \"registry_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-3d_7wrqw\\\\target\\\\.repers\\\\capabilities\\\\registry.json\",\n  \"entry_count\": 20,\n  \"errors\": []\n}\n",
+      "stdout_tail": "{\n  \"schema\": \"repers.capability_registry_validation.v1\",\n  \"ok\": true,\n  \"registry_path\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\repers-source-install-4xbs9t0u\\\\target\\\\.repers\\\\capabilities\\\\registry.json\",\n  \"entry_count\": 20,\n  \"errors\": []\n}\n",
       "stderr_tail": "",
       "errors": []
     }
   },
   "errors": [],
   "fixture_paths": {
-    "temp_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw",
-    "source": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\source",
-    "target": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-3d_7wrqw\\target"
+    "temp_root": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u",
+    "source": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\source",
+    "target": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\repers-source-install-4xbs9t0u\\target"
   },
   "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-source-install-fixture.json"
 }

@@ -2,7 +2,7 @@
   "schema": "repers.objective_audit.v1",
   "ok": true,
   "objective_complete": false,
-  "generated_at": "2026-06-22T02:43:47.480442+00:00",
+  "generated_at": "2026-06-22T02:59:36.470612+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -166,27 +166,27 @@
         "release_evidence": {
           "path": "repers-release-evidence.json",
           "exists": true,
-          "size_bytes": 9778
+          "size_bytes": 8804
         },
         "publish_handoff": {
           "path": "repers-publish-handoff.json",
           "exists": true,
-          "size_bytes": 4121
+          "size_bytes": 3155
         },
         "publish_handoff_markdown": {
           "path": "repers-publish-handoff.md",
           "exists": true,
-          "size_bytes": 1399
+          "size_bytes": 1403
         },
         "remote_bootstrap": {
           "path": "repers-remote-bootstrap.json",
           "exists": true,
-          "size_bytes": 5059
+          "size_bytes": 4093
         },
         "remote_bootstrap_markdown": {
           "path": "repers-remote-bootstrap.md",
           "exists": true,
-          "size_bytes": 2071
+          "size_bytes": 2079
         },
         "publish_clone_fixture": {
           "path": "repers-publish-clone-fixture.json",
@@ -269,21 +269,13 @@
         "git": {
           "is_git_repo": true,
           "branch": "codex/repers-initial-package",
-          "head_sha": "34b187e25d33799dd1914b982ed7749544ea9338",
+          "head_sha": "72e1114e56ced0236c3d4e1fb3cb0711b203a1ef",
           "has_head": true,
           "dirty": true,
-          "status_count": 30,
+          "status_count": 19,
           "status_entries": [
-            "M .repers/capabilities/registry.json",
-            " M .repers/docs/contracts.md",
-            " M .repers/index/repers.db",
+            "M .repers/index/repers.db",
             " M .repers/manifest.json",
-            " M .repers/scripts/objective_audit.py",
-            " M .repers/scripts/package_repers.py",
-            " M .repers/scripts/release_evidence.py",
-            " M .repers/scripts/repers.py",
-            " M .repers/scripts/state_report.py",
-            " M README.md",
             " M dist/repers-0.1.0-readiness.json",
             " M dist/repers-0.1.0.zip",
             " M dist/repers-continuation.md",
@@ -295,14 +287,11 @@
             " M dist/repers-remote-bootstrap-fixture.json",
             " M dist/repers-remote-bootstrap.json",
             " M dist/repers-remote-bootstrap.md",
-            " M dist/repers-snapshot-freshness.json",
-            " M dist/repers-snapshot-freshness.md",
             " M dist/repers-source-install-fixture.json",
             " M dist/repers-state.json",
             " M dist/repers-state.md",
             " M dist/repers-verify-all.json",
             " M dist/repers-verify-all.md",
-            " M docs/planning/active-repers-build.md",
             " M tests/smoke_repers.py"
           ],
           "remote_count": 0,

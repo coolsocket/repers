@@ -1,10 +1,10 @@
 {
   "schema": "repers.package_readiness.v1",
   "version": "0.1.0",
-  "generated_at": "2026-06-22T02:40:52.305184+00:00",
+  "generated_at": "2026-06-22T02:56:40.948992+00:00",
   "source_shape": "installed_bundle",
   "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-  "archive_sha256": "70f3fa4053878df7992a3e7219ccc879d42099cd795ab9f4ee470e17debe1bda",
+  "archive_sha256": "2d7b27581d8df2adc596026e12fc56770a02ed96bcca455b9538fd9e597c8c19",
   "archive_sha256_scope": "final_sidecar",
   "archive_root": "repers-0.1.0",
   "package_manifest": "repers-0.1.0/repers-package-manifest.json",

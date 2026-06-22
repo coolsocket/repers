@@ -99,13 +99,39 @@ def test_install_manifest_verification():
 
 
 def test_refresh_manifest_updates_install_manifest():
-    stdout = run([sys.executable, str(REPERS), "refresh-manifest", "--json"])
-    result = json.loads(stdout)
-    assert result["schema"] == "repers.refresh_manifest.v1"
-    assert result["ok"] is True
-    assert Path(result["manifest_path"]).exists()
-    assert result["manifest_file_count"] == result["verify_install"]["file_count"]
-    assert result["verify_install"]["ok"] is True
+    target = ROOT / ".repers-smoke-refresh-manifest"
+    if target.exists():
+        shutil.rmtree(target)
+    try:
+        target.mkdir()
+        git_init = subprocess.run(["git", "init"], cwd=target, capture_output=True, text=True)
+        if git_init.returncode != 0:
+            raise AssertionError(f"git init failed\nstdout:\n{git_init.stdout}\nstderr:\n{git_init.stderr}")
+        shutil.copytree(
+            ROOT / ".repers",
+            target / ".repers",
+            ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "index"),
+        )
+        copied_template = target / ".repers" / "templates" / "review.md"
+        copied_template.write_text(copied_template.read_text(encoding="utf-8") + "\n", encoding="utf-8")
+        refresh_repers = target / ".repers" / "scripts" / "repers.py"
+        refresh = subprocess.run(
+            [sys.executable, str(refresh_repers), "refresh-manifest", "--json"],
+            cwd=target,
+            capture_output=True,
+            text=True,
+        )
+        if refresh.returncode != 0:
+            raise AssertionError(f"refresh-manifest failed\nstdout:\n{refresh.stdout}\nstderr:\n{refresh.stderr}")
+        result = json.loads(refresh.stdout)
+        assert result["schema"] == "repers.refresh_manifest.v1"
+        assert result["ok"] is True
+        assert Path(result["manifest_path"]).exists()
+        assert result["manifest_file_count"] == result["verify_install"]["file_count"]
+        assert result["verify_install"]["ok"] is True
+    finally:
+        if target.exists():
+            shutil.rmtree(target)
 
 
 def test_package_archive_manifest():
