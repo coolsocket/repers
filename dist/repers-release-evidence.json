@@ -2,7 +2,7 @@
   "schema": "repers.release_evidence.v1",
   "ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-22T06:43:35.655843+00:00",
+  "generated_at": "2026-06-22T06:55:20.902549+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -13,26 +13,16 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "aced10ca0d56a433d5877e9fd61c45b5a3515466",
+    "head_sha": "1d60d39406fba4627c9452f7e3b99776c7bf6d8b",
     "has_head": true,
     "dirty": true,
-    "status_count": 15,
+    "status_count": 5,
     "status_entries": [
-      "M .repers/capabilities/registry.json",
-      " M .repers/docs/architecture.md",
-      " M .repers/docs/contracts.md",
-      " M .repers/index/repers.db",
-      " M .repers/manifest.json",
-      " M .repers/scripts/objective_audit.py",
-      " M .repers/scripts/package_repers.py",
-      " M .repers/scripts/release_pack.py",
-      " M .repers/scripts/repers.py",
-      " M .repers/scripts/verify_all.py",
-      " M README.md",
-      " M dist/repers-0.1.0-readiness.json",
+      "M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
-      " M docs/planning/active-repers-build.md",
-      " M tests/smoke_repers.py"
+      " M dist/repers-publish-handoff.json",
+      " M dist/repers-publish-handoff.md",
+      " M dist/repers-release-evidence.json"
     ],
     "remote_count": 0,
     "errors": []
@@ -260,12 +250,12 @@
     }
   },
   "package": {
-    "included": true,
+    "included": false,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "007698d21c801cb8aeb0545fdfbf3566229ca9be1b1270d741b5748de917e976",
-    "manifest_file_count": 55,
+    "archive_sha256": "07c02e77304d0dd004ba281273416b468fbc6d5bad16cb3612aeeef18353f6e8",
+    "manifest_file_count": null,
     "readiness_warnings": [],
-    "roundtrip_ok": true
+    "roundtrip_ok": null
   }
 }

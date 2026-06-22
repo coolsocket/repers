@@ -1,0 +1,107 @@
+{
+  "schema": "repers.open_source_benchmark_result.v1",
+  "ok": true,
+  "generated_at": "2026-06-22T06:55:20.976362+00:00",
+  "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
+  "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
+  "benchmark_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers\\docs\\open-source-benchmark.json",
+  "benchmark_schema": "repers.open_source_benchmark.v1",
+  "last_refreshed": "2026-06-22",
+  "repository_count": 10,
+  "source_url_count": 10,
+  "pattern_count": 8,
+  "source_files": [
+    {
+      "path": "README.md",
+      "exists": true,
+      "size_bytes": 9237
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "exists": true,
+      "size_bytes": 1088
+    },
+    {
+      "path": "SECURITY.md",
+      "exists": true,
+      "size_bytes": 1049
+    },
+    {
+      "path": "SUPPORT.md",
+      "exists": true,
+      "size_bytes": 793
+    },
+    {
+      "path": "ROADMAP.md",
+      "exists": true,
+      "size_bytes": 1126
+    },
+    {
+      "path": "CHANGELOG.md",
+      "exists": true,
+      "size_bytes": 1110
+    },
+    {
+      "path": "MAINTAINERS.md",
+      "exists": true,
+      "size_bytes": 964
+    },
+    {
+      "path": ".github/workflows/repers-smoke.yml",
+      "exists": true,
+      "size_bytes": 327
+    },
+    {
+      "path": "examples/basic-task/README.md",
+      "exists": true,
+      "size_bytes": 696
+    }
+  ],
+  "source_surface_applicable": true,
+  "installed_files": [
+    {
+      "path": ".repers/docs/open-source-structure-study.md",
+      "exists": true,
+      "size_bytes": 4208
+    },
+    {
+      "path": ".repers/docs/open-source-benchmark.json",
+      "exists": true,
+      "size_bytes": 5064
+    },
+    {
+      "path": ".repers/docs/installation.md",
+      "exists": true,
+      "size_bytes": 3508
+    },
+    {
+      "path": ".repers/docs/packaging.md",
+      "exists": true,
+      "size_bytes": 3751
+    },
+    {
+      "path": ".repers/docs/contracts.md",
+      "exists": true,
+      "size_bytes": 28224
+    },
+    {
+      "path": ".repers/capabilities/registry.json",
+      "exists": true,
+      "size_bytes": 21277
+    },
+    {
+      "path": ".repers/scripts/repers.py",
+      "exists": true,
+      "size_bytes": 65617
+    },
+    {
+      "path": ".repers/scripts/open_source_benchmark.py",
+      "exists": true,
+      "size_bytes": 4822
+    }
+  ],
+  "missing_source_paths": [],
+  "missing_installed_paths": [],
+  "missing_repository_fields": [],
+  "errors": []
+}

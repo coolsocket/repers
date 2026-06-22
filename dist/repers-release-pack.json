@@ -1,0 +1,162 @@
+{
+  "schema": "repers.release_pack.v1",
+  "ok": true,
+  "generated_at": "2026-06-22T06:55:21.088005+00:00",
+  "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
+  "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
+  "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
+  "status": "local_work_available",
+  "package": {
+    "ok": true,
+    "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
+    "archive_sha256": "07c02e77304d0dd004ba281273416b468fbc6d5bad16cb3612aeeef18353f6e8",
+    "roundtrip_ok": true
+  },
+  "state": {
+    "objective_complete": false,
+    "blocking_incomplete": [
+      "publication_ready"
+    ],
+    "capability_count": 23
+  },
+  "next": {
+    "local_action_id": "commit_or_clean_worktree",
+    "local_command": "git status --short",
+    "external_action_id": "configure_hosted_remote",
+    "external_command": "python -B .repers/scripts/repers.py remote-bootstrap --remote-url <hosted-git-url> --apply --json"
+  },
+  "publish_ready": false,
+  "missing_for_publish": [
+    "commit or intentionally exclude working tree changes",
+    "configure a Git remote before opening a PR"
+  ],
+  "artifacts": [
+    {
+      "name": "package_archive",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
+      "exists": true,
+      "size_bytes": 136672,
+      "sha256": "07c02e77304d0dd004ba281273416b468fbc6d5bad16cb3612aeeef18353f6e8",
+      "archive_path": "repers-0.1.0.zip",
+      "relative_to_output": "repers-0.1.0.zip"
+    },
+    {
+      "name": "package_readiness",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0-readiness.json",
+      "exists": true,
+      "size_bytes": 3786,
+      "sha256": "b13d2fce8b78bb8886cda0b747705c614462c93261bfe2a59b517bb97113bf81",
+      "archive_path": "repers-0.1.0-readiness.json",
+      "relative_to_output": "repers-0.1.0-readiness.json"
+    },
+    {
+      "name": "release_evidence",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-release-evidence.json",
+      "exists": true,
+      "size_bytes": 8622,
+      "sha256": "37a932f93de57ce65da6fb09fed55f673efeea734fd0cc17e336d6be120e1580",
+      "archive_path": "repers-release-evidence.json",
+      "relative_to_output": "repers-release-evidence.json"
+    },
+    {
+      "name": "publish_handoff_json",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.json",
+      "exists": true,
+      "size_bytes": 3045,
+      "sha256": "1dea50e4748b590429b9467c7c99993dd1b30fffee8f0e4e37fe0f4aaa8d5eff",
+      "archive_path": "repers-publish-handoff.json",
+      "relative_to_output": "repers-publish-handoff.json"
+    },
+    {
+      "name": "publish_handoff_markdown",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
+      "exists": true,
+      "size_bytes": 1427,
+      "sha256": "d4880f4a69351bb4376726ecb2b5dfffb1322df54311b610d1cc06f81d1d07d4",
+      "archive_path": "repers-publish-handoff.md",
+      "relative_to_output": "repers-publish-handoff.md"
+    },
+    {
+      "name": "remote_bootstrap_json",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-remote-bootstrap.json",
+      "exists": true,
+      "size_bytes": 3891,
+      "sha256": "46e491e869e6c3e3622f105145e689e813f17da07cbe61b2a1a008e96ef26781",
+      "archive_path": "repers-remote-bootstrap.json",
+      "relative_to_output": "repers-remote-bootstrap.json"
+    },
+    {
+      "name": "remote_bootstrap_markdown",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-remote-bootstrap.md",
+      "exists": true,
+      "size_bytes": 2018,
+      "sha256": "3aae4783781b6e2f696a20df6b0147a967c5456a28f15e85f85767c7445139e6",
+      "archive_path": "repers-remote-bootstrap.md",
+      "relative_to_output": "repers-remote-bootstrap.md"
+    },
+    {
+      "name": "open_source_benchmark_json",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-open-source-benchmark.json",
+      "exists": true,
+      "size_bytes": 2576,
+      "sha256": "c79c2731161c7491eaf515423082f31fbeec11776fee190e68260fdf8f0f5db6",
+      "archive_path": "repers-open-source-benchmark.json",
+      "relative_to_output": "repers-open-source-benchmark.json"
+    },
+    {
+      "name": "open_source_benchmark_markdown",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-open-source-benchmark.md",
+      "exists": true,
+      "size_bytes": 328,
+      "sha256": "7cde3e9119859ca05f3565a4d22f754d68e6b571d039c1d5fc777682e1483a8e",
+      "archive_path": "repers-open-source-benchmark.md",
+      "relative_to_output": "repers-open-source-benchmark.md"
+    },
+    {
+      "name": "objective_audit",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-objective-audit.json",
+      "exists": true,
+      "size_bytes": 14051,
+      "sha256": "db2c4f951451c3e5a6a39c2640d60b26465291b54c45bc73ea46aba00564232e",
+      "archive_path": "repers-objective-audit.json",
+      "relative_to_output": "repers-objective-audit.json"
+    },
+    {
+      "name": "continuation_markdown",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-continuation.md",
+      "exists": true,
+      "size_bytes": 1606,
+      "sha256": "ab233ed1628157c9f791e52efadba57b986fe1631858f9afaabd82f0205f7ad0",
+      "archive_path": "repers-continuation.md",
+      "relative_to_output": "repers-continuation.md"
+    },
+    {
+      "name": "state_json",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-state.json",
+      "exists": true,
+      "size_bytes": 2313,
+      "sha256": "960eabc3054b96d71c9c95db92fa77ae03bcdfb2ce3514f5016e8066d239f207",
+      "archive_path": "repers-state.json",
+      "relative_to_output": "repers-state.json"
+    },
+    {
+      "name": "state_markdown",
+      "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-state.md",
+      "exists": true,
+      "size_bytes": 746,
+      "sha256": "36017e2f3faa253ee9b16347e1a4db7d742a3f12d283804dc6ebb08dbda47d2a",
+      "archive_path": "repers-state.md",
+      "relative_to_output": "repers-state.md"
+    }
+  ],
+  "artifact_count": 13,
+  "safety": {
+    "executes_publish_commands": false,
+    "mutates_git_remote": false,
+    "pushes_branch": false,
+    "opens_pull_request": false
+  },
+  "errors": [],
+  "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-release-pack.zip",
+  "archive_sha256": "bfa5087a9a16afe0d58c200b9b27abbf9b299e6ae9dcee67ea98aa0d05ac478a"
+}

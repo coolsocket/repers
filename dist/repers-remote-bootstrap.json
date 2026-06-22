@@ -1,31 +1,28 @@
 {
   "schema": "repers.remote_bootstrap.v1",
   "ok": true,
-  "generated_at": "2026-06-22T02:56:41.564708+00:00",
+  "generated_at": "2026-06-22T06:55:20.974361+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
   "remote": {
     "name": "origin",
-    "provided_url": "https://example.invalid/repers.git",
+    "provided_url": null,
     "records": [],
     "named_remote_urls": []
   },
   "git": {
     "branch": "codex/repers-initial-package",
-    "head_sha": "72e1114e56ced0236c3d4e1fb3cb0711b203a1ef",
+    "head_sha": "1d60d39406fba4627c9452f7e3b99776c7bf6d8b",
     "has_head": true,
     "dirty": true,
-    "status_count": 8,
+    "status_count": 5,
     "status_entries": [
-      "M .repers/index/repers.db",
-      " M .repers/manifest.json",
-      " M dist/repers-0.1.0-readiness.json",
+      "M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
       " M dist/repers-publish-handoff.json",
       " M dist/repers-publish-handoff.md",
-      " M dist/repers-release-evidence.json",
-      " M tests/smoke_repers.py"
+      " M dist/repers-release-evidence.json"
     ],
     "remote_count": 0,
     "remotes": []
@@ -35,7 +32,7 @@
     "ok": true,
     "changed": false,
     "remote_name": "origin",
-    "remote_url": "https://example.invalid/repers.git",
+    "remote_url": null,
     "actions": [],
     "errors": []
   },
@@ -60,22 +57,22 @@
     {
       "id": "add_remote",
       "title": "Configure publication remote",
-      "command": "git remote add origin https://example.invalid/repers.git",
-      "status": "ready",
-      "reason": "Remote URL was provided."
+      "command": "git remote add origin <remote-url>",
+      "status": "blocked",
+      "reason": "No remote URL was provided."
     },
     {
       "id": "publish_handoff",
       "title": "Regenerate publish handoff evidence",
-      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title \"Add manifest refresh capability\" --json",
-      "status": "ready",
+      "command": "python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url <remote-url> --base-branch main --pr-title \"Add release pack archive verifier\" --json",
+      "status": "blocked",
       "reason": "Handoff path: C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md"
     },
     {
       "id": "verify_publish_ready",
       "title": "Verify objective audit after remote setup",
       "command": "python .repers/scripts/repers.py objective-audit --deep --json",
-      "status": "ready",
+      "status": "blocked",
       "reason": "Run after the remote is configured and publish handoff is refreshed."
     },
     {
@@ -88,7 +85,7 @@
     {
       "id": "open_draft_pr",
       "title": "Open draft pull request",
-      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add manifest refresh capability\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
+      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Add release pack archive verifier\" --body-file C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md",
       "status": "blocked",
       "reason": "Requires GitHub CLI authentication and a pushed branch."
     }
