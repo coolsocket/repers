@@ -203,7 +203,7 @@ the embedded manifest schema, required artifact roles, archive entries, and
 artifact SHA-256 values. `verify-all --json` now runs this verifier immediately
 after generating a release pack.
 
-Public launch surface phase in progress: the root `README.md` now leads with
+Public launch surface phase complete: the root `README.md` now leads with
 the product promise, quick start, bug-hunt flow, deliverables, and release
 shape instead of only listing receiver commands. `docs/bug-hunt-demo.md`,
 `docs/promotion-playbook.md`, `docs/repository-metadata.md`,
@@ -212,3 +212,11 @@ added so public adoption, repository metadata, and release publication no
 longer depend on chat history. Package readiness, release evidence, objective
 audit, and smoke assertions now include `LICENSE` and the bug-hunt example as
 governance/package surface.
+
+Public launch validation passed with `compileall`, `capabilities --action
+validate`, `tests/smoke_repers.py`, `package --verify-roundtrip`,
+`release-pack`, `release-pack-verify`, and `verify-all --json`. Main was pushed
+to `coolsocket/repers`, repository metadata now has description, homepage,
+topics, and MIT license, and GitHub Release `v0.1.0` contains
+`repers-0.1.0.zip`, `repers-release-pack.zip`, `repers-release-pack.json`, and
+`repers-release-pack.md`.
