@@ -884,7 +884,7 @@ def test_state_report_summarizes_current_repository():
 
 
 def test_snapshot_freshness_checks_generated_state():
-    output_dir = ROOT / ".repers-smoke-snapshot-freshness"
+    output_dir = DIST / "snapshot-freshness"
     if output_dir.exists():
         shutil.rmtree(output_dir)
     try:
