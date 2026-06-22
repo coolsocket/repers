@@ -1,10 +1,10 @@
 {
   "schema": "repers.package_readiness.v1",
   "version": "0.1.0",
-  "generated_at": "2026-06-22T01:23:45.789847+00:00",
+  "generated_at": "2026-06-22T02:12:11.623254+00:00",
   "source_shape": "installed_bundle",
   "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-  "archive_sha256": "bd143e336b47c2a9a8a8b80414234e80c156187a34eac93f4b93b868ca75bb9f",
+  "archive_sha256": "97bc58f97f6dd746dcba5dcff57703acceb1acd3a132aead379f9bf6a0f0ec5e",
   "archive_sha256_scope": "final_sidecar",
   "archive_root": "repers-0.1.0",
   "package_manifest": "repers-0.1.0/repers-package-manifest.json",
@@ -46,6 +46,7 @@
     "objective_audit": "python <target-repo>/.repers/scripts/repers.py objective-audit --json",
     "continue": "python <target-repo>/.repers/scripts/repers.py continue --json",
     "state": "python <target-repo>/.repers/scripts/repers.py state --json",
+    "snapshot_freshness": "python <target-repo>/.repers/scripts/repers.py snapshot-freshness --json",
     "verify_all": "python <target-repo>/.repers/scripts/repers.py verify-all --json",
     "package_again": "python <target-repo>/.repers/scripts/repers.py package --output dist --json"
   },

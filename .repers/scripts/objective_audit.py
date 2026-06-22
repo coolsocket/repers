@@ -449,6 +449,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "remote-bootstrap",
         "continuation-runner",
         "state-report",
+        "snapshot-freshness",
         "verify-all",
         "publish-clone-fixture",
         "source-install-fixture",

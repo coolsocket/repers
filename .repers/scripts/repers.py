@@ -676,6 +676,28 @@ def run_state_command(args):
         sys.exit(1)
 
 
+def run_snapshot_freshness_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from snapshot_freshness import build_snapshot_freshness
+
+    freshness, json_path, markdown_path = build_snapshot_freshness(
+        REPO_ROOT,
+        output_dir=args.output,
+        strict=args.strict,
+    )
+    result = {
+        "snapshot_freshness": freshness,
+        "path": str(Path(json_path).resolve()),
+        "markdown_path": str(Path(markdown_path).resolve()),
+    }
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not freshness.get("ok"):
+        sys.exit(1)
+
+
 def run_verify_all_command(args):
     sys.path.append(SCRIPT_DIR)
     from verify_all import build_verify_all
@@ -1233,6 +1255,11 @@ def main():
     state_parser.add_argument("--deep", action="store_true", help="Run deep objective audit before writing state")
     state_parser.add_argument("--json", action="store_true")
 
+    snapshot_freshness_parser = subparsers.add_parser("snapshot-freshness", help="Compare generated state evidence with live Git state")
+    snapshot_freshness_parser.add_argument("--output", default="dist", help="Output directory containing generated RePERS evidence artifacts")
+    snapshot_freshness_parser.add_argument("--strict", action="store_true", help="Exit non-zero when comparable snapshots are stale")
+    snapshot_freshness_parser.add_argument("--json", action="store_true")
+
     verify_all_parser = subparsers.add_parser("verify-all", help="Run all local RePERS gates sequentially with isolated outputs")
     verify_all_parser.add_argument("--output", default="dist", help="Output directory for verify-all artifacts")
     verify_all_parser.add_argument("--json", action="store_true")
@@ -1343,6 +1370,8 @@ def main():
         run_continue_command(args)
     elif args.command == "state":
         run_state_command(args)
+    elif args.command == "snapshot-freshness":
+        run_snapshot_freshness_command(args)
     elif args.command == "verify-all":
         run_verify_all_command(args)
     elif args.command == "receiver-fixture":

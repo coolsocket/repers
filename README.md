@@ -22,6 +22,7 @@ python .repers\scripts\repers.py remote-bootstrap-fixture --json
 python .repers\scripts\repers.py publish-clone-fixture --json
 python .repers\scripts\repers.py source-install-fixture --json
 python .repers\scripts\repers.py objective-audit --deep --json
+python .repers\scripts\repers.py snapshot-freshness --json
 python .repers\scripts\repers.py package --output dist --json
 python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
 python .repers\scripts\repers.py install-hook --json
@@ -115,9 +116,14 @@ external steps.
 Git publish readiness, package state, capability count, test evidence, and the
 next continuation actions.
 
+`snapshot-freshness --json` compares generated state/release/audit snapshots
+with the live Git checkout. Use `--strict` in automation when stale comparable
+snapshots should fail the command instead of being reported as point-in-time
+evidence.
+
 `verify-all --json` is the race-safe local verification entrypoint. It runs
-install, capability, package, receiver, remote fixture, smoke, and deep state
-checks sequentially with isolated temporary outputs.
+install, capability, package, receiver, remote fixture, smoke, deep state, and
+strict snapshot freshness checks sequentially with isolated temporary outputs.
 
 `receiver-fixture --json` installs the packaged archive into a fresh Git
 repository and runs receiver-side checks: `verify-install`, `doctor`,

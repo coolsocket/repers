@@ -882,6 +882,44 @@ first ready local action and first external publication action, if present.
 `artifacts` records the JSON and Markdown state paths plus the underlying audit,
 continuation, and release evidence files.
 
+## Snapshot Freshness
+
+`snapshot-freshness --json` writes `dist/repers-snapshot-freshness.json` and
+`dist/repers-snapshot-freshness.md`. It compares generated state,
+release-evidence, objective-audit, and verify-all snapshots with live Git state.
+Generated files are point-in-time evidence; this command tells a maintainer
+whether those files still match the current checkout. Use `--strict` when stale
+comparable snapshots should make the command fail.
+
+Required top-level command fields:
+
+- `snapshot_freshness`
+- `path`
+- `markdown_path`
+
+Required `snapshot_freshness` fields:
+
+- `schema`: `repers.snapshot_freshness.v1`
+- `ok`
+- `fresh`
+- `strict`
+- `generated_at`
+- `workspace_root`
+- `output_dir`
+- `live_git`
+- `artifact_count`
+- `checked_count`
+- `stale_count`
+- `missing_count`
+- `artifacts`
+- `errors`
+
+`ok=true` means the command ran successfully under the requested strictness.
+`fresh=true` means all comparable snapshots in the selected output directory
+match live Git branch, head, dirty state, and remote count. Exact status counts
+are intentionally not part of freshness because writing evidence inside the
+worktree can change the count without changing publication state.
+
 ## Verify All
 
 `verify-all --json` writes `dist/repers-verify-all.json` and
@@ -913,3 +951,6 @@ Required `verify_all` fields:
 `ok=true` means every local gate passed and any remaining objective blocker is
 external-only, currently `publication_ready`. `status=blocked_external` is a
 successful local verification state when no hosted Git remote is configured.
+The `snapshot_freshness` gate runs in strict mode against the temporary deep
+state output, proving the generated state evidence matches live Git at the time
+of verification.

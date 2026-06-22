@@ -118,6 +118,8 @@ def prove_receiver(workspace_root, install_root, output_dir="dist", verify_packa
             "remote_bootstrap_fixture": [sys.executable, str(cli), "remote-bootstrap-fixture", "--json"],
             "publish_clone_fixture": [sys.executable, str(cli), "publish-clone-fixture", "--json"],
             "source_install_fixture": [sys.executable, str(cli), "source-install-fixture", "--json"],
+            "state": [sys.executable, str(cli), "state", "--json"],
+            "snapshot_freshness": [sys.executable, str(cli), "snapshot-freshness", "--json"],
         }
         for name, command in commands.items():
             check = run_json(command, target_root)
@@ -144,6 +146,10 @@ def prove_receiver(workspace_root, install_root, output_dir="dist", verify_packa
                 result["errors"].append("publish-clone fixture returned ok=false")
             if name == "source_install_fixture" and payload.get("source_install_fixture", {}).get("ok") is not True:
                 result["errors"].append("source-install fixture returned ok=false")
+            if name == "state" and payload.get("state", {}).get("ok") is not True:
+                result["errors"].append("state returned ok=false")
+            if name == "snapshot_freshness" and payload.get("snapshot_freshness", {}).get("ok") is not True:
+                result["errors"].append("snapshot freshness returned ok=false")
 
     result["ok"] = not result["errors"]
     return result

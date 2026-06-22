@@ -41,6 +41,8 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add local publish/clone fixture proving clone-side RePERS verification.
 - [x] Add source checkout install fixture proving one-command receiver bootstrap
   with the pre-commit hook.
+- [x] Add snapshot freshness gate distinguishing live Git state from committed
+  generated evidence.
 
 ## Acceptance
 
@@ -51,6 +53,8 @@ repository, reused by other agents, and verified without chat history.
   `ok=true`.
 - `python -B .repers/scripts/repers.py source-install-fixture --json` returns
   `ok=true` and target-side `doctor` reports the hook installed.
+- `python -B .repers/scripts/repers.py snapshot-freshness --json` reports
+  whether generated state evidence still matches live Git state.
 - `python -B tests/smoke_repers.py` returns success.
 
 ## Status
@@ -148,3 +152,10 @@ is now the one-command source checkout bootstrap path. `source-install-fixture
 creates a fresh receiver Git repository, runs that install command, and proves
 target-side `verify-install`, `doctor` with the hook installed, and capability
 registry validation.
+
+Snapshot freshness phase complete: `snapshot-freshness --json` compares
+generated state, release, objective-audit, and verify-all snapshots against live
+Git branch, HEAD, dirty state, and remote count. `verify-all --json` now runs a
+strict freshness check against its freshly generated temporary deep state output,
+while non-strict mode gives receiver installs a safe report even before their
+first commit.

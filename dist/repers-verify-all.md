@@ -1,6 +1,6 @@
 # RePERS Verify All
 
-- Generated: `2026-06-22T01:26:18.032792+00:00`
+- Generated: `2026-06-22T02:09:40.434645+00:00`
 - OK: `True`
 - Status: `blocked_external`
 - Objective complete: `False`
@@ -18,6 +18,7 @@
 - `source_install_fixture`: `True`
 - `smoke_tests`: `True`
 - `state_deep`: `True`
+- `snapshot_freshness`: `True`
 
 ## Next
 

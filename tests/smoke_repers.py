@@ -142,6 +142,7 @@ def test_package_archive_manifest():
     assert "objective_audit" in readiness["receiver_commands"]
     assert "continue" in readiness["receiver_commands"]
     assert "state" in readiness["receiver_commands"]
+    assert "snapshot_freshness" in readiness["receiver_commands"]
     assert "verify_all" in readiness["receiver_commands"]
 
     archive_root = package["manifest"]["archive_root"]
@@ -171,6 +172,7 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/objective_audit.py" in names
         assert f"{archive_root}/scripts/continuation_runner.py" in names
         assert f"{archive_root}/scripts/state_report.py" in names
+        assert f"{archive_root}/scripts/snapshot_freshness.py" in names
         assert f"{archive_root}/scripts/verify_all.py" in names
         assert f"{archive_root}/capabilities/registry.json" in names
         assert f"{archive_root}/templates/plan.md" in names
@@ -390,6 +392,22 @@ def test_capability_registry_and_preflight_surface():
     state_search = json.loads(state_stdout)
     assert state_search["ok"] is True
     assert state_search["entries"][0]["id"] == "state-report"
+
+    freshness_stdout = run(
+        [
+            sys.executable,
+            str(REPERS),
+            "capabilities",
+            "--action",
+            "search",
+            "--query",
+            "snapshot freshness generated evidence live git state",
+            "--json",
+        ]
+    )
+    freshness_search = json.loads(freshness_stdout)
+    assert freshness_search["ok"] is True
+    assert freshness_search["entries"][0]["id"] == "snapshot-freshness"
 
     verify_stdout = run(
         [
@@ -809,6 +827,45 @@ def test_state_report_summarizes_current_repository():
             shutil.rmtree(output_dir)
 
 
+def test_snapshot_freshness_checks_generated_state():
+    output_dir = ROOT / ".repers-smoke-snapshot-freshness"
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    try:
+        run(
+            [
+                sys.executable,
+                str(REPERS),
+                "state",
+                "--output",
+                str(output_dir),
+                "--json",
+            ]
+        )
+        stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "snapshot-freshness",
+                "--output",
+                str(output_dir),
+                "--json",
+            ]
+        )
+        result = json.loads(stdout)
+        freshness = result["snapshot_freshness"]
+        assert Path(result["path"]).exists()
+        assert Path(result["markdown_path"]).exists()
+        assert freshness["schema"] == "repers.snapshot_freshness.v1"
+        assert freshness["ok"] is True
+        assert freshness["fresh"] is False
+        assert freshness["strict"] is False
+        assert freshness["stale_count"] >= 0
+        assert freshness["checked_count"] >= 1
+    finally:
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+
 def test_verify_all_runs_sequential_local_gates():
     if os.environ.get("REPERS_SKIP_VERIFY_ALL_SMOKE") == "1":
         return
@@ -846,6 +903,7 @@ def test_verify_all_runs_sequential_local_gates():
             "source_install_fixture",
             "smoke_tests",
             "state_deep",
+            "snapshot_freshness",
         } <= gate_names
         assert all(gate["ok"] for gate in report["gates"])
         assert report["state"]["tests_passed"] is True
@@ -871,6 +929,8 @@ def test_receiver_fixture_proves_installed_package_commands():
     assert fixture["checks"]["remote_bootstrap_fixture"]["json"]["remote_bootstrap_fixture"]["ok"] is True
     assert fixture["checks"]["publish_clone_fixture"]["json"]["publish_clone_fixture"]["ok"] is True
     assert fixture["checks"]["source_install_fixture"]["json"]["source_install_fixture"]["ok"] is True
+    assert fixture["checks"]["state"]["json"]["state"]["ok"] is True
+    assert fixture["checks"]["snapshot_freshness"]["json"]["snapshot_freshness"]["ok"] is True
 
 
 def main():
@@ -894,6 +954,7 @@ def main():
     test_objective_audit_reports_requirements_and_blockers()
     test_continue_reports_resume_actions_without_applying_by_default()
     test_state_report_summarizes_current_repository()
+    test_snapshot_freshness_checks_generated_state()
     test_verify_all_runs_sequential_local_gates()
     test_receiver_fixture_proves_installed_package_commands()
     print("installed repers smoke tests ok")

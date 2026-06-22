@@ -209,8 +209,25 @@ def build_verify_all(workspace_root, install_root, output_dir="dist"):
             env={**os.environ, "REPERS_SKIP_VERIFY_ALL_SMOKE": "1"},
         )
     )
+    gates.append(
+        command_result(
+            "snapshot_freshness",
+            [
+                sys.executable,
+                "-B",
+                str(repers),
+                "snapshot-freshness",
+                "--output",
+                str(temp_root / "state"),
+                "--strict",
+                "--json",
+            ],
+            workspace,
+        )
+    )
 
-    state_json = gates[-1].get("json", {}).get("state") if gates[-1].get("json") else {}
+    state_gate = next((gate for gate in gates if gate.get("name") == "state_deep"), {})
+    state_json = state_gate.get("json", {}).get("state") if state_gate.get("json") else {}
     blocking = state_json.get("objective", {}).get("blocking_incomplete", [])
     local_gate_ok = all(gate["ok"] for gate in gates)
     external_only = set(blocking) <= {"publication_ready"}

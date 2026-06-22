@@ -459,6 +459,39 @@
       ]
     },
     {
+      "id": "snapshot-freshness",
+      "kind": "shipping-gate",
+      "name": "Generated Snapshot Freshness",
+      "summary": "Compares generated state, release, objective-audit, and verify-all snapshots with live Git state so committed evidence is not mistaken for current state.",
+      "tags": [
+        "state",
+        "snapshot",
+        "freshness",
+        "git",
+        "evidence",
+        "verify",
+        "handoff"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py snapshot-freshness --json",
+        "python .repers/scripts/repers.py snapshot-freshness --strict --json"
+      ],
+      "paths": [
+        "scripts/snapshot_freshness.py",
+        "scripts/state_report.py",
+        "scripts/release_evidence.py",
+        "scripts/verify_all.py",
+        "scripts/repers.py",
+        "docs/contracts.md",
+        "dist/repers-snapshot-freshness.json",
+        "dist/repers-snapshot-freshness.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py state --output <temp-dir> --json",
+        "python .repers/scripts/repers.py snapshot-freshness --output <temp-dir> --strict --json"
+      ]
+    },
+    {
       "id": "verify-all",
       "kind": "shipping-gate",
       "name": "Sequential Local Verification",
