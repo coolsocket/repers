@@ -51,6 +51,9 @@ repository, reused by other agents, and verified without chat history.
 - [x] Rework the public launch surface: README, bug-hunt demo, promotion
   playbook, repository metadata handoff, release checklist, license, and
   package governance checks.
+- [x] Add Codex plugin surface modeled after `coolsocket/t3d`: plugin manifest,
+  workflow skills, README install/daily workflow sections, capability registry
+  entry, and package/release gates for plugin files.
 
 ## Acceptance
 
@@ -220,3 +223,12 @@ to `coolsocket/repers`, repository metadata now has description, homepage,
 topics, and MIT license, and GitHub Release `v0.1.0` contains
 `repers-0.1.0.zip`, `repers-release-pack.zip`, `repers-release-pack.json`, and
 `repers-release-pack.md`.
+
+Codex plugin surface phase complete: after comparing `coolsocket/t3d`, RePERS
+now ships `.codex-plugin/plugin.json` plus four workflow skills:
+`repers-init`, `repers-bug-hunt`, `repers-release-pack`, and `repers-sinkin`.
+The README now presents install, daily workflow, plugin skills, and the
+plugin-vs-runtime boundary. `capabilities/registry.json` includes
+`codex-plugin`, package readiness requires the plugin manifest and skill files,
+release/objective governance tracks those files, and smoke coverage asserts the
+plugin surface is present in the package archive.

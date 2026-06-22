@@ -2,7 +2,7 @@
   "schema": "repers.release_evidence.v1",
   "ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-22T14:04:18.081063+00:00",
+  "generated_at": "2026-06-22T14:23:31.736829+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -12,12 +12,13 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "7d0b3712f9f082efa4a067d06cd3612af988727e",
+    "head_sha": "4f30bb8330691784c0a322483265f69356a1fc91",
     "has_head": true,
     "dirty": true,
-    "status_count": 28,
+    "status_count": 16,
     "status_entries": [
-      "M .repers/index/repers.db",
+      "M .repers/capabilities/registry.json",
+      " M .repers/index/repers.db",
       " M .repers/manifest.json",
       " M .repers/scripts/objective_audit.py",
       " M .repers/scripts/package_repers.py",
@@ -25,26 +26,13 @@
       " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
-      " M dist/repers-continuation.md",
-      " M dist/repers-objective-audit.json",
-      " M dist/repers-publish-clone-fixture.json",
       " M dist/repers-publish-handoff.json",
       " M dist/repers-publish-handoff.md",
       " M dist/repers-release-evidence.json",
-      " M dist/repers-remote-bootstrap-fixture.json",
-      " M dist/repers-remote-bootstrap.json",
-      " M dist/repers-remote-bootstrap.md",
-      " M dist/repers-source-install-fixture.json",
-      " M dist/repers-state.json",
-      " M dist/repers-state.md",
       " M docs/planning/active-repers-build.md",
       " M tests/smoke_repers.py",
-      "?? LICENSE",
-      "?? docs/bug-hunt-demo.md",
-      "?? docs/promotion-playbook.md",
-      "?? docs/release-checklist.md",
-      "?? docs/repository-metadata.md",
-      "?? examples/bug-hunt/"
+      "?? .codex-plugin/",
+      "?? skills/"
     ],
     "remote_count": 1,
     "errors": []
@@ -55,7 +43,12 @@
       {
         "path": "README.md",
         "exists": true,
-        "size_bytes": 6659
+        "size_bytes": 8677
+      },
+      {
+        "path": ".codex-plugin/plugin.json",
+        "exists": true,
+        "size_bytes": 1420
       },
       {
         "path": "CONTRIBUTING.md",
@@ -108,9 +101,29 @@
         "size_bytes": 1150
       },
       {
+        "path": "skills/repers-init/SKILL.md",
+        "exists": true,
+        "size_bytes": 1471
+      },
+      {
+        "path": "skills/repers-bug-hunt/SKILL.md",
+        "exists": true,
+        "size_bytes": 1782
+      },
+      {
+        "path": "skills/repers-release-pack/SKILL.md",
+        "exists": true,
+        "size_bytes": 1370
+      },
+      {
+        "path": "skills/repers-sinkin/SKILL.md",
+        "exists": true,
+        "size_bytes": 1553
+      },
+      {
         "path": "docs/planning/active-repers-build.md",
         "exists": true,
-        "size_bytes": 11863
+        "size_bytes": 13105
       }
     ],
     "missing": []
@@ -120,7 +133,7 @@
       "schema": "repers.capability_registry_validation.v1",
       "ok": true,
       "registry_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers\\capabilities\\registry.json",
-      "entry_count": 23,
+      "entry_count": 24,
       "errors": []
     },
     "release_query": {
@@ -285,7 +298,7 @@
     "included": false,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "7f8da64f3ed4069a58de5b8523f811952e1795c65d0211513dfec47cbf7480e1",
+    "archive_sha256": "f8ae8d9b3cb5d358bc26125fb2227f53e3bb4a38c9bc69fdbf09640c30371fce",
     "manifest_file_count": null,
     "readiness_warnings": [],
     "roundtrip_ok": null

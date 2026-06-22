@@ -28,6 +28,7 @@ PACKAGE_INCLUDE_PATHS = [
     "tests",
 ]
 INSTALLED_BUNDLE_PARENT_INCLUDE_PATHS = [
+    ".codex-plugin",
     ".github",
     ".gitattributes",
     ".gitignore",
@@ -41,6 +42,7 @@ INSTALLED_BUNDLE_PARENT_INCLUDE_PATHS = [
     "SUPPORT.md",
     "docs",
     "examples",
+    "skills",
     "tests",
 ]
 
@@ -128,6 +130,8 @@ def package_surface(file_records):
     paths = {record["path"] for record in file_records}
     return {
         "has_top_level_readme": "README.md" in paths,
+        "has_codex_plugin_manifest": ".codex-plugin/plugin.json" in paths,
+        "has_plugin_skills": any(path.startswith("skills/") and path.endswith("/SKILL.md") for path in paths),
         "has_changelog": "CHANGELOG.md" in paths,
         "has_contributing": "CONTRIBUTING.md" in paths,
         "has_license": "LICENSE" in paths,
@@ -157,6 +161,10 @@ def build_readiness_manifest(archive_path, archive_sha256, file_records):
     warnings = []
     if not surface["has_top_level_readme"]:
         warnings.append("package archive has no top-level README.md")
+    if not surface["has_codex_plugin_manifest"]:
+        warnings.append("package archive has no .codex-plugin/plugin.json")
+    if not surface["has_plugin_skills"]:
+        warnings.append("package archive has no plugin skills")
     if not surface["has_changelog"]:
         warnings.append("package archive has no CHANGELOG.md")
     if not surface["has_contributing"]:

@@ -151,6 +151,8 @@ def test_package_archive_manifest():
     assert readiness["archive_sha256"] == package["archive_sha256"]
     assert readiness["surface"]["has_cli"] is True
     assert readiness["surface"]["has_install_script"] is True
+    assert readiness["surface"]["has_codex_plugin_manifest"] is True
+    assert readiness["surface"]["has_plugin_skills"] is True
     assert readiness["surface"]["has_templates"] is True
     assert readiness["surface"]["has_top_level_readme"] is True
     assert readiness["surface"]["has_changelog"] is True
@@ -217,6 +219,11 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/open_source_benchmark.py" in names
         assert f"{archive_root}/scripts/verify_all.py" in names
         assert f"{archive_root}/capabilities/registry.json" in names
+        assert f"{archive_root}/.codex-plugin/plugin.json" in names
+        assert f"{archive_root}/skills/repers-init/SKILL.md" in names
+        assert f"{archive_root}/skills/repers-bug-hunt/SKILL.md" in names
+        assert f"{archive_root}/skills/repers-release-pack/SKILL.md" in names
+        assert f"{archive_root}/skills/repers-sinkin/SKILL.md" in names
         assert f"{archive_root}/docs/open-source-benchmark.json" in names
         assert f"{archive_root}/templates/plan.md" in names
         assert f"{archive_root}/hooks/pre-commit" in names

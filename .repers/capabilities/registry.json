@@ -658,6 +658,42 @@
       "verification": [
         "python .repers/scripts/repers.py receiver-fixture --json"
       ]
+    },
+    {
+      "id": "codex-plugin",
+      "kind": "plugin",
+      "name": "Codex Plugin Surface",
+      "summary": "Plugin manifest and RePERS workflow skills that expose install, bug-hunt, release-pack, and drift-audit entrypoints to Codex.",
+      "tags": [
+        "plugin",
+        "codex",
+        "skills",
+        "marketplace",
+        "install",
+        "bug-hunt",
+        "release-pack",
+        "drift"
+      ],
+      "commands": [
+        "/plugin marketplace add coolsocket/repers",
+        "/plugin install repers",
+        "/repers-init",
+        "/repers-bug-hunt",
+        "/repers-release-pack",
+        "/repers-sinkin"
+      ],
+      "paths": [
+        ".codex-plugin/plugin.json",
+        "skills/repers-init/SKILL.md",
+        "skills/repers-bug-hunt/SKILL.md",
+        "skills/repers-release-pack/SKILL.md",
+        "skills/repers-sinkin/SKILL.md",
+        "README.md"
+      ],
+      "verification": [
+        "python C:/Users/Administrator/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py .",
+        "python .repers/scripts/repers.py capabilities --action search --query \"codex plugin skills\" --json"
+      ]
     }
   ]
 }

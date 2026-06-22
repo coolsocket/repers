@@ -411,6 +411,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
 
     governance_files = [
         "README.md",
+        ".codex-plugin/plugin.json",
         "CONTRIBUTING.md",
         "LICENSE",
         "SECURITY.md",
@@ -421,6 +422,10 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         ".github/workflows/repers-smoke.yml",
         "examples/basic-task/README.md",
         "examples/bug-hunt/README.md",
+        "skills/repers-init/SKILL.md",
+        "skills/repers-bug-hunt/SKILL.md",
+        "skills/repers-release-pack/SKILL.md",
+        "skills/repers-sinkin/SKILL.md",
     ]
     governance = [file_record(workspace, rel) for rel in governance_files]
     governance_ok = all(item["exists"] for item in governance)
@@ -450,6 +455,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "verify-all",
         "publish-clone-fixture",
         "source-install-fixture",
+        "codex-plugin",
     }
 
     command_map = {item["name"]: item for item in commands}

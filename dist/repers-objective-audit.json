@@ -2,7 +2,7 @@
   "schema": "repers.objective_audit.v1",
   "ok": true,
   "objective_complete": false,
-  "generated_at": "2026-06-22T14:04:18.264252+00:00",
+  "generated_at": "2026-06-22T14:23:31.896090+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -20,7 +20,12 @@
           {
             "path": "README.md",
             "exists": true,
-            "size_bytes": 6659
+            "size_bytes": 8677
+          },
+          {
+            "path": ".codex-plugin/plugin.json",
+            "exists": true,
+            "size_bytes": 1420
           },
           {
             "path": "CONTRIBUTING.md",
@@ -71,6 +76,26 @@
             "path": "examples/bug-hunt/README.md",
             "exists": true,
             "size_bytes": 1150
+          },
+          {
+            "path": "skills/repers-init/SKILL.md",
+            "exists": true,
+            "size_bytes": 1471
+          },
+          {
+            "path": "skills/repers-bug-hunt/SKILL.md",
+            "exists": true,
+            "size_bytes": 1782
+          },
+          {
+            "path": "skills/repers-release-pack/SKILL.md",
+            "exists": true,
+            "size_bytes": 1370
+          },
+          {
+            "path": "skills/repers-sinkin/SKILL.md",
+            "exists": true,
+            "size_bytes": 1553
           }
         ],
         "manifest_file_count": 42
@@ -95,9 +120,10 @@
       "passed": true,
       "blocks_completion": true,
       "evidence": {
-        "entry_count": 23,
+        "entry_count": 24,
         "required": [
           "capability-registry",
+          "codex-plugin",
           "continuation-runner",
           "install-hook",
           "install-manifest-refresh",
@@ -179,32 +205,32 @@
         "readiness": {
           "path": "repers-0.1.0-readiness.json",
           "exists": true,
-          "size_bytes": 3812
+          "size_bytes": 3884
         },
         "release_evidence": {
           "path": "repers-release-evidence.json",
           "exists": true,
-          "size_bytes": 9733
+          "size_bytes": 9825
         },
         "publish_handoff": {
           "path": "repers-publish-handoff.json",
           "exists": true,
-          "size_bytes": 4162
+          "size_bytes": 3618
         },
         "publish_handoff_markdown": {
           "path": "repers-publish-handoff.md",
           "exists": true,
-          "size_bytes": 1334
+          "size_bytes": 1322
         },
         "remote_bootstrap": {
           "path": "repers-remote-bootstrap.json",
           "exists": true,
-          "size_bytes": 5376
+          "size_bytes": 4832
         },
         "remote_bootstrap_markdown": {
           "path": "repers-remote-bootstrap.md",
           "exists": true,
-          "size_bytes": 2026
+          "size_bytes": 2002
         },
         "publish_clone_fixture": {
           "path": "repers-publish-clone-fixture.json",
@@ -287,12 +313,13 @@
         "git": {
           "is_git_repo": true,
           "branch": "codex/repers-initial-package",
-          "head_sha": "7d0b3712f9f082efa4a067d06cd3612af988727e",
+          "head_sha": "4f30bb8330691784c0a322483265f69356a1fc91",
           "has_head": true,
           "dirty": true,
-          "status_count": 30,
+          "status_count": 20,
           "status_entries": [
-            "M .repers/index/repers.db",
+            "M .repers/capabilities/registry.json",
+            " M .repers/index/repers.db",
             " M .repers/manifest.json",
             " M .repers/scripts/objective_audit.py",
             " M .repers/scripts/package_repers.py",
@@ -300,28 +327,17 @@
             " M README.md",
             " M dist/repers-0.1.0-readiness.json",
             " M dist/repers-0.1.0.zip",
-            " M dist/repers-continuation.md",
-            " M dist/repers-objective-audit.json",
             " M dist/repers-open-source-benchmark.json",
             " M dist/repers-open-source-benchmark.md",
-            " M dist/repers-publish-clone-fixture.json",
             " M dist/repers-publish-handoff.json",
             " M dist/repers-publish-handoff.md",
             " M dist/repers-release-evidence.json",
-            " M dist/repers-remote-bootstrap-fixture.json",
             " M dist/repers-remote-bootstrap.json",
             " M dist/repers-remote-bootstrap.md",
-            " M dist/repers-source-install-fixture.json",
-            " M dist/repers-state.json",
-            " M dist/repers-state.md",
             " M docs/planning/active-repers-build.md",
             " M tests/smoke_repers.py",
-            "?? LICENSE",
-            "?? docs/bug-hunt-demo.md",
-            "?? docs/promotion-playbook.md",
-            "?? docs/release-checklist.md",
-            "?? docs/repository-metadata.md",
-            "?? examples/bug-hunt/"
+            "?? .codex-plugin/",
+            "?? skills/"
           ],
           "remote_count": 1,
           "errors": []

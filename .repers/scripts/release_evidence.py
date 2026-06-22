@@ -53,6 +53,7 @@ def governance_state(workspace_root):
     root = Path(workspace_root)
     required = [
         "README.md",
+        ".codex-plugin/plugin.json",
         "CONTRIBUTING.md",
         "LICENSE",
         "SECURITY.md",
@@ -63,6 +64,10 @@ def governance_state(workspace_root):
         ".github/workflows/repers-smoke.yml",
         "examples/basic-task/README.md",
         "examples/bug-hunt/README.md",
+        "skills/repers-init/SKILL.md",
+        "skills/repers-bug-hunt/SKILL.md",
+        "skills/repers-release-pack/SKILL.md",
+        "skills/repers-sinkin/SKILL.md",
         "docs/planning/active-repers-build.md",
     ]
     files = []

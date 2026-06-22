@@ -1,0 +1,42 @@
+{
+  "name": "repers",
+  "version": "0.1.0",
+  "description": "Local-first Codex harness for preflight, task DAG planning, worker review, install hooks, and verifiable release packs.",
+  "author": {
+    "name": "coolsocket",
+    "url": "https://github.com/coolsocket"
+  },
+  "homepage": "https://github.com/coolsocket/repers",
+  "repository": "https://github.com/coolsocket/repers",
+  "license": "MIT",
+  "keywords": [
+    "agent-workflows",
+    "preflight",
+    "dag",
+    "hooks",
+    "release-pack",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "RePERS",
+    "shortDescription": "Preflight, plan, review, and package Codex repository work.",
+    "longDescription": "RePERS gives Codex a local-first workflow harness: discover reusable capabilities before editing, plan work as a task DAG, run or dispatch worker lanes, review evidence, install a conservative pre-commit hook, and publish a verifiable release pack.",
+    "developerName": "coolsocket",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Repository workflow",
+      "Preflight",
+      "Task DAG",
+      "Verification",
+      "Release packaging"
+    ],
+    "websiteURL": "https://github.com/coolsocket/repers",
+    "brandColor": "#2563EB",
+    "defaultPrompt": [
+      "Install RePERS into this repository.",
+      "Use RePERS to run a bug hunt.",
+      "Build and verify a RePERS release pack."
+    ]
+  }
+}

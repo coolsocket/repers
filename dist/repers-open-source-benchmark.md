@@ -1,6 +1,6 @@
 # RePERS Open Source Benchmark
 
-- Generated: `2026-06-22T14:04:18.172369+00:00`
+- Generated: `2026-06-22T14:23:31.812712+00:00`
 - OK: `True`
 - Repositories: `10`
 - Source URLs: `10`

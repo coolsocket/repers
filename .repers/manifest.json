@@ -1,15 +1,15 @@
 {
   "schema": "repers.install_manifest.v1",
   "version": "0.1.0",
-  "generated_at": "2026-06-22T14:02:29.238696+00:00",
+  "generated_at": "2026-06-22T14:21:29.173939+00:00",
   "source_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "target_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "source_git": {
     "ok": true,
-    "commit": "7d0b3712f9f082efa4a067d06cd3612af988727e",
+    "commit": "4f30bb8330691784c0a322483265f69356a1fc91",
     "dirty": true,
-    "status_count": 26
+    "status_count": 9
   },
   "with_hook": true,
   "hook_policy": "warn",
@@ -18,8 +18,8 @@
   "files": [
     {
       "path": "capabilities/registry.json",
-      "size_bytes": 21277,
-      "sha256": "ab6b22c29fbb9e562046efdea1b90ef0f295e08ae305ff3ffad432462528db6b"
+      "size_bytes": 22434,
+      "sha256": "a66d83de7382a507195b7afc1fa8321070e6031e000d1134cb2779441246e248"
     },
     {
       "path": "docs/architecture.md",
@@ -108,8 +108,8 @@
     },
     {
       "path": "scripts/objective_audit.py",
-      "size_bytes": 28648,
-      "sha256": "7d748cc0cefff27e74370ea963bab247cb9d60539248bd7ade9c3baeddfdb002"
+      "size_bytes": 28879,
+      "sha256": "576e3401060aad040894c57f84219c2554f63a93f9c3eb70cc5c1508a98acef2"
     },
     {
       "path": "scripts/open_source_benchmark.py",
@@ -123,8 +123,8 @@
     },
     {
       "path": "scripts/package_repers.py",
-      "size_bytes": 17181,
-      "sha256": "9d780b650e3b5d406118a7ab4ae53af4f68fd648094f7570271b199bef5d7d78"
+      "size_bytes": 17632,
+      "sha256": "7f1a121ab6647b494ccc029ba9cd2d9e42d46c644cde14b87ab124a6b5f7333c"
     },
     {
       "path": "scripts/plan_runner.py",
@@ -148,8 +148,8 @@
     },
     {
       "path": "scripts/release_evidence.py",
-      "size_bytes": 6567,
-      "sha256": "0b776270e41f5886466931a56eda36cf2be030dd5267499ee063522e6808c46a"
+      "size_bytes": 6774,
+      "sha256": "1de0032cf757b1166c5eb5f9267cfa7d480f977eb65f16dc1471dfd77ba4ed44"
     },
     {
       "path": "scripts/release_gate.py",

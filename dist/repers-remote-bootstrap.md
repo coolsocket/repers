@@ -1,6 +1,6 @@
 # RePERS Remote Bootstrap
 
-- Generated: `2026-06-22T14:04:18.172369+00:00`
+- Generated: `2026-06-22T14:23:31.812712+00:00`
 - Remote name: `origin`
 - Remote URL provided: `None`
 - Apply requested: `False`
@@ -40,7 +40,7 @@ git remote add origin <remote-url>
 - Reason: Handoff path: C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
 
 ```powershell
-python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url <remote-url> --base-branch main --pr-title "Fix continuation smoke after publication" --json
+python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url <remote-url> --base-branch main --pr-title "Record public launch release" --json
 ```
 
 ### verify_publish_ready: Verify objective audit after remote setup
@@ -67,5 +67,5 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and a pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Fix continuation smoke after publication" --body-file C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
+gh pr create --draft --base main --head codex/repers-initial-package --title "Record public launch release" --body-file C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
 ```

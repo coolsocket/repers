@@ -19,6 +19,9 @@ pack that another repository can verify.
 [Release Checklist](docs/release-checklist.md) -
 [Promotion Playbook](docs/promotion-playbook.md)
 
+[Install](#install) - [Daily Workflow](#daily-workflow) -
+[Plugin Skills](#plugin-skills) - [Deliverables](#deliverables)
+
 ## What You Get
 
 - A `.repers/` runtime that can be installed into another Git repository.
@@ -32,6 +35,65 @@ pack that another repository can verify.
 - A release pack containing the install archive, readiness data, handoff,
   remote bootstrap instructions, benchmark evidence, state, and continuation
   artifacts.
+
+## Install
+
+Use RePERS either as a Codex plugin or as a repository-local runtime.
+
+Codex plugin install:
+
+```text
+/plugin marketplace add coolsocket/repers
+/plugin install repers
+```
+
+Then ask Codex to use one of the RePERS skills:
+
+```text
+/repers-init
+/repers-bug-hunt
+/repers-release-pack
+/repers-sinkin
+```
+
+Repository runtime install:
+
+```powershell
+python .repers\scripts\repers.py install --target C:\path\to\target-repo --json
+```
+
+The plugin gives Codex the workflow entrypoints. The `.repers/` runtime inside
+the target repository supplies the CLI, hooks, templates, capability registry,
+fixtures, package gates, and machine-readable evidence.
+
+## Daily Workflow
+
+```text
+/repers-init              # install or verify .repers in the current repo
+/repers-bug-hunt          # preflight, plan, inspect, review, verify
+/repers-release-pack      # build package + release pack and verify both
+/repers-sinkin            # audit drift across README, plugin, package, evidence
+```
+
+For direct CLI use:
+
+```powershell
+python .repers\scripts\repers.py preflight --query "bug hunt reusable workflow" --refresh --json
+python .repers\scripts\repers.py fixture --action prove --json
+python .repers\scripts\repers.py verify-all --json
+```
+
+## Plugin Skills
+
+| Skill | When to use |
+|---|---|
+| `/repers-init` | Adopt RePERS in a repository, verify install state, or install the pre-commit hook. |
+| `/repers-bug-hunt` | Find or fix a bug with preflight, task DAG, evidence review, and focused verification. |
+| `/repers-release-pack` | Build and verify `repers-0.1.0.zip` plus `repers-release-pack.zip`. |
+| `/repers-sinkin` | Periodically audit drift across plugin skills, README, capability registry, package gates, and release assets. |
+
+The plugin is intentionally thin. It does not hide the local runtime; it teaches
+Codex when and how to invoke the same commands a maintainer can run by hand.
 
 ## Quick Start
 
