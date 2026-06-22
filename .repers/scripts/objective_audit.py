@@ -134,6 +134,18 @@ def build_continuation(requirements, blocking_incomplete, handoff, bootstrap, mi
             )
         )
 
+    if "local_publish_clone_verification" in blocked:
+        local_actions.append(
+            continuation_action(
+                "prove_local_publish_clone",
+                "Prove local publish and clone verification",
+                "python -B .repers/scripts/repers.py publish-clone-fixture --output dist --json",
+                "local",
+                "ready",
+                "Runs the offline local bare-remote publish, clone, and clone-side verification fixture.",
+            )
+        )
+
     if "publication_ready" in blocked:
         if any("commit" in item for item in missing_for_publish):
             local_actions.append(
@@ -356,6 +368,13 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         )
         commands.append(
             command_result(
+                "publish_clone_fixture",
+                ["python", "-B", str(repers), "publish-clone-fixture", "--output", str(output), "--json"],
+                workspace,
+            )
+        )
+        commands.append(
+            command_result(
                 "smoke_tests",
                 ["python", "-B", str(workspace / "tests" / "smoke_repers.py")],
                 workspace,
@@ -372,6 +391,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
     publish_handoff = load_json(output / "repers-publish-handoff.json")
     remote_bootstrap = load_json(output / "repers-remote-bootstrap.json")
     remote_bootstrap_fixture = load_json(output / "repers-remote-bootstrap-fixture.json")
+    publish_clone_fixture = load_json(output / "repers-publish-clone-fixture.json")
     registry = load_json(install / "capabilities" / "registry.json")
     manifest = load_json(install / "manifest.json")
     study_path = install / "docs" / "open-source-structure-study.md"
@@ -410,6 +430,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         "continuation-runner",
         "state-report",
         "verify-all",
+        "publish-clone-fixture",
     }
 
     command_map = {item["name"]: item for item in commands}
@@ -418,6 +439,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
     publish_handoff_json = command_map.get("publish_handoff", {}).get("json", {})
     remote_bootstrap_json = command_map.get("remote_bootstrap", {}).get("json", {})
     remote_bootstrap_fixture_json = command_map.get("remote_bootstrap_fixture", {}).get("json", {})
+    publish_clone_fixture_json = command_map.get("publish_clone_fixture", {}).get("json", {})
     smoke = command_map.get("smoke_tests")
 
     package_ok = bool(readiness and readiness.get("ok") and not readiness.get("warnings"))
@@ -431,6 +453,11 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         remote_bootstrap_fixture_json.get("remote_bootstrap_fixture")
         if remote_bootstrap_fixture_json
         else remote_bootstrap_fixture
+    )
+    clone_fixture = (
+        publish_clone_fixture_json.get("publish_clone_fixture")
+        if publish_clone_fixture_json
+        else publish_clone_fixture
     )
     release = release_evidence or {}
     git = handoff.get("git", {}) if isinstance(handoff, dict) else release.get("git", {})
@@ -500,7 +527,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
         audit_requirement(
             "verified_without_chat_history",
             "Repo carries machine-readable release, package, receiver, publish handoff, remote bootstrap, and continuation evidence.",
-            bool(readiness and release_evidence and publish_handoff and remote_bootstrap),
+            bool(readiness and release_evidence and publish_handoff and remote_bootstrap and publish_clone_fixture),
             {
                 "readiness": file_record(output, "repers-0.1.0-readiness.json"),
                 "release_evidence": file_record(output, "repers-release-evidence.json"),
@@ -508,6 +535,7 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
                 "publish_handoff_markdown": file_record(output, "repers-publish-handoff.md"),
                 "remote_bootstrap": file_record(output, "repers-remote-bootstrap.json"),
                 "remote_bootstrap_markdown": file_record(output, "repers-remote-bootstrap.md"),
+                "publish_clone_fixture": file_record(output, "repers-publish-clone-fixture.json"),
                 "continuation_markdown": file_record(output, "repers-continuation.md"),
                 "remote_bootstrap_ok": bootstrap.get("ok") if isinstance(bootstrap, dict) else None,
             },
@@ -523,6 +551,26 @@ def build_objective_audit(workspace_root, install_root, output_dir="dist", objec
                 "local_push_ok": (
                     bootstrap_fixture.get("checks", {}).get("local_push", {}).get("ok")
                     if isinstance(bootstrap_fixture, dict)
+                    else None
+                ),
+            },
+        ),
+        audit_requirement(
+            "local_publish_clone_verification",
+            "Repository publication is proven through a local bare remote, clone, and clone-side RePERS verification.",
+            bool(clone_fixture and clone_fixture.get("ok")),
+            {
+                "deep_check": bool(deep),
+                "fixture": file_record(output, "repers-publish-clone-fixture.json"),
+                "fixture_ok": clone_fixture.get("ok") if isinstance(clone_fixture, dict) else None,
+                "verify_install_ok": (
+                    clone_fixture.get("checks", {}).get("verify_install", {}).get("json", {}).get("ok")
+                    if isinstance(clone_fixture, dict)
+                    else None
+                ),
+                "state_ok": (
+                    clone_fixture.get("checks", {}).get("state", {}).get("json", {}).get("state", {}).get("ok")
+                    if isinstance(clone_fixture, dict)
                     else None
                 ),
             },

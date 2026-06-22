@@ -682,11 +682,43 @@ Required `remote_bootstrap_fixture` fields:
 The fixture passes only when `remote_bootstrap_apply`, `remote_url`,
 `local_push`, and `bare_remote_refs` checks succeed.
 
+## Publish Clone Fixture
+
+`publish-clone-fixture --json` writes
+`dist/repers-publish-clone-fixture.json`. It proves that the current repository
+shape can be committed into a temporary source repository, pushed to a local
+bare remote, cloned by a receiver, and verified from the clone without chat
+history or hosted Git provider access.
+
+Required top-level command fields:
+
+- `publish_clone_fixture`
+- `path`
+
+Required `publish_clone_fixture` fields:
+
+- `schema`: `repers.publish_clone_fixture.v1`
+- `ok`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `output_dir`
+- `fixture_branch`
+- `fixture_paths`
+- `steps`
+- `checks`
+- `errors`
+
+The fixture passes only when the source commit is pushed to the bare remote,
+the clone `HEAD` matches the pushed source `HEAD`, and clone-side
+`verify-install`, `capabilities --action validate`, and `state --json` checks
+return `ok=true`.
+
 ## Objective Audit
 
 `objective-audit --json` writes `dist/repers-objective-audit.json`. Use
 `--deep` to run package, receiver, publish handoff, remote bootstrap, remote
-bootstrap fixture, and smoke checks before auditing.
+bootstrap fixture, publish clone fixture, and smoke checks before auditing.
 
 Required top-level command fields:
 

@@ -1,6 +1,6 @@
 # RePERS Verify All
 
-- Generated: `2026-06-21T15:01:31.400651+00:00`
+- Generated: `2026-06-21T15:40:44.084077+00:00`
 - OK: `True`
 - Status: `blocked_external`
 - Objective complete: `False`
@@ -14,6 +14,7 @@
 - `bundle_status_package_roundtrip`: `True`
 - `receiver_fixture`: `True`
 - `remote_bootstrap_fixture`: `True`
+- `publish_clone_fixture`: `True`
 - `smoke_tests`: `True`
 - `state_deep`: `True`
 

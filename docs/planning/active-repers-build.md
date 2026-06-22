@@ -38,12 +38,15 @@ repository, reused by other agents, and verified without chat history.
 - [x] Add compact repository state report for self-autonomous status handoff.
 - [x] Add race-safe sequential `verify-all` local gate.
 - [x] Route packaged CI workflow through `verify-all`.
+- [x] Add local publish/clone fixture proving clone-side RePERS verification.
 
 ## Acceptance
 
 - `python -B .repers/scripts/repers.py fixture prove --json` returns `ok=true`.
 - `python -B .repers/scripts/repers.py bundle-status --package --verify-roundtrip --json`
   returns `ok=true`.
+- `python -B .repers/scripts/repers.py publish-clone-fixture --json` returns
+  `ok=true`.
 - `python -B tests/smoke_repers.py` returns success.
 
 ## Status
@@ -127,3 +130,10 @@ is hosted publication setup.
 CI hardening phase complete: `.github/workflows/repers-smoke.yml` now runs the
 single race-safe `verify-all --json` gate. Packaged smoke tests assert that the
 workflow contains this command, so receiver governance and CI stay aligned.
+
+Publish clone fixture phase complete: `publish-clone-fixture --json` copies the
+current worktree into a temporary source repo, pushes it to a local bare remote,
+clones it, and proves clone-side `verify-install`, capability validation, and
+state reporting. The installer now writes receiver `.gitattributes` rules so
+Git checkout line-ending normalization does not invalidate the installed
+manifest on Windows.

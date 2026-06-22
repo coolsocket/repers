@@ -575,6 +575,24 @@ def run_remote_bootstrap_fixture_command(args):
         sys.exit(1)
 
 
+def run_publish_clone_fixture_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from publish_clone_fixture import prove_publish_clone
+
+    fixture, path = prove_publish_clone(
+        REPO_ROOT,
+        INSTALL_ROOT,
+        output_dir=args.output,
+    )
+    result = {"publish_clone_fixture": fixture, "path": str(Path(path).resolve())}
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not fixture.get("ok"):
+        sys.exit(1)
+
+
 def run_objective_audit_command(args):
     sys.path.append(SCRIPT_DIR)
     from objective_audit import DEFAULT_OBJECTIVE, build_objective_audit
@@ -1144,6 +1162,10 @@ def main():
     remote_bootstrap_fixture_parser.add_argument("--output", default="dist", help="Output directory for remote bootstrap fixture evidence")
     remote_bootstrap_fixture_parser.add_argument("--json", action="store_true")
 
+    publish_clone_fixture_parser = subparsers.add_parser("publish-clone-fixture", help="Prove a local bare-remote publish and clone can verify RePERS from the clone")
+    publish_clone_fixture_parser.add_argument("--output", default="dist", help="Output directory for publish clone fixture evidence")
+    publish_clone_fixture_parser.add_argument("--json", action="store_true")
+
     objective_audit_parser = subparsers.add_parser("objective-audit", help="Audit RePERS against the full repository objective")
     objective_audit_parser.add_argument("--output", default="dist", help="Output directory for objective audit artifacts")
     objective_audit_parser.add_argument("--objective", help="Objective text to audit; defaults to the current RePERS build objective")
@@ -1258,6 +1280,8 @@ def main():
         run_remote_bootstrap_command(args)
     elif args.command == "remote-bootstrap-fixture":
         run_remote_bootstrap_fixture_command(args)
+    elif args.command == "publish-clone-fixture":
+        run_publish_clone_fixture_command(args)
     elif args.command == "objective-audit":
         run_objective_audit_command(args)
     elif args.command == "continue":

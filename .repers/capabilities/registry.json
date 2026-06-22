@@ -308,6 +308,35 @@
       ]
     },
     {
+      "id": "publish-clone-fixture",
+      "kind": "harness",
+      "name": "Publish Clone Acceptance Fixture",
+      "summary": "Copies the current RePERS worktree into a temporary source repo, pushes it to a local bare remote, clones it, and verifies RePERS from the clone.",
+      "tags": [
+        "publish",
+        "clone",
+        "bare-remote",
+        "fixture",
+        "acceptance",
+        "verify-install",
+        "state"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py publish-clone-fixture --json"
+      ],
+      "paths": [
+        "scripts/publish_clone_fixture.py",
+        "scripts/repers.py",
+        "scripts/verify_all.py",
+        "scripts/objective_audit.py",
+        "docs/contracts.md",
+        "dist/repers-publish-clone-fixture.json"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py publish-clone-fixture --json"
+      ]
+    },
+    {
       "id": "objective-audit",
       "kind": "shipping-gate",
       "name": "Objective Completion Audit",

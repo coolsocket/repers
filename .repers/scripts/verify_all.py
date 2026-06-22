@@ -148,6 +148,21 @@ def build_verify_all(workspace_root, install_root, output_dir="dist"):
             workspace,
         )
     )
+    gates.append(
+        command_result(
+            "publish_clone_fixture",
+            [
+                sys.executable,
+                "-B",
+                str(repers),
+                "publish-clone-fixture",
+                "--output",
+                str(temp_root / "publish-clone"),
+                "--json",
+            ],
+            workspace,
+        )
+    )
     smoke_env = {
         **os.environ,
         "REPERS_SMOKE_DIST": str(temp_root / "smoke-dist"),

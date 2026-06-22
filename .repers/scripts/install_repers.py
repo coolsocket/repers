@@ -283,6 +283,31 @@ def ensure_gitignore(target_root):
     return gitignore_path
 
 
+def ensure_gitattributes(target_root):
+    gitattributes_path = target_root / ".gitattributes"
+    source_path = SOURCE_ROOT / ".gitattributes"
+    if source_path.exists():
+        lines = source_path.read_text(encoding="utf-8").splitlines()
+    else:
+        lines = [
+            "* text=auto",
+            "*.md text eol=lf",
+            "*.json text eol=lf",
+            "*.py text eol=lf",
+            "*.yml text eol=lf",
+            "*.yaml text eol=lf",
+            ".repers/hooks/* text eol=lf",
+        ]
+    existing = gitattributes_path.read_text(encoding="utf-8") if gitattributes_path.exists() else ""
+    existing_lines = existing.splitlines()
+    missing = [line for line in lines if line and line not in existing_lines]
+    if not missing:
+        return gitattributes_path
+    separator = "" if not existing or existing.endswith("\n") else "\n"
+    gitattributes_path.write_text(existing + separator + "\n".join(missing) + "\n", encoding="utf-8")
+    return gitattributes_path
+
+
 def refresh_installed_index(target_root, install_dir):
     try:
         from research_index import refresh
@@ -314,6 +339,7 @@ def install(target, with_hook, hook_policy="warn"):
     copy_tree(SOURCE_ROOT / "hooks", install_dir / "hooks")
     index_result = refresh_installed_index(target_root, install_dir)
     gitignore_path = ensure_gitignore(target_root)
+    gitattributes_path = ensure_gitattributes(target_root)
 
     hook_path = None
     if with_hook:
@@ -324,6 +350,7 @@ def install(target, with_hook, hook_policy="warn"):
     if hook_path:
         print(f"[OK] Installed pre-commit hook at {hook_path} (policy={hook_policy})")
     print(f"[OK] Updated ignore rules at {gitignore_path}")
+    print(f"[OK] Updated attributes rules at {gitattributes_path}")
     if index_result.get("error"):
         print(f"[!] RePERS index refresh warning: {index_result['error']}")
     else:

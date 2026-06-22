@@ -366,6 +366,8 @@ def prove_remote_bootstrap_apply(workspace_root, install_root, output_dir="dist"
             return result, Path(result["path"])
 
         install_paths = [".repers", ".gitignore"]
+        if (target / ".gitattributes").exists():
+            install_paths.append(".gitattributes")
         if (target / "docs").exists():
             install_paths.append("docs")
         commit_installed = run_plain(["git", "add", *install_paths], target)

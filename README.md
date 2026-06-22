@@ -18,6 +18,7 @@ python .repers\scripts\repers.py release-evidence --package --verify-roundtrip -
 python .repers\scripts\repers.py publish-handoff --package --verify-roundtrip --json
 python .repers\scripts\repers.py remote-bootstrap --remote-url <remote-url> --json
 python .repers\scripts\repers.py remote-bootstrap-fixture --json
+python .repers\scripts\repers.py publish-clone-fixture --json
 python .repers\scripts\repers.py objective-audit --deep --json
 python .repers\scripts\repers.py package --output dist --json
 python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
@@ -75,6 +76,11 @@ not overwritten.
 network access. It creates a temporary Git repository, installs RePERS, creates
 a local bare remote, runs `remote-bootstrap --apply`, and pushes the fixture
 branch to that bare remote.
+
+`publish-clone-fixture --json` proves the publish/clone shape without external
+network access. It copies the current RePERS worktree into a temporary source
+repository, pushes that source to a local bare remote, clones it, and runs
+clone-side `verify-install`, capability validation, and state reporting.
 
 `objective-audit --deep --json` writes `dist/repers-objective-audit.json`. It
 checks the whole repository against the RePERS end-state: installability,

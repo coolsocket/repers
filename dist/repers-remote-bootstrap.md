@@ -1,6 +1,6 @@
 # RePERS Remote Bootstrap
 
-- Generated: `2026-06-21T15:00:01.694890+00:00`
+- Generated: `2026-06-21T15:38:25.710098+00:00`
 - Remote name: `origin`
 - Remote URL provided: `https://example.invalid/repers.git`
 - Apply requested: `False`
@@ -40,7 +40,7 @@ git remote add origin https://example.invalid/repers.git
 - Reason: Handoff path: C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
 
 ```powershell
-python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title "Add RePERS sequential verify all gate" --json
+python .repers/scripts/repers.py publish-handoff --remote-name origin --remote-url https://example.invalid/repers.git --base-branch main --pr-title "Route RePERS CI through verify all" --json
 ```
 
 ### verify_publish_ready: Verify objective audit after remote setup
@@ -67,5 +67,5 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and a pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Add RePERS sequential verify all gate" --body-file C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
+gh pr create --draft --base main --head codex/repers-initial-package --title "Route RePERS CI through verify all" --body-file C:\Users\Administrator\Documents\RePERS\dist\repers-publish-handoff.md
 ```
