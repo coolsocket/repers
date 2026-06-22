@@ -203,6 +203,7 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/orchestration_fixture.py" in names
         assert f"{archive_root}/scripts/receiver_fixture.py" in names
         assert f"{archive_root}/scripts/release_evidence.py" in names
+        assert f"{archive_root}/scripts/release_pack.py" in names
         assert f"{archive_root}/scripts/publish_handoff.py" in names
         assert f"{archive_root}/scripts/remote_bootstrap.py" in names
         assert f"{archive_root}/scripts/publish_clone_fixture.py" in names
@@ -497,6 +498,22 @@ def test_capability_registry_and_preflight_surface():
     assert clone_search["ok"] is True
     assert clone_search["entries"][0]["id"] == "publish-clone-fixture"
 
+    release_pack_stdout = run(
+        [
+            sys.executable,
+            str(REPERS),
+            "capabilities",
+            "--action",
+            "search",
+            "--query",
+            "release pack handoff bundle evidence",
+            "--json",
+        ]
+    )
+    release_pack_search = json.loads(release_pack_stdout)
+    assert release_pack_search["ok"] is True
+    assert release_pack_search["entries"][0]["id"] == "release-pack"
+
     install_stdout = run(
         [
             sys.executable,
@@ -590,6 +607,62 @@ def test_release_evidence_publish_readiness_artifact():
         assert evidence["missing_for_publish"]
     written = json.loads(evidence_path.read_text(encoding="utf-8"))
     assert written["schema"] == "repers.release_evidence.v1"
+
+
+def test_release_pack_builds_transferable_handoff_archive():
+    output_dir = DIST / "release-pack"
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    try:
+        stdout = run(
+            [
+                sys.executable,
+                str(REPERS),
+                "release-pack",
+                "--output",
+                str(output_dir),
+                "--remote-url",
+                "https://example.invalid/repo.git",
+                "--json",
+            ]
+        )
+        result = json.loads(stdout)
+        pack = result["release_pack"]
+        archive_path = Path(result["archive_path"])
+        manifest_path = Path(result["path"])
+        markdown_path = Path(result["markdown_path"])
+        assert pack["schema"] == "repers.release_pack.v1"
+        assert pack["ok"] is True
+        assert pack["package"]["ok"] is True
+        assert pack["package"]["roundtrip_ok"] is True
+        assert pack["artifact_count"] >= 10
+        assert archive_path.exists()
+        assert manifest_path.exists()
+        assert markdown_path.exists()
+        assert len(pack["archive_sha256"]) == 64
+        artifact_names = {item["name"] for item in pack["artifacts"]}
+        assert {
+            "package_archive",
+            "package_readiness",
+            "release_evidence",
+            "publish_handoff_json",
+            "remote_bootstrap_json",
+            "open_source_benchmark_json",
+            "state_json",
+        } <= artifact_names
+        with zipfile.ZipFile(archive_path) as zf:
+            names = set(zf.namelist())
+            assert "repers-release-pack.json" in names
+            assert "repers-release-pack.md" in names
+            assert "repers-0.1.0.zip" in names
+            assert "repers-publish-handoff.json" in names
+            assert "repers-remote-bootstrap.json" in names
+            archived_manifest = json.loads(zf.read("repers-release-pack.json").decode("utf-8"))
+            assert archived_manifest["schema"] == "repers.release_pack.v1"
+            assert archived_manifest["archive_path"].endswith("repers-release-pack.zip")
+    finally:
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
 
 
 def test_publish_handoff_artifact_is_non_destructive():
@@ -1008,6 +1081,7 @@ def test_verify_all_runs_sequential_local_gates():
             "remote_bootstrap_fixture",
             "publish_clone_fixture",
             "source_install_fixture",
+            "release_pack",
             "smoke_tests",
             "state_deep",
             "snapshot_freshness",
@@ -1056,6 +1130,7 @@ def main():
     test_capability_registry_and_preflight_surface()
     test_open_source_benchmark_verifies_research_surface()
     test_release_evidence_publish_readiness_artifact()
+    test_release_pack_builds_transferable_handoff_archive()
     test_publish_handoff_artifact_is_non_destructive()
     test_remote_bootstrap_artifact_is_non_destructive()
     test_remote_bootstrap_fixture_proves_apply_path()

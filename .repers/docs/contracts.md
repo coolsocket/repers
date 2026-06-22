@@ -632,6 +632,47 @@ command does not mutate Git remotes, push branches, or open pull requests.
 `release_evidence_ok` and `publish_ready` to decide whether the repository is
 ready to execute the generated commands.
 
+## Release Pack
+
+`release-pack --json` writes `dist/repers-release-pack.json`,
+`dist/repers-release-pack.md`, and `dist/repers-release-pack.zip`. It composes
+the installable package, package readiness, release evidence, publish handoff,
+remote bootstrap, open-source benchmark, objective audit, continuation, and
+state artifacts into one transferable archive. The command is non-destructive:
+it does not configure remotes, push branches, or open pull requests.
+
+Required top-level command fields:
+
+- `release_pack`
+- `path`
+- `markdown_path`
+- `archive_path`
+
+Required `release_pack` fields:
+
+- `schema`: `repers.release_pack.v1`
+- `ok`
+- `generated_at`
+- `workspace_root`
+- `install_root`
+- `output_dir`
+- `status`
+- `package`
+- `state`
+- `next`
+- `publish_ready`
+- `missing_for_publish`
+- `artifacts`
+- `artifact_count`
+- `safety`
+- `errors`
+- `archive_path`
+- `archive_sha256`
+
+`ok=true` means the release-pack archive was generated and all local component
+builders succeeded. `status` and `missing_for_publish` still report whether
+hosted publication is externally blocked.
+
 ## Remote Bootstrap
 
 `remote-bootstrap --json` writes `dist/repers-remote-bootstrap.json` and

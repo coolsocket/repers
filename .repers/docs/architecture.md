@@ -27,6 +27,8 @@ Implemented:
 - `release`: run review, doctor, shipping, and audit as one machine-readable release gate.
 - `release-evidence`: write publish-readiness evidence that records package,
   governance, capability registry, and Git branch/commit/remote state.
+- `release-pack`: compose the installable package and generated evidence into
+  one transferable handoff archive.
 - `package`: create a distributable RePERS zip archive with a package manifest.
 - `install-hook`: install or refresh the RePERS `pre-commit` hook.
 - `verify-install`: verify `.repers/manifest.json` against installed bundle files.
@@ -164,6 +166,15 @@ release-evidence
   -> package readiness and optional round-trip evidence
   -> governance and capability registry status
   -> Git publish metadata and missing publish actions
+
+release-pack
+  -> package
+  -> release-evidence
+  -> publish-handoff
+  -> remote-bootstrap
+  -> open-source-benchmark
+  -> state
+  -> dist/repers-release-pack.zip
 
 package
   -> dist/repers-<version>.zip

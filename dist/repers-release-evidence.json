@@ -2,7 +2,7 @@
   "schema": "repers.release_evidence.v1",
   "ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-22T02:56:41.475030+00:00",
+  "generated_at": "2026-06-22T06:27:50.369192+00:00",
   "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
   "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
   "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
@@ -13,19 +13,26 @@
   "git": {
     "is_git_repo": true,
     "branch": "codex/repers-initial-package",
-    "head_sha": "72e1114e56ced0236c3d4e1fb3cb0711b203a1ef",
+    "head_sha": "de9e46bfae0e725bb68110819aa78756c97c2e88",
     "has_head": true,
     "dirty": true,
-    "status_count": 8,
+    "status_count": 15,
     "status_entries": [
-      "M .repers/index/repers.db",
+      "M .repers/capabilities/registry.json",
+      " M .repers/docs/architecture.md",
+      " M .repers/docs/contracts.md",
+      " M .repers/index/repers.db",
       " M .repers/manifest.json",
+      " M .repers/scripts/objective_audit.py",
+      " M .repers/scripts/repers.py",
+      " M .repers/scripts/verify_all.py",
+      " M README.md",
       " M dist/repers-0.1.0-readiness.json",
       " M dist/repers-0.1.0.zip",
-      " M dist/repers-publish-handoff.json",
-      " M dist/repers-publish-handoff.md",
       " M dist/repers-release-evidence.json",
-      " M tests/smoke_repers.py"
+      " M docs/planning/active-repers-build.md",
+      " M tests/smoke_repers.py",
+      "?? .repers/scripts/release_pack.py"
     ],
     "remote_count": 0,
     "errors": []
@@ -36,7 +43,7 @@
       {
         "path": "README.md",
         "exists": true,
-        "size_bytes": 8375
+        "size_bytes": 9037
       },
       {
         "path": "CONTRIBUTING.md",
@@ -81,7 +88,7 @@
       {
         "path": "docs/planning/active-repers-build.md",
         "exists": true,
-        "size_bytes": 9171
+        "size_bytes": 10516
       }
     ],
     "missing": []
@@ -91,7 +98,7 @@
       "schema": "repers.capability_registry_validation.v1",
       "ok": true,
       "registry_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers\\capabilities\\registry.json",
-      "entry_count": 20,
+      "entry_count": 22,
       "errors": []
     },
     "release_query": {
@@ -164,6 +171,36 @@
           "score": 50
         },
         {
+          "id": "release-pack",
+          "kind": "shipping-gate",
+          "name": "Transferable Release Pack",
+          "summary": "Builds one archive containing the installable RePERS package plus state, audit, benchmark, publish handoff, and remote bootstrap evidence.",
+          "tags": [
+            "release",
+            "pack",
+            "handoff",
+            "package",
+            "evidence",
+            "offline",
+            "publication"
+          ],
+          "commands": [
+            "python .repers/scripts/repers.py release-pack --json"
+          ],
+          "paths": [
+            "scripts/release_pack.py",
+            "scripts/repers.py",
+            "scripts/package_repers.py",
+            "scripts/release_evidence.py",
+            "scripts/publish_handoff.py",
+            "docs/contracts.md"
+          ],
+          "verification": [
+            "python .repers/scripts/repers.py release-pack --output <temp-dir> --json"
+          ],
+          "score": 49
+        },
+        {
           "id": "package-readiness",
           "kind": "shipping-gate",
           "name": "Package Readiness and Round Trip",
@@ -218,38 +255,6 @@
             "python .repers/scripts/repers.py fixture --action prove --json"
           ],
           "score": 30
-        },
-        {
-          "id": "state-report",
-          "kind": "shipping-gate",
-          "name": "Repository State Report",
-          "summary": "Composes objective audit, release evidence, package readiness, Git state, and continuation actions into compact JSON and Markdown state artifacts.",
-          "tags": [
-            "state",
-            "status",
-            "dashboard",
-            "objective",
-            "publish",
-            "package",
-            "continuation"
-          ],
-          "commands": [
-            "python .repers/scripts/repers.py state --json",
-            "python .repers/scripts/repers.py state --deep --json"
-          ],
-          "paths": [
-            "scripts/state_report.py",
-            "scripts/objective_audit.py",
-            "scripts/release_evidence.py",
-            "scripts/repers.py",
-            "docs/contracts.md",
-            "dist/repers-state.json",
-            "dist/repers-state.md"
-          ],
-          "verification": [
-            "python .repers/scripts/repers.py state --json"
-          ],
-          "score": 27
         }
       ]
     }
@@ -258,8 +263,8 @@
     "included": true,
     "ok": true,
     "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "2d7b27581d8df2adc596026e12fc56770a02ed96bcca455b9538fd9e597c8c19",
-    "manifest_file_count": 52,
+    "archive_sha256": "fc02fd83bd7534e244b2846fa97644d330933220a5662f3ae72fea29fef77221",
+    "manifest_file_count": 55,
     "readiness_warnings": [],
     "roundtrip_ok": true
   }

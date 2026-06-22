@@ -300,6 +300,35 @@
       ]
     },
     {
+      "id": "release-pack",
+      "kind": "shipping-gate",
+      "name": "Transferable Release Pack",
+      "summary": "Builds one archive containing the installable RePERS package plus state, audit, benchmark, publish handoff, and remote bootstrap evidence.",
+      "tags": [
+        "release",
+        "pack",
+        "handoff",
+        "package",
+        "evidence",
+        "offline",
+        "publication"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py release-pack --json"
+      ],
+      "paths": [
+        "scripts/release_pack.py",
+        "scripts/repers.py",
+        "scripts/package_repers.py",
+        "scripts/release_evidence.py",
+        "scripts/publish_handoff.py",
+        "docs/contracts.md"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py release-pack --output <temp-dir> --json"
+      ]
+    },
+    {
       "id": "publish-handoff",
       "kind": "shipping-gate",
       "name": "Publish Handoff Artifact",

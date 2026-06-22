@@ -45,6 +45,8 @@ repository, reused by other agents, and verified without chat history.
   generated evidence.
 - [x] Add installed manifest refresh command and stale-state evidence guard.
 - [x] Add machine-checkable open-source benchmark verifier.
+- [x] Add transferable release-pack archive composing package, evidence,
+  handoff, benchmark, and continuation state.
 
 ## Acceptance
 
@@ -59,6 +61,9 @@ repository, reused by other agents, and verified without chat history.
   whether generated state evidence still matches live Git state.
 - `python -B .repers/scripts/repers.py refresh-manifest --json` returns
   `ok=true` after runtime edits.
+- `python -B .repers/scripts/repers.py release-pack --json` returns `ok=true`
+  and writes `repers-release-pack.zip` with the install archive, handoff,
+  remote bootstrap, benchmark, state, and continuation artifacts.
 - `python -B tests/smoke_repers.py` returns success.
 
 ## Status
@@ -176,3 +181,12 @@ promotion study now has `.repers/docs/open-source-benchmark.json` plus
 `open-source-benchmark --json`. Objective audit requires this capability,
 package readiness advertises it to receivers, receiver-fixture proves it in an
 installed target, and `verify-all --json` passed with 21 registry entries.
+
+Release pack phase complete: `release-pack --json` creates a transferable
+`repers-release-pack.zip` plus `repers-release-pack.json` and
+`repers-release-pack.md`. The pack composes package round-trip output, release
+evidence, publish handoff, remote bootstrap instructions, open-source benchmark
+evidence, objective continuation, and state summary without mutating remotes,
+pushing branches, or opening pull requests. Focused validation passed with a
+placeholder remote URL and 13 archived artifacts; `refresh-manifest --json`
+then verified 42 installed runtime files.

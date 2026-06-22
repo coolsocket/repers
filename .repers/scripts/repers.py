@@ -717,6 +717,33 @@ def run_open_source_benchmark_command(args):
         sys.exit(1)
 
 
+def run_release_pack_command(args):
+    sys.path.append(SCRIPT_DIR)
+    from release_pack import create_release_pack
+
+    pack, json_path, markdown_path, archive_path = create_release_pack(
+        REPO_ROOT,
+        INSTALL_ROOT,
+        output_dir=args.output,
+        remote_name=args.remote_name,
+        remote_url=args.remote_url,
+        base_branch=args.base_branch,
+        pr_title=args.pr_title,
+    )
+    result = {
+        "release_pack": pack,
+        "path": str(Path(json_path).resolve()),
+        "markdown_path": str(Path(markdown_path).resolve()),
+        "archive_path": str(Path(archive_path).resolve()),
+    }
+    if args.json:
+        emit_json(result)
+    else:
+        emit_json(result)
+    if not pack.get("ok"):
+        sys.exit(1)
+
+
 def run_verify_all_command(args):
     sys.path.append(SCRIPT_DIR)
     from verify_all import build_verify_all
@@ -1315,6 +1342,14 @@ def main():
     open_source_benchmark_parser.add_argument("--output", default="dist", help="Output directory for benchmark verification artifacts")
     open_source_benchmark_parser.add_argument("--json", action="store_true")
 
+    release_pack_parser = subparsers.add_parser("release-pack", help="Build one transferable package plus evidence handoff archive")
+    release_pack_parser.add_argument("--output", default="dist", help="Output directory for release-pack artifacts")
+    release_pack_parser.add_argument("--remote-name", default="origin", help="Remote name to use in generated handoff commands")
+    release_pack_parser.add_argument("--remote-url", help="Optional remote URL to include in generated handoff commands")
+    release_pack_parser.add_argument("--base-branch", default="main", help="Base branch for generated draft PR command")
+    release_pack_parser.add_argument("--pr-title", help="Optional draft PR title; defaults to the latest commit subject")
+    release_pack_parser.add_argument("--json", action="store_true")
+
     verify_all_parser = subparsers.add_parser("verify-all", help="Run all local RePERS gates sequentially with isolated outputs")
     verify_all_parser.add_argument("--output", default="dist", help="Output directory for verify-all artifacts")
     verify_all_parser.add_argument("--json", action="store_true")
@@ -1434,6 +1469,8 @@ def main():
         run_snapshot_freshness_command(args)
     elif args.command == "open-source-benchmark":
         run_open_source_benchmark_command(args)
+    elif args.command == "release-pack":
+        run_release_pack_command(args)
     elif args.command == "verify-all":
         run_verify_all_command(args)
     elif args.command == "receiver-fixture":

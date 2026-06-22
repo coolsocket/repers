@@ -78,6 +78,12 @@ turns release evidence into a non-destructive remote/push/draft-PR checklist so
 another agent or maintainer can finish publication without relying on chat
 history.
 
+`release-pack --json` writes `dist/repers-release-pack.zip` plus JSON and
+Markdown manifests. The archive contains the installable RePERS package,
+package readiness, release evidence, publish handoff, remote bootstrap,
+open-source benchmark, objective audit, continuation, and state artifacts. It
+does not add remotes, push branches, or open pull requests.
+
 `remote-bootstrap --remote-url <remote-url> --json` writes
 `dist/repers-remote-bootstrap.json` and `dist/repers-remote-bootstrap.md`. By
 default it does not change Git state; it records the remote setup, publish
