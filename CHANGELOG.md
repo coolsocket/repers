@@ -1,6 +1,12 @@
 # Changelog
 
-All notable RePERS bundle changes are tracked here.
+All notable RePERS bundle changes are tracked here. The format follows
+[Keep a Changelog](https://keepachangelog.com/) loosely; versioning is
+semantic-ish — any user-visible behavior change bumps minor or major.
+
+## Unreleased
+
+- _(nothing yet — open a PR!)_
 
 ## 0.1.0 - 2026-06-21
 
