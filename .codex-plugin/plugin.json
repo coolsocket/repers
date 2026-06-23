@@ -1,7 +1,7 @@
 {
   "name": "repers",
-  "version": "0.1.0",
-  "description": "Local-first Codex harness for preflight, task DAG planning, worker review, install hooks, and verifiable release packs.",
+  "version": "0.1.1",
+  "description": "Operating layer for multi-agent repository work. Parallel lanes that don't collide, JSON evidence handed off between agents, verifiable release packs. Ships a router that tells you when to skip the harness for tasks too small to earn its overhead.",
   "author": {
     "name": "coolsocket",
     "url": "https://github.com/coolsocket"

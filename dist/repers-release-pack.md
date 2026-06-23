@@ -1,10 +1,10 @@
 # RePERS Release Pack
 
-- Generated: `2026-06-22T14:23:31.929670+00:00`
+- Generated: `2026-06-23T13:23:07.404612+00:00`
 - OK: `True`
 - Status: `local_work_available`
-- Archive: `C:\Users\Administrator\Documents\RePERS\dist\repers-release-pack.zip`
-- Archive SHA-256: `feff7679ac00d6c5820c880b9f72161775ab173143364d18cc3e4c4fc919fc0a`
+- Archive: `/home/sa_114486498687979675637/repers/dist/repers-release-pack.zip`
+- Archive SHA-256: `8fc069443b24a5daafb6c29a879690067c407f7676c489a5fbec204975197a56`
 - Artifact count: `13`
 
 ## Next
@@ -17,8 +17,8 @@ git push -u origin <branch>
 
 ## Artifacts
 
-- `package_archive` -> `repers-0.1.0.zip`
-- `package_readiness` -> `repers-0.1.0-readiness.json`
+- `package_archive` -> `repers-0.1.1.zip`
+- `package_readiness` -> `repers-0.1.1-readiness.json`
 - `release_evidence` -> `repers-release-evidence.json`
 - `publish_handoff_json` -> `repers-publish-handoff.json`
 - `publish_handoff_markdown` -> `repers-publish-handoff.md`

@@ -11,7 +11,7 @@ from pathlib import Path, PurePosixPath
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
 GIT_STATE_ROOT = SOURCE_ROOT.parent if SOURCE_ROOT.name == ".repers" else SOURCE_ROOT
-REPERS_VERSION = "0.1.0"
+REPERS_VERSION = "0.1.1"
 PACKAGE_SCHEMA = "repers.package_manifest.v1"
 READINESS_SCHEMA = "repers.package_readiness.v1"
 PACKAGE_DIR_PREFIX = f"repers-{REPERS_VERSION}"
