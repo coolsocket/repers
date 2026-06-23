@@ -6,11 +6,23 @@ on:
 
 jobs:
   verify:
-    runs-on: windows-latest
+    name: verify-install + capability-registry
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Run race-safe local gate
-        run: python .repers\scripts\repers.py verify-all --json
+      - name: verify-install
+        shell: bash
+        run: python .repers/scripts/repers.py verify-install --json
+      - name: capabilities --action validate
+        shell: bash
+        run: python .repers/scripts/repers.py capabilities --action validate --json
+      - name: release-pack-verify (existing artifact)
+        shell: bash
+        run: python .repers/scripts/repers.py release-pack-verify --archive dist/repers-release-pack.zip --json
