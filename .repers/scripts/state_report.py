@@ -1,3 +1,7 @@
+"""Build a RePERS state report from the objective audit, git state, and
+capability registry, then emit both a machine-readable JSON payload and a
+concise human-readable summary."""
+
 import json
 from datetime import datetime, timezone
 from pathlib import Path

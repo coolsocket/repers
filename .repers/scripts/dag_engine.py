@@ -1,3 +1,9 @@
+"""DAG engine for RePERS plans.
+
+Parses plan.md into a step DAG, validates for cycles and missing
+references, identifies ready steps, and writes status back.
+"""
+
 import re
 import os
 

@@ -1,20 +1,20 @@
 {
   "schema": "repers.install_manifest.v1",
   "version": "0.1.0",
-  "generated_at": "2026-06-22T14:21:29.173939+00:00",
-  "source_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
-  "target_root": "C:\\Users\\Administrator\\Documents\\RePERS",
-  "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
+  "generated_at": "2026-06-23T08:00:11.568017+00:00",
+  "source_root": "/home/sa_114486498687979675637/repers/.repers",
+  "target_root": "/home/sa_114486498687979675637/repers",
+  "install_root": "/home/sa_114486498687979675637/repers/.repers",
   "source_git": {
     "ok": true,
-    "commit": "4f30bb8330691784c0a322483265f69356a1fc91",
+    "commit": "8ecd12b1d5a9bf5b90d4042e74a74ed126fa4ab8",
     "dirty": true,
-    "status_count": 9
+    "status_count": 10
   },
-  "with_hook": true,
+  "with_hook": false,
   "hook_policy": "warn",
-  "hook_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.git\\hooks\\pre-commit",
-  "gitignore_path": "C:\\Users\\Administrator\\Documents\\RePERS\\.gitignore",
+  "hook_path": null,
+  "gitignore_path": "/home/sa_114486498687979675637/repers/.gitignore",
   "files": [
     {
       "path": "capabilities/registry.json",
@@ -93,8 +93,8 @@
     },
     {
       "path": "scripts/dag_engine.py",
-      "size_bytes": 9386,
-      "sha256": "056299e356baab472ff6f8531d15ebd54b497b1fc5f4b92a44e1c37e27c86580"
+      "size_bytes": 9549,
+      "sha256": "4eff9958a60d3207eb1c6a4d815899f762a35511658327ccd2dc64c6ab38409f"
     },
     {
       "path": "scripts/doctor.py",
@@ -188,8 +188,8 @@
     },
     {
       "path": "scripts/snapshot_freshness.py",
-      "size_bytes": 6050,
-      "sha256": "561be4a0a7c469d5f3bd9d5119b72e19a7202c1a22aa48f3617941df0312c962"
+      "size_bytes": 6275,
+      "sha256": "b1ad9f10c4a47403b709c9f1f803c2e5afdbcc61c7febf3d9c43c90be07481d4"
     },
     {
       "path": "scripts/source_install_fixture.py",
@@ -198,8 +198,8 @@
     },
     {
       "path": "scripts/state_report.py",
-      "size_bytes": 6651,
-      "sha256": "11269de3941507e91d972498fba1fc5392de6521beba7badbb426102d955a007"
+      "size_bytes": 6833,
+      "sha256": "89b34f8b4c346b11861dff92746361202de7616cfdc2e3a9741a9da8e7ff4830"
     },
     {
       "path": "scripts/verify_all.py",

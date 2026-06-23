@@ -1,3 +1,9 @@
+"""Compare snapshotted JSON evidence artifacts against live git state.
+
+Detects drift and staleness between recorded release/audit snapshots and the
+current working tree, surfacing artifacts that need to be regenerated.
+"""
+
 import json
 from datetime import datetime, timezone
 from pathlib import Path
