@@ -1,0 +1,49 @@
+name: ✨ Feature request
+description: A new capability, CLI subcommand, hook, skill, gate, or evidence artifact.
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - "new capability (registry.json entry)"
+        - "new CLI subcommand"
+        - "new Codex skill"
+        - "new hook"
+        - "new package / release gate"
+        - "new evidence artifact"
+        - "PITFALLS.md entry"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: What concrete pain or workflow does this solve? Who feels it? Quote a real run if possible.
+    validations:
+      required: true
+
+  - type: textarea
+    id: preflight
+    attributes:
+      label: Preflight check
+      description: Run `python .repers/scripts/repers.py preflight --query "<your intent>" --refresh --json` and paste the result. If a capability already covers this, please propose an extension instead of a new entry.
+      render: json
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed shape
+      description: For a capability — `id`, `kind`, `summary`, `commands`, `paths`, `verification`. For a CLI subcommand — invocation, args, JSON output shape. For a skill — slash command name + when-to-use.
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What did you try first, and why is the existing surface insufficient?

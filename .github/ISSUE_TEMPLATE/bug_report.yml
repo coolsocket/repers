@@ -1,0 +1,59 @@
+name: 🐛 Bug report
+description: A CLI command misbehaves, a capability is mis-registered, the package gate is wrong, a hook fires incorrectly, etc.
+title: "[bug] "
+labels: ["bug", "triage"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - "CLI command (which subcommand?)"
+        - "capability registry entry"
+        - "package / release pack"
+        - "pre-commit hook"
+        - "Codex skill (which one?)"
+        - "smoke / CI"
+        - "docs"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: capability
+    attributes:
+      label: Capability id (if applicable)
+      description: e.g. `preflight`, `task-dag`, `release-pack`, `verify-all`
+      placeholder: preflight
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimum reproduction
+      description: Exact commands that trigger the bug. Include the full CLI invocation.
+      placeholder: |
+        1. Fresh clone of coolsocket/repers
+        2. `python .repers/scripts/repers.py preflight --query "x" --refresh --json`
+        3. Output reports `source=local_capability` for a capability that doesn't exist in registry.json
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+      description: What did the JSON output show, and what did you expect instead?
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence (paste JSON)
+      render: json
+      description: Output of `python .repers/scripts/repers.py bundle-status --package --verify-roundtrip --json` and/or the failing command's `--json` output.
+
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      render: shell
+      description: OS, Python version (`python --version`), RePERS version (from `.codex-plugin/plugin.json`).

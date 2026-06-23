@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussion / question
+    url: https://github.com/coolsocket/repers/discussions
+    about: For open-ended questions, "how do I..." threads, or capability-design discussions — please don't open an issue.
+  - name: 🔒 Security advisory
+    url: https://github.com/coolsocket/repers/security/advisories/new
+    about: For vulnerabilities in the installer, hooks, or package surfaces — please report privately.
