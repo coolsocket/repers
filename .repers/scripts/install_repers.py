@@ -189,6 +189,29 @@ def verify_manifest(install_dir, strict_extra=False):
         and not result["changed"]
         and (not strict_extra or not result["extra"])
     )
+
+    # Surface a single actionable hint when the only failure mode is changed
+    # file hashes — the overwhelming majority of these are "I edited a script
+    # in place; forgot to refresh the manifest" rather than tampering. The
+    # field is always present (null when not applicable) so consumers can
+    # branch on it without a key check.
+    if result["changed"] and not result["missing"] and not result["errors"]:
+        all_sha_only = all(
+            "sha256" in (entry.get("reason") or "")
+            for entry in result["changed"]
+        )
+        if all_sha_only:
+            result["hint"] = (
+                "All mismatches are size/sha256 only — if you intentionally "
+                "edited files under the install root, run "
+                "`python .repers/scripts/repers.py refresh-manifest --json` "
+                "to update the manifest, then re-run verify-install."
+            )
+        else:
+            result["hint"] = None
+    else:
+        result["hint"] = None
+
     return result
 
 

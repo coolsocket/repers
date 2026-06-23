@@ -6,6 +6,18 @@ semantic-ish — any user-visible behavior change bumps minor or major.
 
 ## Unreleased
 
+### Runtime UX fixes (small, from E2E dogfood findings)
+
+- **`review --update-status` now also refreshes `plan.json`.** Previously, after `review` rewrote plan.md statuses to `Completed`, plan.json kept the old `Pending` values; the next `run --use-existing-plan` / `dispatch --use-existing-plan` would not consider dependent steps ready. The refresh removes that whole gotcha — review output now includes `status_update.plan_json_refresh: {refreshed: bool, error: str|null}` so callers can observe whether the sync happened.
+- **`verify-install` now emits an actionable `hint` field.** When the only failure mode is `size,sha256` mismatches on otherwise-tracked files (the overwhelming "I edited an installed file in place" case), `hint` carries the exact `refresh-manifest` command to fix it. When there's no helpful action, `hint` is `null` (always-present key for stable consumer code).
+
+Both were surfaced by the end-to-end CLI dogfood documented in [`docs/e2e-walkthrough.md`](docs/e2e-walkthrough.md).
+
+### Documentation surfaces (no runtime change)
+
+- **`README.md`** — added a top-of-fold callout pointing to `docs/e2e-walkthrough.md`, the real CLI dogfood from init through shipping with 3 parallel agent workers.
+- **`examples/bug-hunt/README.md`** — rewritten. The old version was 4 self-referential commands (preflight + fixture + state) that never investigated a bug. The new version is a 30-second pitch + the 10-command pipeline + a pointer to the actual walkthrough.
+
 ### Repositioning (docs only — no runtime change)
 
 - **README rewritten** around the actual sweet-spot positioning: *operating layer for multi-agent repository work*. New top-of-fold "When to use / When NOT to use" section explicitly tells readers to skip the harness for one-line bugs and single-file fixes.

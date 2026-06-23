@@ -63,7 +63,32 @@ def update_plan_statuses(task_path, reviews):
         elif review["status"] == "failed":
             engine.update_status(review["step_id"], "Failed", verbose=False)
             updated.append({"step_id": review["step_id"], "status": "Failed"})
-    return {"updated": updated, "skipped": skipped, "error": None}
+
+    # Keep plan.json in sync with the freshly-updated plan.md so that the
+    # next `run`/`dispatch --use-existing-plan` reads the updated statuses
+    # instead of stale Pending values.
+    plan_json_refresh = {"refreshed": False, "error": None}
+    plan_json_path = task_path / "plan.json"
+    if updated and plan_json_path.exists():
+        try:
+            existing = json.loads(plan_json_path.read_text(encoding="utf-8"))
+            task_name = existing.get("task") or task_path.name
+        except Exception as exc:  # pragma: no cover — defensive
+            task_name = task_path.name
+            plan_json_refresh["error"] = f"could not read existing plan.json: {exc}"
+        try:
+            from plan_runner import build_plan_json
+            build_plan_json(task_name, str(task_path), str(plan_path))
+            plan_json_refresh["refreshed"] = True
+        except Exception as exc:  # pragma: no cover — defensive
+            plan_json_refresh["error"] = f"build_plan_json failed: {exc}"
+
+    return {
+        "updated": updated,
+        "skipped": skipped,
+        "error": None,
+        "plan_json_refresh": plan_json_refresh,
+    }
 
 
 def review_task(task_dir, update_status=False):
