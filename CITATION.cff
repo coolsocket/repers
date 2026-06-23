@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+title: "RePERS — Reusable Planning, Execution, Review, and Release harness for agent-run repository work"
+message: "If you reference this harness in academic work or technical writing, please cite it."
+type: software
+authors:
+  - name: "coolsocket"
+    website: "https://github.com/coolsocket"
+repository-code: "https://github.com/coolsocket/repers"
+url: "https://github.com/coolsocket/repers"
+abstract: >-
+  A local-first harness that turns a vague engineering request into a
+  repeatable agent workflow: preflight (capability discovery) → task DAG →
+  conflict-safe worker lanes → join/review → installable package → transferable
+  release pack with JSON evidence. Ships a 24-entry capability registry, a
+  deterministic orchestration fixture, a Codex plugin with 4 skills
+  (init / bug-hunt / release-pack / sinkin), a Git pre-commit hook, and
+  round-trippable release archives. Designed for agents and maintainers who
+  need more than a chat transcript — every step produces machine-readable
+  evidence another repo can verify.
+keywords:
+  - agent-workflows
+  - agentic-ai
+  - ai-agents
+  - automation
+  - claude-code
+  - codex
+  - code-review
+  - dag
+  - developer-tools
+  - evidence-based
+  - hooks
+  - local-first
+  - plugin
+  - preflight
+  - release-engineering
+  - reproducible-builds
+  - repository-automation
+  - workflow-engine
+license: MIT
+version: "0.1.0"
+date-released: "2026-06-22"
