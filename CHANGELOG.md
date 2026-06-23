@@ -6,6 +6,13 @@ semantic-ish — any user-visible behavior change bumps minor or major.
 
 ## Unreleased
 
+### v0.1.1 — Router shipped
+
+- **`/repers-route` skill + `repers.py route` CLI subcommand.** Deterministic keyword + repo-signal decision tree that maps a task description to one of `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S` plus a one-line reason and recommendation. No LLM call, <100 ms, offline. Validated against the real `sqlfluff__sqlfluff-2419` bug: routes to `R-E-R` ("naked agent loop is fine") instead of the 5.8× ceremony.
+- **`/repers-bug-hunt` skill now routes first.** Hard-coded to short-circuit on `skip` / `R-E-R` (returns control to the IDE/agent without invoking the harness pipeline) and only progresses through plan → dispatch → review → shipping when the router recommends a multi-stage permutation.
+- **Capability registry entry added** for `route` (entry count 24 → 25); `capabilities/registry.json` version bumped to `0.1.1`.
+- **Skills count badge updated** 4 → 5; capabilities count badge updated 24 → 25.
+
 ### Runtime UX fixes (small, from E2E dogfood findings)
 
 - **`review --update-status` now also refreshes `plan.json`.** Previously, after `review` rewrote plan.md statuses to `Completed`, plan.json kept the old `Pending` values; the next `run --use-existing-plan` / `dispatch --use-existing-plan` would not consider dependent steps ready. The refresh removes that whole gotcha — review output now includes `status_update.plan_json_refresh: {refreshed: bool, error: str|null}` so callers can observe whether the sync happened.

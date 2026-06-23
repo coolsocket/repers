@@ -8,8 +8,8 @@ Parallel lanes that don't collide. JSON evidence handed off between agents (any 
 
 [![Version](https://img.shields.io/github/v/release/coolsocket/repers?label=version&color=purple)](https://github.com/coolsocket/repers/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Capabilities: 24](https://img.shields.io/badge/capabilities-24-orange.svg)](./.repers/capabilities/registry.json)
-[![Skills: 4](https://img.shields.io/badge/skills-4-green.svg)](./skills/)
+[![Capabilities: 25](https://img.shields.io/badge/capabilities-25-orange.svg)](./.repers/capabilities/registry.json)
+[![Skills: 5](https://img.shields.io/badge/skills-5-green.svg)](./skills/)
 [![CI](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml/badge.svg)](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml)
 [![GitHub stars](https://img.shields.io/github/stars/coolsocket/repers?style=flat&color=yellow)](https://github.com/coolsocket/repers/stargazers)
 
@@ -30,8 +30,8 @@ It is **not** an agent runtime. It is the **contract above** any runtime — pre
 > ▶️ **See it run end-to-end**: [`docs/e2e-walkthrough.md`](./docs/e2e-walkthrough.md) — a real dogfood through every CLI subcommand (`init → preflight → plan → dispatch → 3 parallel workers → review → run → shipping → verify-install`) in ~45 s wall-clock. Every command shown was actually executed; every artifact is real.
 
 What ships:
-- 🧭 **A router** (`/repers-route`, coming in v0.2) that picks the right permutation per task — most one-liners are told to skip the harness entirely.
-- 🧩 **A capability registry** (24 entries) as shared memory across agents — preflight before adding new.
+- 🧭 **A router** (`/repers-route` + `repers.py route --json`) that picks the right permutation per task — most one-liners are told to skip the harness entirely. Validated on the real `sqlfluff__sqlfluff-2419` bug: it would have correctly routed to "naked agent" instead of the 5.8× ceremony.
+- 🧩 **A capability registry** (25 entries, including the new `route` capability) as shared memory across agents — preflight before adding new.
 - 🛡️ **A plan → DAG → dispatch contract** with `target_files` isolation — proven by a deterministic fixture before any live agent runs.
 - 📜 **JSON evidence at every stage** — so Agent B picks up where Agent A stopped, and a reviewer (human or AI) can audit without the chat log.
 - 📦 **A transferable release pack** — `repers-release-pack.zip` — that another repo extracts, installs, and re-verifies end-to-end.
@@ -52,7 +52,14 @@ RePERS is **opinionated**: it earns its keep on a specific shape of work. Most e
 | Hand-off matters: agent → reviewer agent → human → CI | No hand-off — you ship in the same session you started |
 | Verifiable evidence required (audit / compliance / release gate) | Quick local change you'll commit and forget |
 
-If you're not sure, run `/repers-route "<your task>"` (v0.2) — it'll tell you which permutation (or "skip the harness") fits.
+If you're not sure, ask the router:
+
+```bash
+python .repers/scripts/repers.py route --task "<your task description>" --json
+# or via the Codex skill: /repers-route
+```
+
+The router is a deterministic keyword + repo-signal decision tree (no LLM call, <100 ms, offline). It returns one of `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S` plus the reason — and it defaults to the smaller permutation when in doubt, so the worst case is "you spent 1 minute reading instead of writing the patch in your IDE" rather than the 5.8× tax of over-engineering.
 
 ---
 
@@ -129,14 +136,13 @@ Every command emits a JSON evidence object — pipe to `jq`, store in CI, ship i
 
 | Slash command | When to use | Cost |
 |---|---|---|
+| `/repers-route` | **First.** Before any other R-P-E-R-S skill — decides whether the harness fits this task at all (returns `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S` + reason). Deterministic, <100 ms, no LLM call. | ~500 tok on invoke |
 | `/repers-init` | Once per repo — installs `.repers/` runtime + optional pre-commit hook | ~1 k tok on invoke |
-| `/repers-bug-hunt` | Multi-file bug investigation — preflight, task DAG, parallel worker dispatch, evidence review, focused verification. **Calls router first**; for trivial bugs it short-circuits | ~3 k tok on invoke |
+| `/repers-bug-hunt` | Multi-file bug investigation. **Routes first via `/repers-route`** and short-circuits to a naked agent loop when the router says `skip` / `R-E-R`. Only runs preflight → plan → dispatch → review → ship when the router recommends a multi-stage permutation. | ~3 k tok on invoke |
 | `/repers-release-pack` | Cutting a release — build, round-trip, verify both archives | ~2 k tok on invoke |
 | `/repers-sinkin` | Periodic — audit drift across plugin skills, README, capability registry, package gates, release assets | ~5 k tok on invoke |
 
-Always-on cost: **~600 tok per session** (loaded skill descriptions).
-
-> **v0.2 plan**: surface the router as a standalone `/repers-route` skill so it can gate any agent's decision to invoke the harness, not just bug-hunts.
+Always-on cost: **~700 tok per session** (loaded skill descriptions for 5 skills).
 
 ---
 
@@ -166,7 +172,7 @@ Highlights:
 
 Full inventory in [`registry.json`](.repers/capabilities/registry.json).
 
-> **v0.2 plan**: trim the registry from 24 → ~15 by removing self-referential META scripts (state report, continuation runner, open-source-benchmark) that don't earn their keep outside the harness itself.
+> **v0.2 plan**: trim the registry from 25 → ~15 by removing self-referential META scripts (state report, continuation runner, open-source-benchmark) that don't earn their keep outside the harness itself.
 
 ---
 

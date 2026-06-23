@@ -1,7 +1,32 @@
 {
   "schema": "repers.capability_registry.v1",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "entries": [
+    {
+      "id": "route",
+      "kind": "workflow",
+      "name": "Task-to-Permutation Router",
+      "summary": "Recommend which R-P-E-R-S permutation fits a task (skip / R-only / R-S / R-E-R / R-P-E-R / R-P-E-R-S) using keyword + repo-signal heuristics. Skips the harness for tasks too small to earn its weight.",
+      "tags": [
+        "router",
+        "permutation",
+        "decision-tree",
+        "ceremony-budget",
+        "skip-detection"
+      ],
+      "commands": [
+        "python .repers/scripts/repers.py route --task \"<description>\" --json",
+        "python .repers/scripts/repers.py route --task \"<description>\" --est-files <N> --json"
+      ],
+      "paths": [
+        "scripts/repers.py",
+        "scripts/router.py"
+      ],
+      "verification": [
+        "python .repers/scripts/repers.py route --task \"fix typo in README\" --json",
+        "python .repers/scripts/repers.py route --task \"migrate all pkg_resources to importlib.metadata across services/\" --est-files 12 --json"
+      ]
+    },
     {
       "id": "preflight",
       "kind": "workflow",

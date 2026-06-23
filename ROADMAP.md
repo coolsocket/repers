@@ -15,17 +15,24 @@ for what's in and what's out of scope.
 - Receiver/source/clone install fixtures proving install paths from 3 different start states.
 - Codex/Claude plugin with 4 skills (init / bug-hunt / release-pack / sinkin).
 
-## v0.2 — next (positioning + router)
+## v0.1.1 — shipped (unreleased; in `main`)
 
-The v0.1 → v0.2 theme is **stop being over-eager**. The benchmark on
-`sqlfluff__sqlfluff-2419` measured 5.8× overhead vs. a naked agent on a 4-line
-bug — the harness ran every stage when most should have been skipped.
+UX honesty pass after end-to-end dogfood (see [`docs/e2e-walkthrough.md`](docs/e2e-walkthrough.md)).
 
-- 🧭 **Router** — `/repers-route` skill + `repers.py route --task "<desc>" --json` CLI. Decision tree over (repo size, domain count, expected patch size, cross-cutting keywords) → recommended permutation (R-E-R / R-P-E-R / R-P-E-R-S / R-S / R-only). Trivial bugs get told to skip the harness entirely.
-- 🪝 **`/repers-bug-hunt` routes first**, then conditionally executes only the prescribed stages.
-- 🎯 **Real "harness wins" example** — replace `examples/bug-hunt/` with a multi-file SWE-bench Verified instance walked end-to-end; show wall-clock comparison vs. naked.
+- 🧭 **Router shipped** — `/repers-route` skill + `repers.py route --task "<desc>" [--est-files N] --json` CLI. Deterministic keyword + repo-signal decision tree → `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S`. No LLM, <100 ms, offline. Validated on the sqlfluff bug: it would have correctly routed to "naked agent" instead of the 5.8× overhead.
+- 🪝 **`/repers-bug-hunt` routes first** — now short-circuits to a naked agent loop when the router says `skip` / `R-E-R`. Only proceeds with preflight → plan → dispatch → review → ship when the router recommends multi-stage.
+- 🛠️ **Two CLI UX fixes** from the dogfood:
+  - `review --update-status` now also refreshes `plan.json` (no more "you forgot to re-plan" gotcha).
+  - `verify-install` emits a `hint` field with the exact `refresh-manifest` command when only sha256 mismatches are detected.
+- 📖 **Real end-to-end walkthrough** at `docs/e2e-walkthrough.md` (linked from README hero). 10 CLI commands, real outputs, 45 s wall-clock, 2 gotchas honestly documented.
+- 📦 Registry version bumped to `0.1.1` (entry count 24 → 25 with new `route` capability).
+
+## v0.2 — next
+
+- 🎯 **Real "harness wins" example** — extend `examples/bug-hunt/` with a multi-file SWE-bench Verified instance walked end-to-end; show wall-clock comparison vs. naked at the size where the harness DOES pay off.
 - 📜 **`WORKER.md`** — contract spec for any AI assigned to a lane (what JSON to read, what JSON to write, when "done" is declared).
-- ✂️ **Registry trim** — remove self-referential META scripts (`state_report` / `continuation_runner` / `open_source_benchmark` partial); registry drops from 24 → ~15. Keep what's load-bearing across receivers.
+- ✂️ **Registry trim** — remove self-referential META scripts (`state_report` / `continuation_runner` / `open_source_benchmark` partial); registry drops from 25 → ~16. Keep what's load-bearing across receivers.
+- 🪝 **Router signal extensions** — overlay preflight hit count and similar-PR git-log count onto the heuristic so it can recommend `R-P-E-R-S` when there's strong reuse signal even if the task description is bland.
 
 ## v0.3 — agent-agnostic proof
 

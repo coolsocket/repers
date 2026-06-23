@@ -367,6 +367,23 @@ def run_execution(args):
         emit_json(result)
 
 
+def run_route_command(args):
+    """Recommend an R-P-E-R-S permutation for a task description."""
+    sys.path.append(SCRIPT_DIR)
+    from router import route_task, format_human
+
+    repo_root = args.repo_root or REPO_ROOT
+    result = route_task(
+        task=args.task,
+        repo_root=repo_root,
+        est_files=args.est_files,
+    )
+    if args.json:
+        emit_json(result)
+    else:
+        print(format_human(result))
+
+
 def run_dispatch_command(args):
     sys.path.append(SCRIPT_DIR)
     from plan_runner import build_plan_json, dispatch_ready, load_plan_json
@@ -1259,6 +1276,12 @@ def main():
     run_parser.add_argument("--worker-command", help="Command template for worker-command backend; also accepts REPERS_WORKER_COMMAND")
     run_parser.add_argument("--json", action="store_true")
 
+    route_parser = subparsers.add_parser("route", help="Recommend which R-P-E-R-S permutation fits a task — skip / R-only / R-S / R-E-R / R-P-E-R / R-P-E-R-S")
+    route_parser.add_argument("--task", required=True, help="Free-text description of the task (e.g. 'migrate all pkg_resources to importlib.metadata')")
+    route_parser.add_argument("--repo-root", help="Repository root (defaults to RePERS workspace root)")
+    route_parser.add_argument("--est-files", type=int, default=None, help="Optional estimate of how many files the task will touch")
+    route_parser.add_argument("--json", action="store_true")
+
     dispatch_parser = subparsers.add_parser("dispatch", help="Create parallel worker dispatch packets for ready non-local DAG steps")
     dispatch_parser.add_argument("--task", required=True)
     dispatch_parser.add_argument("--backend", choices=["codex", "openai-agents", "langgraph", "mcp"], default="codex")
@@ -1455,6 +1478,8 @@ def main():
         run_plan(args)
     elif args.command == "run":
         run_execution(args)
+    elif args.command == "route":
+        run_route_command(args)
     elif args.command == "dispatch":
         run_dispatch_command(args)
     elif args.command == "doctor":
