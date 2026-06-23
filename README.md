@@ -260,8 +260,11 @@ result instead of failing.
   rules, then attach backend-specific traces.
 - CodeGraph integration is optional — `preflight --codegraph` reports a
   structured fallback when the binary isn't on PATH.
-- The smoke CI runs on `windows-latest` only (the runtime is cross-platform;
-  this is a CI matrix gap, not a runtime limit). PRs welcome.
+- The full `verify-all` smoke is temporarily narrowed in CI to the three
+  high-confidence gates (`verify-install`, `capabilities --action validate`,
+  `release-pack-verify`) on ubuntu / windows / macos. The broader smoke
+  suite has two pre-existing fragilities tracked in
+  [#1](https://github.com/coolsocket/repers/issues/1).
 
 ### How do I uninstall?
 
