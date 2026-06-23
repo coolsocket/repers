@@ -1,221 +1,300 @@
+<div align="center">
+
 # RePERS
 
-Reusable planning, execution, review, and release packaging for agent-run
-repository work.
+**Reusable Planning, Execution, Review, and Release — a local-first harness that turns a vague engineering request into a repeatable, verifiable agent workflow.**
 
-RePERS is a local-first harness for turning a vague engineering request into a
-repeatable agent workflow:
+[![Version](https://img.shields.io/github/v/release/coolsocket/repers?label=version&color=purple)](https://github.com/coolsocket/repers/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Capabilities: 24](https://img.shields.io/badge/capabilities-24-orange.svg)](./.repers/capabilities/registry.json)
+[![Skills: 4](https://img.shields.io/badge/skills-4-green.svg)](./skills/)
+[![CI](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml/badge.svg)](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml)
+[![GitHub stars](https://img.shields.io/github/stars/coolsocket/repers?style=flat&color=yellow)](https://github.com/coolsocket/repers/stargazers)
 
-```text
-preflight -> task DAG -> worker lanes -> join/review -> package -> evidence
-```
+🚀 [Install](#-install) · 🔧 [Daily workflow](#-daily-workflow) · 🧠 [Skills](#-skills) · 🧩 [Capabilities](#-capabilities) · 📦 [Deliverables](#-deliverables) · 🩺 [Troubleshooting](#-troubleshooting) · ❓ [FAQ](#-faq)
 
-It is designed for agents and maintainers who need more than a chat transcript:
+</div>
+
+---
+
+## 🎯 What it is
+
+RePERS is a local-first harness for agent-run repository work. Instead of a
+chat transcript, every run produces machine-readable evidence another repo
+can verify. It ships:
+
+- **A 24-entry capability registry** — preflight, DAG planning, install hooks, package gates, release pack, evidence bundles. Reuse first; build last.
+- **A deterministic orchestration fixture** that proves conflict-safe worker dispatch BEFORE you point a real agent backend at it.
+- **A `.repers/` runtime** (stdlib Python — no extra deps) installable into any Git repo with one command.
+- **4 Codex skills** — `init` · `bug-hunt` · `release-pack` · `sinkin` (drift audit).
+- **A transferable release pack** — `repers-release-pack.zip` — that another repo can extract, install, and verify end-to-end.
+
+Designed for agents and maintainers who need more than "trust me, it works":
 capability discovery before work starts, a concrete task graph, deterministic
-local fixtures, installable hooks, JSON evidence, and a transferable release
-pack that another repository can verify.
+local fixtures, installable hooks, JSON evidence, and a checksum-verifiable
+release pack.
 
-[Quick Start](#quick-start) - [Bug Hunt Demo](docs/bug-hunt-demo.md) -
-[Release Checklist](docs/release-checklist.md) -
-[Promotion Playbook](docs/promotion-playbook.md)
+---
 
-[Install](#install) - [Daily Workflow](#daily-workflow) -
-[Plugin Skills](#plugin-skills) - [Deliverables](#deliverables)
+## 🚀 Install
 
-## What You Get
-
-- A `.repers/` runtime that can be installed into another Git repository.
-- A capability registry with reusable local skills, scripts, hooks, templates,
-  and release gates.
-- A preflight command that searches local capabilities and can attach CodeGraph
-  evidence when available.
-- A deterministic DAG fixture that proves supervisor/worker/join behavior
-  without requiring external agent backends.
-- A conservative pre-commit hook that runs RePERS audit in warn or strict mode.
-- A release pack containing the install archive, readiness data, handoff,
-  remote bootstrap instructions, benchmark evidence, state, and continuation
-  artifacts.
-
-## Install
-
-Use RePERS either as a Codex plugin or as a repository-local runtime.
-
-Codex plugin install:
+**As a Codex plugin** (recommended):
 
 ```text
 /plugin marketplace add coolsocket/repers
 /plugin install repers
 ```
 
-Then ask Codex to use one of the RePERS skills:
+Then invoke any skill:
 
 ```text
-/repers-init
-/repers-bug-hunt
-/repers-release-pack
-/repers-sinkin
+/repers-init           # adopt RePERS in the current repo
+/repers-bug-hunt       # run a full preflight → DAG → review cycle
+/repers-release-pack   # build + verify dist artifacts
+/repers-sinkin         # weekly drift audit
 ```
 
-Repository runtime install:
+**As a repository-local runtime** (no plugin needed):
 
-```powershell
-python .repers\scripts\repers.py install --target C:\path\to\target-repo --json
+```bash
+git clone https://github.com/coolsocket/repers.git
+python repers/.repers/scripts/repers.py install --target /path/to/your-repo --json
+cd /path/to/your-repo
+python .repers/scripts/repers.py verify-install --json
 ```
 
 The plugin gives Codex the workflow entrypoints. The `.repers/` runtime inside
-the target repository supplies the CLI, hooks, templates, capability registry,
-fixtures, package gates, and machine-readable evidence.
+the target repo supplies the CLI, hooks, templates, capability registry,
+fixtures, package gates, and JSON evidence. **Neither hides the other.**
 
-## Daily Workflow
+---
+
+## 🔧 Daily workflow
+
+```bash
+# 1. find what already exists before building new
+python .repers/scripts/repers.py preflight --query "bug hunt reusable workflow" --refresh --json
+
+# 2. prove the orchestration contract (no real agents needed)
+python .repers/scripts/repers.py fixture --action prove --json
+
+# 3. run the full local gate before any push
+python .repers/scripts/repers.py verify-all --json
+```
+
+Every command emits a JSON evidence object — pipe to `jq`, store in CI, or
+let `/repers-sinkin` cross-check against `README` / `registry.json` /
+`dist/`.
+
+---
+
+## 🧠 Skills
+
+| Slash command | When to use | Cost |
+|---|---|---|
+| `/repers-init` | Once per repo — installs `.repers/` runtime + optional pre-commit hook | ~1 k tok on invoke |
+| `/repers-bug-hunt` | Bug investigation — preflight, task DAG, worker dispatch, evidence review, focused verification | ~3 k tok on invoke |
+| `/repers-release-pack` | Cutting a release — build, round-trip, verify both archives | ~2 k tok on invoke |
+| `/repers-sinkin` | Periodic — audit drift across plugin skills, README, capability registry, package gates, release assets | ~5 k tok on invoke |
+
+Always-on cost: **~600 tok per session** (loaded skill descriptions).
+
+---
+
+## 🧩 Capabilities
+
+Twenty-four reusable capabilities live in [`.repers/capabilities/registry.json`](.repers/capabilities/registry.json).
+Each has `id`, `kind`, `summary`, `commands`, `paths`, `verification` —
+queryable by the CLI:
+
+```bash
+python .repers/scripts/repers.py capabilities --action search --query "release" --json
+python .repers/scripts/repers.py capabilities --action validate --json
+```
+
+Highlights:
+
+| Capability | Kind | What it does |
+|---|---|---|
+| `preflight` | workflow | Search local files, registry, global skills, optional CodeGraph evidence before building anything new |
+| `task-dag` | workflow | Generate a conflict-safe task DAG with `target_files` per lane |
+| `orchestration-fixture` | gate | Prove conflict-safe worker dispatch + join/review without a real backend |
+| `package-readiness` | gate | Bundle status + round-trip verify the install archive |
+| `release-pack` | workflow | Build the transferable `repers-release-pack.zip` (install + evidence + handoff + bootstrap) |
+| `release-pack-verify` | gate | Verify a release pack received from another repo |
+| `receiver-fixture` | gate | Install the package into a fresh Git repo and prove receiver-side commands |
+| `verify-all` | gate | Run every local gate in one command |
+
+Full inventory in [`registry.json`](.repers/capabilities/registry.json).
+
+---
+
+## 🪝 Hooks
+
+| Hook | Trigger | Action |
+|---|---|---|
+| `.repers/hooks/pre-commit` | `git commit` | Run RePERS audit. **Warn mode** (default): log issues, don't block. **Strict mode**: block commit on audit failure. |
+
+Install:
+
+```bash
+python .repers/scripts/repers.py install-hook --hook-policy warn   # or strict
+```
+
+State files live under `${REPO}/.repers/` — **per-repo, never shared across
+projects.**
+
+---
+
+## 📦 Deliverables
+
+A RePERS handoff is not just source code. It's a verifiable bundle:
+
+| Artifact | Consumer | Format |
+|---|---|---|
+| `dist/repers-0.1.0.zip` | Receiver repo (extract + install) | zip |
+| `dist/repers-release-pack.zip` | Another agent / repo (verify pack) | zip |
+| `dist/repers-verify-all.json` | Auditor / CI | JSON evidence (328 KB) |
+| `dist/repers-release-evidence.json` | Publish gate | JSON readiness |
+| `dist/repers-state.{json,md}` | Status check | machine + human summary |
+| `dist/repers-release-pack.{json,md}` | Release notes | manifest + summary |
+
+Generate all with:
+
+```bash
+python .repers/scripts/repers.py release-pack --json
+```
+
+---
+
+## 🗂️ Repository layout
+
+```
+.repers/
+├── scripts/             stdlib-only Python: repers.py (CLI) + per-capability scripts
+├── capabilities/        registry.json — 24 reusable workflows / scripts / hooks / gates
+├── hooks/               pre-commit (warn / strict policies)
+├── templates/           files copied into receiver repos
+├── docs/                internal architecture / spec / workflow notes
+├── manifest.json        runtime manifest (file fingerprints)
+└── index/               local capability index (excluded from packages)
+
+skills/                  4 Codex skills (init · bug-hunt · release-pack · sinkin)
+.codex-plugin/           Codex marketplace plugin manifest
+.github/                 CI + issue / PR templates + social preview
+docs/                    public docs — bug-hunt demo, release checklist, promotion playbook
+examples/                runnable adoption examples (basic-task, bug-hunt)
+tests/                   smoke_repers.py — end-to-end receiver test
+dist/                    generated packages + JSON evidence + markdown summaries
+```
+
+---
+
+## 🩺 Troubleshooting
+
+| Symptom | Cause / Fix |
+|---|---|
+| `preflight` returns results from another repo | Runtime state (`.repers/index/`) leaked into a previous install. Re-run `bundle-status --package --verify-roundtrip --json`; the archive is wrong, the verifier is right. |
+| `fixture --action prove` reports `conflict_safe: false` | Multi-lane plan has overlapping `target_files`. Re-split lanes so each owns disjoint paths. |
+| Codex skill changes don't take effect | Cached plugin install. `/plugin marketplace update repers && /plugin uninstall repers && /plugin install repers`; if still stale, restart the Codex session. |
+| `verify-install` fails on a fresh receiver | Run `doctor --json` for the structured diagnosis. Typical cause: Python version <3.9 or missing optional CodeGraph adapter (which is fine — it falls back). |
+| Pre-commit hook blocks every commit | You installed `--hook-policy strict` and have unresolved audit findings. Either fix them or reinstall with `--hook-policy warn`. |
+
+Still stuck? Open a [Discussion](https://github.com/coolsocket/repers/discussions)
+or paste the `bundle-status --package --verify-roundtrip --json` output in an
+issue.
+
+---
+
+## ❓ FAQ
+
+### What is RePERS?
+
+A local-first harness that turns an agent's repository work into a repeatable
+pipeline: **preflight → DAG → worker lanes → join/review → package → evidence**.
+Every step is a CLI command with JSON output another repo can verify.
+
+### How is RePERS different from LangGraph / CrewAI / AutoGen / OpenHands?
+
+Those are agent **runtimes** — they execute LLM calls. RePERS is an
+**operating layer above** any of them. It enforces capability reuse (preflight),
+emits a conflict-safe task DAG, gates work behind a deterministic fixture, and
+packages outcomes into a verifiable handoff. Point any agent backend at the
+DAG; the contracts and evidence stay the same.
+
+### Why "local-first"?
+
+Three reasons:
+1. **Reproducibility** — the same `verify-all --json` runs on a maintainer laptop, in CI, and in a receiver's fresh clone. No hidden service state.
+2. **Trust** — agents shouldn't need cloud credentials to prove orchestration is safe. The fixture runs entirely offline.
+3. **Portability** — `repers-release-pack.zip` is a single file another team can verify without onboarding.
+
+Cloud backends remain optional, layered on top of the local contracts.
+
+### Do I need to install RePERS in every project?
+
+No. Install the Codex plugin **once** at user scope. Then run `/repers-init`
+only in projects where you want the `.repers/` runtime + pre-commit hook
+installed.
+
+### How do I extend RePERS with a new capability?
+
+1. `preflight --query "<intent>"` — confirm nothing similar exists. Extend instead of duplicating.
+2. Add an entry to `.repers/capabilities/registry.json` (see existing entries for shape).
+3. Implement the script under `.repers/scripts/` — stdlib only, JSON output.
+4. Add a row to README "Core commands" if it's user-facing.
+5. Re-run `capabilities --action validate --json` and `verify-all --json`.
+
+Full rules in [`CLAUDE.md`](./CLAUDE.md).
+
+### Does RePERS make any network calls at runtime?
+
+No. The runtime is stdlib Python. Optional adapters (CodeGraph, cloud agent
+backends) are explicitly opt-in and fall back to a structured "unavailable"
+result instead of failing.
+
+### What are the current limits?
+
+- The deterministic fixture proves orchestration **contracts**, not real
+  multi-agent execution. Real dispatch must respect the same `target_files`
+  rules, then attach backend-specific traces.
+- CodeGraph integration is optional — `preflight --codegraph` reports a
+  structured fallback when the binary isn't on PATH.
+- The smoke CI runs on `windows-latest` only (the runtime is cross-platform;
+  this is a CI matrix gap, not a runtime limit). PRs welcome.
+
+### How do I uninstall?
 
 ```text
-/repers-init              # install or verify .repers in the current repo
-/repers-bug-hunt          # preflight, plan, inspect, review, verify
-/repers-release-pack      # build package + release pack and verify both
-/repers-sinkin            # audit drift across README, plugin, package, evidence
+/plugin uninstall repers
+/plugin marketplace remove repers
 ```
 
-For direct CLI use:
+The `.repers/` runtime inside receiver repos stays — delete it manually if
+you want.
 
-```powershell
-python .repers\scripts\repers.py preflight --query "bug hunt reusable workflow" --refresh --json
-python .repers\scripts\repers.py fixture --action prove --json
-python .repers\scripts\repers.py verify-all --json
-```
+---
 
-## Plugin Skills
+## 🌟 Star history
 
-| Skill | When to use |
-|---|---|
-| `/repers-init` | Adopt RePERS in a repository, verify install state, or install the pre-commit hook. |
-| `/repers-bug-hunt` | Find or fix a bug with preflight, task DAG, evidence review, and focused verification. |
-| `/repers-release-pack` | Build and verify `repers-0.1.0.zip` plus `repers-release-pack.zip`. |
-| `/repers-sinkin` | Periodically audit drift across plugin skills, README, capability registry, package gates, and release assets. |
+[![Star History Chart](https://api.star-history.com/svg?repos=coolsocket/repers&type=Date)](https://www.star-history.com/#coolsocket/repers&Date)
 
-The plugin is intentionally thin. It does not hide the local runtime; it teaches
-Codex when and how to invoke the same commands a maintainer can run by hand.
+---
 
-## Quick Start
+## 🤝 Contributing & forking
 
-From this repository:
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the development loop and
+[`CLAUDE.md`](./CLAUDE.md) for the editing rules.
 
-```powershell
-python .repers\scripts\repers.py verify-install --json
-python .repers\scripts\repers.py bundle-status --package --verify-roundtrip --json
-python .repers\scripts\repers.py release-pack --json
-python .repers\scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json
-```
+RePERS is intentionally small and stdlib-only — forks for non-Python receivers
+or alternative agent backends are welcomed. The contracts (preflight, DAG,
+evidence shape) are the load-bearing part; the runtime is replaceable.
 
-Install RePERS into another Git repository:
+For security disclosures, see [`SECURITY.md`](./SECURITY.md).
+For cross-project pitfalls, see [`PITFALLS.md`](./PITFALLS.md).
 
-```powershell
-python .repers\scripts\repers.py install --target C:\path\to\target-repo --json
-cd C:\path\to\target-repo
-python .repers\scripts\repers.py verify-install --json
-python .repers\scripts\repers.py doctor --json
-```
+---
 
-Install from the packaged archive:
+## 📄 License
 
-```powershell
-Expand-Archive dist\repers-0.1.0.zip -DestinationPath .repers-package
-python .repers-package\repers-0.1.0\scripts\install_repers.py --target C:\path\to\target-repo
-```
-
-## A Single Bug-Finding Run
-
-When you ask an agent to find a bug, RePERS expects the run to look like this:
-
-```mermaid
-flowchart LR
-  A["User asks for a bug hunt"] --> B["preflight: find reusable local capabilities"]
-  B --> C["plan: create a task DAG"]
-  C --> D["dispatch: split safe worker lanes"]
-  D --> E["workers inspect code and produce JSON/Markdown evidence"]
-  E --> F["review: join findings and reject weak evidence"]
-  F --> G["fix and run focused verification"]
-  G --> H["release evidence, state, and handoff artifacts"]
-```
-
-Try the local proof:
-
-```powershell
-python .repers\scripts\repers.py preflight --query "bug hunt reusable workflow" --refresh --json
-python .repers\scripts\repers.py fixture --action prove --json
-python .repers\scripts\repers.py verify-all --json
-```
-
-The fixture does not pretend to fix a real bug. It proves that the master task,
-parallel lanes, conflict-safe batching, join review, and evidence contracts are
-wired before a real agent backend is used.
-
-## Core Commands
-
-| Need | Command |
-|---|---|
-| Check installed runtime | `python .repers\scripts\repers.py verify-install --json` |
-| Discover reusable capabilities | `python .repers\scripts\repers.py preflight --query "<query>" --refresh --json` |
-| Search packaged capability registry | `python .repers\scripts\repers.py capabilities --action search --query "<query>" --json` |
-| Prove DAG orchestration locally | `python .repers\scripts\repers.py fixture --action prove --json` |
-| Build and round-trip package | `python .repers\scripts\repers.py package --output dist --verify-roundtrip --json` |
-| Verify receiver install shape | `python .repers\scripts\repers.py receiver-fixture --json` |
-| Build transferable release pack | `python .repers\scripts\repers.py release-pack --json` |
-| Verify transferred release pack | `python .repers\scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json` |
-| Run the full local gate | `python .repers\scripts\repers.py verify-all --json` |
-
-## Deliverables
-
-The release-ready handoff is not only source code. It should contain:
-
-- `dist/repers-0.1.0.zip`: installable runtime archive.
-- `dist/repers-release-pack.zip`: transferable pack with package, evidence,
-  handoff, bootstrap, state, continuation, and benchmark artifacts.
-- `dist/repers-verify-all.json`: full local verification evidence.
-- `dist/repers-state.json` and `dist/repers-state.md`: compact current status.
-- `dist/repers-release-pack.json` and `dist/repers-release-pack.md`: release
-  pack manifest and human summary.
-- Root governance files: `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`,
-  `SUPPORT.md`, `ROADMAP.md`, `CHANGELOG.md`, and `MAINTAINERS.md`.
-
-## Repository Layout
-
-```text
-.repers/                 reusable runtime, scripts, hooks, docs, templates
-.github/workflows/       CI gate for packaged verification
-docs/                    public docs, demos, release and promotion notes
-examples/                runnable adoption examples
-repers_tasks/            generated task workspaces
-tests/                   smoke tests for package and runtime behavior
-dist/                    generated packages and evidence artifacts
-```
-
-## Public Launch Shape
-
-RePERS should be presented as an installable agent harness, not as a pile of
-internal reports. The public launch surface is:
-
-1. README first screen: what it does, why it matters, and the first successful
-   command sequence.
-2. Demo: a bug-hunt walkthrough that shows preflight, DAG, worker lanes, review,
-   and verification.
-3. Release: GitHub Release with `repers-0.1.0.zip`,
-   `repers-release-pack.zip`, release notes, and checksums.
-4. Metadata: repo description, topics, license, and support files.
-5. Evidence: machine-readable JSON for agents and short Markdown summaries for
-   humans.
-
-See [docs/promotion-playbook.md](docs/promotion-playbook.md) and
-[docs/repository-metadata.md](docs/repository-metadata.md).
-
-## Current Limits
-
-- Core workflow is local-first; cloud agent backends are optional integrations,
-  not required for the package to verify.
-- CodeGraph evidence is optional. `preflight --codegraph` reports a structured
-  fallback when the local CodeGraph index or binary is unavailable.
-- The deterministic fixture proves orchestration contracts. Real multi-agent
-  dispatch should use those contracts and then attach backend-specific traces.
-
-## License
-
-MIT. See [LICENSE](LICENSE).
+MIT. See [`LICENSE`](./LICENSE).
