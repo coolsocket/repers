@@ -27,6 +27,8 @@ When the work is **too big for one agent in one session** — a 12-file refactor
 
 It is **not** an agent runtime. It is the **contract above** any runtime — preflight before new work, plan as a DAG with target-file isolation, dispatch with collision guards, review-on-join, evidence-based ship.
 
+> ▶️ **See it run end-to-end**: [`docs/e2e-walkthrough.md`](./docs/e2e-walkthrough.md) — a real dogfood through every CLI subcommand (`init → preflight → plan → dispatch → 3 parallel workers → review → run → shipping → verify-install`) in ~45 s wall-clock. Every command shown was actually executed; every artifact is real.
+
 What ships:
 - 🧭 **A router** (`/repers-route`, coming in v0.2) that picks the right permutation per task — most one-liners are told to skip the harness entirely.
 - 🧩 **A capability registry** (24 entries) as shared memory across agents — preflight before adding new.
