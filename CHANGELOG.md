@@ -6,6 +6,18 @@ semantic-ish — any user-visible behavior change bumps minor or major.
 
 ## Unreleased
 
+### v0.2 architecture seed — Phase A: contracts + plugin loader
+
+Foundation for the v0.2 slim+pluggable refactor. **Zero behavior change**
+— existing CLI works identically. What's new is the *substitution path*:
+any verb's implementation can now be swapped without forking the harness.
+
+- **New `.repers/contracts/` directory** — first 4 JSON Schemas extracted as standalone files (`router.v1.json`, `step_result.v1.json`, `dispatch.v1.json`, `review.v1.json`). These are the stable shapes that flow between pipeline stages; future stages add `preflight.v1.json`, `plan.v1.json`, `shipping.v1.json`. See `.repers/contracts/README.md`.
+- **New `.repers/plugins/` directory** — convention: `plugins/<verb>/<name>.py` exporting a function whose name matches the verb. First plugin shipped: `plugins/route/default.py` (wraps the existing `router.py` so behavior is preserved exactly).
+- **New `.repers/scripts/plugin_loader.py`** — discovers + imports a plugin module by `(verb, name)`. Selection precedence: `REPERS_PLUGIN_<VERB>` env var → `default` → fallback to legacy in-tree implementation. Explicit env-var requests for missing plugins raise immediately (no silent fallback to mask typos).
+- **`repers.py route` migrated to plugin path** — first verb to use the loader. Verified across three runs: silent default load, explicit `REPERS_PLUGIN_ROUTE=default` load, explicit invalid-name → loud `FileNotFoundError`. Remaining verbs (preflight / plan / dispatch / review / ship) migrate verb-by-verb in subsequent commits, each backwards-compat with legacy fallback.
+- **New `docs/components-map.md`** — one-page map of every CLI verb / file template / skill grouped by R-P-E-R-S layer, with output schema column. Use to find substitution points.
+
 ### `WORKER.md` shipped
 
 - New top-level [`WORKER.md`](WORKER.md) — the contract spec for any AI agent assigned to a dispatched lane. Covers the `step_result_v1` schema, target_files isolation, reject-at-review failure modes, "you don't need to be Claude" clause (the contract is JSON-in / JSON-out so a single RePERS task can mix Claude supervisor + Codex worker + Gemini worker + reviewer of any vendor). Linked from AGENTS.md "Where to go next" and from the README's "For AI agents" section.

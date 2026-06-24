@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repers.review.v1",
+  "title": "RePERS review summary",
+  "description": "Written by the review stage. Collects every step_result.v1 in results/ and reports per-result + aggregate status.",
+  "type": "object",
+  "required": ["schema", "task_dir", "results_dir", "result_count", "ok_count", "failed_count", "ok", "results"],
+  "properties": {
+    "schema": {"const": "repers.review.v1"},
+    "task_dir": {"type": "string"},
+    "results_dir": {"type": "string"},
+    "result_count": {"type": "integer"},
+    "ok_count": {"type": "integer"},
+    "failed_count": {"type": "integer"},
+    "ok": {"type": "boolean"},
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "step_id", "status", "ok", "errors"],
+        "properties": {
+          "path": {"type": "string"},
+          "step_id": {"type": ["string", "null"]},
+          "status": {"type": ["string", "null"]},
+          "ok": {"type": "boolean"},
+          "errors": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "status_update": {
+      "type": "object",
+      "description": "Present when --update-status was passed.",
+      "properties": {
+        "updated": {"type": "array"},
+        "skipped": {"type": "array"},
+        "error": {"type": ["string", "null"]},
+        "plan_json_refresh": {
+          "type": "object",
+          "description": "v0.1.1+: plan.json is auto-refreshed after plan.md status writes.",
+          "properties": {
+            "refreshed": {"type": "boolean"},
+            "error": {"type": ["string", "null"]}
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repers.step_result.v1",
+  "title": "RePERS worker step result",
+  "description": "Written by a dispatched worker to repers_tasks/<task>/results/step-<id>.json. The supervisor's review stage validates each file against this schema.",
+  "type": "object",
+  "required": [
+    "schema",
+    "step_id",
+    "title",
+    "status",
+    "command",
+    "returncode",
+    "duration_seconds",
+    "stdout_tail",
+    "stderr_tail",
+    "target_files"
+  ],
+  "properties": {
+    "schema": {"const": "repers.step_result.v1"},
+    "step_id": {"type": "string", "description": "Matches the step id in plan.json"},
+    "title": {"type": "string"},
+    "status": {"type": "string", "enum": ["completed", "failed"]},
+    "command": {"type": "string", "description": "Short human-readable summary of what the worker did"},
+    "returncode": {"type": "integer", "description": "0 iff status=completed"},
+    "duration_seconds": {"type": "number"},
+    "stdout_tail": {"type": "string"},
+    "stderr_tail": {"type": "string"},
+    "target_files": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "MUST equal the target_files declared in the plan step. A worker that edits outside this list violates the collision contract."
+    }
+  },
+  "examples": [
+    {
+      "schema": "repers.step_result.v1",
+      "step_id": "1",
+      "title": "Migrate src/users.py to f-strings",
+      "status": "completed",
+      "command": "Edit src/users.py — replace .format() with f-strings",
+      "returncode": 0,
+      "duration_seconds": 12.3,
+      "stdout_tail": "Replaced 3 .format() calls with f-strings",
+      "stderr_tail": "",
+      "target_files": ["src/users.py"]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repers.dispatch.v1",
+  "title": "RePERS dispatch manifest",
+  "description": "Written by the supervisor's dispatch stage and handed to the agent runtime that will execute lanes. Each entry in workers[] is a parallelizable lane.",
+  "type": "object",
+  "required": ["schema", "task", "task_dir", "plan_json", "plan_md", "backend", "max_workers", "ready_count", "batch_count", "workers", "batches"],
+  "properties": {
+    "schema": {"const": "repers.dispatch.v1"},
+    "task": {"type": "string"},
+    "task_dir": {"type": "string"},
+    "plan_json": {"type": "string"},
+    "plan_md": {"type": "string"},
+    "backend": {"type": "string"},
+    "max_workers": {"type": "integer"},
+    "ready_count": {"type": "integer"},
+    "batch_count": {"type": "integer"},
+    "workers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["worker_id", "step_id", "title", "action", "target_files", "mode"],
+        "properties": {
+          "worker_id": {"type": "string"},
+          "step_id": {"type": "string"},
+          "title": {"type": "string"},
+          "action": {"type": "string"},
+          "target_files": {"type": "array", "items": {"type": "string"}},
+          "mode": {"type": "string"}
+        }
+      }
+    },
+    "batches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["workers"],
+        "properties": {
+          "workers": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

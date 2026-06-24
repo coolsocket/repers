@@ -368,20 +368,30 @@ def run_execution(args):
 
 
 def run_route_command(args):
-    """Recommend an R-P-E-R-S permutation for a task description."""
-    sys.path.append(SCRIPT_DIR)
-    from router import route_task, format_human
+    """Recommend an R-P-E-R-S permutation for a task description.
 
+    v0.2: resolution order
+      1. .repers/plugins/route/<name>.py (selectable via REPERS_PLUGIN_ROUTE env var)
+      2. fallback to the in-tree router.py for backwards compatibility
+    """
+    sys.path.append(SCRIPT_DIR)
     repo_root = args.repo_root or REPO_ROOT
-    result = route_task(
-        task=args.task,
-        repo_root=repo_root,
-        est_files=args.est_files,
-    )
+
+    from plugin_loader import load_plugin  # FileNotFoundError propagates iff env var was explicit
+    plugin = load_plugin("route")
+
+    if plugin is not None and hasattr(plugin, "route"):
+        result = plugin.route(task=args.task, repo_root=repo_root, est_files=args.est_files)
+        formatter = getattr(plugin, "format_human", None)
+    else:
+        from router import route_task, format_human as _fh
+        result = route_task(task=args.task, repo_root=repo_root, est_files=args.est_files)
+        formatter = _fh
+
     if args.json:
         emit_json(result)
     else:
-        print(format_human(result))
+        print(formatter(result) if formatter else json.dumps(result, indent=2))
 
 
 def run_dispatch_command(args):
