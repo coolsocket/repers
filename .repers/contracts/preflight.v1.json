@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repers.preflight.v1",
+  "title": "RePERS preflight research artifact",
+  "description": "Output of the preflight stage. Searches local files + capability registry + (optional) CodeGraph and emits reuse/extend/create recommendation.",
+  "type": "object",
+  "required": ["query", "counts", "results", "recommendation"],
+  "properties": {
+    "query": {"type": "string"},
+    "counts": {
+      "type": "object",
+      "required": ["results"],
+      "properties": {
+        "results": {"type": "integer"},
+        "capability_hits": {"type": "integer"},
+        "workspace_hits": {"type": "integer"},
+        "global_skill_hits": {"type": "integer"}
+      }
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source"],
+        "properties": {
+          "source": {"type": "string", "description": "workspace | global_skill (<name>) | local_capability"},
+          "path": {"type": "string"},
+          "line": {"type": ["integer", "null"]},
+          "text": {"type": "string"},
+          "id": {"type": "string", "description": "Set when source=local_capability — the registry entry id"},
+          "name": {"type": "string"}
+        }
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "required": ["decision"],
+      "properties": {
+        "decision": {"type": "string", "enum": ["reuse", "extend", "create"]},
+        "reason": {"type": "string"}
+      }
+    },
+    "code_evidence": {
+      "type": "object",
+      "description": "Present when --codegraph was set. Embedded CodeGraph evidence."
+    }
+  }
+}

@@ -6,6 +6,30 @@ semantic-ish — any user-visible behavior change bumps minor or major.
 
 ## Unreleased
 
+### v0.2 architecture — Phase B + C: all 6 verbs plugin-loaded + 7 contracts
+
+Phase B: every pipeline verb now resolves via the plugin loader. ZERO
+behavior change. The substitution point is now live for all 6 stages.
+
+- `plugins/preflight/default.py` — wraps `research_index.build_research_artifact`
+- `plugins/plan/default.py` — wraps `plan_runner.build_plan_json` (+ `propose`)
+- `plugins/dispatch/default.py` — wraps `plan_runner.dispatch_ready`
+- `plugins/review/default.py` — wraps `reviewer.review_task`
+- `plugins/ship/default.py` — wraps `shipping.create_shipping_report`
+- `repers.py` handlers for preflight / plan / dispatch / review / shipping all migrated to use `plugin_loader.load_plugin` with legacy fallback. Explicit `REPERS_PLUGIN_<VERB>=missing` raises immediately (no silent fallback masks typos).
+
+Phase C: 3 remaining contract schemas extracted as standalone files —
+the full set of 7 stage contracts now lives at `.repers/contracts/`.
+
+- `contracts/preflight.v1.json` — reuse/extend/create recommendation + results array
+- `contracts/plan.v1.json` — step DAG with target_files + mode inference rules
+- `contracts/shipping.v1.json` — task-level delivery evidence shape
+
+Smoked end-to-end in a fresh receiver repo (`/tmp/phaseb-test/`):
+preflight → plan → dispatch → review all produce contract-conforming
+output via the plugin path. Manifest 51 → 59 files (+5 plugin defaults,
++3 contract schemas). verify-install + capabilities-validate both green.
+
 ### v0.2 architecture seed — Phase A: contracts + plugin loader
 
 Foundation for the v0.2 slim+pluggable refactor. **Zero behavior change**

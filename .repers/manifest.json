@@ -1,15 +1,15 @@
 {
   "schema": "repers.install_manifest.v1",
   "version": "0.1.1",
-  "generated_at": "2026-06-24T07:02:04.292181+00:00",
+  "generated_at": "2026-06-24T07:14:39.145375+00:00",
   "source_root": "/home/sa_114486498687979675637/repers/.repers",
   "target_root": "/home/sa_114486498687979675637/repers",
   "install_root": "/home/sa_114486498687979675637/repers/.repers",
   "source_git": {
     "ok": true,
-    "commit": "b8cb69f5387643f61295888f8d3acf2aa710d2c5",
+    "commit": "578ff6090be34103b567df8d50f03cc33b4229d9",
     "dirty": true,
-    "status_count": 21
+    "status_count": 25
   },
   "with_hook": false,
   "hook_policy": "warn",
@@ -32,6 +32,16 @@
       "sha256": "3768809479f44ae5f13e3072ffa14d9063a8c926c2595fac18f14ce87753ef47"
     },
     {
+      "path": "contracts/plan.v1.json",
+      "size_bytes": 1738,
+      "sha256": "501e8e2d1ba391cb82d11fe37053d2ba63bfc2f7ee9993d6fb505f5fb068af87"
+    },
+    {
+      "path": "contracts/preflight.v1.json",
+      "size_bytes": 1662,
+      "sha256": "a64c26a52c255f66d7324e57e36656a25693b56d81fce26a405371d517d69fd8"
+    },
+    {
       "path": "contracts/review.v1.json",
       "size_bytes": 1700,
       "sha256": "f1ad366943c01b1e946df0e74afcefdfa6c924617cedfa539a4c43a146880e05"
@@ -40,6 +50,11 @@
       "path": "contracts/router.v1.json",
       "size_bytes": 1973,
       "sha256": "f436347dd1c968dc85bfbc814f2c37c66122a64600d9300a7ccb98d0e2492faf"
+    },
+    {
+      "path": "contracts/shipping.v1.json",
+      "size_bytes": 1434,
+      "sha256": "7bb3e4b0f8eef5fa3f80993226a270359798b5f28145bd8474e5e67e7ed1d3f7"
     },
     {
       "path": "contracts/step_result.v1.json",
@@ -102,9 +117,34 @@
       "sha256": "4668b454462c1960281e7a936d14e4ba129c169bcbb6f72bf2f81e7141f34349"
     },
     {
+      "path": "plugins/dispatch/default.py",
+      "size_bytes": 948,
+      "sha256": "9749ea3b7efd47c6d6c7d44f3528c47616624845b32e63940cf582b0759cfef9"
+    },
+    {
+      "path": "plugins/plan/default.py",
+      "size_bytes": 959,
+      "sha256": "3be5b866a53d5c0a0a29c28ce21875973909df2c6b6a4a859e69dc59952685e2"
+    },
+    {
+      "path": "plugins/preflight/default.py",
+      "size_bytes": 913,
+      "sha256": "ff2831868b5b027b0a048814e727c6df97ba572958e17733291503ad463fb13e"
+    },
+    {
+      "path": "plugins/review/default.py",
+      "size_bytes": 795,
+      "sha256": "7c5bb31517977c38b7f6ca8061801d790cbb7c929f32fa8e50bc52ddf1af6242"
+    },
+    {
       "path": "plugins/route/default.py",
       "size_bytes": 1148,
       "sha256": "10c092d4c7ed21ef57d6f0835f1ae6e53126f83ab8d59a83454a72bee849fb12"
+    },
+    {
+      "path": "plugins/ship/default.py",
+      "size_bytes": 964,
+      "sha256": "3ea87289490bbe35bd617a4d15801339ee0bca8394f25b34c9f84291a102e965"
     },
     {
       "path": "scripts/backends.py",
@@ -208,8 +248,8 @@
     },
     {
       "path": "scripts/repers.py",
-      "size_bytes": 67419,
-      "sha256": "f871ef876e7f56a573df78d68db940a9c830fe71e86d3a7d5d9546315290ddc2"
+      "size_bytes": 69662,
+      "sha256": "b0b324fc757e4f9a721cf00955c695993cc7438a2bb3deb95ec04f6ec329a79a"
     },
     {
       "path": "scripts/research_index.py",
@@ -272,5 +312,5 @@
       "sha256": "4da0aa1a9060b780868024773790fe3d3302d4cdc17b53b4c4d75da9df2cea81"
     }
   ],
-  "file_count": 51
+  "file_count": 59
 }

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repers.plan.v1",
+  "title": "RePERS task plan",
+  "description": "Parsed from plan.md by the plan stage. Each step has an id, target_files, depends_on, and mode (local|subagent) inferred from whether verification_command is set.",
+  "type": "object",
+  "required": ["schema", "task", "task_dir", "plan_md", "steps"],
+  "properties": {
+    "schema": {"const": "repers.plan.v1"},
+    "task": {"type": "string"},
+    "task_dir": {"type": "string"},
+    "plan_md": {"type": "string"},
+    "research_json": {"type": ["string", "null"]},
+    "research_recommendation": {"type": ["object", "null"]},
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "action", "target_files", "verification_command", "expected_outcome", "depends_on", "status", "mode", "artifact_contract"],
+        "properties": {
+          "id": {"type": "string"},
+          "title": {"type": "string"},
+          "action": {"type": "string"},
+          "target_files": {"type": "array", "items": {"type": "string"}},
+          "verification_command": {"type": "string"},
+          "expected_outcome": {"type": "string"},
+          "depends_on": {"type": "array", "items": {"type": "string"}},
+          "status": {"type": "string", "enum": ["Pending", "In Progress", "Completed", "Failed"]},
+          "mode": {
+            "type": "string",
+            "enum": ["local", "subagent", "manual"],
+            "description": "Inferred: present verification_command → local; absent → subagent; 'manual' keyword in action → manual"
+          },
+          "artifact_contract": {"const": "step_result_v1"}
+        }
+      }
+    }
+  }
+}

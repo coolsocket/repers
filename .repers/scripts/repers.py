@@ -68,14 +68,29 @@ def run_preflight(
     codegraph_bin=None,
     codegraph_limit=12,
 ):
-    """Performs a lightweight preflight token scan to prevent duplicate capability implementation."""
+    """Performs a lightweight preflight token scan to prevent duplicate capability implementation.
+
+    v0.2: when --json or --refresh is set, dispatch via plugins/preflight/<name>.py
+    (REPERS_PLUGIN_PREFLIGHT env override). The text-output path stays in-tree.
+    """
     if as_json or refresh_index:
         sys.path.append(SCRIPT_DIR)
-        from research_index import build_research_artifact, refresh
+        from plugin_loader import load_plugin
 
-        if refresh_index:
-            refresh(INDEX_DB_PATH, REPO_ROOT, DEFAULT_CODEX_SKILLS_DIR)
-        artifact = build_research_artifact(INDEX_DB_PATH, query, REPO_ROOT, DEFAULT_CODEX_SKILLS_DIR)
+        plugin = load_plugin("preflight")
+        if plugin is not None and hasattr(plugin, "preflight"):
+            artifact = plugin.preflight(
+                query=query,
+                index_db_path=INDEX_DB_PATH,
+                repo_root=REPO_ROOT,
+                skills_dir=DEFAULT_CODEX_SKILLS_DIR,
+                refresh_index=refresh_index,
+            )
+        else:
+            from research_index import build_research_artifact, refresh
+            if refresh_index:
+                refresh(INDEX_DB_PATH, REPO_ROOT, DEFAULT_CODEX_SKILLS_DIR)
+            artifact = build_research_artifact(INDEX_DB_PATH, query, REPO_ROOT, DEFAULT_CODEX_SKILLS_DIR)
         if codegraph:
             from codegraph_support import collect_codegraph_evidence
 
@@ -284,17 +299,23 @@ def resolve_task_paths(task):
 
 
 def run_plan(args):
+    """v0.2: plugin-loaded via plugins/plan/<name>.py (REPERS_PLUGIN_PLAN env override)."""
     sys.path.append(SCRIPT_DIR)
-    from plan_runner import build_plan_json, build_plan_proposal
+    from plugin_loader import load_plugin
 
     task_dir, plan_path = resolve_task_paths(args.task)
+    plugin = load_plugin("plan")
+
     if args.from_research:
-        proposal, json_path, md_path = build_plan_proposal(
-            args.task,
-            task_dir,
-            objective=args.objective,
-            max_steps=args.max_steps,
-        )
+        if plugin is not None and hasattr(plugin, "propose"):
+            proposal, json_path, md_path = plugin.propose(
+                args.task, task_dir, objective=args.objective, max_steps=args.max_steps,
+            )
+        else:
+            from plan_runner import build_plan_proposal
+            proposal, json_path, md_path = build_plan_proposal(
+                args.task, task_dir, objective=args.objective, max_steps=args.max_steps,
+            )
         result = {"proposal": proposal, "path": str(json_path), "markdown_path": str(md_path)}
         if args.json:
             emit_json(result)
@@ -303,7 +324,11 @@ def run_plan(args):
             print(f"[OK] Wrote proposed Markdown plan: {md_path}")
         return
 
-    plan, output_path = build_plan_json(args.task, task_dir, plan_path)
+    if plugin is not None and hasattr(plugin, "plan"):
+        plan, output_path = plugin.plan(args.task, task_dir, plan_path)
+    else:
+        from plan_runner import build_plan_json
+        plan, output_path = build_plan_json(args.task, task_dir, plan_path)
     if args.json:
         emit_json({"plan": plan, "path": str(output_path)})
     else:
@@ -395,8 +420,10 @@ def run_route_command(args):
 
 
 def run_dispatch_command(args):
+    """v0.2: plugin-loaded via plugins/dispatch/<name>.py (REPERS_PLUGIN_DISPATCH env override)."""
     sys.path.append(SCRIPT_DIR)
-    from plan_runner import build_plan_json, dispatch_ready, load_plan_json
+    from plan_runner import build_plan_json, load_plan_json
+    from plugin_loader import load_plugin
 
     task_dir, plan_path = resolve_task_paths(args.task)
     plan_json_path = os.path.join(task_dir, "plan.json")
@@ -405,12 +432,16 @@ def run_dispatch_command(args):
     else:
         plan, _ = build_plan_json(args.task, task_dir, plan_path)
 
-    manifest, manifest_path = dispatch_ready(
-        plan,
-        task_dir,
-        backend=args.backend,
-        max_workers=args.max_workers,
-    )
+    plugin = load_plugin("dispatch")
+    if plugin is not None and hasattr(plugin, "dispatch"):
+        manifest, manifest_path = plugin.dispatch(
+            plan, task_dir, backend=args.backend, max_workers=args.max_workers,
+        )
+    else:
+        from plan_runner import dispatch_ready
+        manifest, manifest_path = dispatch_ready(
+            plan, task_dir, backend=args.backend, max_workers=args.max_workers,
+        )
     result = {"manifest": manifest, "path": str(manifest_path)}
     if args.json:
         emit_json(result)
@@ -440,31 +471,40 @@ def run_doctor_command(args):
 
 
 def run_review_command(args):
+    """v0.2: plugin-loaded via plugins/review/<name>.py (REPERS_PLUGIN_REVIEW env override)."""
     sys.path.append(SCRIPT_DIR)
-    from reviewer import review_task
+    from plugin_loader import load_plugin
 
     task_dir, _ = resolve_task_paths(args.task)
-    result = review_task(task_dir, update_status=args.update_status)
-    if args.json:
-        emit_json(result)
+    plugin = load_plugin("review")
+    if plugin is not None and hasattr(plugin, "review"):
+        result = plugin.review(task_dir, update_status=args.update_status)
     else:
-        emit_json(result)
+        from reviewer import review_task
+        result = review_task(task_dir, update_status=args.update_status)
+    emit_json(result)
 
 
 def run_shipping_command(args):
+    """v0.2: plugin-loaded via plugins/ship/<name>.py (REPERS_PLUGIN_SHIP env override)."""
     sys.path.append(SCRIPT_DIR)
     from doctor import run_doctor
-    from shipping import create_shipping_report
+    from plugin_loader import load_plugin
 
     task_dir, _ = resolve_task_paths(args.task)
     doctor_result = run_doctor(REPO_ROOT, INSTALL_ROOT, INDEX_DB_PATH, LSP_GUARD_CMD)
-    report, output_path = create_shipping_report(
-        args.task,
-        task_dir,
-        REPO_ROOT,
-        doctor_result,
-        installed_target=args.installed_target,
-    )
+    plugin = load_plugin("ship")
+    if plugin is not None and hasattr(plugin, "ship"):
+        report, output_path = plugin.ship(
+            args.task, task_dir, REPO_ROOT, doctor_result,
+            installed_target=args.installed_target,
+        )
+    else:
+        from shipping import create_shipping_report
+        report, output_path = create_shipping_report(
+            args.task, task_dir, REPO_ROOT, doctor_result,
+            installed_target=args.installed_target,
+        )
     result = {"shipping": report, "path": str(output_path)}
     if args.json:
         emit_json(result)

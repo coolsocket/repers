@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "repers.shipping.v1",
+  "title": "RePERS task-level delivery evidence",
+  "description": "Output of the shipping stage. Per-task evidence bundle: which artifacts exist, which gates passed, which warnings the maintainer should see before declaring the task shipped.",
+  "type": "object",
+  "required": ["schema", "task", "task_dir", "generated_at", "summary", "artifacts"],
+  "properties": {
+    "schema": {"const": "repers.shipping.v1"},
+    "task": {"type": "string"},
+    "task_dir": {"type": "string"},
+    "generated_at": {"type": "string", "description": "ISO 8601 UTC"},
+    "summary": {
+      "type": "object",
+      "required": ["ok"],
+      "properties": {
+        "ok": {"type": "boolean"},
+        "errors": {"type": "array", "items": {"type": "string"}},
+        "warnings": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "markdown": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "path", "exists"],
+            "properties": {
+              "name": {"type": "string"},
+              "path": {"type": "string"},
+              "exists": {"type": "boolean"},
+              "size_bytes": {"type": "integer"}
+            }
+          }
+        },
+        "json": {"type": "array"}
+      }
+    }
+  }
+}
