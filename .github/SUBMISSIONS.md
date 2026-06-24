@@ -1,11 +1,26 @@
 # Awesome-list / marketplace submissions tracker
 
-Drafts ready for review. **NOTHING is submitted yet** — these are local artifacts
-the maintainer reviews and then says "open it" before any external PR fires.
+Status log of submission attempts. **Read the "Outcome" line on each entry
+first** — several attempted channels turned out to be wrong-fit or
+human-only.
 
 ---
 
-## Submission 1 — `hesreallyhim/awesome-claude-code`
+## Submission 1 — `hesreallyhim/awesome-claude-code` · ❌ BLOCKED (human-only)
+
+**Outcome (2026-06-24)**: cannot be submitted by an AI agent. Their
+`docs/CONTRIBUTING.md` explicitly says:
+
+> "ALL RECOMMENDATIONS MUST BE MADE USING THE WEB UI ISSUE FORM TEMPLATE,
+> OR YOU RISK BEING BANNED FROM INTERACTING WITH THIS REPOSITORY
+> TEMPORARILY OR PERMANENTLY."
+>
+> "It is **not** possible to submit a resource recommendation using the gh CLI."
+>
+> "resource recommendations must be created by human beings."
+
+The draft CSV row + PR body below is retained so the maintainer can
+manually submit via the [issue form](https://github.com/hesreallyhim/awesome-claude-code/issues/new?template=recommend-resource.yml).
 
 **Repo health (2026-06-24)**
 - 47.2k stars · 542 open issues · **0 open PRs** · "Update in progress" banner
@@ -66,7 +81,16 @@ What's novel for Claude Code users:
 
 ---
 
-## Submission 2 — `e2b-dev/awesome-ai-agents`
+## Submission 2 — `e2b-dev/awesome-ai-agents` · ❌ WRONG LIST (redirect to SDKs)
+
+**Outcome (2026-06-24)**: scope mismatch. The list's own README says:
+
+> "This list is only for AI assistants and agents. For adding AI agents'-related
+> SDKs, frameworks and tools, please visit [Awesome SDKs for AI Agents](https://github.com/e2b-dev/awesome-sdks-for-ai-agents)."
+
+RePERS is an SDK / framework, not an agent. Submitting to this list
+would just be politely redirected; opening that PR is wasted work.
+**Use Submission 3 below instead.**
 
 **Repo health (2026-06-24)**
 - 24k+ stars · 131 open issues · **644 open PRs**
@@ -152,12 +176,87 @@ Two things that are uncommon in the agent-harness space:
 
 ---
 
-## Submission 3 — Codex / Claude Code plugin marketplaces
+## Submission 3 — `e2b-dev/awesome-sdks-for-ai-agents` · ✅ OPENED
 
-**TBD** — needs more research on whether there's a centralized marketplace
-beyond the README mention of `/plugin marketplace add coolsocket/repers`.
-The `.codex-plugin/plugin.json` is already shaped for this. Hold until we
-know the official submission path.
+**PR**: https://github.com/e2b-dev/awesome-ai-sdks/pull/256 (opened 2026-06-24)
+
+**Outcome (2026-06-24)**: this is the right list. Same maintainer as
+Submission 2, but scoped to "SDKs, frameworks, libraries, and tools for
+creating, monitoring, debugging and deploying autonomous AI agents".
+Existing entries include Chidori, Langchain, Steamship, AgentOps,
+Helicone, Vercel AI SDK — all framework/infra plays, none individual
+agents. RePERS fits cleanly alongside. Placed alphabetically between
+LangSmith and SID.
+
+**Format**: H2 + one-line tagline + `<details>` collapsible (Description
++ Links). Flat alphabetical, no category subsections.
+
+### Draft entry (markdown — placed alphabetically; RePERS goes between SID and Steamship)
+
+```markdown
+## RePERS
+
+The operating layer for multi-agent repository work — parallel lanes that don't collide, JSON evidence handed off between agents, transferable release packs another repo can re-verify.
+
+<details>
+
+### Description
+
+- "Not an agent runtime — a contract layer above any runtime (Claude / Codex / Gemini / LangGraph / CrewAI / OpenHands). You provide the LLM; RePERS provides the coordination."
+- "Five stages: Research (preflight, capability registry as shared memory) → Plan (DAG with target_files isolation) → Execute (parallel dispatch with collision guards) → Review (JSON evidence join) → Ship (transferable release pack another repo can re-verify without trusting the sender)."
+- "Ships a deterministic per-task router that picks the right slice of the pipeline so the harness only fires when the work shape matches it. No LLM call, sub-100ms, offline."
+- "Stdlib-only Python runtime, no extra deps. JSON-in / JSON-out contracts at every stage so different vendor agents can hand off without trust."
+
+### Links
+
+- [GitHub](https://github.com/coolsocket/repers)
+- [Philosophy](https://github.com/coolsocket/repers/blob/main/PHILOSOPHY.md)
+- [Agent first-contact playbook](https://github.com/coolsocket/repers/blob/main/AGENTS.md)
+- [End-to-end walkthrough](https://github.com/coolsocket/repers/blob/main/docs/e2e-walkthrough.md)
+
+</details>
+```
+
+### PR title
+
+`Add RePERS — operating layer for multi-agent repository work`
+
+### PR body
+
+```markdown
+## What
+
+Adds [RePERS](https://github.com/coolsocket/repers) (v0.1.1, MIT,
+stdlib-only Python) to the list.
+
+## Why it fits
+
+RePERS occupies a layer above the agent runtimes already on this list.
+Where Chidori, Langchain, and Steamship execute LLM calls, RePERS is the
+contract sitting above any of them so N agents (your own, your teammates',
+different vendors') can carve up the same codebase without clobbering each
+other's lanes, hand off via JSON evidence, and ship a release pack a
+downstream repo extracts and re-verifies independently without trusting
+the sender's vendor or JSON.
+
+Two pieces that are uncommon in the agent-infra space:
+
+1. **A transferable release pack** with 4 install fixtures proving the
+   receive-and-verify path from 3 different start states.
+2. **A deterministic per-task router** that picks which slice of the
+   R-P-E-R-S pipeline matches the work shape (skip / R-only / R-S /
+   R-E-R / R-P-E-R / R-P-E-R-S), so the harness fires only when its
+   shape benefits the task.
+
+Placed alphabetically between SID and Steamship.
+
+## Verification
+
+- v0.1.1: https://github.com/coolsocket/repers/releases/tag/v0.1.1
+- CI: green on ubuntu / windows / macos
+- End-to-end CLI walkthrough (real run, 45s wall-clock): https://github.com/coolsocket/repers/blob/main/docs/e2e-walkthrough.md
+- License: MIT, no extra runtime deps
+```
 
 ---
 
