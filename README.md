@@ -287,7 +287,7 @@ python3 .repers/scripts/repers.py release-pack --json
 ```
 .repers/
 ├── scripts/             stdlib-only Python: repers.py (CLI) + per-capability scripts
-├── capabilities/        registry.json — 24 reusable workflows / scripts / hooks / gates
+├── capabilities/        registry.json — 25 reusable workflows / scripts / hooks / gates
 ├── hooks/               pre-commit (warn / strict policies)
 ├── templates/           files copied into receiver repos
 ├── docs/                internal architecture / spec / workflow notes

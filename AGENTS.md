@@ -53,8 +53,11 @@ git clone https://github.com/coolsocket/repers.git /tmp/repers
 python3 /tmp/repers/.repers/scripts/repers.py route \
   --task "<the user's actual task, one sentence>" \
   --est-files <integer or omit if unknown> \
+  --repo-root <path to the USER's repo if you're routing for their codebase, not the harness clone> \
   --json
 ```
+
+(`--repo-root` defaults to the harness clone, which auto-detects file count and domain count from the harness itself. If you're routing for the user's actual repo, point it there so the signals are real.)
 
 The response carries a `next_step` envelope. **Branch on `next_step.action` — don't parse prose.**
 
