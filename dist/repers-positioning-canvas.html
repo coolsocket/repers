@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RePERS — where on the curve are you?</title>
+<script>try{var t=localStorage.getItem("wc-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<style>
+:root {
+  --bg: #faf7f2;
+  --bg-accent: #f3ece1;
+  --card: #ffffff;
+  --card-border: #ece4d8;
+  --text: #2b2722;
+  --text-muted: #8a8073;
+  --accent: #d97757;
+  --accent-dark: #bd5a39;
+  --green: #2f8f5b;
+  --red: #d2553f;
+  --yellow: #c08a2e;
+  --purple: #7c5cd0;
+  --blue: #2b8fb0;
+  --shadow-sm: 0 1px 2px rgba(43,39,34,.05), 0 4px 14px rgba(43,39,34,.03);
+  --shadow-lg: 0 10px 28px rgba(189,90,57,.14);
+  --radius: 12px;
+  --mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, monospace;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --bg-accent: #1a2336;
+  --card: #1e293b;
+  --card-border: #334155;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent: #f0a384;
+  --accent-dark: #d97757;
+  --green: #4ade80;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --purple: #a78bfa;
+  --blue: #38bdf8;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.25);
+  --shadow-lg: 0 10px 28px rgba(0,0,0,.35);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 2rem;
+  -webkit-font-smoothing: antialiased;
+  border-top: 4px solid var(--accent);
+}
+.container { max-width: 1200px; margin: 0 auto; }
+.container--reading { max-width: 860px; }
+a { color: var(--accent-dark); }
+
+h1 {
+  font-size: 2rem; font-weight: 700; margin-bottom: .4rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.subtitle { color: var(--text-muted); margin-bottom: 1.5rem; font-size: .95rem; }
+.meta-bar {
+  display: flex; flex-wrap: wrap; gap: .35rem 1rem; align-items: center;
+  font-size: .8rem; color: var(--text-muted); font-family: var(--mono);
+  margin-bottom: 1.75rem;
+}
+.footer {
+  text-align: center; color: var(--text-muted); font-size: .8rem;
+  margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border);
+}
+
+.section { margin-bottom: 2.5rem; }
+.section-title {
+  font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: .5rem; scroll-margin-top: 5rem;
+}
+.section-icon { font-size: 1.35rem; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+.card {
+  background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius);
+  padding: 1.5rem; box-shadow: var(--shadow-sm); transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.card-title { font-size: .8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .5rem; }
+.card-value { font-size: 2rem; font-weight: 700; }
+.card-detail { font-size: .85rem; color: var(--text-muted); margin-top: .25rem; }
+
+.badge { display: inline-flex; align-items: center; gap: .4rem; padding: .22rem .7rem; border-radius: 9999px; font-size: .78rem; font-weight: 600; }
+.badge.done, .badge.pass, .badge.ok, .badge.new   { background: color-mix(in srgb, var(--green) 16%, transparent); color: var(--green); }
+.badge.running, .badge.info                        { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent-dark); }
+.badge.blocked, .badge.fail, .badge.bad            { background: color-mix(in srgb, var(--red) 16%, transparent); color: var(--red); }
+.badge.waiting, .badge.pend, .badge.warn           { background: color-mix(in srgb, var(--yellow) 18%, transparent); color: var(--yellow); }
+.badge.exists, .badge.muted                        { background: color-mix(in srgb, var(--text-muted) 18%, transparent); color: var(--text-muted); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.dot.live { animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+.tag { display: inline-block; padding: .12rem .5rem; border-radius: 5px; font-size: .75rem; font-weight: 600; margin-right: .25rem; background: var(--bg-accent); color: var(--text-muted); }
+.tag.green { background: color-mix(in srgb, var(--green) 14%, transparent); color: var(--green); }
+.tag.red   { background: color-mix(in srgb, var(--red) 14%, transparent); color: var(--red); }
+.tag.amber { background: color-mix(in srgb, var(--yellow) 16%, transparent); color: var(--yellow); }
+.tag.coral { background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent-dark); }
+.tag.purple{ background: color-mix(in srgb, var(--purple) 15%, transparent); color: var(--purple); }
+
+.progress-bar { width: 100%; height: 8px; background: color-mix(in srgb, var(--text) 9%, transparent); border-radius: 4px; overflow: hidden; margin-top: .5rem; }
+.progress-fill { height: 100%; border-radius: 4px; transition: width .5s ease; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 55%, white)); }
+.progress-fill.green { background: linear-gradient(90deg, var(--green), color-mix(in srgb, var(--green) 55%, white)); }
+.progress-fill.amber { background: linear-gradient(90deg, var(--yellow), color-mix(in srgb, var(--yellow) 55%, white)); }
+.progress-fill.red   { background: linear-gradient(90deg, var(--red), color-mix(in srgb, var(--red) 55%, white)); }
+.bar-track { display: flex; align-items: center; gap: .5rem; margin: .35rem 0; }
+.bar-track .bar-label { flex: 0 0 130px; font-size: .85rem; color: var(--text-muted); }
+.bar-track .bar { height: 18px; border-radius: 4px; background: var(--accent); }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--card-border); border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; background: var(--card); }
+th {
+  background: var(--bg-accent); text-align: left; padding: .7rem 1rem; font-size: .78rem;
+  text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted);
+  border-bottom: 1px solid var(--card-border); position: sticky; top: 0;
+}
+th[data-sort] { cursor: pointer; user-select: none; }
+th[data-sort]::after { content: " \2195"; opacity: .35; }
+th[data-sort].asc::after { content: " \2191"; opacity: 1; }
+th[data-sort].desc::after { content: " \2193"; opacity: 1; }
+td { padding: .7rem 1rem; border-bottom: 1px solid color-mix(in srgb, var(--text) 8%, transparent); font-size: .9rem; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--bg-accent) 45%, transparent); }
+tbody tr:hover td { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); }
+td.best { font-weight: 700; color: var(--green); }
+.filter-bar { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .75rem; }
+.chip { padding: .25rem .7rem; border-radius: 9999px; border: 1px solid var(--card-border); background: var(--card); color: var(--text-muted); font-size: .8rem; cursor: pointer; }
+.chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.callout { border-left: 4px solid var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--card)); border-radius: 0 var(--radius) var(--radius) 0; padding: 1rem 1.25rem; margin: 1rem 0; }
+.callout.good { border-color: var(--green); background: color-mix(in srgb, var(--green) 8%, var(--card)); }
+.callout.warn { border-color: var(--yellow); background: color-mix(in srgb, var(--yellow) 9%, var(--card)); }
+.callout.bad  { border-color: var(--red); background: color-mix(in srgb, var(--red) 8%, var(--card)); }
+.callout-title { font-weight: 700; margin-bottom: .35rem; }
+
+.needs-input { border: 1px dashed var(--accent); background: color-mix(in srgb, var(--accent) 6%, var(--card)); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+.needs-input h2 { font-size: 1.1rem; margin-bottom: .5rem; color: var(--accent-dark); }
+.needs-input ol { padding-left: 1.25rem; }
+.needs-input li { margin: .4rem 0; }
+
+.verdict { border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin: 1.25rem 0; box-shadow: var(--shadow-sm); }
+.verdict.pursue { background: linear-gradient(135deg, color-mix(in srgb, var(--yellow) 14%, var(--card)), var(--card)); }
+.verdict.go     { background: linear-gradient(135deg, color-mix(in srgb, var(--green) 14%, var(--card)), var(--card)); }
+.verdict.stop   { background: linear-gradient(135deg, color-mix(in srgb, var(--red) 14%, var(--card)), var(--card)); }
+.verdict-badge { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .15rem .55rem; border-radius: 5px; background: var(--accent); color: #fff; margin-bottom: .5rem; }
+.decision { counter-reset: none; }
+.decision-item { border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: .9rem; background: var(--card); }
+.decision-q { font-weight: 600; margin-bottom: .5rem; }
+.commentbox { border: 1px dashed var(--text-muted); border-radius: 8px; padding: .6rem .8rem; min-height: 2.4rem; font-family: var(--mono); font-size: .85rem; color: var(--text); background: color-mix(in srgb, var(--bg-accent) 50%, transparent); }
+.commentbox:empty::before { content: "Comment\2026"; color: var(--text-muted); }
+.commentbox:focus { outline: 2px solid var(--accent); }
+
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before { content: ""; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--card-border); }
+.timeline-item { position: relative; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid color-mix(in srgb, var(--text) 7%, transparent); }
+.timeline-item:last-child { border-bottom: none; margin-bottom: 0; }
+.timeline-dot { position: absolute; left: -2rem; top: .35rem; width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--bg); background: var(--accent); }
+.timeline-date { font-size: .8rem; color: var(--text-muted); }
+.timeline-title { font-weight: 600; margin: .15rem 0; }
+.timeline-desc { font-size: .85rem; color: var(--text-muted); }
+
+.legend { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center; padding: .75rem 1rem; background: var(--bg-accent); border-radius: var(--radius); font-size: .82rem; margin-bottom: 1.25rem; }
+.legend-item { display: inline-flex; align-items: center; gap: .4rem; }
+.legend-swatch { width: 12px; height: 12px; border-radius: 3px; }
+
+.compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+.compare-col { border: 1px solid var(--card-border); border-radius: var(--radius); overflow: hidden; background: var(--card); }
+.compare-col .col-head { padding: .6rem 1rem; font-weight: 600; border-bottom: 1px solid var(--card-border); }
+.compare-col.winner { outline: 2px solid var(--green); }
+.img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.img-grid img, .filmstrip img { width: 100%; border-radius: 8px; cursor: zoom-in; }
+.filmstrip { display: flex; gap: .75rem; overflow-x: auto; padding-bottom: .5rem; }
+.filmstrip > * { flex: 0 0 220px; }
+
+code { font-family: var(--mono); font-size: .85em; background: color-mix(in srgb, var(--accent) 8%, transparent); padding: .12rem .4rem; border-radius: 5px; color: var(--accent-dark); word-break: break-word; }
+pre { background: var(--bg-accent); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1rem; overflow-x: auto; font-family: var(--mono); font-size: .85rem; }
+pre code { background: none; padding: 0; color: var(--text); }
+
+.toolbar { position: fixed; top: .75rem; right: .75rem; display: flex; gap: .4rem; z-index: 50; }
+.btn { padding: .35rem .7rem; border-radius: 8px; border: 1px solid var(--card-border); background: var(--card); color: var(--text); font-size: .8rem; cursor: pointer; box-shadow: var(--shadow-sm); }
+.btn:hover { border-color: var(--accent); }
+.copy-btn { padding: .15rem .5rem; font-size: .72rem; border-radius: 5px; border: 1px solid var(--card-border); background: var(--card); color: var(--text-muted); cursor: pointer; }
+.copy-btn.copied { color: var(--green); border-color: var(--green); }
+
+.tab-bar { display: flex; gap: .25rem; overflow-x: auto; border-bottom: 1px solid var(--card-border); margin-bottom: 1.5rem; }
+.tab-btn { padding: .6rem 1rem; border: none; background: none; color: var(--text-muted); font-size: .9rem; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+.tab-btn.active { color: var(--accent-dark); border-bottom-color: var(--accent); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.layout { display: grid; grid-template-columns: 240px 1fr; gap: 2rem; align-items: start; }
+.sidebar { position: sticky; top: 1.5rem; align-self: start; font-size: .9rem; }
+.sidebar a { display: block; padding: .25rem .5rem; color: var(--text-muted); text-decoration: none; border-radius: 6px; }
+.sidebar a.active { color: var(--accent-dark); background: var(--bg-accent); }
+.back-to-top { position: fixed; bottom: 1.25rem; right: 1.25rem; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.back-to-top.visible { opacity: 1; pointer-events: auto; }
+
+dialog.lightbox { border: none; background: transparent; max-width: 95vw; max-height: 95vh; padding: 0; }
+dialog.lightbox::backdrop { background: rgba(0,0,0,.8); }
+dialog.lightbox img { max-width: 95vw; max-height: 90vh; border-radius: 8px; }
+dialog.lightbox .cap { color: #eee; text-align: center; font-size: .85rem; margin-top: .5rem; }
+
+@media (max-width: 800px) {
+  body { padding: 1rem; }
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .img-grid { grid-template-columns: 1fr; }
+}
+@media print { .toolbar, .back-to-top { display: none; } body { padding: 0; } }
+
+/* page-specific tweaks */
+.sidebar-title { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); padding: 0 .5rem; margin-bottom: .35rem; }
+.router-card { display: flex; flex-direction: column; gap: .4rem; }
+.router-card .perm-id { font-family: var(--mono); font-size: 1.05rem; font-weight: 700; color: var(--accent-dark); }
+.router-card .stages { font-family: var(--mono); font-size: .9rem; padding: .35rem .55rem; background: var(--bg-accent); border-radius: 6px; display: inline-block; }
+.router-card .speedup { font-size: .8rem; color: var(--text-muted); }
+.stat-mini { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1rem 1.1rem; box-shadow: var(--shadow-sm); }
+.stat-mini .big { font-size: 1.4rem; font-weight: 700; }
+.stat-mini .lbl { font-size: .78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; margin-top: .2rem; }
+.snippet-wrap { position: relative; }
+.snippet-wrap .copy-btn { position: absolute; top: .55rem; right: .55rem; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="btn" data-theme-toggle title="Toggle theme">🌗</button>
+</div>
+
+<div class="container">
+
+  <h1>RePERS — where on the curve are you?</h1>
+  <p class="subtitle">60-second positioning canvas for evaluators</p>
+  <div class="meta-bar">
+    <span>2026-06-23</span><span>·</span>
+    <span>v0.1.1 shipped</span><span>·</span>
+    <span>main @ 5e7ce3c</span><span>·</span>
+    <span>repo: github.com/coolsocket/repers</span>
+  </div>
+
+  <div class="needs-input">
+    <h2>⚡ What needs your input</h2>
+    <ol>
+      <li><strong>Which maturity tier (1–6) does your team / org sit in?</strong><br>
+      Once you've picked a tier from the table below, leave a one-line comment in the D1 decision box at the bottom. That alone tells RePERS whether to adopt, route around, or wait.</li>
+    </ol>
+  </div>
+
+  <div class="layout">
+
+    <nav class="sidebar">
+      <div class="sidebar-title">Sections</div>
+      <a href="#sec-a">A. Maturity curve</a>
+      <a href="#sec-b">B. Cross-repo handoff</a>
+      <a href="#sec-c">C. Router decision</a>
+      <a href="#sec-d">D. Evidence anchor</a>
+      <a href="#sec-e">E. v0.1.1 status</a>
+      <a href="#sec-f">F. Verdict</a>
+      <a href="#sec-g">G. Decisions</a>
+    </nav>
+
+    <main>
+
+      <!-- EXECUTIVE SUMMARY -->
+      <div class="section">
+        <div class="section-title"><span class="section-icon">📌</span> Executive summary</div>
+        <div class="callout">
+          <p>RePERS earns its keep at the upper half of the codebase maturity curve — scale-up, big-co, and cross-org settings where parallel AI agents need a contract to avoid clobbering each other and where evidence chains need to be re-verifiable across team / vendor / trust boundaries. At the lower half (greenfield, solo, single-domain) the harness is overhead the router will explicitly tell you to skip. The most under-told feature is the cross-repo handoff: <code>release-pack.zip</code> is a transferable, independently re-verifiable bundle — a feature most agent harnesses don't ship at all.</p>
+        </div>
+      </div>
+
+      <!-- SECTION A -->
+      <div class="section">
+        <div class="section-title" id="sec-a"><span class="section-icon">📊</span> A. The 6-tier maturity curve</div>
+
+        <div class="legend">
+          <span><strong>Verdict colors:</strong></span>
+          <span class="legend-item"><span class="legend-swatch" style="background: var(--red);"></span> Skip (badge <span class="badge fail">fail</span>) — harness is overhead</span>
+          <span class="legend-item"><span class="legend-swatch" style="background: var(--yellow);"></span> Selective (badge <span class="badge pend">pend</span>) — use for big changes only</span>
+          <span class="legend-item"><span class="legend-swatch" style="background: var(--green);"></span> Adopt (badge <span class="badge pass">pass</span>) — sweet spot or higher</span>
+        </div>
+
+        <div class="filter-bar" data-filter-for="curve">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="skip">Skip</button>
+          <button class="chip" data-filter="selective">Selective</button>
+          <button class="chip" data-filter="adopt">Adopt</button>
+        </div>
+
+        <div class="table-wrap"><table id="curve">
+          <thead><tr>
+            <th data-sort>Tier</th>
+            <th data-sort>Repo shape</th>
+            <th data-sort>Verdict</th>
+            <th data-sort>What you actually need</th>
+          </tr></thead>
+          <tbody>
+            <tr data-type="skip">
+              <td><strong>1.</strong> Day 0 — solo prototype (&lt;1 k LOC)</td>
+              <td>One file or two; sketching</td>
+              <td><span class="badge fail">No — naked agent wins</span></td>
+              <td>A chat window</td>
+            </tr>
+            <tr data-type="skip">
+              <td><strong>2.</strong> Early product (1–3 devs, 1–10 k LOC, single domain)</td>
+              <td>Handful of files, light tests</td>
+              <td><span class="badge fail">Almost always no</span></td>
+              <td>CI + pre-commit lint</td>
+            </tr>
+            <tr data-type="selective">
+              <td><strong>3.</strong> Growing product (5–10 devs, 50 k LOC, 2–3 domains)</td>
+              <td>Multi-file PRs common; conflicts start</td>
+              <td><span class="badge pend">Selectively</span> — big changes only (migrations, sweeps, refactors)</td>
+              <td>Branch protection + structured code review</td>
+            </tr>
+            <tr data-type="adopt">
+              <td><strong>4.</strong> Scale-up (20+ engineers, 200 k+ LOC monorepo)</td>
+              <td>Parallel feature work daily; multi-agent helping multiple engineers</td>
+              <td><span class="badge pass">Yes — sweet spot</span></td>
+              <td><code>target_files</code> isolation + dispatch contract to prevent N agents clobbering</td>
+            </tr>
+            <tr data-type="adopt">
+              <td><strong>5.</strong> Big company / regulated (100+ engineers, multi-service, audit trails)</td>
+              <td>Cross-cutting work needs evidence chains; multi-vendor agents</td>
+              <td><span class="badge pass">Yes — as lingua franca</span></td>
+              <td>Standard contract across agent fleets + portable audit trail</td>
+            </tr>
+            <tr data-type="adopt">
+              <td><strong>6.</strong> Cross-org / OSS ecosystem (multi-repo deps, vendor diversity)</td>
+              <td>Agent in repo A produces something repo B has to verify</td>
+              <td><span class="badge pass">Yes — for the handoff</span></td>
+              <td>Contract that survives vendor + org + trust boundaries</td>
+            </tr>
+          </tbody>
+        </table></div>
+
+        <p style="margin-top: 1rem; color: var(--text-muted); font-style: italic;">Pattern: at the small end the overhead dominates; at the large end the coordination IS the work, and absence of a contract IS the pain. The harness feels cheaper as the codebase gets bigger.</p>
+      </div>
+
+      <!-- SECTION B -->
+      <div class="section">
+        <div class="section-title" id="sec-b"><span class="section-icon">🔗</span> B. Cross-repo / cross-team handoff primitives</div>
+
+        <div class="table-wrap"><table>
+          <thead><tr>
+            <th>Cross-repo flow</th>
+            <th>RePERS primitive</th>
+            <th>What it proves</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td>Team A produces a release artifact; Team B's CI must consume + audit</td>
+              <td><code>release-pack.zip</code> (transferable archive: install + readiness + evidence + bootstrap + benchmark + state)</td>
+              <td>A single signed zip moves between repos / orgs / clouds without losing audit context</td>
+            </tr>
+            <tr>
+              <td>Team B receives the pack; their AI/CI must verify independently</td>
+              <td><code>release-pack-verify --archive &lt;pack&gt; --json</code></td>
+              <td>Receiver re-verifies checksums + manifest + embedded evidence WITHOUT trusting sender's vendor or JSON</td>
+            </tr>
+            <tr>
+              <td>Fresh repo wants to adopt from a pack</td>
+              <td><code>receiver-fixture --json</code> + <code>source-install-fixture --json</code></td>
+              <td>Fresh <code>git init</code> + 1 command → working <code>.repers/</code> runtime; both contracts proven in CI</td>
+            </tr>
+            <tr>
+              <td>Two repos cooperate via a temporary bare remote (air-gapped review)</td>
+              <td><code>publish-clone-fixture --json</code></td>
+              <td>Source pushes to bare remote → clone re-verifies → no network deps</td>
+            </tr>
+            <tr>
+              <td>A different LLM vendor (Codex / Gemini / your own) drives a lane</td>
+              <td><code>dispatch.v1</code> manifest + <code>step_result.v1</code> artifact</td>
+              <td>Contract is JSON-in / JSON-out; worker doesn't need to know which vendor the supervisor uses</td>
+            </tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <!-- SECTION C -->
+      <div class="section">
+        <div class="section-title" id="sec-c"><span class="section-icon">🧭</span> C. Router decision tree (6 outcomes)</div>
+
+        <div class="compare-grid">
+
+          <div class="compare-col">
+            <div class="col-head"><span class="perm-id" style="font-family: var(--mono);">skip</span></div>
+            <div style="padding: .75rem 1rem;" class="router-card">
+              <div>Task is trivial; harness is pure overhead.</div>
+              <div class="stages">(none)</div>
+              <div class="speedup"><strong>Speedup:</strong> 0.2× (overhead)</div>
+            </div>
+          </div>
+
+          <div class="compare-col">
+            <div class="col-head"><span class="perm-id" style="font-family: var(--mono);">R-only</span></div>
+            <div style="padding: .75rem 1rem;" class="router-card">
+              <div>Spike / scoping; decide before building.</div>
+              <div class="stages">R</div>
+              <div class="speedup"><strong>Speedup:</strong> n/a (preserves context, no execution)</div>
+            </div>
+          </div>
+
+          <div class="compare-col">
+            <div class="col-head"><span class="perm-id" style="font-family: var(--mono);">R-S</span></div>
+            <div style="padding: .75rem 1rem;" class="router-card">
+              <div>Docs / config only; skip execute.</div>
+              <div class="stages">R → S</div>
+              <div class="speedup"><strong>Speedup:</strong> ~1.0× (lightweight)</div>
+            </div>
+          </div>
+
+          <div class="compare-col">
+            <div class="col-head"><span class="perm-id" style="font-family: var(--mono);">R-E-R</span></div>
+            <div style="padding: .75rem 1rem;" class="router-card">
+              <div>Hotfix / single-file; test pins the answer.</div>
+              <div class="stages">R → E → R</div>
+              <div class="speedup"><strong>Speedup:</strong> ~0.5–0.8× (modest ceremony cost)</div>
+            </div>
+          </div>
+
+          <div class="compare-col">
+            <div class="col-head"><span class="perm-id" style="font-family: var(--mono);">R-P-E-R</span></div>
+            <div style="padding: .75rem 1rem;" class="router-card">
+              <div>Multi-file in one domain.</div>
+              <div class="stages">R → P → E → R</div>
+              <div class="speedup"><strong>Speedup:</strong> ~1.5–2.0× (parallel lanes pay)</div>
+            </div>
+          </div>
+
+          <div class="compare-col winner">
+            <div class="col-head"><span class="perm-id" style="font-family: var(--mono);">R-P-E-R-S</span></div>
+            <div style="padding: .75rem 1rem;" class="router-card">
+              <div>Multi-domain, multi-day, multi-agent.</div>
+              <div class="stages">R → P → E → R → S</div>
+              <div class="speedup"><strong>Speedup:</strong> ~2.0–3.0× (full chain pays)</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="snippet-wrap" style="margin-top: 1.25rem;">
+          <pre id="route-snippet"><code>python .repers/scripts/repers.py route \
+  --task "&lt;your task description&gt;" \
+  --est-files &lt;N&gt; \
+  --json</code></pre>
+          <button class="copy-btn" data-copy="#route-snippet">Copy</button>
+        </div>
+      </div>
+
+      <!-- SECTION D -->
+      <div class="section">
+        <div class="section-title" id="sec-d"><span class="section-icon">🩺</span> D. The 5.8× evidence anchor</div>
+
+        <div class="verdict stop">
+          <span class="verdict-badge" style="background: var(--red);">Anchor evidence — sqlfluff__sqlfluff-2419</span>
+          <ul style="margin: .5rem 0 .5rem 1.25rem; line-height: 1.8;">
+            <li><strong>Task:</strong> 4-line patch to one file (<code>L060.py</code>) to fix a generic lint description</li>
+            <li><strong>With harness</strong> (R-P-E-R-S, 3 parallel lanes): <strong>93 seconds</strong> wall-clock</li>
+            <li><strong>Without harness</strong> (naked Claude reading + editing): <strong>16 seconds</strong> wall-clock</li>
+            <li><strong>Overhead ratio:</strong> <strong>5.8×</strong> for functionally identical patches (both passed the test)</li>
+            <li><strong>Verdict:</strong> harness ceremony cost &gt; value at this size. The router would (now) correctly route this to <code>R-E-R</code> with reason "estimated 1 file(s) — naked agent is faster"</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SECTION E -->
+      <div class="section">
+        <div class="section-title" id="sec-e"><span class="section-icon">📦</span> E. v0.1.1 shipment status</div>
+
+        <div class="grid">
+          <div class="stat-mini">
+            <div class="big">25</div>
+            <div class="lbl">capabilities (was 24; +1 <code>route</code>)</div>
+          </div>
+          <div class="stat-mini">
+            <div class="big">5</div>
+            <div class="lbl">skills (was 4; +1 <code>/repers-route</code>)</div>
+          </div>
+          <div class="stat-mini">
+            <div class="big">43</div>
+            <div class="lbl">installed files</div>
+          </div>
+          <div class="stat-mini">
+            <div class="big"><span class="badge pass">🟢 green</span></div>
+            <div class="lbl">CI (ubuntu / windows / macos)</div>
+          </div>
+          <div class="stat-mini">
+            <div class="big">45 s</div>
+            <div class="lbl">e2e walkthrough: real run, every CLI command executed</div>
+          </div>
+          <div class="stat-mini">
+            <div class="big">2</div>
+            <div class="lbl">UX fixes from dogfood: <code>review</code> auto-refreshes plan.json; <code>verify-install</code> emits actionable <code>hint</code></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION F -->
+      <div class="section">
+        <div class="section-title" id="sec-f"><span class="section-icon">✅</span> F. Verdict</div>
+
+        <div class="verdict pursue">
+          <span class="verdict-badge">Pursue if you're tier 4–6; route around if 1–3</span>
+          <p>The harness is opinionated. It will tell you to skip when it doesn't fit (the router routes the sqlfluff bug to "naked agent is faster"). When it fits — parallel multi-agent work on a real codebase with cross-team handoffs — there is no comparable open contract layer in the agentic-AI ecosystem today. LangGraph / CrewAI / OpenHands are runtimes that execute LLM calls. RePERS is what sits above any of them so an N-agent fleet can carve up real engineering work without clobbering, hand off with evidence, and ship verifiably.</p>
+          <p style="margin-top: .75rem;"><strong>Tradeoff to call out plainly:</strong> the cross-repo handoff story (Section B) is the strongest under-told piece, but it presumes the receiving team also has RePERS installed — otherwise the pack is just a zip. v0.2 will reduce that adoption friction.</p>
+        </div>
+      </div>
+
+      <!-- SECTION G -->
+      <div class="section">
+        <div class="section-title" id="sec-g"><span class="section-icon">📝</span> G. Decisions</div>
+
+        <div class="decision">
+          <div class="decision-item">
+            <div class="decision-q">D1 · Which maturity tier (1–6) am I in?</div>
+            <p>Pick a row from Section A — one line of context.</p>
+            <div class="commentbox" contenteditable data-persist id="d1"></div>
+          </div>
+
+          <div class="decision-item">
+            <div class="decision-q">D2 · Do we have parallel multi-agent or multi-team work today?</div>
+            <p>If yes, the dispatch contract is the immediate value; if no, the router will keep saying "skip".</p>
+            <div class="commentbox" contenteditable data-persist id="d2"></div>
+          </div>
+
+          <div class="decision-item">
+            <div class="decision-q">D3 · Do we need auditable handoffs between teams / vendors / repos?</div>
+            <p>If yes, the release-pack story (Section B) is the strongest fit. If your team is single-vendor and single-org today, that part is optional.</p>
+            <div class="commentbox" contenteditable data-persist id="d3"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <button class="btn back-to-top" data-top title="Back to top">↑ Top</button>
+
+  <div class="footer">
+    <p>Built by Claude Code (claude-opus-4-7[1m]) via work-canvas skill · 2026-06-23 · source: /home/sa_114486498687979675637/repers @ commit 5e7ce3c · evaluator canvas, not auto-published</p>
+  </div>
+
+</div>
+
+<script>
+function initTheme() {
+  const KEY = "wc-theme";
+  const root = document.documentElement;
+  const btn = document.querySelector("[data-theme-toggle]");
+  if (btn) btn.addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem(KEY, next); } catch (e) {}
+  });
+  const p = document.querySelector("[data-print]");
+  if (p) p.addEventListener("click", () => window.print());
+}
+
+function initTables() {
+  document.querySelectorAll("table").forEach(table => {
+    table.querySelectorAll("th[data-sort]").forEach((th, col) => {
+      th.addEventListener("click", () => {
+        const tb = table.tBodies[0];
+        const rows = [...tb.rows];
+        const numeric = th.dataset.sort === "num";
+        const asc = !th.classList.contains("asc");
+        table.querySelectorAll("th").forEach(h => h.classList.remove("asc", "desc"));
+        th.classList.add(asc ? "asc" : "desc");
+        rows.sort((a, b) => {
+          let x = a.cells[col]?.innerText.trim() ?? "", y = b.cells[col]?.innerText.trim() ?? "";
+          if (numeric) { x = parseFloat(x.replace(/[^0-9.\-]/g, "")); y = parseFloat(y.replace(/[^0-9.\-]/g, "")); x = isNaN(x) ? -Infinity : x; y = isNaN(y) ? -Infinity : y; return asc ? x - y : y - x; }
+          return asc ? x.localeCompare(y) : y.localeCompare(x);
+        });
+        rows.forEach(r => tb.appendChild(r));
+      });
+    });
+  });
+  document.querySelectorAll(".filter-bar[data-filter-for]").forEach(bar => {
+    const table = document.getElementById(bar.dataset.filterFor);
+    if (!table) return;
+    bar.addEventListener("click", e => {
+      const chip = e.target.closest(".chip"); if (!chip) return;
+      bar.querySelectorAll(".chip").forEach(c => c.classList.toggle("active", c === chip));
+      const f = chip.dataset.filter;
+      [...table.tBodies[0].rows].forEach(r => { r.style.display = (f === "all" || r.dataset.type === f) ? "" : "none"; });
+    });
+  });
+}
+
+function initCopy() {
+  document.querySelectorAll(".copy-btn[data-copy]").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const v = btn.dataset.copy;
+      const src = v.startsWith("#") ? document.querySelector(v) : null;
+      const text = src ? src.innerText : v;
+      try { await navigator.clipboard.writeText(text); } catch (e) {}
+      const old = btn.textContent; btn.textContent = "Copied ✓"; btn.classList.add("copied");
+      setTimeout(() => { btn.textContent = old; btn.classList.remove("copied"); }, 1400);
+    });
+  });
+}
+
+function initScrollspy() {
+  const links = [...document.querySelectorAll(".sidebar a[href^='#']")];
+  if (links.length) {
+    const ids = links.map(a => a.getAttribute("href").slice(1));
+    const onScroll = () => {
+      let cur = ids[0];
+      for (const id of ids) { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top <= 120) cur = id; }
+      links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + cur));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  }
+  const top = document.querySelector("[data-top]");
+  if (top) {
+    top.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    window.addEventListener("scroll", () => top.classList.toggle("visible", window.scrollY > 400), { passive: true });
+  }
+}
+
+function initPersist() {
+  const els = document.querySelectorAll("[data-persist]");
+  els.forEach(el => {
+    const key = "wc-" + (el.id || el.dataset.persist);
+    try {
+      const saved = localStorage.getItem(key);
+      if (saved !== null) { if (el.type === "checkbox") el.checked = saved === "1"; else el.textContent = saved; }
+    } catch (e) {}
+    const save = () => { try { localStorage.setItem(key, el.type === "checkbox" ? (el.checked ? "1" : "0") : el.textContent); } catch (e) {} };
+    el.addEventListener(el.type === "checkbox" ? "change" : "input", save);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initTheme(); initCopy(); initPersist(); initScrollspy(); initTables();
+});
+</script>
+</body>
+</html>
