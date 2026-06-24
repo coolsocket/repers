@@ -30,10 +30,10 @@ Three things to internalize:
    and how to hand off*. You provide the intelligence; RePERS provides
    coordination.
 
-2. **It is opinionated about when NOT to use it.** A benchmark on a
-   real 4-line bug measured **5.8× wall-clock overhead vs. a naked agent
-   loop**. The router exists so you never force the harness onto work
-   that's too small for it.
+2. **It is opinionated about when NOT to use it.** For small single-file
+   work, the harness's coordination overhead costs more than it saves —
+   use a naked agent loop instead. The router exists so you never force
+   the harness onto work that's too small for it.
 
 3. **The R/P/E/R/S stages have distinct purposes**:
    - **R**esearch (preflight) → **memory and asset reuse** — don't rebuild what already exists
@@ -157,7 +157,8 @@ collision guarantee. Stay in your lane.
 
 **R lets work compound; P+E makes it fast; R+S makes it transferable.**
 Skip any layer the router says you can. Force-fitting all five onto a
-small task is the documented failure mode (5.8× overhead).
+small task is the documented failure mode — that's what the router exists
+to prevent.
 
 ---
 

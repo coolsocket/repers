@@ -8,10 +8,10 @@ description: Decide whether (and which slice of) the RePERS R-P-E-R-S pipeline f
 > **Layer**: 🧭 **Router** (gate before R) — picks WHICH of R/P/E/R/S layers should run for this specific task. The only skill an agent should call **unconditionally** on first contact.
 
 The router is the **first thing** to call when a user asks for "help me fix X"
-or "I want to work on Y". RePERS has a measured **5.8× wall-clock overhead vs.
-a naked agent** for tasks at the small end (single-file bug, test pins the
-answer); the router exists so the harness is invoked only when its overhead
-actually pays off.
+or "I want to work on Y". For tasks at the small end (single-file bug, test
+pins the answer), RePERS's coordination overhead costs more than it saves —
+the router exists so the harness is invoked only when its overhead actually
+pays off.
 
 ## When to invoke
 
@@ -61,7 +61,8 @@ actually pays off.
   `--est-files N` reflecting your better estimate.
 - The router defaults to the SMALLER permutation when in doubt — the cost
   of under-using the harness is bounded (the user just spends slightly more
-  time in their IDE), while the cost of over-using it is the 5.8× tax.
+  time in their IDE), while the cost of over-using it is real wasted time
+  on ceremony that didn't fit the work.
 
 ## Done criteria
 

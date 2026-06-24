@@ -7,8 +7,7 @@ R-S docs-only · R-only spike) and explain why.
 The router is intentionally a keyword + lightweight-signal decision tree —
 no LLM call, no extra dependencies. It is wrong on purpose in the right
 direction: when in doubt, recommend the smaller permutation so the user
-doesn't waste a 5.8× wall-clock overhead on a bug that didn't need it
-(see docs/e2e-walkthrough.md + the sqlfluff benchmark in FAQ).
+doesn't pay coordination overhead on a task that didn't need it.
 
 A skill or wrapper that has an LLM available is encouraged to overlay
 intent classification on top — but the deterministic router should remain

@@ -62,7 +62,7 @@ It is **not** an agent runtime. It is the **contract above** any runtime — pre
 > ▶️ **See it run end-to-end**: [`docs/e2e-walkthrough.md`](./docs/e2e-walkthrough.md) — a real dogfood through every CLI subcommand (`init → preflight → plan → dispatch → 3 parallel workers → review → run → shipping → verify-install`) in ~45 s wall-clock. Every command shown was actually executed; every artifact is real.
 
 What ships:
-- 🧭 **A router** (`/repers-route` + `repers.py route --json`) that picks the right permutation per task — most one-liners are told to skip the harness entirely. Validated on the real `sqlfluff__sqlfluff-2419` bug: it would have correctly routed to "naked agent" instead of the 5.8× ceremony.
+- 🧭 **A router** (`/repers-route` + `repers.py route --json`) that picks the right permutation per task — small tasks are told to skip the harness entirely, so the pipeline only fires when its shape matches the work.
 - 🧩 **A capability registry** (25 entries, including the new `route` capability) as shared memory across agents — preflight before adding new.
 - 🛡️ **A plan → DAG → dispatch contract** with `target_files` isolation — proven by a deterministic fixture before any live agent runs.
 - 📜 **JSON evidence at every stage** — so Agent B picks up where Agent A stopped, and a reviewer (human or AI) can audit without the chat log.
@@ -86,8 +86,6 @@ The harness's overhead is **fixed**. The work it coordinates **compounds**. So w
 
 **Pattern**: at the small end the overhead dominates; at the large end the coordination *is* the work, and the absence of a contract is what causes the pain. RePERS feels cheaper as the codebase gets bigger. The router exists so a tool that genuinely earns its keep at one end doesn't get force-fitted onto the other.
 
-> **A concrete cost data point we shipped to FAQ honestly**: on `sqlfluff__sqlfluff-2419` (1 file, 4-line patch), running the full pipeline cost **5.8× wall-clock vs. a naked agent for no quality lift**. That's exactly the regime where the router says "skip the harness". Use the data, don't fight it.
-
 ---
 
 ## 🔗 Cross-repo and cross-team handoff
@@ -110,7 +108,7 @@ For a Series-A startup with one repo, these primitives look like over-engineerin
 
 ## ✅ When to use / 🚫 When NOT to use
 
-RePERS is **opinionated**: it earns its keep on a specific shape of work. Most everyday tasks should skip it. (A 1-bug benchmark on `sqlfluff__sqlfluff-2419` measured **5.8× wall-clock overhead vs. a naked agent for no quality lift** — that's the exact shape the router will route around.)
+RePERS is **opinionated**: it earns its keep on a specific shape of work. Most everyday tasks should skip it — the router will tell you when.
 
 | ✅ Use RePERS when… | 🚫 Skip RePERS when… |
 |---|---|
@@ -128,7 +126,7 @@ python3 .repers/scripts/repers.py route --task "<your task description>" --json
 # or via the Codex skill: /repers-route
 ```
 
-The router is a deterministic keyword + repo-signal decision tree (no LLM call, <100 ms, offline). It returns one of `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S` plus the reason — and it defaults to the smaller permutation when in doubt, so the worst case is "you spent 1 minute reading instead of writing the patch in your IDE" rather than the 5.8× tax of over-engineering.
+The router is a deterministic keyword + repo-signal decision tree (no LLM call, <100 ms, offline). It returns one of `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S` plus the reason — and it defaults to the smaller permutation when in doubt, so the worst case is a minute spent reading instead of being pulled into ceremony the task doesn't warrant.
 
 ---
 
@@ -325,7 +323,7 @@ issue.
 
 ### Should I use RePERS for a one-line bug fix?
 
-**No.** A 1-bug benchmark on `sqlfluff__sqlfluff-2419` (4-line patch in 1 file) measured **5.8× wall-clock overhead vs. a naked agent for no quality lift** — both produced functionally identical patches. The router will tell you to skip the harness for that shape of work. RePERS is designed for the **opposite** end: multi-file, multi-domain, multi-day, multi-agent coordination. See [`When to use`](#-when-to-use--when-not-to-use).
+**No.** For a single-file, single-function bug — especially when the failing test already pins the expected output — your editor plus a naked agent loop is faster than the harness's coordination ceremony. The router will tell you to skip. RePERS is designed for the **opposite** end: multi-file, multi-domain, multi-day, multi-agent coordination. See [`When to use`](#-when-to-use--when-not-to-use).
 
 ### How is RePERS different from LangGraph / CrewAI / AutoGen / OpenHands?
 

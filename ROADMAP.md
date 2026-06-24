@@ -19,7 +19,7 @@ for what's in and what's out of scope.
 
 UX honesty pass after end-to-end dogfood (see [`docs/e2e-walkthrough.md`](docs/e2e-walkthrough.md)).
 
-- 🧭 **Router shipped** — `/repers-route` skill + `repers.py route --task "<desc>" [--est-files N] --json` CLI. Deterministic keyword + repo-signal decision tree → `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S`. No LLM, <100 ms, offline. Validated on the sqlfluff bug: it would have correctly routed to "naked agent" instead of the 5.8× overhead.
+- 🧭 **Router shipped** — `/repers-route` skill + `repers.py route --task "<desc>" [--est-files N] --json` CLI. Deterministic keyword + repo-signal decision tree → `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S`. No LLM, <100 ms, offline. Real-task validation: small single-file work correctly routes to naked agent loop; multi-file / multi-domain work correctly routes to the full pipeline.
 - 🪝 **`/repers-bug-hunt` routes first** — now short-circuits to a naked agent loop when the router says `skip` / `R-E-R`. Only proceeds with preflight → plan → dispatch → review → ship when the router recommends multi-stage.
 - 🛠️ **Two CLI UX fixes** from the dogfood:
   - `review --update-status` now also refreshes `plan.json` (no more "you forgot to re-plan" gotcha).

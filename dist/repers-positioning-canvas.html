@@ -264,7 +264,7 @@ dialog.lightbox .cap { color: #eee; text-align: center; font-size: .85rem; margi
       <a href="#sec-a">A. Maturity curve</a>
       <a href="#sec-b">B. Cross-repo handoff</a>
       <a href="#sec-c">C. Router decision</a>
-      <a href="#sec-d">D. Evidence anchor</a>
+      <a href="#sec-d">D. When to skip</a>
       <a href="#sec-e">E. v0.1.1 status</a>
       <a href="#sec-f">F. Verdict</a>
       <a href="#sec-g">G. Decisions</a>
@@ -461,17 +461,16 @@ dialog.lightbox .cap { color: #eee; text-align: center; font-size: .85rem; margi
 
       <!-- SECTION D -->
       <div class="section">
-        <div class="section-title" id="sec-d"><span class="section-icon">🩺</span> D. The 5.8× evidence anchor</div>
+        <div class="section-title" id="sec-d"><span class="section-icon">🩺</span> D. Calibration — when to skip the harness</div>
 
-        <div class="verdict stop">
-          <span class="verdict-badge" style="background: var(--red);">Anchor evidence — sqlfluff__sqlfluff-2419</span>
-          <ul style="margin: .5rem 0 .5rem 1.25rem; line-height: 1.8;">
-            <li><strong>Task:</strong> 4-line patch to one file (<code>L060.py</code>) to fix a generic lint description</li>
-            <li><strong>With harness</strong> (R-P-E-R-S, 3 parallel lanes): <strong>93 seconds</strong> wall-clock</li>
-            <li><strong>Without harness</strong> (naked Claude reading + editing): <strong>16 seconds</strong> wall-clock</li>
-            <li><strong>Overhead ratio:</strong> <strong>5.8×</strong> for functionally identical patches (both passed the test)</li>
-            <li><strong>Verdict:</strong> harness ceremony cost &gt; value at this size. The router would (now) correctly route this to <code>R-E-R</code> with reason "estimated 1 file(s) — naked agent is faster"</li>
-          </ul>
+        <div class="verdict pursue">
+          <span class="verdict-badge">Use the router; small tasks should skip</span>
+          <p style="margin: .5rem 0;">
+            For a single-file, single-function fix — especially when the failing test pins the expected output — the harness's coordination overhead costs more than it saves. There's nothing for the parallel-dispatch + JSON-handoff layer to coordinate over one work-item.
+          </p>
+          <p style="margin: .5rem 0;">
+            <strong>Recommendation</strong>: always invoke <code>/repers-route</code> first. For trivial tasks it returns <code>next_step.action: "naked_loop"</code> and tells the calling agent to use its own Edit/Read/Bash. The harness's value scales with multi-file, multi-domain, multi-agent work — see <a href="#sec-a">Section A</a>.
+          </p>
         </div>
       </div>
 

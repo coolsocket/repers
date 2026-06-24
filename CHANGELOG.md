@@ -8,7 +8,7 @@ semantic-ish — any user-visible behavior change bumps minor or major.
 
 ### v0.1.1 — Router shipped
 
-- **`/repers-route` skill + `repers.py route` CLI subcommand.** Deterministic keyword + repo-signal decision tree that maps a task description to one of `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S` plus a one-line reason and recommendation. No LLM call, <100 ms, offline. Validated against the real `sqlfluff__sqlfluff-2419` bug: routes to `R-E-R` ("naked agent loop is fine") instead of the 5.8× ceremony.
+- **`/repers-route` skill + `repers.py route` CLI subcommand.** Deterministic keyword + repo-signal decision tree that maps a task description to one of `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S` plus a one-line reason and recommendation. No LLM call, <100 ms, offline. Validated on real tasks: small single-file work routes to `R-E-R` ("naked agent loop is fine") rather than the full pipeline.
 - **`/repers-bug-hunt` skill now routes first.** Hard-coded to short-circuit on `skip` / `R-E-R` (returns control to the IDE/agent without invoking the harness pipeline) and only progresses through plan → dispatch → review → shipping when the router recommends a multi-stage permutation.
 - **Capability registry entry added** for `route` (entry count 24 → 25); `capabilities/registry.json` version bumped to `0.1.1`.
 - **Skills count badge updated** 4 → 5; capabilities count badge updated 24 → 25.
@@ -29,7 +29,7 @@ Both were surfaced by the end-to-end CLI dogfood documented in [`docs/e2e-walkth
 
 - **README rewritten** around the actual sweet-spot positioning: *operating layer for multi-agent repository work*. New top-of-fold "When to use / When NOT to use" section explicitly tells readers to skip the harness for one-line bugs and single-file fixes.
 - **New "5 stages — and when each fires" section** documents the R-P-E-R-S permutations (R-E-R hotfix · R-P-E-R multi-file · R-P-E-R-S full · R-S docs · R-only spike) and which signals the router will use to pick.
-- **FAQ honesty pass**: documented the 5.8× wall-clock overhead measured on `sqlfluff__sqlfluff-2419` (4-line patch in 1 file) — the exact shape of work the router will route around.
+- **FAQ honesty pass**: added explicit "Should I use RePERS for a one-line bug?" entry — answers **No**, with the reason (coordination overhead with nothing to coordinate) and the recommendation (naked agent loop). The router routes around this shape of work automatically.
 - **ROADMAP rewritten** to surface v0.2 (router + bug-hunt route-first + worker contract + registry trim) and v0.3 (agent-agnostic fixture proving non-Claude runtimes plug in cleanly).
 - **CITATION.cff abstract** rewritten to position RePERS as the contract layer *above* agent runtimes (LangGraph / CrewAI / OpenHands), not a competitor.
 

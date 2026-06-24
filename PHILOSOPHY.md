@@ -112,7 +112,7 @@ That's the philosophy enforced in code.
 ## What this is NOT
 
 - **Not a runtime.** RePERS does not call LLMs. Other harnesses (LangGraph, CrewAI, OpenHands, your own dispatcher) do. RePERS is the contract those runtimes can share.
-- **Not a productivity tool for one developer.** A single dev with a single agent on a single repo will measure RePERS as net overhead (we did — 5.8× on a 4-line bug). The router will tell that dev to skip the harness. The value is *multi*.
+- **Not a productivity tool for one developer.** A single dev with a single agent on a single repo will measure RePERS as net overhead — the coordination cost has nothing to coordinate. The router will tell that dev to skip the harness. The value is *multi*.
 - **Not a competitor to existing agent frameworks.** Layered above, not against. A LangGraph graph can produce `step_result.v1` artifacts; a CrewAI crew can read a `dispatch.v1` manifest. The contracts are JSON; the implementations are yours.
 - **Not "always use all five stages".** Force-fitting the full pipeline onto small work is the documented failure mode. The router exists precisely to route AWAY from this.
 

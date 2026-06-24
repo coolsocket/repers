@@ -8,10 +8,9 @@ description: "Run the RePERS bug-hunt workflow for a multi-file or multi-domain 
 > **Layers**: 🧠 **R** (preflight) + ⚡ **P** (plan as DAG) + ⚡ **E** (parallel dispatch) + 🔗 **R** (review/join) — and optionally 🔗 **S** (shipping) when the router returns `R-P-E-R-S`. Skipped entirely when the router says `skip` / `naked_loop`.
 
 Use this skill ONLY when the user asks for help on a bug, AND the router
-agrees the harness will earn its overhead. RePERS has a measured **5.8×
-wall-clock cost over a naked agent for small single-file bugs** — running
-the full bug-hunt skill on the wrong task shape is the most common
-anti-pattern.
+agrees the harness will earn its overhead. For small single-file bugs
+RePERS's coordination cost exceeds the value — running the full bug-hunt
+skill on the wrong task shape is the most common anti-pattern.
 
 ## Procedure
 
