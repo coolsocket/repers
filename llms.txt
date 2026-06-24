@@ -1,0 +1,68 @@
+# RePERS
+
+> Operating layer for multi-agent repository work — a contract that lets AI agents (any LLM) split a codebase task into parallel non-colliding lanes, hand off via JSON evidence between agents/teams/repos, and ship verifiable release packs another repo can re-verify end-to-end. NOT an agent runtime — RePERS does not call LLMs itself; it coordinates whatever runtime does.
+
+R-P-E-R-S = Research → Plan → Execute → Review → Ship. A router picks the right permutation per task; small tasks are routed to skip the harness entirely.
+
+## For AI agents — first contact (zero-install)
+
+You were pointed at this repo by a user. Before you install anything, run the router cold. It tells you whether the harness fits the user's task at all:
+
+```bash
+uvx --from git+https://github.com/coolsocket/repers.git repers route \
+  --task "<the user's actual task in one sentence>" \
+  --json
+```
+
+Branch on `next_step.action` in the JSON response — do NOT parse the prose:
+
+- `skip_harness` / `naked_loop` — Do not install. Use your own Read/Edit/Bash tools. Return control.
+- `research_only` — Install + `repers preflight --query "..." --refresh --json`, write a research note, stop.
+- `docs_only_ship` — Install + edit + `repers shipping --task <name> --json`. Skip plan/execute.
+- `invoke_bug_hunt_no_ship` — Install + full plan→dispatch→review (skip shipping).
+- `invoke_bug_hunt_full` — Install + full pipeline through shipping.
+
+If `skip_harness` or `naked_loop`: you are done with RePERS. The router charges no cost on a skip decision and prevents over-fitting the harness to small work.
+
+If routed in: continue via the AGENTS.md playbook.
+
+## Quick install paths
+
+| Channel | Command |
+|---|---|
+| **One-shot (zero install)** | `uvx --from git+https://github.com/coolsocket/repers.git repers route --task "..."` |
+| pip / pipx | `pipx install git+https://github.com/coolsocket/repers.git` then `repers route ...` |
+| Receiver-into-repo (writes `.repers/` into your project) | `repers install --target /path/to/your/repo --json` |
+| Codex plugin | `/plugin marketplace add coolsocket/repers` then `/plugin install repers` |
+
+## Key documents (priority for agents)
+
+- [AGENTS.md](https://github.com/coolsocket/repers/blob/main/AGENTS.md): First-contact playbook for agents — read this before the README
+- [WORKER.md](https://github.com/coolsocket/repers/blob/main/WORKER.md): Contract for agents driving a dispatched lane (step_result.v1 schema, target_files isolation)
+- [PHILOSOPHY.md](https://github.com/coolsocket/repers/blob/main/PHILOSOPHY.md): Three-layer model (Memory · Speed · Alignment) — why these five stages
+- [README.md](https://github.com/coolsocket/repers/blob/main/README.md): Human-facing positioning + maturity curve
+- [docs/e2e-walkthrough.md](https://github.com/coolsocket/repers/blob/main/docs/e2e-walkthrough.md): Real CLI dogfood through every subcommand
+- [.repers/capabilities/registry.json](https://github.com/coolsocket/repers/blob/main/.repers/capabilities/registry.json): 20 reusable capabilities — query before adding new
+
+## Key contracts (JSON Schemas — vendor-agnostic)
+
+- [router.v1](https://github.com/coolsocket/repers/blob/main/.repers/contracts/router.v1.json) — router output shape
+- [preflight.v1](https://github.com/coolsocket/repers/blob/main/.repers/contracts/preflight.v1.json) — capability search output
+- [plan.v1](https://github.com/coolsocket/repers/blob/main/.repers/contracts/plan.v1.json) — DAG with target_files per lane
+- [dispatch.v1](https://github.com/coolsocket/repers/blob/main/.repers/contracts/dispatch.v1.json) — supervisor → worker manifest
+- [step_result.v1](https://github.com/coolsocket/repers/blob/main/.repers/contracts/step_result.v1.json) — worker → supervisor result envelope
+- [review.v1](https://github.com/coolsocket/repers/blob/main/.repers/contracts/review.v1.json) — join + verify output
+- [shipping.v1](https://github.com/coolsocket/repers/blob/main/.repers/contracts/shipping.v1.json) — delivery evidence for cross-team handoff
+
+Any agent that can read/write these JSON shapes can participate in the pipeline. Worker lanes don't need to know which model the supervisor uses; supervisors don't need to know which model the worker uses.
+
+## When to use / not use
+
+- ✅ Use for: multi-file (≥3) + multi-domain work, ≥1-day agent runs, multiple agents collaborating, cross-team / cross-repo handoff with audit requirements.
+- ❌ Skip for: single-file fixes, one-line bug fixes, throwaway spikes — the router will tell you to skip. RePERS is opinionated about its own non-applicability.
+
+## Not on this page
+
+- Not an LLM runtime — does not call OpenAI / Anthropic / Google APIs. Plug any agent in via the JSON contracts.
+- Not a graph DSL — there is no Python framework to import. Six CLI verbs + seven JSON Schemas + plugin slot per stage.
+- Not a managed service — runs entirely locally, stdlib-only Python, no network calls at runtime.

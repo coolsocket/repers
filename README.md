@@ -2,14 +2,13 @@
 
 # RePERS
 
-**`R`**esearch · **`P`**lan · **`E`**xecute · **`R`**eview · **`S`**hip
-— a contract layer for **multi-agent** repository work.
+**Research · Plan · Execute · Review · Ship**
 
-Parallel lanes that don't collide. JSON evidence handed off between agents (any LLM). Verifiable release packs another repo can re-verify end-to-end.
+A contract layer for multi-agent repository work — parallel lanes that don't collide, JSON evidence handed off between agents (any LLM), verifiable release packs another repo can re-verify end-to-end.
 
 [![Version](https://img.shields.io/github/v/release/coolsocket/repers?label=version&color=purple)](https://github.com/coolsocket/repers/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Capabilities: 25](https://img.shields.io/badge/capabilities-25-orange.svg)](./.repers/capabilities/registry.json)
+[![Capabilities: 20](https://img.shields.io/badge/capabilities-20-orange.svg)](./.repers/capabilities/registry.json)
 [![Skills: 5](https://img.shields.io/badge/skills-5-green.svg)](./skills/)
 [![CI](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml/badge.svg)](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml)
 [![GitHub stars](https://img.shields.io/github/stars/coolsocket/repers?style=flat&color=yellow)](https://github.com/coolsocket/repers/stargazers)
@@ -22,13 +21,20 @@ Parallel lanes that don't collide. JSON evidence handed off between agents (any 
 
 ## 🤖 For AI agents — first contact in 60 seconds
 
-> **You're an agent. Your user just pointed you at this repo. Do not install anything yet.** Run the router cold to find out whether you should bother:
+> **You're an agent. Your user just pointed you at this repo. Do not install anything yet.** Run the router cold — **one line, zero install** — to find out whether you should bother:
+
+```bash
+uvx --from git+https://github.com/coolsocket/repers.git repers route \
+  --task "<the user's actual task in one sentence>" \
+  --json
+```
+
+uvx clones + builds + runs in a single command; nothing is written to your working directory. No `pip install`, no `git clone` you have to clean up. If your environment doesn't have `uv` / `uvx`, the longer-form fallback works identically:
 
 ```bash
 git clone https://github.com/coolsocket/repers.git /tmp/repers   # ~3 s
 python3 /tmp/repers/.repers/scripts/repers.py route \
   --task "<the user's actual task in one sentence>" \
-  --est-files <your estimate or omit> \
   --json
 ```
 
@@ -63,7 +69,7 @@ It is **not** an agent runtime. It is the **contract above** any runtime — pre
 
 What ships:
 - 🧭 **A router** (`/repers-route` + `repers.py route --json`) that picks the right permutation per task — small tasks are told to skip the harness entirely, so the pipeline only fires when its shape matches the work.
-- 🧩 **A capability registry** (25 entries, including the new `route` capability) as shared memory across agents — preflight before adding new.
+- 🧩 **A capability registry** (20 entries) as shared memory across agents — preflight before adding new.
 - 🛡️ **A plan → DAG → dispatch contract** with `target_files` isolation — proven by a deterministic fixture before any live agent runs.
 - 📜 **JSON evidence at every stage** — so Agent B picks up where Agent A stopped, and a reviewer (human or AI) can audit without the chat log.
 - 📦 **A transferable release pack** — `repers-release-pack.zip` — that another repo extracts, installs, and re-verifies end-to-end.
@@ -153,32 +159,46 @@ Common permutations the router emits:
 
 ## 🚀 Install
 
-**As a Codex plugin** (recommended):
+Three channels depending on what you want:
+
+### Try without installing (recommended for first contact)
+
+```bash
+uvx --from git+https://github.com/coolsocket/repers.git repers route --task "<your task>" --json
+```
+
+`uvx` (from [astral-sh/uv](https://github.com/astral-sh/uv)) clones + builds + runs in one shot. Nothing written to your working directory. Same shape works for every subcommand — `repers preflight`, `repers fixture --action prove`, etc.
+
+### Install the CLI globally
+
+```bash
+pipx install git+https://github.com/coolsocket/repers.git
+# or:
+pip install git+https://github.com/coolsocket/repers.git
+```
+
+Then `repers route --task "..."` / `repers preflight --query "..." --refresh --json` etc. work from any directory.
+
+### Install the `.repers/` runtime INTO your repo (receiver mode)
+
+```bash
+repers install --target /path/to/your-repo --json
+cd /path/to/your-repo
+repers verify-install --json
+```
+
+This writes the `.repers/` runtime, registry, dispatch contracts, and pre-commit hook into your repo so the harness is committed alongside your code. Use when you want the receiver pattern (team adopts harness durably, JSON evidence in git history, release packs reproducible from the commit).
+
+### Codex / Claude Code plugin
 
 ```text
 /plugin marketplace add coolsocket/repers
 /plugin install repers
 ```
 
-Then invoke any skill:
+Then `/repers-route`, `/repers-init`, `/repers-bug-hunt`, `/repers-release-pack`, `/repers-sinkin` are available as slash commands.
 
-```text
-/repers-init           # adopt RePERS in the current repo
-/repers-bug-hunt       # run a full preflight → DAG → review cycle (route-first)
-/repers-release-pack   # build + verify dist artifacts
-/repers-sinkin         # weekly drift audit
-```
-
-**As a repository-local runtime** (no plugin needed):
-
-```bash
-git clone https://github.com/coolsocket/repers.git
-python repers/.repers/scripts/repers.py install --target /path/to/your-repo --json
-cd /path/to/your-repo
-python3 .repers/scripts/repers.py verify-install --json
-```
-
-The plugin gives Codex / Claude Code / your agent the workflow entrypoints. The `.repers/` runtime inside the target repo supplies the CLI, registry, dispatch contracts, fixtures, package gates, and JSON evidence. **Neither hides the other.**
+> The CLI and the plugin do not hide each other — install both for the full surface.
 
 ---
 
@@ -215,7 +235,7 @@ Always-on cost: **~700 tok per session** (loaded skill descriptions for 5 skills
 
 ## 🧩 Capabilities
 
-Twenty-five reusable capabilities live in [`.repers/capabilities/registry.json`](.repers/capabilities/registry.json).
+Twenty reusable capabilities live in [`.repers/capabilities/registry.json`](.repers/capabilities/registry.json).
 Each has `id`, `kind`, `summary`, `commands`, `paths`, `verification` —
 queryable by the CLI:
 
@@ -285,7 +305,7 @@ python3 .repers/scripts/repers.py release-pack --json
 ```
 .repers/
 ├── scripts/             stdlib-only Python: repers.py (CLI) + per-capability scripts
-├── capabilities/        registry.json — 25 reusable workflows / scripts / hooks / gates
+├── capabilities/        registry.json — 20 reusable workflows / scripts / hooks / gates
 ├── hooks/               pre-commit (warn / strict policies)
 ├── templates/           files copied into receiver repos
 ├── docs/                internal architecture / spec / workflow notes
