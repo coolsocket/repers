@@ -1,15 +1,15 @@
 {
   "schema": "repers.install_manifest.v1",
   "version": "0.1.1",
-  "generated_at": "2026-06-24T04:25:53.802273+00:00",
+  "generated_at": "2026-06-24T06:10:09.888010+00:00",
   "source_root": "/home/sa_114486498687979675637/repers/.repers",
   "target_root": "/home/sa_114486498687979675637/repers",
   "install_root": "/home/sa_114486498687979675637/repers/.repers",
   "source_git": {
     "ok": true,
-    "commit": "eb4daf16dac22b37c8359a8b2b7edae5d13c0c8c",
+    "commit": "5fc168449905b241dcd4d5b547141d7140e8483b",
     "dirty": true,
-    "status_count": 26
+    "status_count": 21
   },
   "with_hook": false,
   "hook_policy": "warn",

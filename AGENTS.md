@@ -119,6 +119,10 @@ python3 .repers/scripts/repers.py shipping --task <name> --json
 
 ## 📜 The `step_result_v1` contract — what each worker writes
 
+> If you ARE the worker on a lane (not the supervisor), the full contract
+> is at [`WORKER.md`](./WORKER.md). The summary below is enough for a
+> supervisor agent driving the pipeline.
+
 When a worker (you or your sibling agent) finishes a lane, write a JSON
 file to `repers_tasks/<name>/results/step-<id>.json` with this exact shape:
 
@@ -193,6 +197,7 @@ any runtime can plug in. Until then, the JSON contracts are the proof.
 ## 🔗 Where to go next
 
 - Just want to run it end-to-end? → [`docs/e2e-walkthrough.md`](./docs/e2e-walkthrough.md) (real CLI, real outputs, 45 s wall-clock)
+- You're a WORKER on a dispatched lane (not a supervisor)? → [`WORKER.md`](./WORKER.md) — what to read, what to write, when "done" is declared
 - Editing the harness itself? → [`CLAUDE.md`](./CLAUDE.md)
 - Want the full positioning rationale? → [`README.md`](./README.md) (for human readers)
 - Want a one-page visual evaluator's view? → [`dist/repers-positioning-canvas.html`](./dist/repers-positioning-canvas.html) (offline-openable)

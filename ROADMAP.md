@@ -27,10 +27,10 @@ UX honesty pass after end-to-end dogfood (see [`docs/e2e-walkthrough.md`](docs/e
 - 📖 **Real end-to-end walkthrough** at `docs/e2e-walkthrough.md` (linked from README hero). 10 CLI commands, real outputs, 45 s wall-clock, 2 gotchas honestly documented.
 - 📦 Registry version bumped to `0.1.1` (entry count 24 → 25 with new `route` capability).
 
-## v0.2 — next
+## v0.2 — in flight
 
+- ✅ **`WORKER.md` shipped** — full contract spec for any AI agent assigned a lane: what JSON to read, what to write, target_files isolation, reject-at-review rules, "you don't need to be Claude" clause. Linked from AGENTS.md and README.
 - 🎯 **Real "harness wins" example** — extend `examples/bug-hunt/` with a multi-file SWE-bench Verified instance walked end-to-end; show wall-clock comparison vs. naked at the size where the harness DOES pay off.
-- 📜 **`WORKER.md`** — contract spec for any AI assigned to a lane (what JSON to read, what JSON to write, when "done" is declared).
 - ✂️ **Registry trim** — remove self-referential META scripts (`state_report` / `continuation_runner` / `open_source_benchmark` partial); registry drops from 25 → ~16. Keep what's load-bearing across receivers.
 - 🪝 **Router signal extensions** — overlay preflight hit count and similar-PR git-log count onto the heuristic so it can recommend `R-P-E-R-S` when there's strong reuse signal even if the task description is bland.
 

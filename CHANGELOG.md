@@ -6,6 +6,10 @@ semantic-ish — any user-visible behavior change bumps minor or major.
 
 ## Unreleased
 
+### `WORKER.md` shipped
+
+- New top-level [`WORKER.md`](WORKER.md) — the contract spec for any AI agent assigned to a dispatched lane. Covers the `step_result_v1` schema, target_files isolation, reject-at-review failure modes, "you don't need to be Claude" clause (the contract is JSON-in / JSON-out so a single RePERS task can mix Claude supervisor + Codex worker + Gemini worker + reviewer of any vendor). Linked from AGENTS.md "Where to go next" and from the README's "For AI agents" section.
+
 ### v0.1.1 — Router shipped
 
 - **`/repers-route` skill + `repers.py route` CLI subcommand.** Deterministic keyword + repo-signal decision tree that maps a task description to one of `skip` / `R-only` / `R-S` / `R-E-R` / `R-P-E-R` / `R-P-E-R-S` plus a one-line reason and recommendation. No LLM call, <100 ms, offline. Validated on real tasks: small single-file work routes to `R-E-R` ("naked agent loop is fine") rather than the full pipeline.

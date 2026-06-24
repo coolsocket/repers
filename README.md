@@ -43,7 +43,7 @@ The router returns a JSON envelope with a `next_step.action` enum — branch on 
 | `invoke_bug_hunt_no_ship` | Install + run `/repers-bug-hunt`. Full plan→dispatch→review, skip shipping. | ~15 min + agent time |
 | `invoke_bug_hunt_full` | Install + run `/repers-bug-hunt` end-to-end including shipping. | ~30 min + agent time |
 
-Then continue with whichever path the router picked. Full agent playbook for each path: **[`AGENTS.md`](./AGENTS.md)**.
+Then continue with whichever path the router picked. Full agent playbook for each path: **[`AGENTS.md`](./AGENTS.md)**. If you're a *worker* on a dispatched lane (not the supervisor): **[`WORKER.md`](./WORKER.md)**.
 
 If you're a human reading this section: the same router works for you — `route --task "..."` returns a one-line recommendation. Don't install anything until it tells you to.
 
