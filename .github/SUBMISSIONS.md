@@ -16,7 +16,7 @@ the maintainer reviews and then says "open it" before any external PR fires.
 ### Draft entry (CSV row to add to `THE_RESOURCES_TABLE.csv`)
 
 ```csv
-wf-repers01,RePERS,Workflows,Multi-agent / Orchestration,https://github.com/coolsocket/repers,,coolsocket,https://github.com/coolsocket,TRUE,2026-06-24:08-00-00,2026-06-24:08-00-00,2026-06-24:08-00-00,MIT,"Operating layer for multi-agent Claude Code work. R-P-E-R-S contract layer (Research · Plan · Execute · Review · Ship) with parallel lanes that don't collide, JSON evidence between agents, verifiable release packs. Ships a deterministic router (/repers-route) that tells you to SKIP the harness when overhead exceeds value — measured 5.8x on a 4-line bug. Plugin with 5 skills: init / route / bug-hunt / release-pack / sinkin.",FALSE,FALSE,2026-06-22:14-25-00,2026-06-23:13-23-00,v0.1.1,github-releases
+wf-repers01,RePERS,Workflows,Multi-agent / Orchestration,https://github.com/coolsocket/repers,,coolsocket,https://github.com/coolsocket,TRUE,2026-06-24:08-00-00,2026-06-24:08-00-00,2026-06-24:08-00-00,MIT,"Operating layer for multi-agent Claude Code work. R-P-E-R-S contract (Research · Plan · Execute · Review · Ship) with target_files-isolated parallel lanes, JSON evidence handoff between agents, and a transferable release pack another repo can re-verify without trusting the sender. Ships a deterministic per-task router (/repers-route) that picks the right slice of the pipeline so the harness only fires when it earns its weight. 5 skills: init / route / bug-hunt / release-pack / sinkin.",FALSE,FALSE,2026-06-22:14-25-00,2026-06-23:13-23-00,v0.1.1,github-releases
 ```
 
 ### PR title
@@ -33,15 +33,23 @@ Adds [RePERS](https://github.com/coolsocket/repers) (v0.1.1) to the workflows ca
 ## Why it fits
 
 RePERS is a Claude Code plugin shipping 5 skills (`/repers-init`, `/repers-route`,
-`/repers-bug-hunt`, `/repers-release-pack`, `/repers-sinkin`) PLUS a stdlib-only
-Python CLI in `.repers/scripts/` installable into any Git repo.
+`/repers-bug-hunt`, `/repers-release-pack`, `/repers-sinkin`) plus a stdlib-only
+Python CLI installable into any Git repo.
 
-It's deliberately positioned as a **contract layer above** any agent runtime
-(Claude Code, Codex, Gemini, LangGraph, CrewAI). Most novel piece: a deterministic
-router that recommends *skipping the harness* for tasks too small to earn its
-overhead — validated by a benchmark on the sqlfluff__sqlfluff-2419 bug where the
-harness measured 5.8× wall-clock cost over a naked agent for functionally
-identical patches.
+What's novel for Claude Code users:
+
+- **A contract layer above the runtime.** When multiple Claude Code sessions
+  (or Claude + Codex + Gemini) work on the same repo at once, RePERS gives
+  them target-file-isolated lanes so they don't clobber each other, plus
+  JSON evidence so each can pick up where another left off.
+- **A transferable release pack.** `repers-release-pack.zip` is a bundle
+  another team or repo extracts and re-verifies independently — auditable
+  handoff across vendors / orgs / trust boundaries. 4 install fixtures
+  prove the receive-and-verify path from 3 different start states.
+- **A per-task router.** Deterministic `/repers-route` skill that picks
+  which slice of the R-P-E-R-S pipeline fits the task (skip / R-only /
+  R-S / R-E-R / R-P-E-R / R-P-E-R-S), so the harness fires only when its
+  shape matches the work.
 
 ## Category
 
@@ -51,8 +59,9 @@ identical patches.
 
 - Live: https://github.com/coolsocket/repers/releases/tag/v0.1.1
 - CI: green on ubuntu / windows / macos
-- End-to-end CLI walkthrough: https://github.com/coolsocket/repers/blob/main/docs/e2e-walkthrough.md (~45s real run, every command executed)
-- License: MIT
+- End-to-end CLI walkthrough: https://github.com/coolsocket/repers/blob/main/docs/e2e-walkthrough.md (~45 s real run, every command executed)
+- Philosophy / when-to-use scope: https://github.com/coolsocket/repers/blob/main/PHILOSOPHY.md
+- License: MIT, stdlib-only Python, no extra runtime deps
 ```
 
 ---
@@ -79,7 +88,7 @@ Multi-agent, Build-your-own (agent-builing frameworks and platforms), SDK for ag
 
 - "Not an agent runtime — a *contract layer above* any runtime (Claude / Codex / Gemini / LangGraph / CrewAI / OpenHands). You provide the LLM; RePERS provides the coordination."
 - "Five stages: Research (preflight, capability registry as shared memory) → Plan (DAG with target_files isolation) → Execute (parallel dispatch with collision guards) → Review (JSON evidence join) → Ship (transferable release pack another repo can re-verify without trusting the sender)."
-- "Ships a deterministic router that picks a permutation per task. For tasks too small to earn the harness's overhead, the router tells the calling agent to skip — measured 5.8× wall-clock cost on a 4-line bug fix."
+- "Ships a deterministic per-task router that picks the right slice of the pipeline (skip / R-only / R-S / R-E-R / R-P-E-R / R-P-E-R-S) so the harness only fires when the work shape benefits from it. No LLM call, sub-100ms, offline."
 - "Stdlib-only Python runtime, no extra deps. JSON-in / JSON-out contracts at every stage so different vendor agents (or different teams' agents) can hand off without trust."
 - "Plugs into Claude Code as a 5-skill plugin (init / route / bug-hunt / release-pack / sinkin) but the core contracts are AI-agnostic."
 
@@ -110,14 +119,23 @@ Placed alphabetically between [Q*] entries (after the last 'R' or before 'S' ent
 The list already includes runtimes that EXECUTE multi-agent calls (CrewAI,
 AgentVerse, GPTSwarm, FastAgency). RePERS occupies a different layer: it's the
 contract that SITS ABOVE any of those runtimes so N agents (any vendor) can
-share dispatch, collision-avoidance, and evidence handoff. Concretely it ships
-4 install fixtures proving the receive-and-verify path from 3 different start
-states — a cross-trust-boundary handoff protocol that most agent harnesses
-don't ship.
+share dispatch, collision-avoidance, and evidence handoff.
 
-The router is the differentiator: it's the only harness I'm aware of that
-deterministically tells the calling agent **not** to use itself for small
-tasks, backed by a measured 5.8× overhead benchmark on a real bug.
+Two things that are uncommon in the agent-harness space:
+
+1. **A transferable release pack** (`repers-release-pack.zip`) that another
+   repo extracts and **re-verifies independently without trusting the
+   sender's vendor or JSON.** 4 install fixtures (`receiver-fixture`,
+   `source-install-fixture`, `publish-clone-fixture`,
+   `remote-bootstrap-fixture`) prove the receive-and-verify path from 3
+   different start states. This is the cross-trust-boundary handoff
+   protocol most agent harnesses don't ship.
+
+2. **A deterministic per-task router** that picks which slice of the
+   R-P-E-R-S pipeline matches the task shape (skip / R-only / R-S /
+   R-E-R / R-P-E-R / R-P-E-R-S). Sub-100ms, no LLM call, offline. Makes
+   the harness opinionated about its own fit instead of forcing every
+   task through every stage.
 
 ## Closest peers in the list
 

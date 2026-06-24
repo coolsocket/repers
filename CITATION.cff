@@ -14,25 +14,23 @@ abstract: >-
   calls, RePERS sits above any runtime to coordinate them: preflight (capability
   discovery as shared memory across agents) → plan as a DAG with target-file
   isolation → parallel dispatch with collision guards → reviewer-on-join →
-  evidence-based ship → portable release-pack handoff. The harness ships with a
-  router that picks the right slice of the pipeline per task — for trivial work
-  (single-file bug, test pins the answer) it tells the calling agent to skip the
-  harness entirely, because a real benchmark on sqlfluff measured 5.8× wall-clock
-  overhead with no quality lift when the harness was force-fitted onto a 4-line
-  patch. The value scales with codebase maturity: at the small end (greenfield,
-  solo) the overhead dominates; in a 200k-LOC monorepo with parallel multi-agent
-  work the dispatch contract prevents N agents from clobbering each other; at
-  enterprise scale the JSON evidence chain becomes an auditable handoff
-  protocol between teams using different AI vendors; in cross-org settings the
-  release-pack archive lets a receiving repo re-verify another team's work
-  independently without trusting the sender's vendor. The dispatch contract is
-  proven by a deterministic offline fixture before any live agent runs; every
-  stage emits JSON evidence so a later agent (or human reviewer) can pick up
-  where the previous one stopped. Ships a 25-entry capability registry, a
-  Codex/Claude plugin with five skills (init / route / bug-hunt / release-pack
-  / sinkin), a Git pre-commit hook, and four install fixtures proving cross-repo
-  adoption from three different start states. Runtime is stdlib-Python only;
-  the contracts are AI-agnostic by design.
+  evidence-based ship → portable release-pack handoff. A deterministic per-task
+  router decides which slice of the pipeline a given task actually needs (one of
+  skip / R-only / R-S / R-E-R / R-P-E-R / R-P-E-R-S), so the harness fires only
+  when its shape matches the work. The value scales with codebase maturity:
+  in a 200k-LOC monorepo with parallel multi-agent work the dispatch contract
+  prevents N agents from clobbering each other; at enterprise scale the JSON
+  evidence chain becomes an auditable handoff protocol between teams using
+  different AI vendors; in cross-org settings the release-pack archive lets a
+  receiving repo re-verify another team's work independently without trusting
+  the sender's vendor. The dispatch contract is proven by a deterministic
+  offline fixture before any live agent runs; every stage emits JSON evidence
+  so a later agent (or human reviewer) can pick up where the previous one
+  stopped. Ships a 25-entry capability registry, a Codex/Claude plugin with
+  five skills (init / route / bug-hunt / release-pack / sinkin), a Git
+  pre-commit hook, and four install fixtures proving cross-repo adoption
+  from three different start states. Runtime is stdlib-Python only; the
+  contracts are AI-agnostic by design.
 keywords:
   - multi-agent
   - agent-orchestration
