@@ -1231,7 +1231,7 @@ def main():
     
     # Preflight Subparser
     preflight_parser = subparsers.add_parser("preflight", help="Query local & global paths to prevent duplicates")
-    preflight_parser.add_argument("--query", required=True, help="Keyword query for capability search")
+    preflight_parser.add_argument("--query", "--task", required=True, dest="query", help="Keyword query for capability search (--task is accepted as an alias for consistency with `route --task`)")
     preflight_parser.add_argument("--json", action="store_true", help="Emit structured JSON preflight results")
     preflight_parser.add_argument("--refresh", action="store_true", help="Refresh the local capability index first")
     preflight_parser.add_argument("--codegraph", action="store_true", help="Attach optional CodeGraph code evidence")

@@ -5,6 +5,8 @@ description: Install or verify the RePERS harness in the current Git repository.
 
 # repers-init
 
+> **Layer**: ⚙️ **Infrastructure** (pre-R) — installs the contract so the R/P/E/R/S layers can be invoked. Not part of the pipeline itself. Run once per repo.
+
 Initialize or verify RePERS for the current repository.
 
 ## Procedure
@@ -13,20 +15,20 @@ Initialize or verify RePERS for the current repository.
 2. If `.repers/scripts/repers.py` exists, run:
 
    ```powershell
-   python .repers\scripts\repers.py verify-install --json
-   python .repers\scripts\repers.py doctor --json
+   python3 .repers/scripts\repers.py verify-install --json
+   python3 .repers/scripts\repers.py doctor --json
    ```
 
 3. If RePERS exists but the manifest is stale, run:
 
    ```powershell
-   python .repers\scripts\repers.py refresh-manifest --json
+   python3 .repers/scripts\repers.py refresh-manifest --json
    ```
 
 4. If the hook is missing or the user asks for hooks, run:
 
    ```powershell
-   python .repers\scripts\repers.py install-hook --hook-policy warn --json
+   python3 .repers/scripts\repers.py install-hook --hook-policy warn --json
    ```
 
 5. If `.repers/` is missing, install from a source checkout or release archive:

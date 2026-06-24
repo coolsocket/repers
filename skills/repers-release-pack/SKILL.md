@@ -5,6 +5,8 @@ description: Build, verify, and publish-ready check a RePERS release pack. Use w
 
 # repers-release-pack
 
+> **Layer**: 🔗 **S** (Shipping) — the export layer. Makes the harness consumable across repo / team / vendor / trust boundaries by packing it into a checksum-verifiable archive another agent can re-verify without trusting the sender.
+
 Build and verify the installable RePERS handoff.
 
 ## Procedure
@@ -18,25 +20,25 @@ Build and verify the installable RePERS handoff.
 2. Build the installable archive and round-trip it into a fresh receiver:
 
    ```powershell
-   python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
+   python3 .repers/scripts\repers.py package --output dist --verify-roundtrip --json
    ```
 
 3. Build the release pack:
 
    ```powershell
-   python .repers\scripts\repers.py release-pack --json
+   python3 .repers/scripts\repers.py release-pack --json
    ```
 
 4. Verify the release pack archive:
 
    ```powershell
-   python .repers\scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json
+   python3 .repers/scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json
    ```
 
 5. Run the full sequential local gate before publishing:
 
    ```powershell
-   python .repers\scripts\repers.py verify-all --json
+   python3 .repers/scripts\repers.py verify-all --json
    ```
 
 ## Required Release Assets

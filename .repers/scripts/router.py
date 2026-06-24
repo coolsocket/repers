@@ -256,6 +256,7 @@ def route_task(
 
     permutation_id, reasons = _classify(task, est_files, domain_count)
     permutation = PERMUTATIONS[permutation_id]
+    next_step = _next_step_for(permutation_id)
 
     return {
         "schema": ROUTER_SCHEMA,
@@ -274,8 +275,60 @@ def route_task(
         "estimated_speedup_vs_naked": permutation["estimated_speedup_vs_naked"],
         "reasons": reasons,
         "recommendation": _recommendation_text(permutation_id, reasons),
+        "next_step": next_step,
         "errors": [],
     }
+
+
+# Imperative next-step envelope — designed so an agent receiving the router's
+# JSON can branch on a single enum without parsing prose. Each entry is a
+# {action, command, skill, summary} block; `action` is the load-bearing field.
+NEXT_STEPS = {
+    "skip": {
+        "action": "skip_harness",
+        "command": None,
+        "skill": None,
+        "summary": "Do not invoke any RePERS skill or CLI. Use your IDE/agent Edit+Read+Bash directly. Return control to the user once the task is done.",
+    },
+    "R-only": {
+        "action": "research_only",
+        "command": "python .repers/scripts/repers.py preflight --query \"<task intent>\" --refresh --json",
+        "skill": None,
+        "summary": "Run preflight, write a short research note under repers_tasks/<task>/research.md, then STOP. Decide before building.",
+    },
+    "R-S": {
+        "action": "docs_only_ship",
+        "command": "python .repers/scripts/repers.py shipping --task <name> --json",
+        "skill": None,
+        "summary": "Skip plan/execute/dispatch. Make the docs/config edit, then run shipping to write delivery evidence.",
+    },
+    "R-E-R": {
+        "action": "naked_loop",
+        "command": None,
+        "skill": None,
+        "summary": "Run a naked agent loop (Read + Edit + Bash to test). The harness ceremony will cost more than it saves at this size. Skip the harness entirely after this routing decision.",
+    },
+    "R-P-E-R": {
+        "action": "invoke_bug_hunt_no_ship",
+        "command": "python .repers/scripts/repers.py init --task <name>   # then plan/dispatch/review; skip shipping",
+        "skill": "/repers-bug-hunt",
+        "summary": "Invoke /repers-bug-hunt with multi-lane plan. Run init → preflight → fill plan.md → plan → dispatch → review. Skip shipping for in-domain work.",
+    },
+    "R-P-E-R-S": {
+        "action": "invoke_bug_hunt_full",
+        "command": "python .repers/scripts/repers.py init --task <name>   # then full pipeline through shipping",
+        "skill": "/repers-bug-hunt",
+        "summary": "Full pipeline. Invoke /repers-bug-hunt. Run init → preflight → fill plan.md → plan → dispatch → review → run --action local for supervisor verifies → shipping.",
+    },
+}
+
+
+def _next_step_for(permutation_id: str) -> dict:
+    """Imperative envelope for the calling agent: what to actually DO next."""
+    return NEXT_STEPS.get(
+        permutation_id,
+        {"action": "unknown", "command": None, "skill": None, "summary": ""},
+    )
 
 
 def _recommendation_text(permutation_id: str, reasons: list[str]) -> str:
@@ -316,4 +369,14 @@ def format_human(payload: dict) -> str:
         lines.append(f"    - {r}")
     lines.append("")
     lines.append(f"  Recommendation: {payload['recommendation']}")
+    ns = payload.get("next_step") or {}
+    lines.append("")
+    lines.append(f"  Next step (for the calling agent):")
+    lines.append(f"    action  : {ns.get('action')}")
+    if ns.get("skill"):
+        lines.append(f"    skill   : {ns['skill']}")
+    if ns.get("command"):
+        lines.append(f"    command : {ns['command']}")
+    if ns.get("summary"):
+        lines.append(f"    summary : {ns['summary']}")
     return "\n".join(lines)

@@ -5,6 +5,8 @@ description: Audit a RePERS workspace for drift between README, plugin skills, c
 
 # repers-sinkin
 
+> **Layer**: 🧠 **R** (meta-Memory) — audits the harness's own knowledge layer. Detects drift between sediment (README / registry / skills / dist) and live state so the memory layer stays honest. Run periodically; not part of normal task flow.
+
 Run a non-mutating RePERS drift check. Report findings and recommended actions;
 do not auto-fix unless the user asks.
 
@@ -14,22 +16,22 @@ do not auto-fix unless the user asks.
 
    ```powershell
    git status --short
-   python .repers\scripts\repers.py state --deep --json
+   python3 .repers/scripts\repers.py state --deep --json
    ```
 
 2. Validate local capabilities:
 
    ```powershell
-   python .repers\scripts\repers.py capabilities --action validate --json
-   python .repers\scripts\repers.py open-source-benchmark --json
+   python3 .repers/scripts\repers.py capabilities --action validate --json
+   python3 .repers/scripts\repers.py open-source-benchmark --json
    ```
 
 3. Verify package and release pack surfaces:
 
    ```powershell
-   python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
-   python .repers\scripts\repers.py release-pack --json
-   python .repers\scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json
+   python3 .repers/scripts\repers.py package --output dist --verify-roundtrip --json
+   python3 .repers/scripts\repers.py release-pack --json
+   python3 .repers/scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json
    ```
 
 4. Compare public docs with actual package contents:

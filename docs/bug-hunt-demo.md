@@ -45,10 +45,10 @@ flowchart TD
 Run these from the RePERS repository:
 
 ```powershell
-python .repers\scripts\repers.py preflight --query "release pack verifier checksum bug" --refresh --json
-python .repers\scripts\repers.py capabilities --action search --query "release pack verify checksum" --json
-python .repers\scripts\repers.py fixture --action prove --json
-python .repers\scripts\repers.py verify-all --json
+python3 .repers/scripts\repers.py preflight --query "release pack verifier checksum bug" --refresh --json
+python3 .repers/scripts\repers.py capabilities --action search --query "release pack verify checksum" --json
+python3 .repers/scripts\repers.py fixture --action prove --json
+python3 .repers/scripts\repers.py verify-all --json
 ```
 
 Expected evidence:

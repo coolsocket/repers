@@ -56,8 +56,8 @@ RePERS v0.1.0 packages the local-first agent workflow harness:
 Verify after download:
 
 ```powershell
-python .repers\scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json
-python .repers\scripts\repers.py verify-all --json
+python3 .repers/scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json
+python3 .repers/scripts\repers.py verify-all --json
 ```
 ````
 

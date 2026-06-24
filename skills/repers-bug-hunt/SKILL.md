@@ -5,6 +5,8 @@ description: "Run the RePERS bug-hunt workflow for a multi-file or multi-domain 
 
 # repers-bug-hunt
 
+> **Layers**: 🧠 **R** (preflight) + ⚡ **P** (plan as DAG) + ⚡ **E** (parallel dispatch) + 🔗 **R** (review/join) — and optionally 🔗 **S** (shipping) when the router returns `R-P-E-R-S`. Skipped entirely when the router says `skip` / `naked_loop`.
+
 Use this skill ONLY when the user asks for help on a bug, AND the router
 agrees the harness will earn its overhead. RePERS has a measured **5.8×
 wall-clock cost over a naked agent for small single-file bugs** — running
@@ -16,7 +18,7 @@ anti-pattern.
 ### Step 1 — Always route first
 
 ```bash
-python .repers/scripts/repers.py route \
+python3 .repers/scripts/repers.py route \
   --task "<one-line bug description>" \
   --est-files <N if you can guess; otherwise omit> \
   --json
@@ -36,14 +38,14 @@ Read the `permutation` field. Then branch:
 ### Step 2 — Preflight (only when router recommends ≥ R-P-E-R)
 
 ```bash
-python .repers/scripts/repers.py preflight --query "<bug or symptom>" --refresh --json
-python .repers/scripts/repers.py capabilities --action search --query "<bug or subsystem>" --json
+python3 .repers/scripts/repers.py preflight --query "<bug or symptom>" --refresh --json
+python3 .repers/scripts/repers.py capabilities --action search --query "<bug or subsystem>" --json
 ```
 
 ### Step 3 — Init task workspace
 
 ```bash
-python .repers/scripts/repers.py init --task "<task-name>"
+python3 .repers/scripts/repers.py init --task "<task-name>"
 ```
 
 ### Step 4 — Fill plan.md with a real DAG
@@ -60,8 +62,8 @@ command.
 ### Step 5 — Plan + dispatch
 
 ```bash
-python .repers/scripts/repers.py plan --task "<task-name>" --json
-python .repers/scripts/repers.py dispatch --task "<task-name>" --max-workers 3 --json
+python3 .repers/scripts/repers.py plan --task "<task-name>" --json
+python3 .repers/scripts/repers.py dispatch --task "<task-name>" --max-workers 3 --json
 ```
 
 The dispatch manifest lands at `repers_tasks/<task>/dispatch/manifest.json`.
@@ -73,7 +75,7 @@ the `repers.step_result.v1` schema.
 ### Step 6 — Review
 
 ```bash
-python .repers/scripts/repers.py review --task "<task-name>" --update-status --json
+python3 .repers/scripts/repers.py review --task "<task-name>" --update-status --json
 ```
 
 This validates each result artifact's schema, updates `plan.md` statuses,
@@ -83,13 +85,13 @@ new statuses.
 ### Step 7 — Run any local verify steps
 
 ```bash
-python .repers/scripts/repers.py run --task "<task-name>" --action local --use-existing-plan --json
+python3 .repers/scripts/repers.py run --task "<task-name>" --action local --use-existing-plan --json
 ```
 
 ### Step 8 — Shipping (only when router recommended R-P-E-R-S)
 
 ```bash
-python .repers/scripts/repers.py shipping --task "<task-name>" --json
+python3 .repers/scripts/repers.py shipping --task "<task-name>" --json
 ```
 
 ## Report shape

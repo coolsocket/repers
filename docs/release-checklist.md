@@ -6,9 +6,9 @@ another repository.
 ## Build
 
 ```powershell
-python .repers\scripts\repers.py package --output dist --verify-roundtrip --json
-python .repers\scripts\repers.py release-pack --json
-python .repers\scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json
+python3 .repers/scripts\repers.py package --output dist --verify-roundtrip --json
+python3 .repers/scripts\repers.py release-pack --json
+python3 .repers/scripts\repers.py release-pack-verify --archive dist\repers-release-pack.zip --json
 ```
 
 Required local assets:
@@ -24,10 +24,10 @@ Required local assets:
 ## Verify
 
 ```powershell
-python .repers\scripts\repers.py verify-all --json
-python .repers\scripts\repers.py receiver-fixture --json
-python .repers\scripts\repers.py source-install-fixture --json
-python .repers\scripts\repers.py publish-clone-fixture --json
+python3 .repers/scripts\repers.py verify-all --json
+python3 .repers/scripts\repers.py receiver-fixture --json
+python3 .repers/scripts\repers.py source-install-fixture --json
+python3 .repers/scripts\repers.py publish-clone-fixture --json
 ```
 
 Minimum evidence:
@@ -61,8 +61,8 @@ Release notes should include:
 Run:
 
 ```powershell
-python .repers\scripts\repers.py state --deep --json
-python .repers\scripts\repers.py snapshot-freshness --json
+python3 .repers/scripts\repers.py state --deep --json
+python3 .repers/scripts\repers.py snapshot-freshness --json
 ```
 
 Then confirm:

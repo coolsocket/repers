@@ -2,7 +2,8 @@
 
 # RePERS
 
-**Operating layer for multi-agent repository work.**
+**`R`**esearch · **`P`**lan · **`E`**xecute · **`R`**eview · **`S`**hip
+— a contract layer for **multi-agent** repository work.
 
 Parallel lanes that don't collide. JSON evidence handed off between agents (any LLM). Verifiable release packs another repo can re-verify end-to-end.
 
@@ -13,19 +14,50 @@ Parallel lanes that don't collide. JSON evidence handed off between agents (any 
 [![CI](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml/badge.svg)](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml)
 [![GitHub stars](https://img.shields.io/github/stars/coolsocket/repers?style=flat&color=yellow)](https://github.com/coolsocket/repers/stargazers)
 
-📊 [Maturity curve](#-where-repers-fits-on-the-codebase-maturity-curve) · 🔗 [Cross-repo handoff](#-cross-repo-and-cross-team-handoff) · 🎯 [When to use](#-when-to-use--when-not-to-use) · 🚀 [Install](#-install) · 🧠 [Skills](#-skills) · 🩺 [Troubleshooting](#-troubleshooting) · ❓ [FAQ](#-faq)
+🤖 [For AI agents](#-for-ai-agents--first-contact-in-60-seconds) · 📊 [Maturity curve](#-where-repers-fits-on-the-codebase-maturity-curve) · 🔗 [Cross-repo handoff](#-cross-repo-and-cross-team-handoff) · 🎯 [When to use](#-when-to-use--when-not-to-use) · 🧠 [Skills](#-skills) · 🩺 [Troubleshooting](#-troubleshooting) · ❓ [FAQ](#-faq)
 
 </div>
 
 ---
 
-## 🎯 What it is
+## 🤖 For AI agents — first contact in 60 seconds
+
+> **You're an agent. Your user just pointed you at this repo. Do not install anything yet.** Run the router cold to find out whether you should bother:
+
+```bash
+git clone https://github.com/coolsocket/repers.git /tmp/repers   # ~3 s
+python3 /tmp/repers/.repers/scripts/repers.py route \
+  --task "<the user's actual task in one sentence>" \
+  --est-files <your estimate or omit> \
+  --json
+```
+
+The router returns a JSON envelope with a `next_step.action` enum — branch on **that**, not the prose:
+
+| `next_step.action` | What you do | Cost |
+|---|---|---|
+| `skip_harness` | Do **not** install. Use your own Edit/Read/Bash. Return control to the user. | 0 |
+| `naked_loop` | Same — naked agent loop is correct. Do not install. | 0 |
+| `research_only` | Install + run `preflight` once, write a research note, stop. | ~3 min |
+| `docs_only_ship` | Install + edit + run `shipping`. Skip plan/execute. | ~5 min |
+| `invoke_bug_hunt_no_ship` | Install + run `/repers-bug-hunt`. Full plan→dispatch→review, skip shipping. | ~15 min + agent time |
+| `invoke_bug_hunt_full` | Install + run `/repers-bug-hunt` end-to-end including shipping. | ~30 min + agent time |
+
+Then continue with whichever path the router picked. Full agent playbook for each path: **[`AGENTS.md`](./AGENTS.md)**.
+
+If you're a human reading this section: the same router works for you — `route --task "..."` returns a one-line recommendation. Don't install anything until it tells you to.
+
+---
+
+## 🎯 What it is (for humans)
 
 > **A contract layer for AI agents working on the same codebase at the same time.**
 
 When the work is **too big for one agent in one session** — a 12-file refactor, a deprecation sweep across 3 services, a feature that touches API + worker + UI — RePERS is the operating layer that lets a fleet of agents (Claude / Codex / Gemini / your own) carve it up, run lanes in parallel **without clobbering each other**, hand off via JSON evidence, and ship verifiable.
 
 It is **not** an agent runtime. It is the **contract above** any runtime — preflight before new work, plan as a DAG with target-file isolation, dispatch with collision guards, review-on-join, evidence-based ship.
+
+> 🧠 **Why these five stages?** The full *why* — the three-layer philosophy (Memory · Speed · Alignment) and which stages serve which purpose — lives in [`PHILOSOPHY.md`](./PHILOSOPHY.md).
 
 > ▶️ **See it run end-to-end**: [`docs/e2e-walkthrough.md`](./docs/e2e-walkthrough.md) — a real dogfood through every CLI subcommand (`init → preflight → plan → dispatch → 3 parallel workers → review → run → shipping → verify-install`) in ~45 s wall-clock. Every command shown was actually executed; every artifact is real.
 
@@ -92,7 +124,7 @@ RePERS is **opinionated**: it earns its keep on a specific shape of work. Most e
 If you're not sure, ask the router:
 
 ```bash
-python .repers/scripts/repers.py route --task "<your task description>" --json
+python3 .repers/scripts/repers.py route --task "<your task description>" --json
 # or via the Codex skill: /repers-route
 ```
 
@@ -145,7 +177,7 @@ Then invoke any skill:
 git clone https://github.com/coolsocket/repers.git
 python repers/.repers/scripts/repers.py install --target /path/to/your-repo --json
 cd /path/to/your-repo
-python .repers/scripts/repers.py verify-install --json
+python3 .repers/scripts/repers.py verify-install --json
 ```
 
 The plugin gives Codex / Claude Code / your agent the workflow entrypoints. The `.repers/` runtime inside the target repo supplies the CLI, registry, dispatch contracts, fixtures, package gates, and JSON evidence. **Neither hides the other.**
@@ -156,13 +188,13 @@ The plugin gives Codex / Claude Code / your agent the workflow entrypoints. The 
 
 ```bash
 # 1. find what already exists (or what other agents have built) before adding new
-python .repers/scripts/repers.py preflight --query "<your intent>" --refresh --json
+python3 .repers/scripts/repers.py preflight --query "<your intent>" --refresh --json
 
 # 2. prove the dispatch contract holds before you send live agents at it
-python .repers/scripts/repers.py fixture --action prove --json
+python3 .repers/scripts/repers.py fixture --action prove --json
 
 # 3. run the full local gate before any push
-python .repers/scripts/repers.py verify-all --json
+python3 .repers/scripts/repers.py verify-all --json
 ```
 
 Every command emits a JSON evidence object — pipe to `jq`, store in CI, ship in the release pack, or let `/repers-sinkin` cross-check against `README` / `registry.json` / `dist/`.
@@ -185,13 +217,13 @@ Always-on cost: **~700 tok per session** (loaded skill descriptions for 5 skills
 
 ## 🧩 Capabilities
 
-Twenty-four reusable capabilities live in [`.repers/capabilities/registry.json`](.repers/capabilities/registry.json).
+Twenty-five reusable capabilities live in [`.repers/capabilities/registry.json`](.repers/capabilities/registry.json).
 Each has `id`, `kind`, `summary`, `commands`, `paths`, `verification` —
 queryable by the CLI:
 
 ```bash
-python .repers/scripts/repers.py capabilities --action search --query "release" --json
-python .repers/scripts/repers.py capabilities --action validate --json
+python3 .repers/scripts/repers.py capabilities --action search --query "release" --json
+python3 .repers/scripts/repers.py capabilities --action validate --json
 ```
 
 Highlights:
@@ -222,7 +254,7 @@ Full inventory in [`registry.json`](.repers/capabilities/registry.json).
 Install:
 
 ```bash
-python .repers/scripts/repers.py install-hook --hook-policy warn   # or strict
+python3 .repers/scripts/repers.py install-hook --hook-policy warn   # or strict
 ```
 
 State files live under `${REPO}/.repers/` — **per-repo, never shared across projects.**
@@ -245,7 +277,7 @@ A RePERS handoff is not just source code. It's a verifiable bundle:
 Generate all with:
 
 ```bash
-python .repers/scripts/repers.py release-pack --json
+python3 .repers/scripts/repers.py release-pack --json
 ```
 
 ---

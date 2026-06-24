@@ -6,19 +6,19 @@ templates + fixtures), 4 Codex skills, governance docs, a release pack, and
 machine-readable JSON evidence for every gate.
 
 If you're **using** RePERS in another project, see that project's README
-(installed by `python .repers/scripts/repers.py install --target <repo>` or
+(installed by `python3 .repers/scripts/repers.py install --target <repo>` or
 `/repers-init` in Codex). **This file is just for editing RePERS itself.**
 
 ## What lives where
 
 ```
 .repers/scripts/        Python CLI (repers.py) + per-capability scripts + installer
-.repers/capabilities/   registry.json — canonical inventory of 24 reusable workflows
+.repers/capabilities/   registry.json — canonical inventory of 25 reusable workflows
 .repers/hooks/          pre-commit hook (warn / strict policies)
 .repers/templates/      files copied into receiver repos at install time
 .repers/docs/           internal architecture / spec / workflow notes
 .repers/manifest.json   runtime manifest (versions, file fingerprints)
-skills/                 4 Codex skills (repers-init / -bug-hunt / -release-pack / -sinkin)
+skills/                 5 Codex skills (repers-init / -route / -bug-hunt / -release-pack / -sinkin)
 .codex-plugin/          plugin.json for the Codex marketplace
 .github/                CI workflow + issue / PR templates + social preview
 docs/                   public-facing docs (bug-hunt demo, release checklist, promo)
@@ -34,25 +34,25 @@ PITFALLS.md             cross-project pitfalls (this repo's responsibility to cu
 |---|---|
 | `.repers/scripts/*.py` | Run `python tests/smoke_repers.py` after the edit. Keep stdlib-only (no new deps). |
 | `.repers/scripts/repers.py` | If you add a subcommand, register it in `capabilities/registry.json` AND mention it in README "Core commands". |
-| `.repers/capabilities/registry.json` | Bump `version` if entries change shape. Re-run `python .repers/scripts/repers.py capabilities --action validate --json`. |
-| `.repers/hooks/pre-commit` | Test with `python .repers/scripts/repers.py install-hook --hook-policy warn` then a fake commit. |
+| `.repers/capabilities/registry.json` | Bump `version` if entries change shape. Re-run `python3 .repers/scripts/repers.py capabilities --action validate --json`. |
+| `.repers/hooks/pre-commit` | Test with `python3 .repers/scripts/repers.py install-hook --hook-policy warn` then a fake commit. |
 | `.repers/templates/**` | These get copied verbatim into receiver repos. Don't reference the RePERS repo or maintainer specifics. |
 | `skills/<name>/SKILL.md` | Front-matter `name:` + `description:` required. Keep description specific enough that Codex knows when to invoke. |
 | `.codex-plugin/plugin.json` | Bump `version` whenever shipped behavior changes. |
 | `README.md` "Skills" / "Hooks" / "Commands" tables | Keep in sync when adding the corresponding artifact. |
-| `dist/*` | Regenerate via `python .repers/scripts/repers.py release-pack --json`, don't hand-edit. |
+| `dist/*` | Regenerate via `python3 .repers/scripts/repers.py release-pack --json`, don't hand-edit. |
 
 ## Release flow
 
 The full pre-publish gate is in [`MAINTAINERS.md`](./MAINTAINERS.md). Short form:
 
 1. Bump `.codex-plugin/plugin.json` `version` + `.repers/capabilities/registry.json` `version` if registry shape changed
-2. `python .repers/scripts/repers.py bundle-status --package --verify-roundtrip --json` → `ok: true`
-3. `python .repers/scripts/repers.py fixture --action prove --json` → `ok: true`
-4. `python .repers/scripts/repers.py receiver-fixture --json` → `ok: true`
-5. `python .repers/scripts/repers.py release-evidence --package --verify-roundtrip --json`
+2. `python3 .repers/scripts/repers.py bundle-status --package --verify-roundtrip --json` → `ok: true`
+3. `python3 .repers/scripts/repers.py fixture --action prove --json` → `ok: true`
+4. `python3 .repers/scripts/repers.py receiver-fixture --json` → `ok: true`
+5. `python3 .repers/scripts/repers.py release-evidence --package --verify-roundtrip --json`
 6. `python tests/smoke_repers.py`
-7. `python .repers/scripts/repers.py release-pack --json` → refreshes `dist/repers-release-pack.zip`
+7. `python3 .repers/scripts/repers.py release-pack --json` → refreshes `dist/repers-release-pack.zip`
 8. Update `CHANGELOG.md` (Unreleased → vX.Y.Z + date)
 9. `git commit -am "repers vX.Y.Z: <one-line change>"`
 10. `git push && gh release create vX.Y.Z dist/repers-X.Y.Z.zip dist/repers-release-pack.zip`

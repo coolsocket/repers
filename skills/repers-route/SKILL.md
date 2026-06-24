@@ -5,6 +5,8 @@ description: Decide whether (and which slice of) the RePERS R-P-E-R-S pipeline f
 
 # repers-route
 
+> **Layer**: 🧭 **Router** (gate before R) — picks WHICH of R/P/E/R/S layers should run for this specific task. The only skill an agent should call **unconditionally** on first contact.
+
 The router is the **first thing** to call when a user asks for "help me fix X"
 or "I want to work on Y". RePERS has a measured **5.8× wall-clock overhead vs.
 a naked agent** for tasks at the small end (single-file bug, test pins the
@@ -29,7 +31,7 @@ actually pays off.
 2. Run the router:
 
    ```bash
-   python .repers/scripts/repers.py route \
+   python3 .repers/scripts/repers.py route \
      --task "<short description>" \
      --est-files <N>  # optional
      --json
