@@ -13,7 +13,7 @@ Parallel lanes that don't collide. JSON evidence handed off between agents (any 
 [![CI](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml/badge.svg)](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml)
 [![GitHub stars](https://img.shields.io/github/stars/coolsocket/repers?style=flat&color=yellow)](https://github.com/coolsocket/repers/stargazers)
 
-🎯 [When to use](#-when-to-use--when-not-to-use) · 🚀 [Install](#-install) · 🔧 [Daily workflow](#-daily-workflow) · 🧠 [Skills](#-skills) · 🧩 [Capabilities](#-capabilities) · 📦 [Deliverables](#-deliverables) · 🩺 [Troubleshooting](#-troubleshooting) · ❓ [FAQ](#-faq)
+📊 [Maturity curve](#-where-repers-fits-on-the-codebase-maturity-curve) · 🔗 [Cross-repo handoff](#-cross-repo-and-cross-team-handoff) · 🎯 [When to use](#-when-to-use--when-not-to-use) · 🚀 [Install](#-install) · 🧠 [Skills](#-skills) · 🩺 [Troubleshooting](#-troubleshooting) · ❓ [FAQ](#-faq)
 
 </div>
 
@@ -36,6 +36,43 @@ What ships:
 - 📜 **JSON evidence at every stage** — so Agent B picks up where Agent A stopped, and a reviewer (human or AI) can audit without the chat log.
 - 📦 **A transferable release pack** — `repers-release-pack.zip` — that another repo extracts, installs, and re-verifies end-to-end.
 - 🐍 **Stdlib-only Python runtime** — no extra deps, installs with one command.
+
+---
+
+## 📊 Where RePERS fits on the codebase maturity curve
+
+The harness's overhead is **fixed**. The work it coordinates **compounds**. So whether it earns its keep depends almost entirely on **what shape and scale of work you're doing** — not what stack you're on. The honest answer changes as a codebase grows from greenfield to enterprise to cross-org ecosystem:
+
+| You are… | Repo shape | Should you adopt RePERS? | What you actually need at this stage |
+|---|---|---|---|
+| **Day 0 — solo, prototype** (<1 k LOC, no tests) | One file or two; you're sketching | **No.** Naked agent in your IDE wins every time. | A chat window. Skip the harness. |
+| **Early product** (1–3 devs, 1–10 k LOC, single domain) | A handful of files, light tests, one repo | **Almost always no.** Maybe pin `/repers-route` so the team has the option later. | CI + pre-commit lint. The router will keep telling you "skip". |
+| **Growing product** (5–10 devs, 50 k LOC, 2–3 domains: api / web / worker) | Multi-file PRs are now common. Merge conflicts start. People step on each other. | **Selectively.** Adopt for the *big* changes — migrations, deprecation sweeps, refactors of a god-class. Skip for everyday PRs. | Branch protection + structured code review. The router routes most tasks to `R-E-R` and the occasional one to `R-P-E-R`. |
+| **Scale-up** (20+ engineers, 200 k+ LOC monorepo, multi-team) | Parallel feature work daily. **Multiple AI agents** are helping multiple engineers. Sometimes you set off two Codex sessions on the same area at once and they clobber. | **Yes — this is the sweet spot.** The router will recommend `R-P-E-R` or `R-P-E-R-S` for most non-trivial tasks. | A contract that **prevents N agents (yours and your teammates') from clobbering each other's lanes.** ← that's what the `target_files` isolation + dispatch contract is. |
+| **Big company / regulated** (100+ engineers, multi-service, audit trails required) | Cross-cutting work (security patches, compliance migrations) needs evidence chains. Different teams pick different agents (Claude / Codex / Gemini / in-house fine-tunes). | **Yes — as the lingua franca.** Adopt it across teams. JSON evidence is auditable; release-pack-verify lets a downstream team re-verify another team's claim without trusting their chat log. | A standard contract across agent fleets + a portable audit trail. |
+| **Cross-org / OSS ecosystem** (multi-repo dependencies, vendor diversity) | Agent in repo A produces something repo B's CI or maintainer has to consume / verify. You don't trust repo A's vendor or their evidence. | **Yes — for the handoff.** `repers-release-pack.zip` is the transfer protocol; the receiving repo extracts it and **re-verifies independently** without trusting either the sender's vendor or their JSON. | A contract that survives vendor + organizational + trust boundaries. |
+
+**Pattern**: at the small end the overhead dominates; at the large end the coordination *is* the work, and the absence of a contract is what causes the pain. RePERS feels cheaper as the codebase gets bigger. The router exists so a tool that genuinely earns its keep at one end doesn't get force-fitted onto the other.
+
+> **A concrete cost data point we shipped to FAQ honestly**: on `sqlfluff__sqlfluff-2419` (1 file, 4-line patch), running the full pipeline cost **5.8× wall-clock vs. a naked agent for no quality lift**. That's exactly the regime where the router says "skip the harness". Use the data, don't fight it.
+
+---
+
+## 🔗 Cross-repo and cross-team handoff
+
+The single most under-told story in v0.1 was: **RePERS already ships the cross-repo handoff primitives**. Most agent harnesses assume one repo + one agent + one team. Real engineering work at scale doesn't:
+
+| Cross-repo flow | RePERS primitive | What it proves |
+|---|---|---|
+| Team A produces a release artifact; Team B's CI must consume + audit | `release-pack.zip` (transferable archive — install + readiness + evidence + bootstrap + benchmark + state) | A single signed zip moves between repos / orgs / clouds without losing audit context |
+| Team B receives the pack; their AI/CI needs to verify it independently | `release-pack-verify --archive <pack> --json` | Receiver re-verifies checksums + manifest + embedded evidence **without trusting** the sender's vendor or JSON |
+| A fresh repo wants to adopt the harness from a pack | `receiver-fixture --json` / `source-install-fixture --json` | Fresh `git init` + 1 command → working `.repers/` runtime; both contracts proven in CI |
+| Two repos cooperate via a temporary bare remote (e.g., an air-gapped review) | `publish-clone-fixture --json` | Source pushes to bare remote → clone repo re-verifies → no network deps |
+| A different LLM vendor (Codex / Gemini / your own) drives a lane | `dispatch.v1` manifest + `step_result.v1` artifact | Contract is JSON-in / JSON-out; the worker doesn't need to know which vendor the supervisor uses |
+
+For a Series-A startup with one repo, these primitives look like over-engineering. For a Fortune-500 with 12 services and 4 teams using 3 different AI vendors, they're the only thing that lets the audit + handoff actually work without "trust me, my agent did the right thing."
+
+> **What this means for evaluation**: if you're evaluating RePERS for a small repo, evaluate the **router + naked-agent recommendation** — does it correctly tell you not to use the harness? If you're evaluating for a large repo or multi-team org, evaluate the **dispatch contract + release-pack handoff** — can you make repo A produce a pack repo B can re-verify without trusting repo A's vendor? Both are valid, and they're different evaluations.
 
 ---
 
