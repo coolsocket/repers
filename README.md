@@ -239,7 +239,7 @@ Highlights:
 
 Full inventory in [`registry.json`](.repers/capabilities/registry.json).
 
-> **v0.2 plan**: trim the registry from 25 → ~15 by removing self-referential META scripts (state report, continuation runner, open-source-benchmark) that don't earn their keep outside the harness itself.
+> **v0.2.0 shipped**: registry trimmed 25 → 20 by removing self-referential META verbs (objective-audit / continue / snapshot-freshness / open-source-benchmark) that didn't earn their keep outside the harness itself. `state` slimmed to git + package + capabilities only. See [`CHANGELOG.md`](./CHANGELOG.md) for the breaking-change list.
 
 ---
 

@@ -3,11 +3,11 @@
   "ok": true,
   "release_evidence_ok": true,
   "publish_ready": false,
-  "generated_at": "2026-06-22T14:23:31.736829+00:00",
-  "workspace_root": "C:\\Users\\Administrator\\Documents\\RePERS",
-  "install_root": "C:\\Users\\Administrator\\Documents\\RePERS\\.repers",
-  "output_dir": "C:\\Users\\Administrator\\Documents\\RePERS\\dist",
-  "release_evidence_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-release-evidence.json",
+  "generated_at": "2026-06-24T07:42:12.940628+00:00",
+  "workspace_root": "/home/sa_114486498687979675637/repers",
+  "install_root": "/home/sa_114486498687979675637/repers/.repers",
+  "output_dir": "/home/sa_114486498687979675637/repers/dist",
+  "release_evidence_path": "/home/sa_114486498687979675637/repers/dist/repers-release-evidence.json",
   "missing_for_publish": [
     "commit or intentionally exclude working tree changes"
   ],
@@ -29,37 +29,62 @@
   },
   "pull_request": {
     "base_branch": "main",
-    "head_branch": "codex/repers-initial-package",
-    "title": "Record public launch release",
+    "head_branch": "main",
+    "title": "v0.2 Phase B+C all 6 verbs plugin loaded+all 7 contracts extracted",
     "github_cli": {
-      "available": false,
-      "path": null
+      "available": true,
+      "path": "/usr/bin/gh"
     }
   },
   "git": {
     "is_git_repo": true,
-    "branch": "codex/repers-initial-package",
-    "head_sha": "4f30bb8330691784c0a322483265f69356a1fc91",
+    "branch": "main",
+    "head_sha": "292c31a881d8db84ab31072914e26e5cfac4a714",
     "has_head": true,
     "dirty": true,
-    "status_count": 16,
+    "status_count": 41,
     "status_entries": [
-      "M .repers/capabilities/registry.json",
+      "M .codex-plugin/plugin.json",
+      " M .repers/capabilities/registry.json",
       " M .repers/index/repers.db",
       " M .repers/manifest.json",
-      " M .repers/scripts/objective_audit.py",
+      " D .repers/scripts/continuation_runner.py",
+      " M .repers/scripts/install_repers.py",
+      " D .repers/scripts/objective_audit.py",
+      " D .repers/scripts/open_source_benchmark.py",
       " M .repers/scripts/package_repers.py",
-      " M .repers/scripts/release_evidence.py",
+      " M .repers/scripts/receiver_fixture.py",
+      " M .repers/scripts/release_pack.py",
+      " M .repers/scripts/repers.py",
+      " D .repers/scripts/snapshot_freshness.py",
+      " M .repers/scripts/state_report.py",
+      " M .repers/scripts/verify_all.py",
       " M README.md",
-      " M dist/repers-0.1.0-readiness.json",
-      " M dist/repers-0.1.0.zip",
+      " D dist/repers-0.1.1-readiness.json",
+      " D dist/repers-0.1.1.zip",
+      " M dist/repers-continuation.md",
+      " M dist/repers-objective-audit.json",
+      " M dist/repers-open-source-benchmark.json",
+      " M dist/repers-open-source-benchmark.md",
       " M dist/repers-publish-handoff.json",
       " M dist/repers-publish-handoff.md",
       " M dist/repers-release-evidence.json",
-      " M docs/planning/active-repers-build.md",
+      " M dist/repers-release-pack.json",
+      " D dist/repers-release-pack.zip",
+      " M dist/repers-remote-bootstrap.json",
+      " M dist/repers-remote-bootstrap.md",
+      " M dist/repers-state.json",
+      " M dist/repers-state.md",
+      " M dist/repers-verify-all.json",
+      " M dist/repers-verify-all.md",
+      " M docs/components-map.md",
+      " M docs/release-checklist.md",
+      " M skills/repers-sinkin/SKILL.md",
       " M tests/smoke_repers.py",
-      "?? .codex-plugin/",
-      "?? skills/"
+      "?? .claude/",
+      "?? dist/repers-0.2.0-readiness.json",
+      "?? dist/repers-0.2.0.zip",
+      "?? repers_tasks/"
     ],
     "remote_count": 1,
     "errors": []
@@ -67,8 +92,8 @@
   "package": {
     "included": false,
     "ok": true,
-    "archive_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-0.1.0.zip",
-    "archive_sha256": "f8ae8d9b3cb5d358bc26125fb2227f53e3bb4a38c9bc69fdbf09640c30371fce",
+    "archive_path": "/home/sa_114486498687979675637/repers/dist/repers-0.2.0.zip",
+    "archive_sha256": "c2a8ec869f7a4063a5bcb4b8d2b126b6696484f477e18a08e22a22d1c3f993aa",
     "manifest_file_count": null,
     "readiness_warnings": [],
     "roundtrip_ok": null
@@ -84,14 +109,14 @@
     {
       "id": "push_branch",
       "title": "Push release branch",
-      "command": "git push -u origin codex/repers-initial-package",
+      "command": "git push -u origin main",
       "status": "blocked",
       "reason": "Commit or intentionally exclude working tree changes first."
     },
     {
       "id": "open_draft_pr",
       "title": "Open draft pull request",
-      "command": "gh pr create --draft --base main --head codex/repers-initial-package --title \"Record public launch release\" --body-file <handoff-md>",
+      "command": "gh pr create --draft --base main --head main --title \"v0.2 Phase B+C all 6 verbs plugin loaded+all 7 contracts extracted\" --body-file <handoff-md>",
       "status": "blocked",
       "reason": "Requires GitHub CLI authentication and pushed branch."
     }
@@ -102,6 +127,6 @@
     "pushes_branch": false,
     "opens_pull_request": false
   },
-  "path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.json",
-  "markdown_path": "C:\\Users\\Administrator\\Documents\\RePERS\\dist\\repers-publish-handoff.md"
+  "path": "/home/sa_114486498687979675637/repers/dist/repers-publish-handoff.json",
+  "markdown_path": "/home/sa_114486498687979675637/repers/dist/repers-publish-handoff.md"
 }

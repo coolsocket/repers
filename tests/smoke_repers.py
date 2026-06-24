@@ -179,11 +179,7 @@ def test_package_archive_manifest():
     assert "remote_bootstrap_fixture" in readiness["receiver_commands"]
     assert "publish_clone_fixture" in readiness["receiver_commands"]
     assert "source_install_fixture" in readiness["receiver_commands"]
-    assert "objective_audit" in readiness["receiver_commands"]
-    assert "continue" in readiness["receiver_commands"]
     assert "state" in readiness["receiver_commands"]
-    assert "snapshot_freshness" in readiness["receiver_commands"]
-    assert "open_source_benchmark" in readiness["receiver_commands"]
     assert "release_pack_verify" in readiness["receiver_commands"]
     assert "verify_all" in readiness["receiver_commands"]
 
@@ -212,11 +208,7 @@ def test_package_archive_manifest():
         assert f"{archive_root}/scripts/remote_bootstrap.py" in names
         assert f"{archive_root}/scripts/publish_clone_fixture.py" in names
         assert f"{archive_root}/scripts/source_install_fixture.py" in names
-        assert f"{archive_root}/scripts/objective_audit.py" in names
-        assert f"{archive_root}/scripts/continuation_runner.py" in names
         assert f"{archive_root}/scripts/state_report.py" in names
-        assert f"{archive_root}/scripts/snapshot_freshness.py" in names
-        assert f"{archive_root}/scripts/open_source_benchmark.py" in names
         assert f"{archive_root}/scripts/verify_all.py" in names
         assert f"{archive_root}/capabilities/registry.json" in names
         assert f"{archive_root}/.codex-plugin/plugin.json" in names
@@ -413,69 +405,9 @@ def test_capability_registry_and_preflight_surface():
     assert search["entries"]
     assert search["entries"][0]["id"] == "orchestration-fixture"
 
-    continuation_stdout = run(
-        [
-            sys.executable,
-            str(REPERS),
-            "capabilities",
-            "--action",
-            "search",
-            "--query",
-            "autonomous continuation resume local actions",
-            "--json",
-        ]
-    )
-    continuation_search = json.loads(continuation_stdout)
-    assert continuation_search["ok"] is True
-    assert continuation_search["entries"][0]["id"] == "continuation-runner"
-
-    state_stdout = run(
-        [
-            sys.executable,
-            str(REPERS),
-            "capabilities",
-            "--action",
-            "search",
-            "--query",
-            "repository state status dashboard publish package",
-            "--json",
-        ]
-    )
-    state_search = json.loads(state_stdout)
-    assert state_search["ok"] is True
-    assert state_search["entries"][0]["id"] == "state-report"
-
-    freshness_stdout = run(
-        [
-            sys.executable,
-            str(REPERS),
-            "capabilities",
-            "--action",
-            "search",
-            "--query",
-            "snapshot freshness generated evidence live git state",
-            "--json",
-        ]
-    )
-    freshness_search = json.loads(freshness_stdout)
-    assert freshness_search["ok"] is True
-    assert freshness_search["entries"][0]["id"] == "snapshot-freshness"
-
-    benchmark_stdout = run(
-        [
-            sys.executable,
-            str(REPERS),
-            "capabilities",
-            "--action",
-            "search",
-            "--query",
-            "open source benchmark promotion repository structure",
-            "--json",
-        ]
-    )
-    benchmark_search = json.loads(benchmark_stdout)
-    assert benchmark_search["ok"] is True
-    assert benchmark_search["entries"][0]["id"] == "open-source-benchmark"
+    # v0.2.0 removed registry entries: continuation-runner, state-report,
+    # snapshot-freshness, open-source-benchmark, objective-audit. Searches
+    # that used to anchor on those are gone.
 
     verify_stdout = run(
         [
@@ -573,38 +505,6 @@ def test_capability_registry_and_preflight_surface():
     assert any(result["source"] == "local_capability" for result in preflight["results"])
 
 
-def test_open_source_benchmark_verifies_research_surface():
-    output_dir = DIST / "open-source-benchmark"
-    if output_dir.exists():
-        shutil.rmtree(output_dir)
-    try:
-        stdout = run(
-            [
-                sys.executable,
-                str(REPERS),
-                "open-source-benchmark",
-                "--output",
-                str(output_dir),
-                "--json",
-            ]
-        )
-        result = json.loads(stdout)
-        benchmark = result["open_source_benchmark"]
-        assert benchmark["schema"] == "repers.open_source_benchmark_result.v1"
-        assert benchmark["ok"] is True
-        assert benchmark["repository_count"] >= 10
-        assert benchmark["source_url_count"] >= 10
-        assert benchmark["pattern_count"] >= 6
-        assert benchmark["source_surface_applicable"] is True
-        assert benchmark["missing_source_paths"] == []
-        assert benchmark["missing_installed_paths"] == []
-        assert Path(result["path"]).exists()
-        assert Path(result["markdown_path"]).exists()
-    finally:
-        if output_dir.exists():
-            shutil.rmtree(output_dir)
-
-
 def test_release_evidence_publish_readiness_artifact():
     stdout = run(
         [
@@ -674,14 +574,13 @@ def test_release_pack_builds_transferable_handoff_archive():
             "release_evidence",
             "publish_handoff_json",
             "remote_bootstrap_json",
-            "open_source_benchmark_json",
             "state_json",
         } <= artifact_names
         with zipfile.ZipFile(archive_path) as zf:
             names = set(zf.namelist())
             assert "repers-release-pack.json" in names
             assert "repers-release-pack.md" in names
-            assert "repers-0.1.0.zip" in names
+            assert "repers-0.2.0.zip" in names
             assert "repers-publish-handoff.json" in names
             assert "repers-remote-bootstrap.json" in names
             archived_manifest = json.loads(zf.read("repers-release-pack.json").decode("utf-8"))
@@ -911,128 +810,16 @@ def test_source_install_fixture_proves_one_command_install():
             shutil.rmtree(output_dir)
 
 
-def test_objective_audit_reports_requirements_and_blockers():
-    output_dir = ROOT / ".repers-smoke-objective-audit"
-    if output_dir.exists():
-        shutil.rmtree(output_dir)
-    try:
-        stdout = run(
-            [
-                sys.executable,
-                str(REPERS),
-                "objective-audit",
-                "--output",
-                str(output_dir),
-                "--json",
-            ]
-        )
-        result = json.loads(stdout)
-        audit = result["objective_audit"]
-        audit_path = Path(result["path"])
-        assert audit_path.exists()
-        assert audit["schema"] == "repers.objective_audit.v1"
-        assert audit["ok"] is True
-        assert isinstance(audit["objective_complete"], bool)
-        requirement_ids = {item["id"] for item in audit["requirements"]}
-        assert {
-            "self_contained_repository",
-            "installable_by_another_repository",
-            "agent_reusable_capabilities",
-            "deterministic_orchestration",
-            "open_source_structure_research",
-            "tests_and_package_gates",
-            "verified_without_chat_history",
-            "local_remote_bootstrap_apply",
-            "local_publish_clone_verification",
-            "one_command_source_install",
-            "publication_ready",
-        } <= requirement_ids
-        assert any(item["id"] == "publication_ready" for item in audit["requirements"])
-        assert audit["continuation"]["schema"] == "repers.objective_continuation.v1"
-        assert audit["continuation"]["status"] in {"blocked_external", "local_work_available", "complete"}
-        assert audit["continuation"]["local_actions"]
-        assert "publication_ready" in audit["continuation"]["requirement_status"]
-        continuation_path = Path(audit["continuation_markdown_path"])
-        assert continuation_path.exists()
-        assert "RePERS Continuation" in continuation_path.read_text(encoding="utf-8")
-        written = json.loads(audit_path.read_text(encoding="utf-8"))
-        assert written["schema"] == "repers.objective_audit.v1"
-        assert written["continuation"]["schema"] == "repers.objective_continuation.v1"
-    finally:
-        if output_dir.exists():
-            shutil.rmtree(output_dir)
-
-
-def test_continue_reports_resume_actions_without_applying_by_default():
-    output_dir = ROOT / ".repers-smoke-continue"
-    if output_dir.exists():
-        shutil.rmtree(output_dir)
-    try:
-        stdout = run(
-            [
-                sys.executable,
-                str(REPERS),
-                "continue",
-                "--output",
-                str(output_dir),
-                "--json",
-            ]
-        )
-        result = json.loads(stdout)
-        assert result["schema"] == "repers.continuation_run.v1"
-        assert result["ok"] is True
-        assert result["mode"] == "dry-run"
-        assert Path(result["audit_path"]).exists()
-        assert isinstance(result["objective_complete"], bool)
-        assert isinstance(result["blocking_incomplete"], list)
-        assert result["local_actions"]
-        if result["objective_complete"]:
-            assert "verify_complete" in result["selected_action_ids"]
-            assert result["external_actions"] == []
-            assert result["external_action_ids"] == []
-        elif "publication_ready" in result["blocking_incomplete"]:
-            assert "verify_after_publication_setup" in result["selected_action_ids"]
-            assert result["external_actions"]
-            assert "configure_hosted_remote" in result["external_action_ids"]
-        else:
-            assert "refresh_deep_evidence" in result["selected_action_ids"]
-        assert result["executions"] == []
-    finally:
-        if output_dir.exists():
-            shutil.rmtree(output_dir)
-
-
 def test_state_report_summarizes_current_repository():
+    """v0.2.0: slim state — git + package + capabilities. No objective/next."""
     output_dir = ROOT / ".repers-smoke-state"
     if output_dir.exists():
         shutil.rmtree(output_dir)
     try:
         output_dir.mkdir(parents=True)
-        stale_release = {
-            "schema": "repers.release_evidence.v1",
-            "git": {
-                "branch": "stale-branch",
-                "head_sha": "stale-head",
-                "has_head": True,
-                "dirty": False,
-                "status_count": 0,
-                "remote_count": 99,
-                "errors": [],
-            },
-            "missing_for_publish": [],
-            "package": {"ok": True, "roundtrip_ok": True, "readiness_warnings": []},
-        }
-        (output_dir / "repers-release-evidence.json").write_text(json.dumps(stale_release), encoding="utf-8")
         live_head = run(["git", "rev-parse", "HEAD"]).strip()
         stdout = run(
-            [
-                sys.executable,
-                str(REPERS),
-                "state",
-                "--output",
-                str(output_dir),
-                "--json",
-            ]
+            [sys.executable, str(REPERS), "state", "--output", str(output_dir), "--json"]
         )
         result = json.loads(stdout)
         state = result["state"]
@@ -1042,60 +829,19 @@ def test_state_report_summarizes_current_repository():
         assert markdown_path.exists()
         assert state["schema"] == "repers.state_report.v1"
         assert state["ok"] is True
-        assert state["status"] in {"complete", "blocked_external", "local_work_available", "incomplete"}
-        assert isinstance(state["objective"]["complete"], bool)
-        assert isinstance(state["objective"]["blocking_incomplete"], list)
+        assert state["status"] in {"ok", "incomplete"}
         assert "remote_count" in state["git"]
         assert state["git"]["head_sha"] == live_head
-        assert state["git"]["head_sha"] != "stale-head"
         assert "ok" in state["package"]
-        assert isinstance(state["capabilities"]["missing"], list)
-        assert "local_action_id" in state["next"]
-        assert state["artifacts"]["state_json"] == str(state_path.resolve())
+        assert state["capabilities"]["ok"] is True
+        # v0.2 BREAKING: objective + next fields are gone
+        assert "objective" not in state
+        assert "next" not in state
         assert "RePERS State" in markdown_path.read_text(encoding="utf-8")
     finally:
         if output_dir.exists():
             shutil.rmtree(output_dir)
 
-
-def test_snapshot_freshness_checks_generated_state():
-    output_dir = DIST / "snapshot-freshness"
-    if output_dir.exists():
-        shutil.rmtree(output_dir)
-    try:
-        run(
-            [
-                sys.executable,
-                str(REPERS),
-                "state",
-                "--output",
-                str(output_dir),
-                "--json",
-            ]
-        )
-        stdout = run(
-            [
-                sys.executable,
-                str(REPERS),
-                "snapshot-freshness",
-                "--output",
-                str(output_dir),
-                "--json",
-            ]
-        )
-        result = json.loads(stdout)
-        freshness = result["snapshot_freshness"]
-        assert Path(result["path"]).exists()
-        assert Path(result["markdown_path"]).exists()
-        assert freshness["schema"] == "repers.snapshot_freshness.v1"
-        assert freshness["ok"] is True
-        assert freshness["fresh"] is True
-        assert freshness["strict"] is False
-        assert freshness["stale_count"] == 0
-        assert freshness["checked_count"] >= 1
-    finally:
-        if output_dir.exists():
-            shutil.rmtree(output_dir)
 
 def test_verify_all_runs_sequential_local_gates():
     if os.environ.get("REPERS_SKIP_VERIFY_ALL_SMOKE") == "1":
@@ -1135,12 +881,11 @@ def test_verify_all_runs_sequential_local_gates():
             "release_pack",
             "release_pack_verify",
             "smoke_tests",
-            "state_deep",
-            "snapshot_freshness",
+            "state",
         } <= gate_names
         assert all(gate["ok"] for gate in report["gates"])
-        assert report["state"]["tests_passed"] is True
-        assert set(report["state"]["blocking_incomplete"]) <= {"publication_ready"}
+        # v0.2 BREAKING: state no longer carries objective.blocking_incomplete;
+        # blocking is always empty so tests_passed is treated as the success signal.
         assert "RePERS Verify All" in markdown_path.read_text(encoding="utf-8")
     finally:
         if output_dir.exists():
@@ -1163,8 +908,6 @@ def test_receiver_fixture_proves_installed_package_commands():
     assert fixture["checks"]["publish_clone_fixture"]["json"]["publish_clone_fixture"]["ok"] is True
     assert fixture["checks"]["source_install_fixture"]["json"]["source_install_fixture"]["ok"] is True
     assert fixture["checks"]["state"]["json"]["state"]["ok"] is True
-    assert fixture["checks"]["snapshot_freshness"]["json"]["snapshot_freshness"]["ok"] is True
-    assert fixture["checks"]["open_source_benchmark"]["json"]["open_source_benchmark"]["ok"] is True
 
 
 def main():
@@ -1180,7 +923,6 @@ def main():
     test_bundle_status_with_package_roundtrip()
     test_orchestration_fixture_proves_worker_command_dag()
     test_capability_registry_and_preflight_surface()
-    test_open_source_benchmark_verifies_research_surface()
     test_release_evidence_publish_readiness_artifact()
     test_release_pack_builds_transferable_handoff_archive()
     test_publish_handoff_artifact_is_non_destructive()
@@ -1188,10 +930,7 @@ def main():
     test_remote_bootstrap_fixture_proves_apply_path()
     test_publish_clone_fixture_proves_clone_verification()
     test_source_install_fixture_proves_one_command_install()
-    test_objective_audit_reports_requirements_and_blockers()
-    test_continue_reports_resume_actions_without_applying_by_default()
     test_state_report_summarizes_current_repository()
-    test_snapshot_freshness_checks_generated_state()
     test_verify_all_runs_sequential_local_gates()
     test_receiver_fixture_proves_installed_package_commands()
     print("installed repers smoke tests ok")

@@ -12,7 +12,7 @@ from pathlib import Path, PurePosixPath
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
 INSTALL_DIR_NAME = ".repers"
-REPERS_VERSION = "0.1.1"
+REPERS_VERSION = "0.2.0"
 MANIFEST_NAME = "manifest.json"
 
 

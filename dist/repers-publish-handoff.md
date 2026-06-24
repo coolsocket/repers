@@ -1,8 +1,8 @@
 # RePERS Publish Handoff
 
-- Generated: `2026-06-22T14:23:31.736829+00:00`
-- Branch: `codex/repers-initial-package`
-- Commit: `4f30bb8330691784c0a322483265f69356a1fc91`
+- Generated: `2026-06-24T07:42:12.940628+00:00`
+- Branch: `main`
+- Commit: `292c31a881d8db84ab31072914e26e5cfac4a714`
 - Clean tree: `False`
 - Publish ready: `False`
 
@@ -27,7 +27,7 @@ git remote -v
 - Reason: Commit or intentionally exclude working tree changes first.
 
 ```powershell
-git push -u origin codex/repers-initial-package
+git push -u origin main
 ```
 
 ### open_draft_pr: Open draft pull request
@@ -36,13 +36,13 @@ git push -u origin codex/repers-initial-package
 - Reason: Requires GitHub CLI authentication and pushed branch.
 
 ```powershell
-gh pr create --draft --base main --head codex/repers-initial-package --title "Record public launch release" --body-file <handoff-md>
+gh pr create --draft --base main --head main --title "v0.2 Phase B+C all 6 verbs plugin loaded+all 7 contracts extracted" --body-file <handoff-md>
 ```
 
 ## Package
 
-- Archive: `C:\Users\Administrator\Documents\RePERS\dist\repers-0.1.0.zip`
-- SHA-256: `f8ae8d9b3cb5d358bc26125fb2227f53e3bb4a38c9bc69fdbf09640c30371fce`
+- Archive: `/home/sa_114486498687979675637/repers/dist/repers-0.2.0.zip`
+- SHA-256: `c2a8ec869f7a4063a5bcb4b8d2b126b6696484f477e18a08e22a22d1c3f993aa`
 - Round trip: `None`
 
 This handoff is intentionally non-destructive. It records the commands

@@ -97,19 +97,17 @@ Every stage emits a JSON artifact with a versioned schema. That's the contract; 
 | `publish-handoff --json` | `repers.publish_handoff.v1` | Non-destructive push/PR handoff artifact |
 | `verify-all --json` | `repers.verify_all.v1` | Run 13 gates sequentially in isolated outputs |
 
-### 🧠 Meta — drift / audit / continuity (mostly self-referential)
+### 🧠 Meta — slim after v0.2.0
 
 | CLI subcommand | Status |
 |---|---|
-| `state [--deep] [--output] --json` | repo state rollup |
-| `snapshot-freshness --json` | detects stale dist/ artifacts |
-| `objective-audit --json` | checks against 11 hardcoded objective IDs |
-| `continue --json` | reads objective_audit, picks ready local actions |
-| `open-source-benchmark --json` | checks 10-OSS-repo structure benchmark file |
-| `audit [--strict-warnings]` | pre-shipping checks |
+| `state [--output] --json` | slim repo state rollup (git + package + capabilities). v0.2 dropped `objective` + `next` fields. |
+| `audit [--strict-warnings]` | pre-shipping checks. Backs the pre-commit hook. |
 
-> **These 6 are candidates for trim / merge in v0.2** — see ROADMAP. None
-> are referenced by the router's `next_step.action` enum.
+> **v0.2.0 BREAKING (removed)**: `objective-audit`, `continue`,
+> `snapshot-freshness`, `open-source-benchmark`. These were self-referential
+> to RePERS's own publication objective and had no value to receivers.
+> See [`CHANGELOG.md`](../CHANGELOG.md) v0.2.0.
 
 ### 🧠 Skills (Codex/Claude plugin layer)
 
@@ -119,7 +117,7 @@ Every stage emits a JSON artifact with a versioned schema. That's the contract; 
 | `/repers-route` | route |
 | `/repers-bug-hunt` | route → (preflight + plan + dispatch + workers + review + run + shipping) per recommended permutation |
 | `/repers-release-pack` | release-pack + release-pack-verify |
-| `/repers-sinkin` | state + snapshot-freshness + capabilities validate + drift check (meta) |
+| `/repers-sinkin` | state + capabilities validate + drift check (meta) |
 
 ---
 

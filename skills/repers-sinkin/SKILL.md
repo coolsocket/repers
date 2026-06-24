@@ -22,8 +22,7 @@ do not auto-fix unless the user asks.
 2. Validate local capabilities:
 
    ```powershell
-   python3 .repers/scripts\repers.py capabilities --action validate --json
-   python3 .repers/scripts\repers.py open-source-benchmark --json
+   python3 .repers/scripts/repers.py capabilities --action validate --json
    ```
 
 3. Verify package and release pack surfaces:

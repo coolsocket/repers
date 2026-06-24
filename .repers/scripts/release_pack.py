@@ -4,7 +4,6 @@ import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 
-from open_source_benchmark import verify_open_source_benchmark, write_open_source_benchmark_report
 from package_repers import create_package, sha256_file
 from publish_handoff import create_publish_handoff
 from release_evidence import build_release_evidence
@@ -24,9 +23,6 @@ REQUIRED_RELEASE_PACK_ARTIFACTS = {
     "release_evidence",
     "publish_handoff_json",
     "remote_bootstrap_json",
-    "open_source_benchmark_json",
-    "objective_audit",
-    "continuation_markdown",
     "state_json",
 }
 
@@ -64,23 +60,7 @@ def write_release_pack_markdown(pack, markdown_path):
         f"- Archive SHA-256: `{pack['archive_sha256']}`",
         f"- Artifact count: `{pack['artifact_count']}`",
         "",
-        "## Next",
-        "",
     ]
-    if pack["next"].get("external_command"):
-        lines.extend(
-            [
-                f"- External action: `{pack['next']['external_action_id']}`",
-                "",
-                "```powershell",
-                pack["next"]["external_command"],
-                "```",
-                "",
-            ]
-        )
-    else:
-        lines.append("- None")
-        lines.append("")
     lines.extend(["## Artifacts", ""])
     for artifact in pack["artifacts"]:
         lines.append(f"- `{artifact['name']}` -> `{artifact['archive_path']}`")
@@ -215,9 +195,7 @@ def create_release_pack(
         verify_roundtrip=False,
         apply=False,
     )
-    benchmark = verify_open_source_benchmark(workspace, install)
-    benchmark_json_path, benchmark_md_path = write_open_source_benchmark_report(benchmark, output)
-    state, state_json_path, state_md_path = build_state_report(workspace, install, output_dir=output, deep=False)
+    state, state_json_path, state_md_path = build_state_report(workspace, install, output_dir=output)
 
     artifact_inputs = [
         ("package_archive", package.get("archive_path")),
@@ -227,10 +205,6 @@ def create_release_pack(
         ("publish_handoff_markdown", handoff_md_path),
         ("remote_bootstrap_json", bootstrap_json_path),
         ("remote_bootstrap_markdown", bootstrap_md_path),
-        ("open_source_benchmark_json", benchmark_json_path),
-        ("open_source_benchmark_markdown", benchmark_md_path),
-        ("objective_audit", state.get("artifacts", {}).get("objective_audit")),
-        ("continuation_markdown", state.get("artifacts", {}).get("continuation_markdown")),
         ("state_json", state_json_path),
         ("state_markdown", state_md_path),
     ]
@@ -245,10 +219,9 @@ def create_release_pack(
         and release_evidence.get("ok")
         and handoff.get("ok")
         and bootstrap.get("ok")
-        and benchmark.get("ok")
         and state.get("ok")
     )
-    status = state.get("status") or ("complete" if state.get("objective", {}).get("complete") else "local_work_available")
+    status = state.get("status") or "incomplete"
 
     pack = {
         "schema": RELEASE_PACK_SCHEMA,
@@ -265,11 +238,8 @@ def create_release_pack(
             "roundtrip_ok": package.get("roundtrip", {}).get("ok"),
         },
         "state": {
-            "objective_complete": state.get("objective", {}).get("complete"),
-            "blocking_incomplete": state.get("objective", {}).get("blocking_incomplete", []),
-            "capability_count": state.get("capabilities", {}).get("entry_count"),
+            "capability_count": state.get("capabilities", {}).get("count"),
         },
-        "next": state.get("next", {}),
         "publish_ready": bool(release_evidence.get("publish_ready")),
         "missing_for_publish": release_evidence.get("missing_for_publish", []),
         "artifacts": artifacts,

@@ -61,8 +61,7 @@ Release notes should include:
 Run:
 
 ```powershell
-python3 .repers/scripts\repers.py state --deep --json
-python3 .repers/scripts\repers.py snapshot-freshness --json
+python3 .repers/scripts/repers.py state --json
 ```
 
 Then confirm:

@@ -1,33 +1,9 @@
 # RePERS State
 
-- Generated: `2026-06-22T14:23:31.896090+00:00`
-- Status: `local_work_available`
-- Objective complete: `False`
-- Blockers: `publication_ready`
+_Generated: 2026-06-24T07:42:12.962688+00:00_
 
-## Git
-
-- Branch: `codex/repers-initial-package`
-- Head: `4f30bb8330691784c0a322483265f69356a1fc91`
-- Dirty: `True`
-- Remotes: `1`
-
-## Package
-
-- OK: `True`
-- Round trip: `None`
-- Archive: `C:\Users\Administrator\Documents\RePERS\dist\repers-0.1.0.zip`
-
-## Continuation
-
-- Status: `local_work_available`
-- Ready local action: `commit_or_clean_worktree`
-- External action: `push_branch`
-
-```powershell
-git status --short
-```
-
-```powershell
-git push -u origin <branch>
-```
+- **Status**: `ok`
+- **Branch**: `main` @ `292c31a881d8`
+- **Dirty**: True
+- **Package**: schema=repers.install_manifest.v1, version=0.2.0, file_count=55
+- **Capabilities**: 20 entries (schema=repers.capability_registry.v1, version=0.2.0)

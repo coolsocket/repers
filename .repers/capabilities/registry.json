@@ -1,6 +1,6 @@
 {
   "schema": "repers.capability_registry.v1",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "entries": [
     {
       "id": "route",
@@ -268,34 +268,6 @@
       ]
     },
     {
-      "id": "open-source-benchmark",
-      "kind": "research-gate",
-      "name": "Open Source Structure Benchmark",
-      "summary": "Stores the 10-repository open-source structure and promotion benchmark as JSON and verifies RePERS adopted the reusable repo surfaces.",
-      "tags": [
-        "open-source",
-        "benchmark",
-        "research",
-        "promotion",
-        "governance",
-        "structure",
-        "verification"
-      ],
-      "commands": [
-        "python .repers/scripts/repers.py open-source-benchmark --json"
-      ],
-      "paths": [
-        "docs/open-source-structure-study.md",
-        "docs/open-source-benchmark.json",
-        "scripts/open_source_benchmark.py",
-        "scripts/repers.py",
-        "docs/contracts.md"
-      ],
-      "verification": [
-        "python .repers/scripts/repers.py open-source-benchmark --json"
-      ]
-    },
-    {
       "id": "release-evidence",
       "kind": "shipping-gate",
       "name": "Release Evidence and Publish Readiness",
@@ -501,130 +473,6 @@
       ],
       "verification": [
         "python .repers/scripts/repers.py source-install-fixture --json"
-      ]
-    },
-    {
-      "id": "objective-audit",
-      "kind": "shipping-gate",
-      "name": "Objective Completion Audit",
-      "summary": "Audits the whole RePERS repository against the requested end-state and records proven, incomplete, and externally blocked requirements.",
-      "tags": [
-        "objective",
-        "completion",
-        "audit",
-        "evidence",
-        "requirements",
-        "continuation",
-        "next-actions",
-        "self-verification",
-        "goal"
-      ],
-      "commands": [
-        "python .repers/scripts/repers.py objective-audit --json",
-        "python .repers/scripts/repers.py objective-audit --deep --json"
-      ],
-      "paths": [
-        "scripts/objective_audit.py",
-        "docs/contracts.md",
-        "dist/repers-objective-audit.json",
-        "dist/repers-continuation.md",
-        "docs/planning/active-repers-build.md"
-      ],
-      "verification": [
-        "python .repers/scripts/repers.py objective-audit --deep --json"
-      ]
-    },
-    {
-      "id": "continuation-runner",
-      "kind": "workflow",
-      "name": "Objective Continuation Runner",
-      "summary": "Reads objective continuation actions, reports local and external next steps, and optionally executes ready local actions.",
-      "tags": [
-        "continuation",
-        "resume",
-        "autonomous",
-        "next-actions",
-        "local-actions",
-        "objective"
-      ],
-      "commands": [
-        "python .repers/scripts/repers.py continue --json",
-        "python .repers/scripts/repers.py continue --apply --json",
-        "python .repers/scripts/repers.py continue --action-id <id> --apply --json"
-      ],
-      "paths": [
-        "scripts/continuation_runner.py",
-        "scripts/objective_audit.py",
-        "scripts/repers.py",
-        "docs/contracts.md",
-        "dist/repers-continuation.md"
-      ],
-      "verification": [
-        "python .repers/scripts/repers.py continue --json"
-      ]
-    },
-    {
-      "id": "state-report",
-      "kind": "shipping-gate",
-      "name": "Repository State Report",
-      "summary": "Composes objective audit, release evidence, package readiness, Git state, and continuation actions into compact JSON and Markdown state artifacts.",
-      "tags": [
-        "state",
-        "status",
-        "dashboard",
-        "objective",
-        "publish",
-        "package",
-        "continuation"
-      ],
-      "commands": [
-        "python .repers/scripts/repers.py state --json",
-        "python .repers/scripts/repers.py state --deep --json"
-      ],
-      "paths": [
-        "scripts/state_report.py",
-        "scripts/objective_audit.py",
-        "scripts/release_evidence.py",
-        "scripts/repers.py",
-        "docs/contracts.md",
-        "dist/repers-state.json",
-        "dist/repers-state.md"
-      ],
-      "verification": [
-        "python .repers/scripts/repers.py state --json"
-      ]
-    },
-    {
-      "id": "snapshot-freshness",
-      "kind": "shipping-gate",
-      "name": "Generated Snapshot Freshness",
-      "summary": "Compares generated state, release, objective-audit, and verify-all snapshots with live Git state so committed evidence is not mistaken for current state.",
-      "tags": [
-        "state",
-        "snapshot",
-        "freshness",
-        "git",
-        "evidence",
-        "verify",
-        "handoff"
-      ],
-      "commands": [
-        "python .repers/scripts/repers.py snapshot-freshness --json",
-        "python .repers/scripts/repers.py snapshot-freshness --strict --json"
-      ],
-      "paths": [
-        "scripts/snapshot_freshness.py",
-        "scripts/state_report.py",
-        "scripts/release_evidence.py",
-        "scripts/verify_all.py",
-        "scripts/repers.py",
-        "docs/contracts.md",
-        "dist/repers-snapshot-freshness.json",
-        "dist/repers-snapshot-freshness.md"
-      ],
-      "verification": [
-        "python .repers/scripts/repers.py state --output <temp-dir> --json",
-        "python .repers/scripts/repers.py snapshot-freshness --output <temp-dir> --strict --json"
       ]
     },
     {

@@ -1,32 +1,19 @@
 {
   "schema": "repers.release_pack.v1",
   "ok": true,
-  "generated_at": "2026-06-23T13:23:07.404612+00:00",
+  "generated_at": "2026-06-24T07:42:12.966921+00:00",
   "workspace_root": "/home/sa_114486498687979675637/repers",
   "install_root": "/home/sa_114486498687979675637/repers/.repers",
   "output_dir": "/home/sa_114486498687979675637/repers/dist",
-  "status": "local_work_available",
+  "status": "ok",
   "package": {
     "ok": true,
-    "archive_path": "/home/sa_114486498687979675637/repers/dist/repers-0.1.1.zip",
-    "archive_sha256": "a985dc47e5c05bdc127a2a15d479c73ce788f5cc72c15077473f92a41a51dbe2",
+    "archive_path": "/home/sa_114486498687979675637/repers/dist/repers-0.2.0.zip",
+    "archive_sha256": "c2a8ec869f7a4063a5bcb4b8d2b126b6696484f477e18a08e22a22d1c3f993aa",
     "roundtrip_ok": true
   },
   "state": {
-    "objective_complete": false,
-    "blocking_incomplete": [
-      "installable_by_another_repository",
-      "tests_and_package_gates",
-      "verified_without_chat_history",
-      "publication_ready"
-    ],
-    "capability_count": 25
-  },
-  "next": {
-    "local_action_id": "refresh_deep_evidence",
-    "local_command": "python -B .repers/scripts/repers.py objective-audit --deep --output dist --json",
-    "external_action_id": "push_branch",
-    "external_command": "git push -u origin <branch>"
+    "capability_count": 20
   },
   "publish_ready": false,
   "missing_for_publish": [
@@ -35,28 +22,28 @@
   "artifacts": [
     {
       "name": "package_archive",
-      "path": "/home/sa_114486498687979675637/repers/dist/repers-0.1.1.zip",
+      "path": "/home/sa_114486498687979675637/repers/dist/repers-0.2.0.zip",
       "exists": true,
-      "size_bytes": 773418,
-      "sha256": "a985dc47e5c05bdc127a2a15d479c73ce788f5cc72c15077473f92a41a51dbe2",
-      "archive_path": "repers-0.1.1.zip",
-      "relative_to_output": "repers-0.1.1.zip"
+      "size_bytes": 775133,
+      "sha256": "c2a8ec869f7a4063a5bcb4b8d2b126b6696484f477e18a08e22a22d1c3f993aa",
+      "archive_path": "repers-0.2.0.zip",
+      "relative_to_output": "repers-0.2.0.zip"
     },
     {
       "name": "package_readiness",
-      "path": "/home/sa_114486498687979675637/repers/dist/repers-0.1.1-readiness.json",
+      "path": "/home/sa_114486498687979675637/repers/dist/repers-0.2.0-readiness.json",
       "exists": true,
-      "size_bytes": 3809,
-      "sha256": "62fd3c420a7546ab8393f528780cf0b1e308edb93c96309a405a2c9b4fce970d",
-      "archive_path": "repers-0.1.1-readiness.json",
-      "relative_to_output": "repers-0.1.1-readiness.json"
+      "size_bytes": 3421,
+      "sha256": "d9704a60e0f062d2cae9aac4a53dc72d76027702c683143a67584fc94d65b921",
+      "archive_path": "repers-0.2.0-readiness.json",
+      "relative_to_output": "repers-0.2.0-readiness.json"
     },
     {
       "name": "release_evidence",
       "path": "/home/sa_114486498687979675637/repers/dist/repers-release-evidence.json",
       "exists": true,
-      "size_bytes": 9911,
-      "sha256": "d03a42533be100153f03646b67a6e789073fbc5cc0d591aae766c3f4379df37c",
+      "size_bytes": 10506,
+      "sha256": "d50e923e89be249fa4d869a270be7016bc11a9f128b1d9e21b849f471d5f890b",
       "archive_path": "repers-release-evidence.json",
       "relative_to_output": "repers-release-evidence.json"
     },
@@ -64,8 +51,8 @@
       "name": "publish_handoff_json",
       "path": "/home/sa_114486498687979675637/repers/dist/repers-publish-handoff.json",
       "exists": true,
-      "size_bytes": 3922,
-      "sha256": "2053165d5b6287347a5c89ce43bb79e8027c7dd6bc59fca97591473f01bafbd5",
+      "size_bytes": 4503,
+      "sha256": "759b841fbea5bdc7c85f8aa6dcbb6e97c9cd401cb170450ca20eb80d888d258f",
       "archive_path": "repers-publish-handoff.json",
       "relative_to_output": "repers-publish-handoff.json"
     },
@@ -73,8 +60,8 @@
       "name": "publish_handoff_markdown",
       "path": "/home/sa_114486498687979675637/repers/dist/repers-publish-handoff.md",
       "exists": true,
-      "size_bytes": 1243,
-      "sha256": "8a73f92494e30608ae8dbf97f2ae56e6e770ee6b29914e243354bc7cff20c672",
+      "size_bytes": 1236,
+      "sha256": "808b30dcb4a470f401e70ce244731f458911a1f94ed68e9d78bd3773264288d6",
       "archive_path": "repers-publish-handoff.md",
       "relative_to_output": "repers-publish-handoff.md"
     },
@@ -82,8 +69,8 @@
       "name": "remote_bootstrap_json",
       "path": "/home/sa_114486498687979675637/repers/dist/repers-remote-bootstrap.json",
       "exists": true,
-      "size_bytes": 5106,
-      "sha256": "096553be0ca1c5704f88ee391e7b94a7d24b33ebe26c65571456fe4953dc3ee2",
+      "size_bytes": 5687,
+      "sha256": "11a2f00a939795e7a3ccd0d963f43607aff1d9085783956602f8c6013ab86484",
       "archive_path": "repers-remote-bootstrap.json",
       "relative_to_output": "repers-remote-bootstrap.json"
     },
@@ -91,53 +78,17 @@
       "name": "remote_bootstrap_markdown",
       "path": "/home/sa_114486498687979675637/repers/dist/repers-remote-bootstrap.md",
       "exists": true,
-      "size_bytes": 1969,
-      "sha256": "b2a7d6c42e2adae9fa5ddf75e388dfdf739e84f725054731171288dad3fc07a9",
+      "size_bytes": 1955,
+      "sha256": "02ba1462e213a0c59e193685df4e894eba6f2e1ab80c52417df7f8be77184604",
       "archive_path": "repers-remote-bootstrap.md",
       "relative_to_output": "repers-remote-bootstrap.md"
-    },
-    {
-      "name": "open_source_benchmark_json",
-      "path": "/home/sa_114486498687979675637/repers/dist/repers-open-source-benchmark.json",
-      "exists": true,
-      "size_bytes": 2449,
-      "sha256": "3f0af7def926456b1a5cf1e6d682c77423d0e5174493ade40ba486e2777bce8a",
-      "archive_path": "repers-open-source-benchmark.json",
-      "relative_to_output": "repers-open-source-benchmark.json"
-    },
-    {
-      "name": "open_source_benchmark_markdown",
-      "path": "/home/sa_114486498687979675637/repers/dist/repers-open-source-benchmark.md",
-      "exists": true,
-      "size_bytes": 311,
-      "sha256": "9b920e4fafa2f5895177f05a355860a47ac97bef46f72a3392273af8c071e1f4",
-      "archive_path": "repers-open-source-benchmark.md",
-      "relative_to_output": "repers-open-source-benchmark.md"
-    },
-    {
-      "name": "objective_audit",
-      "path": "/home/sa_114486498687979675637/repers/dist/repers-objective-audit.json",
-      "exists": true,
-      "size_bytes": 16337,
-      "sha256": "2e63a7e772b6c3aa464a44e94985e2443672222654aa1fe88fe6595c0b914cd6",
-      "archive_path": "repers-objective-audit.json",
-      "relative_to_output": "repers-objective-audit.json"
-    },
-    {
-      "name": "continuation_markdown",
-      "path": "/home/sa_114486498687979675637/repers/dist/repers-continuation.md",
-      "exists": true,
-      "size_bytes": 2236,
-      "sha256": "5f6ad7bc27d100bc9331ef3f975dc017eb493048dd001550226425f67da5a2f0",
-      "archive_path": "repers-continuation.md",
-      "relative_to_output": "repers-continuation.md"
     },
     {
       "name": "state_json",
       "path": "/home/sa_114486498687979675637/repers/dist/repers-state.json",
       "exists": true,
-      "size_bytes": 2305,
-      "sha256": "3f3cc0e54d14952a057d90ae93b9910e7023bf6364031beb39e86d2ccfc7a356",
+      "size_bytes": 710,
+      "sha256": "74f3c9d52667620ff786648f85cda5679e66063453b756810d3af0591ec72d47",
       "archive_path": "repers-state.json",
       "relative_to_output": "repers-state.json"
     },
@@ -145,13 +96,13 @@
       "name": "state_markdown",
       "path": "/home/sa_114486498687979675637/repers/dist/repers-state.md",
       "exists": true,
-      "size_bytes": 754,
-      "sha256": "5fa3103072946cb1cffe6f2c20e29be58a9416b4b6eb7f84848fbdc3103ce0f5",
+      "size_bytes": 302,
+      "sha256": "7744b5110b7a3221a1313723374d598e27664f4fe0f252129d315ed9a0bf647d",
       "archive_path": "repers-state.md",
       "relative_to_output": "repers-state.md"
     }
   ],
-  "artifact_count": 13,
+  "artifact_count": 9,
   "safety": {
     "executes_publish_commands": false,
     "mutates_git_remote": false,
@@ -160,5 +111,5 @@
   },
   "errors": [],
   "archive_path": "/home/sa_114486498687979675637/repers/dist/repers-release-pack.zip",
-  "archive_sha256": "8fc069443b24a5daafb6c29a879690067c407f7676c489a5fbec204975197a56"
+  "archive_sha256": "a9406292791f93306d88b27aa2d8b2a250830153cee6a6c35bb8b398b7789c3d"
 }

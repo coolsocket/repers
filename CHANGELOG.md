@@ -6,6 +6,70 @@ semantic-ish — any user-visible behavior change bumps minor or major.
 
 ## Unreleased
 
+## 0.2.0 — 2026-06-24 · BREAKING
+
+Slim + pluggable refactor. **First breaking release in the v0.2 line.**
+
+### Breaking — removed verbs and their scripts
+
+These 4 CLI subcommands and their backing scripts have been **deleted**:
+
+  - `objective-audit` (script: `objective_audit.py`)
+  - `continue` (script: `continuation_runner.py`)
+  - `snapshot-freshness` (script: `snapshot_freshness.py`)
+  - `open-source-benchmark` (script: `open_source_benchmark.py`)
+
+Reason: each was self-referential to RePERS's own v0.1 publication
+objective and had no value to receivers. The router's `next_step.action`
+never pointed at them. Receiver fixtures and tests that exercised them
+have been removed alongside.
+
+### Breaking — `state` slimmed
+
+The `state` verb output no longer carries:
+  - `state.objective.*` fields (complete / blocking_incomplete)
+  - `state.next.*` fields (local_action_id / external_command)
+  - `--deep` / `--objective` CLI flags
+
+What it keeps: `git` / `package` / `capabilities` blocks. Schema
+identifier stays `repers.state_report.v1` for now; consumers should
+treat the removed fields as deleted, not renamed.
+
+### Breaking — `release-pack` artifact set trimmed
+
+Removed from `REQUIRED_RELEASE_PACK_ARTIFACTS`:
+`open_source_benchmark_json`, `objective_audit`, `continuation_markdown`.
+The release pack no longer bundles or expects these. Downstream
+`release-pack-verify` consumers will simply see fewer artifacts.
+
+### Breaking — registry trimmed 25 → 20
+
+Removed entries: `objective-audit`, `continuation-runner`, `state-report`
+(was a meta-entry about state_report.py), `snapshot-freshness`,
+`open-source-benchmark`. Registry version bumped `0.1.1 → 0.2.0`.
+
+### Non-breaking (additive in v0.2)
+
+Carries forward Phases A + B + C (already merged in `Unreleased`):
+
+  - `.repers/contracts/` — 7 versioned JSON Schemas (one per stage)
+  - `.repers/plugins/` — one plugin slot per pipeline verb
+  - `.repers/scripts/plugin_loader.py` — env-var-selectable plugin discovery
+  - All 6 pipeline verbs resolve via plugin loader (with legacy fallback)
+  - `WORKER.md` — contract spec for any AI on a dispatched lane
+  - `PHILOSOPHY.md` — the three-layer model
+  - `AGENTS.md` — first-contact agent playbook
+  - Router with `next_step.action` enum
+  - 5 Codex/Claude skills (init + route + bug-hunt + release-pack + sinkin)
+
+### Migration
+
+For receivers that previously called the removed verbs:
+
+  - `objective-audit` / `continue` / `snapshot-freshness` / `open-source-benchmark`: replace with no-op or drop entirely; they were never load-bearing for receiver-side workflow.
+  - `state --deep` → `state` (the `--deep` flag is gone; `state` now always runs the slim path)
+  - `state` consumers reading `state.objective.complete` etc. → those fields are gone; if you need a richer objective tracker, write a plugin under `plugins/state/` (recommended).
+
 ### v0.2 architecture — Phase B + C: all 6 verbs plugin-loaded + 7 contracts
 
 Phase B: every pipeline verb now resolves via the plugin loader. ZERO

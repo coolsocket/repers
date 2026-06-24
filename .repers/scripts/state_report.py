@@ -1,162 +1,114 @@
-"""Build a RePERS state report from the objective audit, git state, and
-capability registry, then emit both a machine-readable JSON payload and a
-concise human-readable summary."""
+"""Slim state report for the RePERS workspace.
+
+v0.2 BREAKING: this module no longer depends on `objective_audit` /
+`continuation_runner`. The state output now contains only git + package +
+capabilities — the three signals a receiver cares about. The old
+`objective` / `next` fields were specific to RePERS's own publication
+goals and have been removed (see CHANGELOG v0.2.0).
+"""
 
 import json
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
-
-from objective_audit import DEFAULT_OBJECTIVE, build_objective_audit
 
 
 STATE_REPORT_SCHEMA = "repers.state_report.v1"
 
 
-def load_json(path):
-    path = Path(path)
-    if not path.exists():
-        return None
-    return json.loads(path.read_text(encoding="utf-8"))
+def _run(cmd, cwd, default=""):
+    try:
+        result = subprocess.run(cmd, cwd=str(cwd), capture_output=True, text=True, timeout=10)
+        return result.stdout.strip() if result.returncode == 0 else default
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return default
 
 
-def by_requirement(audit, requirement_id):
-    for requirement in audit.get("requirements", []):
-        if requirement.get("id") == requirement_id:
-            return requirement
-    return None
+def _git_state(repo_root):
+    branch = _run(["git", "rev-parse", "--abbrev-ref", "HEAD"], repo_root, default="(unknown)")
+    head = _run(["git", "rev-parse", "HEAD"], repo_root, default="(none)")
+    porcelain = _run(["git", "status", "--porcelain"], repo_root, default="")
+    return {
+        "branch": branch,
+        "head_sha": head,
+        "has_head": head != "(none)",
+        "dirty": bool(porcelain.strip()),
+        "status_count": len([ln for ln in porcelain.splitlines() if ln.strip()]),
+        "remote_count": len([ln for ln in _run(["git", "remote"], repo_root).splitlines() if ln.strip()]),
+        "errors": [],
+    }
 
 
-def requirement_evidence(audit, requirement_id):
-    requirement = by_requirement(audit, requirement_id)
-    return requirement.get("evidence", {}) if requirement else {}
+def _package_state(install_root):
+    manifest = Path(install_root) / "manifest.json"
+    if not manifest.exists():
+        return {"ok": False, "error": "manifest.json missing"}
+    try:
+        data = json.loads(manifest.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return {"ok": False, "error": str(exc)}
+    return {
+        "ok": True,
+        "schema": data.get("schema"),
+        "version": data.get("version"),
+        "file_count": data.get("file_count"),
+    }
 
 
-def first_action(actions, statuses):
-    for action in actions:
-        if action.get("status") in statuses:
-            return action
-    return None
+def _capability_state(install_root):
+    registry = Path(install_root) / "capabilities" / "registry.json"
+    if not registry.exists():
+        return {"ok": False, "count": 0}
+    try:
+        data = json.loads(registry.read_text(encoding="utf-8"))
+        entries = data.get("entries", [])
+        return {"ok": True, "count": len(entries), "schema": data.get("schema"), "version": data.get("version")}
+    except Exception as exc:
+        return {"ok": False, "count": 0, "error": str(exc)}
 
 
-def build_state_markdown(state):
+def build_state_report(repo_root, install_root, output_dir, deep=False):
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    git = _git_state(repo_root)
+    package = _package_state(install_root)
+    capabilities = _capability_state(install_root)
+
+    state = {
+        "schema": STATE_REPORT_SCHEMA,
+        "ok": git["errors"] == [] and package["ok"] and capabilities["ok"],
+        "status": "ok" if (package["ok"] and capabilities["ok"]) else "incomplete",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "workspace_root": str(Path(repo_root).resolve()),
+        "install_root": str(Path(install_root).resolve()),
+        "git": git,
+        "package": package,
+        "capabilities": capabilities,
+    }
+
+    json_path = output_dir / "repers-state.json"
+    md_path = output_dir / "repers-state.md"
+    json_path.write_text(json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8")
+    md_path.write_text(_format_markdown(state), encoding="utf-8")
+
+    state["artifacts"] = {
+        "state_json": str(json_path.resolve()),
+        "state_md": str(md_path.resolve()),
+    }
+    return state, json_path, md_path
+
+
+def _format_markdown(state):
     lines = [
         "# RePERS State",
         "",
-        f"- Generated: `{state['generated_at']}`",
-        f"- Status: `{state['status']}`",
-        f"- Objective complete: `{state['objective']['complete']}`",
-        f"- Blockers: `{', '.join(state['objective']['blocking_incomplete']) or 'none'}`",
+        f"_Generated: {state['generated_at']}_",
         "",
-        "## Git",
-        "",
-        f"- Branch: `{state['git']['branch']}`",
-        f"- Head: `{state['git']['head_sha']}`",
-        f"- Dirty: `{state['git']['dirty']}`",
-        f"- Remotes: `{state['git']['remote_count']}`",
-        "",
-        "## Package",
-        "",
-        f"- OK: `{state['package']['ok']}`",
-        f"- Round trip: `{state['package']['roundtrip_ok']}`",
-        f"- Archive: `{state['package']['archive_path']}`",
-        "",
-        "## Continuation",
-        "",
-        f"- Status: `{state['continuation']['status']}`",
-        f"- Ready local action: `{state['next']['local_action_id'] or 'none'}`",
-        f"- External action: `{state['next']['external_action_id'] or 'none'}`",
-        "",
+        f"- **Status**: `{state['status']}`",
+        f"- **Branch**: `{state['git']['branch']}` @ `{state['git']['head_sha'][:12]}`",
+        f"- **Dirty**: {state['git']['dirty']}",
+        f"- **Package**: schema={state['package'].get('schema')}, version={state['package'].get('version')}, file_count={state['package'].get('file_count')}",
+        f"- **Capabilities**: {state['capabilities']['count']} entries (schema={state['capabilities'].get('schema')}, version={state['capabilities'].get('version')})",
     ]
-    if state["next"].get("local_command"):
-        lines.extend(["```powershell", state["next"]["local_command"], "```", ""])
-    if state["next"].get("external_command"):
-        lines.extend(["```powershell", state["next"]["external_command"], "```", ""])
-    return "\n".join(lines)
-
-
-def build_state_report(workspace_root, install_root, output_dir="dist", objective=None, deep=False):
-    workspace = Path(workspace_root).resolve()
-    install = Path(install_root).resolve()
-    output = Path(output_dir).resolve()
-    output.mkdir(parents=True, exist_ok=True)
-
-    audit, audit_path = build_objective_audit(
-        workspace,
-        install,
-        output_dir=output,
-        objective=objective or DEFAULT_OBJECTIVE,
-        deep=deep,
-    )
-    release = load_json(output / "repers-release-evidence.json") or {}
-    readiness = load_json(output / "repers-0.1.0-readiness.json") or {}
-    continuation = audit.get("continuation", {})
-    git = requirement_evidence(audit, "publication_ready").get("git", {}) or release.get("git") or {}
-    package = release.get("package", {})
-    registry_requirement = by_requirement(audit, "agent_reusable_capabilities") or {}
-    tests_requirement = by_requirement(audit, "tests_and_package_gates") or {}
-
-    ready_local = first_action(continuation.get("local_actions", []), {"ready"})
-    external = first_action(continuation.get("external_actions", []), {"needs_remote_url", "after_remote", "after_push"})
-    status = "complete" if audit.get("objective_complete") else continuation.get("status", "incomplete")
-    state = {
-        "schema": STATE_REPORT_SCHEMA,
-        "ok": True,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "workspace_root": str(workspace),
-        "install_root": str(install),
-        "output_dir": str(output),
-        "audit_path": str(Path(audit_path).resolve()),
-        "deep": bool(deep),
-        "status": status,
-        "objective": {
-            "complete": audit.get("objective_complete"),
-            "blocking_incomplete": audit.get("blocking_incomplete", []),
-            "requirements_total": len(audit.get("requirements", [])),
-            "requirements_passed": len([item for item in audit.get("requirements", []) if item.get("passed")]),
-        },
-        "git": {
-            "branch": git.get("branch"),
-            "head_sha": git.get("head_sha"),
-            "dirty": git.get("dirty"),
-            "status_count": git.get("status_count"),
-            "remote_count": git.get("remote_count"),
-        },
-        "package": {
-            "ok": package.get("ok", readiness.get("ok")),
-            "roundtrip_ok": package.get("roundtrip_ok"),
-            "archive_path": package.get("archive_path", readiness.get("archive_path")),
-            "readiness_warnings": package.get("readiness_warnings", readiness.get("warnings", [])),
-        },
-        "capabilities": {
-            "entry_count": registry_requirement.get("evidence", {}).get("entry_count"),
-            "missing": registry_requirement.get("evidence", {}).get("missing", []),
-        },
-        "tests": {
-            "passed": tests_requirement.get("passed"),
-            "smoke_ok": tests_requirement.get("evidence", {}).get("smoke_ok"),
-            "bundle_status_ok": tests_requirement.get("evidence", {}).get("bundle_status_ok"),
-        },
-        "continuation": {
-            "status": continuation.get("status"),
-            "local_action_ids": [action.get("id") for action in continuation.get("local_actions", [])],
-            "external_action_ids": [action.get("id") for action in continuation.get("external_actions", [])],
-        },
-        "next": {
-            "local_action_id": ready_local.get("id") if ready_local else None,
-            "local_command": ready_local.get("command") if ready_local else None,
-            "external_action_id": external.get("id") if external else None,
-            "external_command": external.get("command") if external else None,
-        },
-        "artifacts": {
-            "state_json": str((output / "repers-state.json").resolve()),
-            "state_markdown": str((output / "repers-state.md").resolve()),
-            "objective_audit": str(Path(audit_path).resolve()),
-            "continuation_markdown": audit.get("continuation_markdown_path"),
-            "release_evidence": str((output / "repers-release-evidence.json").resolve()),
-        },
-    }
-    json_path = output / "repers-state.json"
-    markdown_path = output / "repers-state.md"
-    json_path.write_text(json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8")
-    markdown_path.write_text(build_state_markdown(state), encoding="utf-8")
-    return state, json_path, markdown_path
+    return "\n".join(lines) + "\n"

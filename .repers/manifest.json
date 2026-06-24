@@ -1,15 +1,15 @@
 {
   "schema": "repers.install_manifest.v1",
-  "version": "0.1.1",
-  "generated_at": "2026-06-24T07:14:39.145375+00:00",
+  "version": "0.2.0",
+  "generated_at": "2026-06-24T07:42:13.059747+00:00",
   "source_root": "/home/sa_114486498687979675637/repers/.repers",
   "target_root": "/home/sa_114486498687979675637/repers",
   "install_root": "/home/sa_114486498687979675637/repers/.repers",
   "source_git": {
     "ok": true,
-    "commit": "578ff6090be34103b567df8d50f03cc33b4229d9",
+    "commit": "292c31a881d8db84ab31072914e26e5cfac4a714",
     "dirty": true,
-    "status_count": 25
+    "status_count": 42
   },
   "with_hook": false,
   "hook_policy": "warn",
@@ -18,8 +18,8 @@
   "files": [
     {
       "path": "capabilities/registry.json",
-      "size_bytes": 23458,
-      "sha256": "ca42d358e37d1a94075b0be5ffc36ab0dc7c4ec002826896f7af11c7561fae50"
+      "size_bytes": 18526,
+      "sha256": "ec5cd896c52df1f7ceb3e1bc090dfccfab30b1b65bf93738868317183afe8c04"
     },
     {
       "path": "contracts/README.md",
@@ -162,11 +162,6 @@
       "sha256": "e075515c07d86cda2f7966950af4d3b19767d1f071dc0fbafbd74bf17970cab9"
     },
     {
-      "path": "scripts/continuation_runner.py",
-      "size_bytes": 3511,
-      "sha256": "e152a3db8f7380c484874d2be64e21049d62b1e474cf2796edfc560de5b58618"
-    },
-    {
       "path": "scripts/dag_engine.py",
       "size_bytes": 9549,
       "sha256": "4eff9958a60d3207eb1c6a4d815899f762a35511658327ccd2dc64c6ab38409f"
@@ -179,17 +174,7 @@
     {
       "path": "scripts/install_repers.py",
       "size_bytes": 15945,
-      "sha256": "898658a02bc63c1d058e44c5a1fd8584e3e4be4ef7203e85706ef9ed543ce265"
-    },
-    {
-      "path": "scripts/objective_audit.py",
-      "size_bytes": 28879,
-      "sha256": "576e3401060aad040894c57f84219c2554f63a93f9c3eb70cc5c1508a98acef2"
-    },
-    {
-      "path": "scripts/open_source_benchmark.py",
-      "size_bytes": 4822,
-      "sha256": "20de21ac63507f4a1366304d18ae6c1764d27660279f5066044c4879569e636b"
+      "sha256": "e0eb046d7db4b210a8e5b5160f2ef99ac91f107ab5d1d2b4df6cab2a70ec96e9"
     },
     {
       "path": "scripts/orchestration_fixture.py",
@@ -198,8 +183,8 @@
     },
     {
       "path": "scripts/package_repers.py",
-      "size_bytes": 17632,
-      "sha256": "147a0c66528f41c0aa9ef7df66cf176f19f8c0ec595c638c73b1995d5a4c23f4"
+      "size_bytes": 17212,
+      "sha256": "6c601569923e1e0bdf1a948b7d74e5136ca4f6510a4ed347bdd0def481131fda"
     },
     {
       "path": "scripts/plan_runner.py",
@@ -223,8 +208,8 @@
     },
     {
       "path": "scripts/receiver_fixture.py",
-      "size_bytes": 7557,
-      "sha256": "9a678e5784c7621ec55e0b7a7a5a6a10831c3dee2c993073086ae39c4fb13d69"
+      "size_bytes": 6976,
+      "sha256": "e1ffbf0c835d17b4775af9f24b5a9b745896d4f11c1dd77d9ae485a14fbc9713"
     },
     {
       "path": "scripts/release_evidence.py",
@@ -238,8 +223,8 @@
     },
     {
       "path": "scripts/release_pack.py",
-      "size_bytes": 11802,
-      "sha256": "10cd7b5f3e4a0c41a83dbb1badfe06a1b4ccf5e091036d100aa7225db0c1129e"
+      "size_bytes": 10396,
+      "sha256": "addf6cfaa9a43988f3d98dbcd94d341d6194a2b1290ffb7de0425ebe10b2711c"
     },
     {
       "path": "scripts/remote_bootstrap.py",
@@ -248,8 +233,8 @@
     },
     {
       "path": "scripts/repers.py",
-      "size_bytes": 69662,
-      "sha256": "b0b324fc757e4f9a721cf00955c695993cc7438a2bb3deb95ec04f6ec329a79a"
+      "size_bytes": 64431,
+      "sha256": "8a87099fc0c2d9feea0235dfc21f701d10b4644d739268400506f8b82308cc9c"
     },
     {
       "path": "scripts/research_index.py",
@@ -272,24 +257,19 @@
       "sha256": "dedf5489be59955f872571d551181be06ddc4bbd6fee4dd63310c3700f972f3c"
     },
     {
-      "path": "scripts/snapshot_freshness.py",
-      "size_bytes": 6275,
-      "sha256": "b1ad9f10c4a47403b709c9f1f803c2e5afdbcc61c7febf3d9c43c90be07481d4"
-    },
-    {
       "path": "scripts/source_install_fixture.py",
       "size_bytes": 4417,
       "sha256": "85fcb3a0e1c583b28df1ccd1fc63c01e1b3cc3e7f32c3f295595f11036058357"
     },
     {
       "path": "scripts/state_report.py",
-      "size_bytes": 6833,
-      "sha256": "89b34f8b4c346b11861dff92746361202de7616cfdc2e3a9741a9da8e7ff4830"
+      "size_bytes": 4339,
+      "sha256": "dbb6a606ba4a4e9d42d179dd59db479824c282f5d40fc7f79d0020ed90fa85ae"
     },
     {
       "path": "scripts/verify_all.py",
-      "size_bytes": 8923,
-      "sha256": "7421a5941dd0fba27323b0188435816232c1502b1c300ccc65b56dd3bb5281b4"
+      "size_bytes": 8535,
+      "sha256": "e594bb3ef4d4204218df1a9f8d6ae878a1233ff3a3fed46669df310df350ebd7"
     },
     {
       "path": "templates/plan.md",
@@ -312,5 +292,5 @@
       "sha256": "4da0aa1a9060b780868024773790fe3d3302d4cdc17b53b4c4d75da9df2cea81"
     }
   ],
-  "file_count": 59
+  "file_count": 55
 }

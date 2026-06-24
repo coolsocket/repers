@@ -678,48 +678,8 @@ def run_source_install_fixture_command(args):
         sys.exit(1)
 
 
-def run_objective_audit_command(args):
-    sys.path.append(SCRIPT_DIR)
-    from objective_audit import DEFAULT_OBJECTIVE, build_objective_audit
-
-    audit, path = build_objective_audit(
-        REPO_ROOT,
-        INSTALL_ROOT,
-        output_dir=args.output,
-        objective=args.objective or DEFAULT_OBJECTIVE,
-        deep=args.deep,
-    )
-    result = {"objective_audit": audit, "path": str(Path(path).resolve())}
-    if args.json:
-        emit_json(result)
-    else:
-        emit_json(result)
-    if not audit.get("ok"):
-        sys.exit(1)
-
-
-def run_continue_command(args):
-    sys.path.append(SCRIPT_DIR)
-    from continuation_runner import build_continuation_run
-
-    result = build_continuation_run(
-        REPO_ROOT,
-        INSTALL_ROOT,
-        output_dir=args.output,
-        objective=args.objective,
-        deep=args.deep,
-        apply=args.apply,
-        action_ids=args.action_id,
-    )
-    if args.json:
-        emit_json(result)
-    else:
-        emit_json(result)
-    if not result.get("ok"):
-        sys.exit(1)
-
-
 def run_state_command(args):
+    """v0.2: slim state — git + package + capabilities. No objective/next fields."""
     sys.path.append(SCRIPT_DIR)
     from state_report import build_state_report
 
@@ -727,60 +687,14 @@ def run_state_command(args):
         REPO_ROOT,
         INSTALL_ROOT,
         output_dir=args.output,
-        objective=args.objective,
-        deep=args.deep,
     )
     result = {
         "state": state,
         "path": str(Path(json_path).resolve()),
         "markdown_path": str(Path(markdown_path).resolve()),
     }
-    if args.json:
-        emit_json(result)
-    else:
-        emit_json(result)
+    emit_json(result)
     if not state.get("ok"):
-        sys.exit(1)
-
-
-def run_snapshot_freshness_command(args):
-    sys.path.append(SCRIPT_DIR)
-    from snapshot_freshness import build_snapshot_freshness
-
-    freshness, json_path, markdown_path = build_snapshot_freshness(
-        REPO_ROOT,
-        output_dir=args.output,
-        strict=args.strict,
-    )
-    result = {
-        "snapshot_freshness": freshness,
-        "path": str(Path(json_path).resolve()),
-        "markdown_path": str(Path(markdown_path).resolve()),
-    }
-    if args.json:
-        emit_json(result)
-    else:
-        emit_json(result)
-    if not freshness.get("ok"):
-        sys.exit(1)
-
-
-def run_open_source_benchmark_command(args):
-    sys.path.append(SCRIPT_DIR)
-    from open_source_benchmark import verify_open_source_benchmark, write_open_source_benchmark_report
-
-    benchmark = verify_open_source_benchmark(REPO_ROOT, INSTALL_ROOT)
-    json_path, markdown_path = write_open_source_benchmark_report(benchmark, args.output)
-    result = {
-        "open_source_benchmark": benchmark,
-        "path": str(Path(json_path).resolve()),
-        "markdown_path": str(Path(markdown_path).resolve()),
-    }
-    if args.json:
-        emit_json(result)
-    else:
-        emit_json(result)
-    if not benchmark.get("ok"):
         sys.exit(1)
 
 
@@ -1400,34 +1314,9 @@ def main():
     source_install_fixture_parser.add_argument("--output", default="dist", help="Output directory for source install fixture evidence")
     source_install_fixture_parser.add_argument("--json", action="store_true")
 
-    objective_audit_parser = subparsers.add_parser("objective-audit", help="Audit RePERS against the full repository objective")
-    objective_audit_parser.add_argument("--output", default="dist", help="Output directory for objective audit artifacts")
-    objective_audit_parser.add_argument("--objective", help="Objective text to audit; defaults to the current RePERS build objective")
-    objective_audit_parser.add_argument("--deep", action="store_true", help="Run package, receiver, handoff, and smoke checks before auditing")
-    objective_audit_parser.add_argument("--json", action="store_true")
-
-    continue_parser = subparsers.add_parser("continue", help="Read objective continuation actions and optionally run ready local actions")
-    continue_parser.add_argument("--output", default="dist", help="Output directory for objective audit and continuation artifacts")
-    continue_parser.add_argument("--objective", help="Objective text to audit; defaults to the current RePERS build objective")
-    continue_parser.add_argument("--deep", action="store_true", help="Run deep objective audit before selecting continuation actions")
-    continue_parser.add_argument("--apply", action="store_true", help="Execute ready local continuation actions")
-    continue_parser.add_argument("--action-id", action="append", help="Limit execution/reporting to one local continuation action id; repeatable")
-    continue_parser.add_argument("--json", action="store_true")
-
-    state_parser = subparsers.add_parser("state", help="Write compact RePERS repository state artifacts")
-    state_parser.add_argument("--output", default="dist", help="Output directory for state, objective audit, and continuation artifacts")
-    state_parser.add_argument("--objective", help="Objective text to audit; defaults to the current RePERS build objective")
-    state_parser.add_argument("--deep", action="store_true", help="Run deep objective audit before writing state")
+    state_parser = subparsers.add_parser("state", help="Write a compact repository state report (git + package + capabilities)")
+    state_parser.add_argument("--output", default="dist", help="Output directory for state artifacts")
     state_parser.add_argument("--json", action="store_true")
-
-    snapshot_freshness_parser = subparsers.add_parser("snapshot-freshness", help="Compare generated state evidence with live Git state")
-    snapshot_freshness_parser.add_argument("--output", default="dist", help="Output directory containing generated RePERS evidence artifacts")
-    snapshot_freshness_parser.add_argument("--strict", action="store_true", help="Exit non-zero when comparable snapshots are stale")
-    snapshot_freshness_parser.add_argument("--json", action="store_true")
-
-    open_source_benchmark_parser = subparsers.add_parser("open-source-benchmark", help="Verify the stored 10-repository open-source structure benchmark")
-    open_source_benchmark_parser.add_argument("--output", default="dist", help="Output directory for benchmark verification artifacts")
-    open_source_benchmark_parser.add_argument("--json", action="store_true")
 
     release_pack_parser = subparsers.add_parser("release-pack", help="Build one transferable package plus evidence handoff archive")
     release_pack_parser.add_argument("--output", default="dist", help="Output directory for release-pack artifacts")
@@ -1552,16 +1441,8 @@ def main():
         run_publish_clone_fixture_command(args)
     elif args.command == "source-install-fixture":
         run_source_install_fixture_command(args)
-    elif args.command == "objective-audit":
-        run_objective_audit_command(args)
-    elif args.command == "continue":
-        run_continue_command(args)
     elif args.command == "state":
         run_state_command(args)
-    elif args.command == "snapshot-freshness":
-        run_snapshot_freshness_command(args)
-    elif args.command == "open-source-benchmark":
-        run_open_source_benchmark_command(args)
     elif args.command == "release-pack":
         run_release_pack_command(args)
     elif args.command == "release-pack-verify":

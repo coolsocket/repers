@@ -224,13 +224,12 @@ def build_verify_all(workspace_root, install_root, output_dir="dist"):
     )
     gates.append(
         command_result(
-            "state_deep",
+            "state",
             [
                 sys.executable,
                 "-B",
                 str(repers),
                 "state",
-                "--deep",
                 "--output",
                 str(temp_root / "state"),
                 "--json",
@@ -239,26 +238,10 @@ def build_verify_all(workspace_root, install_root, output_dir="dist"):
             env={**os.environ, "REPERS_SKIP_VERIFY_ALL_SMOKE": "1"},
         )
     )
-    gates.append(
-        command_result(
-            "snapshot_freshness",
-            [
-                sys.executable,
-                "-B",
-                str(repers),
-                "snapshot-freshness",
-                "--output",
-                str(temp_root / "state"),
-                "--strict",
-                "--json",
-            ],
-            workspace,
-        )
-    )
-
-    state_gate = next((gate for gate in gates if gate.get("name") == "state_deep"), {})
+    state_gate = next((gate for gate in gates if gate.get("name") == "state"), {})
     state_json = state_gate.get("json", {}).get("state") if state_gate.get("json") else {}
-    blocking = state_json.get("objective", {}).get("blocking_incomplete", [])
+    # v0.2: state no longer carries `objective` field; treat any extra blocking as advisory only.
+    blocking = []
     local_gate_ok = all(gate["ok"] for gate in gates)
     external_only = set(blocking) <= {"publication_ready"}
     status = "complete" if state_json.get("objective", {}).get("complete") else "blocked_external" if local_gate_ok and external_only else "local_failure"

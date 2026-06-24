@@ -11,7 +11,7 @@ from pathlib import Path, PurePosixPath
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
 GIT_STATE_ROOT = SOURCE_ROOT.parent if SOURCE_ROOT.name == ".repers" else SOURCE_ROOT
-REPERS_VERSION = "0.1.1"
+REPERS_VERSION = "0.2.0"
 PACKAGE_SCHEMA = "repers.package_manifest.v1"
 READINESS_SCHEMA = "repers.package_readiness.v1"
 PACKAGE_DIR_PREFIX = f"repers-{REPERS_VERSION}"
@@ -219,11 +219,7 @@ def build_readiness_manifest(archive_path, archive_sha256, file_records):
             "remote_bootstrap_fixture": "python <target-repo>/.repers/scripts/repers.py remote-bootstrap-fixture --json",
             "publish_clone_fixture": "python <target-repo>/.repers/scripts/repers.py publish-clone-fixture --json",
             "source_install_fixture": "python <target-repo>/.repers/scripts/repers.py source-install-fixture --json",
-            "objective_audit": "python <target-repo>/.repers/scripts/repers.py objective-audit --json",
-            "continue": "python <target-repo>/.repers/scripts/repers.py continue --json",
             "state": "python <target-repo>/.repers/scripts/repers.py state --json",
-            "snapshot_freshness": "python <target-repo>/.repers/scripts/repers.py snapshot-freshness --json",
-            "open_source_benchmark": "python <target-repo>/.repers/scripts/repers.py open-source-benchmark --json",
             "release_pack_verify": "python <target-repo>/.repers/scripts/repers.py release-pack-verify --archive <repers-release-pack.zip> --json",
             "verify_all": "python <target-repo>/.repers/scripts/repers.py verify-all --json",
             "package_again": "python <target-repo>/.repers/scripts/repers.py package --output dist --json",
