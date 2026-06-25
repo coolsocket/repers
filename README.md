@@ -13,9 +13,31 @@ A contract layer for multi-agent repository work — parallel lanes that don't c
 [![CI](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml/badge.svg)](https://github.com/coolsocket/repers/actions/workflows/repers-smoke.yml)
 [![GitHub stars](https://img.shields.io/github/stars/coolsocket/repers?style=flat&color=yellow)](https://github.com/coolsocket/repers/stargazers)
 
-🤖 [For AI agents](#-for-ai-agents--first-contact-in-60-seconds) · 📊 [Maturity curve](#-where-repers-fits-on-the-codebase-maturity-curve) · 🔗 [Cross-repo handoff](#-cross-repo-and-cross-team-handoff) · 🎯 [When to use](#-when-to-use--when-not-to-use) · 🧠 [Skills](#-skills) · 🩺 [Troubleshooting](#-troubleshooting) · ❓ [FAQ](#-faq)
+🎯 [What it is](#-what-it-is-for-humans) · 🤖 [For AI agents](#-for-ai-agents--first-contact-in-60-seconds) · 📊 [Maturity curve](#-where-repers-fits-on-the-codebase-maturity-curve) · 🔗 [Cross-repo handoff](#-cross-repo-and-cross-team-handoff) · 🧠 [Skills](#-skills) · 🩺 [Troubleshooting](#-troubleshooting) · ❓ [FAQ](#-faq)
 
 </div>
+
+---
+
+## 🎯 What it is (for humans)
+
+> **A contract layer for AI agents working on the same codebase at the same time.**
+
+When the work is **too big for one agent in one session** — a 12-file refactor, a deprecation sweep across 3 services, a feature that touches API + worker + UI — RePERS is the operating layer that lets a fleet of agents (Claude / Codex / Gemini / your own) carve it up, run lanes in parallel **without clobbering each other**, hand off via JSON evidence, and ship verifiable.
+
+It is **not** an agent runtime. It is the **contract above** any runtime — preflight before new work, plan as a DAG with target-file isolation, dispatch with collision guards, review-on-join, evidence-based ship.
+
+> 🧠 **Why these five stages?** The full *why* — the three-layer philosophy (Memory · Speed · Alignment) and which stages serve which purpose — lives in [`AGENTS.md § Appendix A`](./AGENTS.md#appendix-a--the-three-layer-philosophy-the-why-behind-the-five-stages).
+
+> ▶️ **See it run end-to-end**: [`docs/e2e-walkthrough.md`](./docs/e2e-walkthrough.md) — a real dogfood through every CLI subcommand (`init → preflight → plan → dispatch → 3 parallel workers → review → run → shipping → verify-install`) in ~45 s wall-clock. Every command shown was actually executed; every artifact is real.
+
+What ships:
+- 🧭 **A router** (`/repers-route` + `repers.py route --json`) that picks the right permutation per task — small tasks are told to skip the harness entirely, so the pipeline only fires when its shape matches the work.
+- 🧩 **A capability registry** (20 entries) as shared memory across agents — preflight before adding new.
+- 🛡️ **A plan → DAG → dispatch contract** with `target_files` isolation — proven by a deterministic fixture before any live agent runs.
+- 📜 **JSON evidence at every stage** — so Agent B picks up where Agent A stopped, and a reviewer (human or AI) can audit without the chat log.
+- 📦 **A transferable release pack** — `repers-release-pack.zip` — that another repo extracts, installs, and re-verifies end-to-end.
+- 🐍 **Stdlib-only Python runtime** — no extra deps, installs with one command.
 
 ---
 
@@ -49,31 +71,7 @@ The router returns a JSON envelope with a `next_step.action` enum — branch on 
 | `invoke_bug_hunt_no_ship` | Install + run `/repers-bug-hunt`. Full plan→dispatch→review, skip shipping. | ~15 min + agent time |
 | `invoke_bug_hunt_full` | Install + run `/repers-bug-hunt` end-to-end including shipping. | ~30 min + agent time |
 
-Then continue with whichever path the router picked. Full agent playbook for each path: **[`AGENTS.md`](./AGENTS.md)**. If you're a *worker* on a dispatched lane (not the supervisor): **[`WORKER.md`](./WORKER.md)**.
-
-If you're a human reading this section: the same router works for you — `route --task "..."` returns a one-line recommendation. Don't install anything until it tells you to.
-
----
-
-## 🎯 What it is (for humans)
-
-> **A contract layer for AI agents working on the same codebase at the same time.**
-
-When the work is **too big for one agent in one session** — a 12-file refactor, a deprecation sweep across 3 services, a feature that touches API + worker + UI — RePERS is the operating layer that lets a fleet of agents (Claude / Codex / Gemini / your own) carve it up, run lanes in parallel **without clobbering each other**, hand off via JSON evidence, and ship verifiable.
-
-It is **not** an agent runtime. It is the **contract above** any runtime — preflight before new work, plan as a DAG with target-file isolation, dispatch with collision guards, review-on-join, evidence-based ship.
-
-> 🧠 **Why these five stages?** The full *why* — the three-layer philosophy (Memory · Speed · Alignment) and which stages serve which purpose — lives in [`PHILOSOPHY.md`](./PHILOSOPHY.md).
-
-> ▶️ **See it run end-to-end**: [`docs/e2e-walkthrough.md`](./docs/e2e-walkthrough.md) — a real dogfood through every CLI subcommand (`init → preflight → plan → dispatch → 3 parallel workers → review → run → shipping → verify-install`) in ~45 s wall-clock. Every command shown was actually executed; every artifact is real.
-
-What ships:
-- 🧭 **A router** (`/repers-route` + `repers.py route --json`) that picks the right permutation per task — small tasks are told to skip the harness entirely, so the pipeline only fires when its shape matches the work.
-- 🧩 **A capability registry** (20 entries) as shared memory across agents — preflight before adding new.
-- 🛡️ **A plan → DAG → dispatch contract** with `target_files` isolation — proven by a deterministic fixture before any live agent runs.
-- 📜 **JSON evidence at every stage** — so Agent B picks up where Agent A stopped, and a reviewer (human or AI) can audit without the chat log.
-- 📦 **A transferable release pack** — `repers-release-pack.zip` — that another repo extracts, installs, and re-verifies end-to-end.
-- 🐍 **Stdlib-only Python runtime** — no extra deps, installs with one command.
+Then continue with whichever path the router picked. Full agent playbook for each path (plus the worker contract as an appendix): **[`AGENTS.md`](./AGENTS.md)**.
 
 ---
 

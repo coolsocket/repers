@@ -70,7 +70,7 @@ Every stage emits a JSON artifact with a versioned schema. That's the contract; 
 | `dispatch --task <name> --max-workers N [--backend X] --json` | `repers.dispatch.v1` | Produce manifest: workers, batches, per-worker target_files. **Collision-safe batching enforced** |
 | `run --action {dry-run\|local} [--backend X] [--worker-command "..."] --json` | `repers.run_plan.v1` / `…run_result.v1` | Supervisor-side execution for `mode=local` steps |
 | `fixture --action prove --json` | `repers.orchestration_fixture.v1` | Offline proof the dispatch contract holds — runs without any live agent |
-| `step_result.v1` schema | (worker writes file) | The worker→supervisor contract; `WORKER.md` is the spec |
+| `step_result.v1` schema | (worker writes file) | The worker→supervisor contract; `AGENTS.md § Appendix B` is the spec |
 | `--backend {local,worker-command,openai-agents,langgraph,mcp}` | (selects executor) | Plug in different agent runtimes |
 
 ### 🔗 R · Review — schema-validate the join

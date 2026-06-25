@@ -37,9 +37,7 @@ If routed in: continue via the AGENTS.md playbook.
 
 ## Key documents (priority for agents)
 
-- [AGENTS.md](https://github.com/coolsocket/repers/blob/main/AGENTS.md): First-contact playbook for agents — read this before the README
-- [WORKER.md](https://github.com/coolsocket/repers/blob/main/WORKER.md): Contract for agents driving a dispatched lane (step_result.v1 schema, target_files isolation)
-- [PHILOSOPHY.md](https://github.com/coolsocket/repers/blob/main/PHILOSOPHY.md): Three-layer model (Memory · Speed · Alignment) — why these five stages
+- [AGENTS.md](https://github.com/coolsocket/repers/blob/main/AGENTS.md): First-contact playbook for agents — read this before the README. Includes Appendix A (full philosophy, three-layer model) and Appendix B (worker contract — step_result.v1 schema, target_files isolation) as self-contained sections.
 - [README.md](https://github.com/coolsocket/repers/blob/main/README.md): Human-facing positioning + maturity curve
 - [docs/e2e-walkthrough.md](https://github.com/coolsocket/repers/blob/main/docs/e2e-walkthrough.md): Real CLI dogfood through every subcommand
 - [.repers/capabilities/registry.json](https://github.com/coolsocket/repers/blob/main/.repers/capabilities/registry.json): 20 reusable capabilities — query before adding new

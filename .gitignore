@@ -6,3 +6,16 @@ repers_tasks/**/*.pyc
 tests/**/__pycache__/
 tests/**/*.pyc
 docs/goal/**/.goal-machine/
+
+# Python build artifacts
+__pycache__/
+*.egg-info/
+.venv/
+build_dist/
+
+# Local research scratchpad (committed selectively, not as a group)
+playground/competitive-analysis/benchmark-run/.cache/
+playground/competitive-analysis/benchmark-run/.checkouts/
+playground/competitive-analysis/benchmark-run/.venv/
+playground/competitive-analysis/benchmark-run/logs/
+playground/competitive-analysis/benchmark-run/results/

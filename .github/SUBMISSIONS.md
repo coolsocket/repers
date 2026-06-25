@@ -292,3 +292,44 @@ gh pr create --repo hesreallyhim/awesome-claude-code \
 
 Each PR should reference this `SUBMISSIONS.md` so reviewers can see the
 provenance / draft history.
+
+---
+
+## Submission 3 — `punkpeye/awesome-mcp-servers` · ✅ PR OPEN
+
+**Outcome (2026-06-25)**: PR opened to the 89.7k-star MCP server directory.
+
+- **Repo**: <https://github.com/punkpeye/awesome-mcp-servers> (89,775 ⭐ as of 2026-06-25)
+- **PR**: <https://github.com/punkpeye/awesome-mcp-servers/pull/8705>
+- **Category**: 💻 Developer Tools (alphabetically — append-at-end, not sorted)
+- **Format**: standard `- [owner/repo](url) <emoji-flags> - description.`
+- **AI policy**: ✅ explicitly welcomed via `🤖🤖🤖` fast-track marker in PR title (per CONTRIBUTING.md)
+- **Submission rationale**: highest-stars, AI-friendly, just shipped `repers-mcp` in v0.2.0 so the timing fits
+- **What we submitted**: single line in Developer Tools — see `add-repers` branch on `coolsocket/awesome-mcp-servers` fork
+- **Expected**: merge likely fast given fast-track marker
+
+## Submission 4 — `e2b-dev/awesome-ai-agents` · ⏭ SKIPPED (wrong fit)
+
+**Outcome (2026-06-25)**: Not submitted. Their README explicitly redirects framework/SDK submissions to the sibling repo `e2b-dev/awesome-sdks-for-ai-agents`, where we already have **PR #256** open from the previous session. No reason to duplicate.
+
+## Submission 5 — `wong2/awesome-mcp-servers` · ⏸ HUMAN-ONLY (form-based)
+
+**Outcome (2026-06-25)**: 4.2k-star alternative MCP list. Maintainer refuses GitHub PRs (banner says so); submissions go through <https://mcpservers.org/submit> web form. Saved draft entry below for maintainer to submit manually if desired.
+
+### Draft entry for mcpservers.org form
+
+```
+- **[RePERS](https://github.com/coolsocket/repers)** - Operating layer for multi-agent repo work — JSON-Schema contracts, plugin slots, and collision-safe dispatch so any-LLM agents can split a codebase task into parallel non-colliding lanes and hand off verifiable release packs end-to-end. Ships `repers-mcp` (`uvx --from 'git+https://github.com/coolsocket/repers.git[mcp]' repers-mcp`).
+```
+
+---
+
+## Channel status summary (as of 2026-06-25)
+
+| Channel | Stars | Status | Link |
+|---|---|---|---|
+| hesreallyhim/awesome-claude-code | 47.2k | ❌ AI banned, human-only via issue form | (manual maintainer task) |
+| punkpeye/awesome-mcp-servers | 89.7k | ✅ PR #8705 OPEN with 🤖🤖🤖 fast-track | <https://github.com/punkpeye/awesome-mcp-servers/pull/8705> |
+| e2b-dev/awesome-sdks-for-ai-agents | (sibling of agents) | ✅ PR #256 OPEN (previous session) | (see prior submission entry) |
+| e2b-dev/awesome-ai-agents | 28.5k | ⏭ Skipped (they redirect to sdks list above) | n/a |
+| wong2/awesome-mcp-servers | 4.2k | ⏸ Human-only via mcpservers.org/submit | (maintainer task) |

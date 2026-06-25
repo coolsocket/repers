@@ -42,6 +42,12 @@ classifiers = [
 ]
 dependencies = []
 
+[project.optional-dependencies]
+# Install with: pip install 'repers[mcp]'   or   uvx --from 'git+url[mcp]' repers-mcp
+# Brings the Model Context Protocol SDK so `repers-mcp` exposes RePERS as
+# native tools to any MCP-aware agent (Claude Code, Cursor, OpenCode, ...).
+mcp = ["mcp>=1.2"]
+
 [project.urls]
 Homepage = "https://github.com/coolsocket/repers"
 Repository = "https://github.com/coolsocket/repers"
@@ -51,14 +57,19 @@ Changelog = "https://github.com/coolsocket/repers/blob/main/CHANGELOG.md"
 
 [project.scripts]
 repers = "repers_cli:main"
+repers-mcp = "repers_mcp:main"
 
 # Hatchling: bundle the .repers/ runtime + skills/ into the wheel under a
 # non-hidden directory so the entry-point wrapper can find them at runtime
 # regardless of install location (pip / pipx / uvx).
 [tool.hatch.build.targets.wheel]
-include = ["repers_cli.py"]
+# Tell hatchling these are first-class modules (so it doesn't try to
+# auto-detect a package layout). force-include below lays out everything.
+bypass-selection = true
 
 [tool.hatch.build.targets.wheel.force-include]
+"repers_cli.py" = "repers_cli.py"
+"repers_mcp.py" = "repers_mcp.py"
 ".repers" = "_repers_runtime/dot_repers"
 "skills" = "_repers_runtime/skills"
 "AGENTS.md" = "_repers_runtime/AGENTS.md"
@@ -68,6 +79,7 @@ include = ["repers_cli.py"]
 [tool.hatch.build.targets.sdist]
 include = [
     "repers_cli.py",
+    "repers_mcp.py",
     "pyproject.toml",
     "README.md",
     "LICENSE",
