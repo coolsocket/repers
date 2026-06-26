@@ -77,77 +77,46 @@ you are done with RePERS. Do the user's actual task with your own tools.**
 
 ## ⏱️ 30 minutes — full pipeline, when the router routed you in
 
-If the router returned `invoke_bug_hunt_no_ship` or `invoke_bug_hunt_full`,
-the documented walkthrough is at [`docs/e2e-walkthrough.md`](./docs/e2e-walkthrough.md)
-— every CLI command shown was actually executed, every artifact is real.
-The 10 commands at a glance:
+If the router returned `invoke_bug_hunt_no_ship` or `invoke_bug_hunt_full`:
 
 ```bash
-# Install (once per user repo)
-python3 /tmp/repers/.repers/scripts/repers.py install --target /path/to/user/repo --json
+# Install once + cd into the user's repo
+pipx install git+https://github.com/coolsocket/repers.git
 cd /path/to/user/repo
+repers install --target . --json   # writes .repers/ runtime + hook
 
-# Init the task
-python3 .repers/scripts/repers.py init --task <name>
-python3 .repers/scripts/repers.py preflight --query "<intent>" --refresh --json
+# Init + research
+repers init --task <name>
+repers preflight --query "<intent>" --refresh --json
 
-# Plan — fill repers_tasks/<name>/plan.md with a real DAG (see plan.md template).
-# For lanes you want a subagent to drive, omit Verification Command (mode = subagent).
-# For supervisor-local steps, include Verification Command (mode = local).
-
-python3 .repers/scripts/repers.py plan --task <name> --json
-python3 .repers/scripts/repers.py dispatch --task <name> --max-workers 3 --json
+# Fill repers_tasks/<name>/plan.md with a real DAG.
+#   lanes for subagents: omit Verification Command (mode=subagent)
+#   supervisor-local steps: include Verification Command (mode=local)
+repers plan --task <name> --json
+repers dispatch --task <name> --max-workers 3 --json
 ```
 
-The dispatch manifest lands at `repers_tasks/<name>/dispatch/manifest.json`.
-**Take that JSON and hand each `workers[]` entry to a parallel subagent**
-(your own Agent tool, an external runtime, gemini CLI fan-out, your queue
-— anything). Each worker writes its `step_result_v1` artifact to
-`repers_tasks/<name>/results/step-<id>.json`.
+Dispatch manifest lands at `repers_tasks/<name>/dispatch/manifest.json`. **Hand each `workers[]` entry to a parallel subagent** (your own Agent tool, gemini CLI fan-out, your queue — anything). Each worker writes `repers_tasks/<name>/results/step-<id>.json` per the schema below.
 
 ```bash
-# Join + verify worker outputs
-python3 .repers/scripts/repers.py review --task <name> --update-status --json
-python3 .repers/scripts/repers.py plan --task <name> --json   # refresh plan.json (auto-done in v0.1.1)
-python3 .repers/scripts/repers.py run --task <name> --action local --use-existing-plan --json
-
-# Ship (only if router said invoke_bug_hunt_full)
-python3 .repers/scripts/repers.py shipping --task <name> --json
+repers review --task <name> --update-status --json   # join + validate
+repers run --task <name> --action local --use-existing-plan --json
+repers shipping --task <name> --json                 # only if invoke_bug_hunt_full
 ```
+
+Full walkthrough with real outputs in [`docs/e2e-walkthrough.md`](./docs/e2e-walkthrough.md).
 
 ---
 
-## 📜 The `step_result_v1` contract — what each worker writes
+## 📜 The `step_result_v1` contract — supervisor's view
 
-> If you ARE the worker on a lane (not the supervisor), the full contract
-> is at [Appendix B](#appendix-b--worker-contract-if-you-were-dispatched-onto-a-lane)
-> below. The summary below is enough for a supervisor agent driving the pipeline.
-
-When a worker (you or your sibling agent) finishes a lane, write a JSON
-file to `repers_tasks/<name>/results/step-<id>.json` with this exact shape:
-
-```json
-{
-  "schema": "repers.step_result.v1",
-  "step_id": "1",
-  "title": "<lane title from plan.md>",
-  "status": "completed",                                  // or "failed"
-  "command": "<short description of what was done>",
-  "returncode": 0,                                        // 0 if completed; non-zero if failed
-  "duration_seconds": 12.3,
-  "stdout_tail": "<last useful output>",
-  "stderr_tail": "",
-  "target_files": [".repers/scripts/dag_engine.py"]       // disjoint from sibling lanes
-}
-```
-
-`review` validates this schema before declaring the join successful. If
-your status is `failed`, set a non-zero `returncode` and put the error
-in `stderr_tail` — don't silently pretend completion.
-
-**The `target_files` field is load-bearing.** A worker that writes outside
-its declared `target_files` violates the dispatch contract and breaks the
-collision guarantee. Stay in your lane.
+As supervisor, you dispatch workers; each writes a JSON artifact at
+`repers_tasks/<name>/results/step-<id>.json` with `schema:
+"repers.step_result.v1"`. `review` validates each before declaring join
+successful. **Full schema + field rules + worker obligations** are at
+[Appendix B](#appendix-b--worker-contract-if-you-were-dispatched-onto-a-lane).
+The contract is JSON-in/JSON-out — workers can be any vendor's agent or a
+deterministic script.
 
 ---
 
@@ -179,18 +148,9 @@ to prevent.
 
 ## 🤝 If you're a different vendor's agent (Codex, Gemini, in-house)
 
-The contracts are JSON-in / JSON-out. You do not need to be Claude / Codex
-/ a specific provider to drive a lane. You need:
-
-- `manifest.json` (dispatch output) — read your `workers[step_id]` entry
-- `plan.md` / `plan.json` — read your step's action + target_files
-- The ability to write `repers_tasks/<name>/results/step-<id>.json`
-
-That's it. The supervisor and the reviewer don't care which model produced
-the result, only that the JSON schema validates.
-
-A v0.3 `agent-fixture` is planned to ship a stdin/stdout mock that proves
-any runtime can plug in. Until then, the JSON contracts are the proof.
+JSON-in/JSON-out — model identity doesn't matter. See [Appendix B
+§ "You don't need to be Claude"](#appendix-b--worker-contract-if-you-were-dispatched-onto-a-lane)
+for the full guarantees.
 
 ---
 

@@ -1,15 +1,15 @@
 {
   "schema": "repers.install_manifest.v1",
   "version": "0.2.0",
-  "generated_at": "2026-06-24T07:42:13.059747+00:00",
+  "generated_at": "2026-06-26T07:59:19.009722+00:00",
   "source_root": "/home/sa_114486498687979675637/repers/.repers",
   "target_root": "/home/sa_114486498687979675637/repers",
   "install_root": "/home/sa_114486498687979675637/repers/.repers",
   "source_git": {
     "ok": true,
-    "commit": "292c31a881d8db84ab31072914e26e5cfac4a714",
+    "commit": "7a280c0f701478058a2515989ca671f6fbe71a11",
     "dirty": true,
-    "status_count": 42
+    "status_count": 9
   },
   "with_hook": false,
   "hook_policy": "warn",
@@ -142,6 +142,11 @@
       "sha256": "10c092d4c7ed21ef57d6f0835f1ae6e53126f83ab8d59a83454a72bee849fb12"
     },
     {
+      "path": "plugins/route/file_count_strict.py",
+      "size_bytes": 4528,
+      "sha256": "fe62a2df8f74cab46e763c19f010e32471b3b61e1159b2647bad6a3df854f5c5"
+    },
+    {
       "path": "plugins/ship/default.py",
       "size_bytes": 964,
       "sha256": "3ea87289490bbe35bd617a4d15801339ee0bca8394f25b34c9f84291a102e965"
@@ -233,8 +238,8 @@
     },
     {
       "path": "scripts/repers.py",
-      "size_bytes": 64431,
-      "sha256": "8a87099fc0c2d9feea0235dfc21f701d10b4644d739268400506f8b82308cc9c"
+      "size_bytes": 64721,
+      "sha256": "f0393aa667cdc046873a1b70a3a292f71185dde205ff3cc322c8bd90092823c2"
     },
     {
       "path": "scripts/research_index.py",
@@ -292,5 +297,5 @@
       "sha256": "4da0aa1a9060b780868024773790fe3d3302d4cdc17b53b4c4d75da9df2cea81"
     }
   ],
-  "file_count": 55
+  "file_count": 56
 }

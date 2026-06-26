@@ -1204,7 +1204,8 @@ def main():
     preflight_parser.add_argument("--codegraph-bin", help="Explicit CodeGraph CLI or JavaScript entrypoint")
     preflight_parser.add_argument("--codegraph-limit", type=int, default=12, help="Maximum CodeGraph query results")
 
-    index_parser = subparsers.add_parser("index", help="Refresh or query the local RePERS capability index")
+    # Deprecated: preflight --refresh covers the same workflow.
+    index_parser = subparsers.add_parser("index", help="[deprecated] use 'preflight --refresh' instead")
     index_parser.add_argument("--action", choices=["refresh", "search"], default="refresh")
     index_parser.add_argument("--query", default="", help="Query for index search")
     index_parser.add_argument("--limit", type=int, default=20)
@@ -1216,7 +1217,8 @@ def main():
     capabilities_parser.add_argument("--limit", type=int, default=20)
     capabilities_parser.add_argument("--json", action="store_true")
 
-    research_parser = subparsers.add_parser("research", help="Create structured research artifacts from preflight/index evidence")
+    # Deprecated: preflight + the research.md template cover the workflow.
+    research_parser = subparsers.add_parser("research", help="[deprecated] use 'preflight' + edit the task's research.md")
     research_parser.add_argument("--task", required=True)
     research_parser.add_argument("--query", required=True)
     research_parser.add_argument("--limit", type=int, default=20)
@@ -1268,7 +1270,8 @@ def main():
     shipping_parser.add_argument("--installed-target", help="Optional installed repository target to include in shipping evidence")
     shipping_parser.add_argument("--json", action="store_true")
 
-    release_parser = subparsers.add_parser("release", help="Run review, doctor, shipping, and audit gates for a task")
+    # Deprecated: modern flow is release-pack + release-pack-verify + verify-all.
+    release_parser = subparsers.add_parser("release", help="[deprecated] use 'release-pack' + 'verify-all'")
     release_parser.add_argument("--task", required=True)
     release_parser.add_argument("--installed-target", help="Optional installed repository target to include in release evidence")
     release_parser.add_argument("--strict-warnings", action="store_true", help="Fail the release gate when audit warnings are present")
@@ -1385,7 +1388,8 @@ def main():
     audit_parser.add_argument("--strict-warnings", action="store_true", help="Return failure when audit warnings are present")
     
     # DAG Subparser
-    dag_parser = subparsers.add_parser("dag", help="Manage and execute a plan's task DAG")
+    # Deprecated: 'plan' parses plan.md into the DAG; 'run' executes ready local steps.
+    dag_parser = subparsers.add_parser("dag", help="[deprecated] use 'plan' + 'run' instead")
     dag_parser.add_argument("--task", help="Name of the task (will derive plan path)")
     dag_parser.add_argument("--plan", help="Direct path to plan.md file")
     dag_parser.add_argument("--action", choices=["list", "next", "update"], default="list", help="DAG action to perform")
